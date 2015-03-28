@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="altarixUiEditTextStyle" parent="android:Widget.EditText">
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+        <item name="android:textColor">@color/altarixUiTextColor</item>
+        <item name="android:textColorHint">@color/altarixUiHintColor</item>
+        <item name="android:background">@drawable/altarix_ui_edit_text_background</item>
+    </style>
+
+    <style name="altarixUiBackgroundPressedStyle">
+        <item name="android:background">@color/altarixUiPressedColor</item>
+    </style>
+
+    <style name="altarixUiCirclePressedStyle">
+        <item name="android:background">@drawable/altarix_ui_circle_pressed</item>
+    </style>
+    <style name="altarixUiSelectorCircleStyle">
+        <item name="android:background">@drawable/altarix_ui_circle_selector</item>
+    </style>
+
+    <style name="text.customDate" parent="altarixUiEditTextStyle">
+        <item name="android:background">@drawable/altarix_ui_spinner_background</item>
+        <item name="android:padding">@dimen/defaultPaddingMini</item>
+    </style>
+
+    <style name="altarixUiSelectorSimpleStyle">
+        <item name="android:background">@drawable/altarix_ui_selector_simple</item>
+    </style>
+
+    <style name="altarixUiTabStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+        <item name="android:paddingTop">@dimen/defaultPadding</item>
+        <item name="android:paddingBottom">@dimen/defaultPadding</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="altarixUiLabel" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+        <item name="android:textColor">@color/altarixUiLabelColor</item>
+    </style>
+
+    <style name="altarixUiLabelEditTextStyle" parent="altarixUiLabel.smallWithPaddintLeft">
+    </style>
+
+    <style name="altarixUiLabel.small" parent="altarixUiLabel">
+        <item name="android:textSize">@dimen/guTextSizeSmall</item>
+    </style>
+
+    <style name="altarixUiLabel.normal" parent="altarixUiLabel">
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+    </style>
+
+    <style name="altarixUiLabel.mini" parent="altarixUiLabel">
+        <item name="android:textSize">@dimen/guTextSizeMini</item>
+    </style>
+
+    <style name="altarixUiLabel.smallWithPaddintLeft" parent="altarixUiLabel.mini">
+        <item name="android:paddingLeft">@dimen/defaultPaddingMini</item>
+    </style>
+
+    <style name="altarixUiText" parent="android:Widget.TextView">
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+        <item name="android:textColor">@color/altarixUiTextColor</item>
+    </style>
+
+    <style name="altarixUiText.TextNormal" parent="altarixUiText">
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+    </style>
+
+    <style name="altarixUiText.TextTitle" parent="altarixUiText">
+        <item name="android:textSize">@dimen/guTextSizeTitle</item>
+    </style>
+
+    <!-- tool -->
+    <style name="progresbar" parent="Widget.AppCompat.ProgressBar">
+
+    </style>
+
+</resources>

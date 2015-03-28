@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_dark"
+    android:padding="5dp" >
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                 android:textColor="@color/gray_ligth"
+                android:text="Неофициальный клиент сайта Shikimori.org"
+                android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Версия:"
+             android:textColor="@color/gray_ligth"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textColor="@color/gray_ligth"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Автор:"
+             android:textColor="@color/gray_ligth"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+             android:textColor="@color/gray_ligth"
+            android:text="Мамаев Алексей aka LeshiyGS" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Спасибо:"
+         android:textColor="@color/gray_ligth"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:background="@drawable/d_border"
+        android:linksClickable="true"
+         android:textColor="@color/gray_ligth"
+        android:text="За разработанные ими элементы управления:\nActionBarSherlock / Jake Wharton\nAndroid-ViewPagerIndicator / Jake Wharton\nAndroid-VKontakte-SDK / thest1\nActionBar-PullToRefresh / Chris Banes\nAndroid-MenuDrawer / SimonVT\nJSoup / OpenSource\nLazyList / thest1 \nЗа помощь в тестирование приложения:\nEvgen1901\nbez96\nHN71" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Changelog:"
+         android:textColor="@color/gray_ligth"
+        android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             android:textColor="@color/gray_ligth"
+            android:background="@drawable/d_border"
+            />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

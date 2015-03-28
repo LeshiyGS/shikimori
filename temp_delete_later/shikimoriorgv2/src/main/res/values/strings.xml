@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="crash_toast_text">Упс... программа рухнула, но вы можете отправить отчет разработчику..</string>
+
+    <string name="crash_dialog_title">CrashTest has crashed</string>
+    <string name="crash_dialog_text">An unexpected error occurred forcing the
+    application to stop. Please help us fix this by sending us error data,
+    all you have to do is click OK.</string>
+    <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+    <string name="crash_dialog_ok_toast">Thank you !</string>
+
+    <string name="app_name">Shikimori.org</string>
+    <string name="shiki_font">stylo-bold.ttf</string>
+    <string name="app_version">1.0.0 Beta</string>
+    
+    
+    <string name="profile">ПРОФИЛЬ</string>
+    <string name="anime">АНИМЕ</string>
+    <string name="manga">МАНГА</string>
+    <string name="calendar">КАЛЕНДАРЬ</string>
+    <string name="news">НОВОСТИ И ОБСУЖДЕНИЯ</string>
+    <string name="community">СООБЩЕСТВО</string>
+    <string name="radio">РАДИО</string>
+    <string name="settings">НАСТРОЙКИ</string>
+    <string name="about">О ПРОГРАММЕ</string>
+    <string name="select_anime_list">Списки аниме</string>
+    <string name="select_manga_list">Списки манги</string>
+    <string name="select_favorite">Избранное</string>
+    <string name="select_clubs">Клубы</string>
+    <string name="plan">Запланировано (0)</string>
+    <string name="see">Смотрю (0)</string>
+    <string name="see_end">Просмотрено (0)</string>
+    <string name="wait">Отложено (0)</string>
+    <string name="drop">Брошено (0)</string>
+    <string name="read">Читаю (0)</string>
+    <string name="read_end">Прочитано (0)</string>
+    <string name="title_about">О программе</string>
+    <string name="title_message">Сообщение</string>
+    <string name="title_comment">Комментарий</string>
+    <string name="title_user_page">Сообщение в ленте</string>
+    <string name="title_review">Отзыв</string>
+    <string name="send_from_android">[right][color=grey][size=9][Отправлено с Android][/size][/color][/right]</string>
+    <string name="no_api">В данный момент для этого функционала отсутствует API на сайте. Если Вы хотите скорее увидеть его в программе пишите здесь: http://shikimori.org/clubs/1-Razrabotka-sayta</string>
+
+    <string-array name="anime_list">
+        <item>Запланировано</item>
+        <item>Смотрю</item>
+        <item>Просмотрено</item>
+        <item>Отложено</item>
+        <item>Брошено</item>
+        <item>Пересматриваю</item>
+    </string-array>
+    <string-array name="manga_list">
+        <item>Запланировано</item>
+        <item>Читаю</item>
+        <item>Прочитано</item>
+        <item>Отложено</item>
+        <item>Брошено</item>
+        <item>Перечитываю</item>
+    </string-array>
+    <string-array name="topic_list">
+        <item>all</item>
+        <item>news</item>
+        <item>a</item>
+        <item>m</item>
+        <item>c</item>
+        <item>s</item>
+        <item>o</item>
+        <item>g</item>
+        <item>reviews</item>
+        <item>v</item>
+    </string-array>
+    <string-array name="topic_list_name">
+        <item>Все топики сайта</item>
+        <item>Новости</item>
+        <item>Аниме</item>
+        <item>Манга</item>
+        <item>Персонажи</item>
+        <item>Сайт</item>
+        <item>Оффтопик</item>
+        <item>Клубы</item>
+        <item>Обзоры</item>
+        <item>Опросы</item>
+    </string-array>
+    <string-array name="smile_imgs">
+        <item>:)</item>
+        <item>:D</item>
+        <item>:-D</item>
+        <item>:lol:</item>
+        <item>:ololo:</item>
+        <item>:evil:</item>
+        <item>+_+</item>
+        <item>:cool:</item>
+        <item>:thumbup:</item>
+        <item>:yahoo:</item>
+        <item>:tea2:</item>
+        <item>:star:</item>
+
+        <item>:oh:</item>
+        <item>:shy:</item>
+        <item>:shy2:</item>
+        <item>:hurray:</item>
+        <item>:-P</item>
+        <item>:roll:</item>
+        <item>:!:</item>
+        <item>:watching:</item>
+        <item>:love:</item>
+        <item>:love2:</item>
+        <item>:bunch:</item>
+        <item>:perveted:</item>
+
+        <item>:(</item>
+        <item>:very sad:</item>
+        <item>:depressed:</item>
+        <item>:depressed2:</item>
+        <item>:hopeless:</item>
+        <item>:very sad2:</item>
+        <item>:-(</item>
+        <item>:cry:</item>
+        <item>:cry6:</item>
+        <item>:Cry2:</item>
+        <item>:Cry3:</item>
+        <item>:Cry4:</item>
+
+        <item>:-o</item>
+        <item>:shock:</item>
+        <item>:shock2:</item>
+        <item>:scream:</item>
+        <item>:dont want:</item>
+        <item>:noooo:</item>
+        <item>:scared:</item>
+        <item>:shocked2:</item>
+        <item>:shocked3:</item>
+        <item>:shocked4:</item>
+        <item>:tea shock:</item>
+        <item>:frozen3:</item>
+
+        <item>:angry4:</item>
+        <item>:revenge:</item>
+        <item>:evil2:</item>
+        <item>:twisted:</item>
+        <item>:angry:</item>
+        <item>:angry3:</item>
+        <item>:angry5:</item>
+        <item>:angry6:</item>
+        <item>:cold:</item>
+        <item>:strange4:</item>
+        <item>:ball:</item>
+        <item>:evil3:</item>
+
+        <item>:8):</item>
+        <item>:oh2:</item>
+        <item>:ooph:</item>
+        <item>:wink:</item>
+        <item>:dunno:</item>
+        <item>:dont listen:</item>
+        <item>:hypno:</item>
+        <item>:advise:</item>
+        <item>:bored:</item>
+        <item>:disappointment:</item>
+        <item>:hunf:</item>
+
+        <item>:hot:</item>
+        <item>:hot2:</item>
+        <item>:hot3:</item>
+        <item>:stress:</item>
+        <item>:strange3:</item>
+        <item>:strange2:</item>
+        <item>:strange1:</item>
+        <item>:strange:</item>
+        <item>:hope:</item>
+        <item>:hope3:</item>
+        <item>:diplom:</item>
+
+        <item>:hi:</item>
+        <item>:bye:</item>
+        <item>:sleep:</item>
+        <item>:bow:</item>
+        <item>:Warning:</item>
+        <item>:Ban:</item>
+        <item>:Bath2:</item>
+        <item>:Im dead:</item>
+        <item>:sick:</item>
+        <item>:s1:</item>
+        <item>:s3:</item>
+        <item>:s2:</item>
+        <item>:happy_cry:</item>
+
+        <item>:ill:</item>
+        <item>:sad2:</item>
+        <item>:bullied:</item>
+        <item>:bdl2:</item>
+        <item>:Happy Birthday:</item>
+        <item>:flute:</item>
+        <item>:cry5:</item>
+        <item>:gaze:</item>
+        <item>:hope2:</item>
+        <item>:sleepy:</item>
+        <item>:study:</item>
+        <item>:study2:</item>
+        <item>:study3:</item>
+        <item>:gamer:</item>
+        <item>:animal:</item>
+        <item>:caterpillar:</item>
+        <item>:cold2:</item>
+        <item>:shocked:</item>
+        <item>:frozen:</item>
+        <item>:frozen2:</item>
+        <item>:kia:</item>
+        <item>:interested:</item>
+        <item>:happy:</item>
+        <item>:happy3:</item>
+        <item>:water:</item>
+        <item>:dance:</item>
+        <item>:liar:</item>
+        <item>:prcl:</item>
+        <item>:play:</item>
+        <item>:s4:</item>
+        <item>:s:</item>
+        <item>:bath:</item>
+        <item>:kiss:</item>
+        <item>:whip:</item>
+        <item>:relax:</item>
+        <item>:smoker:</item>
+        <item>:smoker2:</item>
+        <item>:bdl:</item>
+        <item>:cool2:</item>
+        <item>:V:</item>
+        <item>:V2:</item>
+        <item>:V3:</item>
+        <item>:sarcasm:</item>
+        <item>:angry2:</item>
+        <item>:kya:</item>
+    </string-array>
+    <string-array name="app_times">
+        <item>10 мин</item>
+        <item>20 мин</item>
+        <item>30 мин</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+        <item>3 часа</item>
+    </string-array>
+    <string-array name="app_times_sec">
+        <item>600000</item>
+        <item>1200000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+        <item>5400000</item>
+        <item>10800000</item>
+    </string-array>
+    <string-array name="app_theme">
+        <item>Светлая</item>
+        <item>Темная</item>
+    </string-array>
+    <string-array name="app_theme_name">
+        <item>ligth</item>
+        <item>dark</item>
+    </string-array>
+
+    <color name="transperent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="gray_ligth">#FFAAAAAA</color>
+    <color name="gray_medium">#44888888</color>
+    <color name="gray_dark">#FF444444</color>
+    <color name="blue">#4682b4</color>
+    <color name="blue_shiki">#79a9cf</color>
+    <color name="green">#03C03C</color>
+    <color name="orange">#FFA500</color>
+    <color name="blue_dark_shiki">#4682b4</color>
+
+    <string name="title_activity_login_">Login_Activity</string>
+    <string name="auth">Авторизация</string>
+    <string name="login">Логин</string>
+    <string name="pass">Пароль</string>
+    <string name="wrong_login_pass">Не правильный логин/пароль</string>
+    <string name="enter">Войти</string>
+    <string name="title_activity_smile_dialog_">SmileDialog_Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_manga_character_">MangaCharacter_Activity</string>
+    
+    <string name="widget1name">Shikimori 1x1</string>
+    <string name="widget4name">Shikimori 4x4</string>
+
+</resources>

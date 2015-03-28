@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tool_background_70">#d9000000</color>
+    <color name="greenColor">#689f38</color>
+    <color name="shiki_base_background">#d9d9d9</color>
+    <color name="image_loader_color">#705a5d5a</color>
+    <color name="drawerBackground">#546e7a</color>
+    <color name="gray_black">#333333</color>
+    <color name="title_black_transparent">#aa000000</color>
+    <color name="white_overlay">#d9ffffff</color>
+    <color name="white_overlay_2">#66ffffff</color>
+</resources>

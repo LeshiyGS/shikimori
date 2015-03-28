@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_dark"
+    android:scrollbarStyle="outsideOverlay" >
+
+ 	<com.handmark.pulltorefresh.library.PullToRefreshGridView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/lv_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="250dp"
+        android:listSelector="@drawable/d_listview_custom"
+        android:horizontalSpacing="5dp"
+        android:numColumns="auto_fit"
+	    android:layout_margin="5dp"
+        android:stretchMode="columnWidth"
+        ptr:ptrHeaderTextColor="@color/gray_ligth"
+        android:verticalSpacing="5dp" >
+
+     </com.handmark.pulltorefresh.library.PullToRefreshGridView>
+
+		<TextView
+		    android:id="@+id/tv_load"
+		    android:layout_width="match_parent"
+		    android:layout_height="40dp"
+		    android:layout_alignParentBottom="true"
+		    android:layout_alignParentLeft="true"
+		    android:layout_alignParentRight="true"
+		    android:text="Загрузка.."
+		    android:textStyle="bold"
+		    android:textColor="@color/gray_ligth"
+		    android:background="@drawable/d_border"
+		    android:gravity="center" />
+
+</RelativeLayout>

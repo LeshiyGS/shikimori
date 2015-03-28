@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="@color/image_loader_color" />
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="#ffffff" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list><!-- From: file:/usr/share/TeamCity/buildAgent/work/c4443865a62ba9d1/mosissues/src/main/res/drawable/seek_background_mini.xml -->

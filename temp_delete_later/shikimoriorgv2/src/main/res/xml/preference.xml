@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:orderingFromXml="true">
+
+    <PreferenceCategory android:title="Общие настройки" android:orderingFromXml="true">
+        <!--<Preference android:title="Папка с кешем"
+                	android:key="cache_dir"
+                	android:summary="В ней будут храниться сохраненные изображения" 
+                	android:enabled="true"/>-->
+       	<EditTextPreference android:key="cache_dir" android:title="Папка с кешем" android:summary="В ней будут храниться сохраненные изображения" android:enabled="true"/>
+        <Preference android:title="Очистить папку с кешем"
+                	android:key="button"
+                	android:summary=""/>
+    </PreferenceCategory>
+  <PreferenceCategory android:title="Настройка оповещений">
+        <CheckBoxPreference android:key="startnotify" android:title="Показывать оповещения" android:selectable="true" android:enabled="true" android:defaultValue="true"/><ListPreference android:key="notifytime" android:title="Выберите частоту проверки" android:entries="@array/app_times" android:entryValues="@array/app_times_sec" android:enabled="true" android:selectable="true" android:defaultValue="600000" android:dialogTitle="Время обновления"/>
+        
+    </PreferenceCategory>
+  <PreferenceCategory android:title="Внешний вид и поведение">
+      <CheckBoxPreference android:title="Анимация окон приложения" android:key="animations" android:enabled="true" android:defaultValue="true"/><CheckBoxPreference android:title="Легенда в списках аниме" android:key="legend_in_list" android:enabled="true" android:defaultValue="true"/>
+      <CheckBoxPreference android:key="see_to_open" android:title='Список "Смотрю" главный экран' android:summary="Тест, только первое открытие. Вместо профиля сначала показываем список того что смотрим."/>
+      <CheckBoxPreference android:enabled="true" android:title="Сначала английские названия" android:defaultValue="false" android:key="englishfirst"/>
+      <ListPreference android:enabled="true" android:dialogTitle="Выберите тему" android:entries="@array/app_theme" android:entryValues="@array/app_theme_name" android:defaultValue="ligth" android:key="theme" android:title="Выберите тему" android:summary="Для применения необходим перезапуск приложения."/>
+      
+  </PreferenceCategory>
+
+</PreferenceScreen>

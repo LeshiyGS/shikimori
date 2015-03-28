@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pbLoader"
+    style="@style/progresbar"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    android:layout_alignParentRight="true"
+    android:layout_marginRight="@dimen/defaultPadding"
+    android:visibility="invisible" />
+
+
+
+

@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    tools:context=".Activity_SmileDialog" >
+
+    <GridView
+        android:id="@+id/gv_smile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="50dp"
+        android:fastScrollAlwaysVisible="false"
+        android:fastScrollEnabled="false"
+        android:gravity="center"
+        android:horizontalSpacing="4dp"
+        android:listSelector="@drawable/w_listview_custom"
+        android:numColumns="auto_fit"
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="4dp" >
+
+    </GridView>
+
+</LinearLayout>

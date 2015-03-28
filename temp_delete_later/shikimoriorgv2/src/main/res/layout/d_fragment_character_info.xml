@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_dark"
+    android:orientation="vertical">
+
+	<com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pull_refresh_scrollview"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        ptr:ptrHeaderTextColor="@color/gray_ligth"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            
+    <TextView
+        android:id="@+id/tv_character_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/white"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/iv_character_avatar"
+            android:layout_width="120dp"
+            android:layout_height="170dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/d_imageview"
+            android:padding="1dp"
+            android:src="@drawable/missing_preview" />
+
+        <TextView
+            android:id="@+id/tv_character_altname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/gray_ligth"
+        	android:layout_marginRight="5dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_lbl_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/d_user_item_menu"
+        android:paddingLeft="15dp"
+        android:text="ОПИСАНИЕ"
+        android:textColor="@color/gray_ligth"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/ll_info"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_lbl_seiy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/d_user_item_menu"
+        android:paddingLeft="15dp"
+        android:text="СЕЙЮ"
+        android:textColor="@color/gray_ligth"
+        android:textStyle="bold" />
+
+    <ru.gslive.shikimori.org.v2.View_GridView
+        android:id="@+id/gv_seyu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="100dp"
+       	android:listSelector="@drawable/d_listview_custom"
+       	android:horizontalSpacing="5dp"
+       	android:numColumns="auto_fit"
+       	android:padding="5dp"
+       	android:stretchMode="columnWidth"
+       	android:verticalSpacing="5dp"
+        android:visibility="gone"  >
+    </ru.gslive.shikimori.org.v2.View_GridView>
+
+    <TextView
+        android:id="@+id/tv_lbl_anime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/d_user_item_menu"
+        android:paddingLeft="15dp"
+        android:text="АНИМЕГРАФИЯ"
+        android:textColor="@color/gray_ligth"
+        android:textStyle="bold" />
+    
+    <ru.gslive.shikimori.org.v2.View_GridView
+        android:id="@+id/gv_character_anime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="100dp"
+       	android:listSelector="@drawable/d_listview_custom"
+       	android:horizontalSpacing="5dp"
+       	android:numColumns="auto_fit"
+       	android:padding="5dp"
+       	android:stretchMode="columnWidth"
+       	android:verticalSpacing="5dp"
+        android:visibility="gone"  >
+    </ru.gslive.shikimori.org.v2.View_GridView>
+
+    <TextView
+        android:id="@+id/tv_lbl_manga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/d_user_item_menu"
+        android:paddingLeft="15dp"
+        android:text="МАНГАГРАФИЯ"
+        android:textColor="@color/gray_ligth"
+        android:textStyle="bold" />
+    
+    <ru.gslive.shikimori.org.v2.View_GridView
+        android:id="@+id/gv_character_manga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnWidth="100dp"
+       	android:listSelector="@drawable/d_listview_custom"
+       	android:horizontalSpacing="5dp"
+       	android:numColumns="auto_fit"
+       	android:padding="5dp"
+       	android:stretchMode="columnWidth"
+       	android:verticalSpacing="5dp"
+        android:visibility="gone"  >
+    </ru.gslive.shikimori.org.v2.View_GridView>
+    </LinearLayout>
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
+</LinearLayout>

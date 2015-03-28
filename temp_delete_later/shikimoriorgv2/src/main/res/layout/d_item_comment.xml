@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_comment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/d_border"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/img_user_ava"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/d_border"
+            android:padding="1dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/lbl_user_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/img_user_ava"
+            android:textColor="@color/gray_ligth"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_sep"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/lbl_user_title"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/img_user_ava"
+            android:background="#88000000"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/lbl_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/lbl_user_title"
+            android:layout_toRightOf="@+id/img_user_ava"
+            android:autoLink="web" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/img_sep"
+            android:layout_toRightOf="@+id/img_user_ava"
+            android:maxLines="1"
+            android:textColor="@color/gray_ligth" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" >
+
+            <TextView
+            android:id="@+id/lbl_offtop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFCCCC"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Оффтоп"
+            android:textColor="#FF6666" />
+
+            <TextView
+                android:id="@+id/lbl_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00B51E"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:text="Отзыв"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/lbl_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="#4682b4"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Новое"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_comment_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.74"
+        android:orientation="vertical" >
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lbl_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="right"
+        android:paddingTop="5dp"
+        android:text="[Отправлено с Android]"
+        android:textColor="@color/blue_dark_shiki"
+        android:textSize="12dp" />
+
+</LinearLayout>

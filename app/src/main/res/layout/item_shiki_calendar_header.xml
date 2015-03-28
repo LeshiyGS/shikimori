@@ -1,0 +1,19 @@
+<dev.dworks.libs.astickyheader.ui.HeaderLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/defaultPaddingMini"
+    android:background="@color/white_overlay_2"
+    >
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"
+        android:layout_margin="0dp"
+        android:textIsSelectable="false" />
+
+</dev.dworks.libs.astickyheader.ui.HeaderLayout>

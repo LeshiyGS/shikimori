@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AltarixUiDesclareStyle">
+        <attr name="uiIcon" format="reference" />
+        <attr name="uiLabel" format="reference" />
+        <attr name="uiSelectedImage" format="reference" />
+        <attr name="uiRegexp" format="string" />
+        <attr name="uiSelectedPosition" format="string" />
+        <attr name="uiMultiChose" format="boolean" />
+        <attr name="uiLayout" format="reference" />
+        <attr name="uiEditTextId" format="reference" />
+        <attr name="uiChecked" format="boolean" />
+        <attr name="uiHideLabelIfEmpty" format="boolean" />
+        <attr name="uiLabelVisible" format="integer" >
+            <flag name="invisible" value="0x00000004"/>
+            <flag name="gone" value="0x00000008"/>
+        </attr>
+        <attr name="uiDefaultPosition" format="integer" />
+        <attr name="uiArray" format="reference" />
+    </declare-styleable>
+
+    <!-- Style custom view-->
+    <attr name="altarixUiAttrTextColor" format="reference|color" />
+    <!--<attr name="altarixUiAttrEditTextBackgroundStyle" format="reference" />-->
+    <attr name="altarixUiAttrEditTextStyle" format="reference" />
+    <attr name="altarixUiAttrBackgroundPressedStyle" format="reference" />
+    <attr name="altarixUiAttrPressedColor" format="reference|color" />
+    <attr name="altarixUiAttrTabBackgroundColor" format="reference|color" />
+    <attr name="altarixUiAttrTabLineColor" format="reference|color" />
+    <attr name="altarixUiAttrSelectorSimpleStyle" format="reference" />
+    <attr name="altarixUiAttrSelectorCircleStyle" format="reference" />
+    <attr name="altarixUiAttrTabStyle" format="reference" />
+    <attr name="altarixUiAttrCirclePressedStyle" format="reference" />
+    <attr name="altarixUiAttrLabelColor" format="reference|color" />
+    <attr name="altarixUiAttrLabelStyle" format="reference" />
+    <attr name="altarixUiAttrLabelTitleStyle" format="reference" />
+    <attr name="altarixUiAttrDateStyle" format="reference" />
+    <attr name="altarixUiAttrDividerColor" format="reference|color" />
+    <attr name="altarixUiAttrTextStyle" format="reference" />
+
+</resources>

@@ -1,0 +1,170 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp"
+    tools:context=".Activity_Add_Edit_Input" >
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fadingEdgeLength="15dp"
+        android:scrollbarStyle="outsideInset" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/btn_b"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickB"
+                android:src="@drawable/ic_editor_format_bold" />
+
+            <ImageButton
+                android:id="@+id/btn_i"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickI"
+                android:src="@drawable/ic_editor_format_italic"/>
+
+            <ImageButton
+                android:id="@+id/btn_u"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickU"
+                android:src="@drawable/ic_editor_format_underline"/>
+
+            <ImageButton
+                android:id="@+id/btn_s"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickS"
+                android:src="@drawable/ic_editor_format_strikethrough"/>
+
+            <ImageButton
+                android:id="@+id/btn_color"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickColor"
+                android:src="@drawable/ic_image_color_lens"/>
+
+            <ImageButton
+                android:id="@+id/btn_smile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickSmile"
+                android:src="@drawable/ic_editor_insert_emoticon"/>
+
+            <ImageButton
+                android:id="@+id/btn_spoiler"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickSpoiler"
+                android:src="@drawable/ic_content_inbox"/>
+
+            <ImageButton
+                android:id="@+id/btn_link"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickLink"
+                android:src="@drawable/ic_social_public"/>
+
+            <ImageButton
+                android:id="@+id/btn_img"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnClickImg"
+                android:src="@drawable/ic_device_now_wallpaper"/>
+            
+            <ImageButton
+                android:id="@+id/btn_img_load"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/w_button_custom"
+                android:onClick="onBtnLoadImage"
+                android:src="@drawable/ic_editor_attach_file"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/w_border"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:minLines="1" />
+    
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="right"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_vertical"
+            android:layout_weight="1" >
+
+            <CheckBox
+                android:id="@+id/cb_offtop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="Оффтопик" />
+
+            <CheckBox
+                android:id="@+id/cb_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="Отзыв" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/w_button_custom"
+            android:onClick="onBtnSendClick"
+            android:text="Отправить" />
+
+    </LinearLayout>
+
+</LinearLayout>

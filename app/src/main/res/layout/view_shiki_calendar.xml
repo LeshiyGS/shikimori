@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <dev.dworks.libs.astickyheader.ui.PinnedSectionGridView
+        android:id="@+id/gvList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000"
+        android:cacheColorHint="#00000000"
+        android:columnWidth="150dp"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:gravity="center_horizontal"
+        android:stretchMode="columnWidth"
+        android:numColumns="3" >
+    </dev.dworks.libs.astickyheader.ui.PinnedSectionGridView>
+
+</RelativeLayout>

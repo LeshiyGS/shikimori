@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Shikimori</string>
+
+    <string name="error_connection">Отсутствует подключение к интернету</string>
+    <string name="error_server">Сервер не доступен, попробуйте позже</string>
+    <string name="profile">Профиль</string>
+    <string name="anime">Аниме</string>
+    <string name="manga">Манга</string>
+    <string name="calendar">Календарь</string>
+    <string name="newsanddiscus">Новости и обсуждения</string>
+    <string name="community">Сообщество</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О программе</string>
+    <string name="one_more_back_to_exit">Для выхода нажмите еще раз</string>
+    <string name="serie_name">серия:</string>
+    <string name="shiki_calendar">Календарь</string>
+    <string name="user_name">Имя пользователя</string>
+</resources>

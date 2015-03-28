@@ -1,0 +1,4 @@
+include ':app',
+        ":modules:easyAdapter",
+        ":modules:ui_tools",
+        ":modules:PinnedSectionAdapter"

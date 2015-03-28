@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/ivImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/defaultPaddingMini"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".9"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvLabel"
+            style="?attr/altarixUiAttrLabelStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivImage" />
+
+        <EditText
+            android:id="@+id/etText"
+            style="?attr/altarixUiAttrEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLabel"
+            android:layout_marginTop="@dimen/negativeTop"
+            android:layout_toRightOf="@+id/ivImage"
+            android:inputType="text"
+            android:paddingLeft="@dimen/defaultPaddingMini"
+            android:paddingRight="@dimen/defaultPaddingMini"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivWarning"
+        android:layout_width="@dimen/defaultPaddingEnormous"
+        android:layout_height="@dimen/defaultPaddingEnormous"
+        android:layout_alignBottom="@+id/etText"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/defaultPadding3"
+        android:layout_marginRight="@dimen/defaultPadding3"
+        android:scaleType="centerInside"
+        android:src="@drawable/altarix_ui_regexp_warning"
+        android:visibility="gone" />
+
+</LinearLayout>

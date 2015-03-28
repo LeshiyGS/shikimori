@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
+        android:id="@+id/pull_refresh_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/iv_avatar"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:background="@drawable/w_imageview"
+                    android:padding="1dp"
+                    android:src="@drawable/ava" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_online"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="right|center_vertical"
+                        android:text="[online]"
+                        android:textColor="#99000000" />
+
+                    <TextView
+                        android:id="@+id/tv_nickname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="right|center_vertical"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:autoLink="web"
+                        android:gravity="right|center_vertical"
+                        android:linksClickable="true"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_manga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:text="Аниме:"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ru.gslive.shikimori.org.v2.View_TextProgressBar
+                    android:id="@+id/pb_anime"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:maxHeight="10dip"
+                    android:minHeight="10dip"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/anime_progressbar" />
+				
+                <TextView
+		            android:id="@+id/tv_anime_list"
+		            android:layout_width="fill_parent"
+		            android:layout_height="35dp"
+		            android:paddingLeft="17dp"
+			        android:textColor="#123"
+       				android:textStyle="bold"
+       				android:textAlignment="center"
+		            android:background="@drawable/w_user_item_menu"
+		            android:layout_marginBottom="5dp"
+		            android:layout_marginTop="5dp"
+		            android:text="ПОКАЗАТЬ СПИСКИ АНИМЕ" />
+                
+                <LinearLayout
+                    android:id="@+id/ll_anime"
+                    android:layout_height="0dp"
+	                android:layout_width="match_parent"
+	                android:orientation="vertical" >
+                    
+					<ru.gslive.shikimori.org.v2.View_GridView
+	                    android:id="@+id/gv_anime"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginBottom="5dp"
+	                    android:fastScrollAlwaysVisible="false"
+	                    android:fastScrollEnabled="false"
+	                    android:gravity="center"
+	                    android:horizontalSpacing="1dp"
+	                    android:listSelector="@drawable/w_listview_custom"
+	                    android:numColumns="1"
+	                    android:scrollbarAlwaysDrawVerticalTrack="false"
+	                    android:stretchMode="columnWidth"
+	                    android:verticalSpacing="1dp" />
+					
+                </LinearLayout>
+                
+                <TextView
+                    android:id="@+id/tv_mange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Манга:"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ru.gslive.shikimori.org.v2.View_TextProgressBar
+                    android:id="@+id/pb_manga"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="20dp"
+                    android:maxHeight="10dip"
+                    android:minHeight="10dip"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/manga_progressbar" />
+
+                <TextView
+		            android:id="@+id/tv_manga_list"
+		            android:layout_width="fill_parent"
+		            android:layout_height="35dp"
+		            android:paddingLeft="17dp"
+			        android:textColor="#123"
+       				android:textStyle="bold"
+       				android:textAlignment="center"
+		            android:background="@drawable/w_user_item_menu"
+		            android:layout_marginBottom="5dp"
+		            android:layout_marginTop="5dp"
+		            android:text="ПОКАЗАТЬ СПИСКИ МАНГИ" />
+                
+                <LinearLayout
+                    android:id="@+id/ll_manga"
+                    android:layout_height="0dp"
+	                android:layout_width="match_parent"
+	                android:orientation="vertical" >
+					
+					<ru.gslive.shikimori.org.v2.View_GridView
+	                    android:id="@+id/gv_manga"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginBottom="5dp"
+	                    android:fastScrollAlwaysVisible="false"
+	                    android:fastScrollEnabled="false"
+	                    android:gravity="center"
+	                    android:horizontalSpacing="1dp"
+	                    android:listSelector="@drawable/w_listview_custom"
+	                    android:numColumns="1"
+	                    android:scrollbarAlwaysDrawVerticalTrack="false"
+	                    android:stretchMode="columnWidth"
+	                    android:verticalSpacing="1dp" />
+
+				</LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tv_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Профиль"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ru.gslive.shikimori.org.v2.View_GridView
+                    android:id="@+id/gv_profile_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:columnWidth="150dp"
+                    android:fastScrollAlwaysVisible="false"
+                    android:fastScrollEnabled="false"
+                    android:gravity="center"
+                    android:horizontalSpacing="5dp"
+                    android:listSelector="@drawable/w_listview_custom"
+                    android:numColumns="auto_fit"
+                    android:scrollbarAlwaysDrawVerticalTrack="false"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="5dp" >
+                </ru.gslive.shikimori.org.v2.View_GridView>
+
+                <TextView
+                    android:id="@+id/tv_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="История"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <ru.gslive.shikimori.org.v2.View_GridView
+                    android:id="@+id/gv_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:columnWidth="350dp"
+                    android:fastScrollAlwaysVisible="false"
+                    android:fastScrollEnabled="false"
+                    android:gravity="center"
+                    android:horizontalSpacing="5dp"
+                    android:listSelector="@drawable/w_listview_custom"
+                    android:numColumns="auto_fit"
+                    android:scrollbarAlwaysDrawVerticalTrack="false"
+                    android:stretchMode="columnWidth"
+                    android:verticalSpacing="5dp" />
+            </LinearLayout>
+        </LinearLayout>
+	</com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+
+    <LinearLayout
+        android:id="@id/ll_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Повторить попытку"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Получаем данные"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+</RelativeLayout>

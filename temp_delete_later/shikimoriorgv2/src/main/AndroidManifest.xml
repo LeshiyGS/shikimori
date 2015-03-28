@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.gslive.shikimori.org.v2"
+    android:versionCode="1008"
+    android:versionName="1.0.0 Beta 8 build 010315" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <permission android:name="ru.gslive.shikimori.org.v2.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="ru.gslive.shikimori.org.v2.permission.C2D_MESSAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:name="ShikiApp"
+        android:theme="@style/AppTheme.ActionBarStyle" >
+        
+        <!-- <meta-data android:name="com.google.android.gms.version"
+           android:value="@integer/google_play_services_version" /> -->
+        
+        <receiver android:name=".Widget_1x1_Provider" android:label="@string/widget1name">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          		<action android:name="ru.gslive.shikimori.org.v2.W1X1_WIDGET_UPDATE" />
+      		</intent-filter>
+			<meta-data android:name="android.appwidget.provider" android:resource="@xml/shiki1x1_info" />
+		</receiver>
+        <!--<receiver android:name=".GCM_BroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="ru.gslive.shikimori.org.v2" />
+            </intent-filter>
+        </receiver>
+                
+          <receiver android:name=".Widget_4x4_Provider" android:label="@string/widget4name">
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+          		<action android:name="ru.gslive.shikimori.org.v2.W4X4_WIDGET_UPDATE" />
+      		</intent-filter>
+			<meta-data android:name="android.appwidget.provider" android:resource="@xml/shiki4x4_info" />
+		</receiver>-->
+		
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_MainProfile"
+            android:theme="@style/AppTheme.ActionBarStyle" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Login"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_History"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Auth"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Notify"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_UserProfile"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_About"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Calendar"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_News"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Inbox"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Preference"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Favourites"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Clubs"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Friends"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Add_Video"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_AnimeManga"
+            android:label="@string/app_name" >
+            <intent-filter>
+  				<action android:name="android.intent.action.VIEW" />
+  				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/animes" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/animes" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/mangas" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/mangas" />
+			</intent-filter>
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Character"
+            android:label="@string/app_name" >
+            <intent-filter>
+  				<action android:name="android.intent.action.VIEW" />
+  				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/characters" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/characters" />
+			</intent-filter>
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Add_Edit_Input"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_NoAPI"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Anime_VKSearch"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Login_VK"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_SmileDialog"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_ColorDialog"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_MangaCharacter"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_OST_List"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_MangaSave"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Thread"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Animes"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Mangas"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_User_AnimeList"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_User_MangaList"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Topics"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_OST_Player"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Club"
+            android:label="@string/app_name" >
+            <intent-filter>
+  				<action android:name="android.intent.action.VIEW" />
+  				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/clubs" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/clubs" />
+			</intent-filter>
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_ClubList"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_ClubImages"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_AnimeManga_Similar"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_AnimeManga_Relation"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_AnimeManga_Characters"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_People"
+            android:label="@string/app_name" >
+            <intent-filter>
+  				<action android:name="android.intent.action.VIEW" />
+  				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/seyu" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/seyu" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/person" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/person" />
+				<data android:host="shikimori.org" android:scheme="http"  android:pathPrefix="/people" />
+				<data android:host="www.shikimori.org" android:scheme="http" android:pathPrefix="/people" />
+			</intent-filter>
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_UserStat"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Community"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_User_Forums"
+            android:label="@string/app_name" >
+        </activity>
+        <activity android:name="ru.gslive.shikimori.org.v2.Activity_Manga_Reader"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/app_name" >
+        </activity>
+
+        <service android:name="ru.gslive.shikimori.org.v2.Service_Download" />
+        <service android:name="ru.gslive.shikimori.org.v2.Service_Download_OST" />
+        <!-- Declaring broadcast receiver for BOOT_COMPLETED event -->
+        <receiver android:name="ru.gslive.shikimori.org.v2.Reciver_Start_On_Boot" android:enabled="true" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service android:name="ru.gslive.shikimori.org.v2.Service_Notification"
+            android:enabled="true"
+            android:exported="true"/>
+		<service android:name="ru.gslive.shikimori.org.v2.Service_Manga_Save" />
+		<!--<service android:name="ru.gslive.shikimori.org.v2.GCM_IntentService" />-->
+		<service android:name="ru.gslive.shikimori.org.v2.Service_Player"
+    	    	 android:exported="false" 
+    	    	 android:process=":services">
+    	   	<intent-filter>
+           	 	<action android:name="ru.gslive.shikimori.org.v2.CREATE" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.PLAY" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.PAUSE" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.STOP" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.NEXT" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.PREVIOUS" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.DESTROY" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.PLAY_PAUSE" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.REPIATE" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.SHAFFLE" />
+           	 	<action android:name="ru.gslive.shikimori.org.v2.SEEK_TO" />
+ 			</intent-filter> 
+    	</service>
+		<service android:name="ru.gslive.shikimori.org.v2.WidgetService"  android:permission="android.permission.BIND_REMOTEVIEWS" />
+                
+    </application>
+
+</manifest>
