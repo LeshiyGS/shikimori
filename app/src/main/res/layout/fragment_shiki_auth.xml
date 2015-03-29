@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiText.TextTitle"
+            android:text="@string/auth"
+            />
+
+        <ru.altarix.ui.CustomEditText
+            android:id="@+id/cetLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:uiLabel="@string/login"
+            />
+
+        <ru.altarix.ui.CustomEditText
+            android:id="@+id/cetPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            custom:uiLabel="@string/password"
+            />
+
+        <TextView
+            android:id="@+id/tvLoginButton"
+            android:layout_marginTop="@dimen/defaultPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/button"
+            />
+    </LinearLayout>
+
+</FrameLayout>

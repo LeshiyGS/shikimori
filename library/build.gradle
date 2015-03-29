@@ -25,4 +25,5 @@ dependencies {
 //    compile project(":modules:easyAdapter")
     compile project(":modules:ui_tools")
     compile project(":modules:PinnedSectionAdapter")
+    compile 'com.koushikdutta.ion:ion:2.1.3'
 }

@@ -65,12 +65,12 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
 
     @Override
     public void onStartRefresh() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.Calendar));
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.CALENDAR));
         loadCalendar();
     }
 
     private void loadCalendar() {
-        query.init(ShikiApi.getUrl(ShikiPath.Calendar), StatusResult.TYPE.ARRAY)
+        query.init(ShikiApi.getUrl(ShikiPath.CALENDAR), StatusResult.TYPE.ARRAY)
              .setCache(true, Query.DAY)
              .getResult(this);
     }

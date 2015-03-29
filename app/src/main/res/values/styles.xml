@@ -1,4 +1,9 @@
 <resources>
 
+    <style name="button">
+        <item name="android:padding">@dimen/defaultPaddingMini</item>
+        <item name="android:textColor">?attr/altarixUiAttrTextColor</item>
+        <item name="android:background">@drawable/button_selector</item>
+    </style>
 
 </resources>

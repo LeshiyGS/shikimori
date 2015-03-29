@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Shikimori</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="auth">Авторизация</string>
+    <string name="set_login_and_pass">Введите логин и пароль</string>
 
 </resources>

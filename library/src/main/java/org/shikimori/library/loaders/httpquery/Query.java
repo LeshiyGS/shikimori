@@ -182,6 +182,7 @@ public class Query {
                     return;
                 String data = new String(bytes);
                 StatusResult res = new StatusResult(data, reqData.type);
+                res.setHeaders(headers);
                 res.setSuccess();
                 if (showError(res))
                     return;

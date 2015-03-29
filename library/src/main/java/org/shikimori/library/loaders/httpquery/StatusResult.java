@@ -1,5 +1,6 @@
 package org.shikimori.library.loaders.httpquery;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +14,8 @@ public class StatusResult {
     private JSONObject jsonObject;
     private JSONArray jsonArray;
     private String msg;
+    private Header[] headers;
+
     public enum TYPE{
         OBJECT, ARRAY
     }
@@ -102,4 +105,20 @@ public class StatusResult {
 
         return "";
     }
+
+    public void setHeaders(Header[] headers) {
+        this.headers = headers;
+    }
+
+    public String getHeader(String key){
+        if(headers == null)
+            return null;
+        for(Header head : headers){
+            if(head.getName().equalsIgnoreCase(key))
+                return head.getValue();
+        }
+
+        return null;
+    }
+
 }

@@ -9,4 +9,8 @@
     <color name="title_black_transparent">#aa000000</color>
     <color name="white_overlay">#d9ffffff</color>
     <color name="white_overlay_2">#66ffffff</color>
+    <!-- button style-->
+    <color name="button_background_default">#333333</color>
+    <color name="button_background_selected">#000000</color>
+    <color name="button_text_color">@color/white_overlay</color>
 </resources>
