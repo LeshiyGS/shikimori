@@ -67,12 +67,19 @@ public class StatusResult {
         return status == STATUS.SUCCESS;
     }
 
+    public boolean isError() {
+        return status == STATUS.ERROR;
+    }
+
     public boolean isServerError() {
         return status == STATUS.SERVERERROR;
     }
 
     public void setSuccess(){
         status = STATUS.SUCCESS;
+    }
+    public void setError(){
+        status = STATUS.ERROR;
     }
 
     public void setServerError() {

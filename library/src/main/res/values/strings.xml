@@ -15,4 +15,5 @@
     <string name="serie_name">серия:</string>
     <string name="shiki_calendar">Календарь</string>
     <string name="user_name">Имя пользователя</string>
+    <string name="error_auth">Не верный логин или пароль</string>
 </resources>

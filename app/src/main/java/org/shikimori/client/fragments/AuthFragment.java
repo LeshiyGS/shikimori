@@ -1,7 +1,6 @@
 package org.shikimori.client.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +8,8 @@ import android.view.ViewGroup;
 
 import org.shikimori.client.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.controllers.AuthShikiController;
 import org.shikimori.library.fragments.base.BaseFragment;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.h;
@@ -21,7 +19,7 @@ import ru.altarix.ui.CustomEditText;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnClickListener {
+public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnClickListener, Query.OnQuerySuccessListener {
 
     private CustomEditText cetLogin;
     private CustomEditText cetPassword;
@@ -38,7 +36,6 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
         View tvLoginButton = v.findViewById(R.id.tvLoginButton);
         tvLoginButton.setOnClickListener(this);
 
-
         return v;
     }
 
@@ -52,52 +49,36 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
     public void onClick(View v) {
         if (v.getId() == R.id.tvLoginButton) {
 
-            if (TextUtils.isEmpty(cetLogin.getText()) || TextUtils.isEmpty(cetPassword.getText())) {
+            String login = cetLogin.getText();
+            String pass  = cetPassword.getText();
+
+            // show error if user not set all params
+            if (TextUtils.isEmpty(login) || TextUtils.isEmpty(pass)) {
                 h.showMsg(activity, R.string.set_login_and_pass);
                 return;
             }
 
+            // show loader
             activity.getLoaderController().show();
-            getAuthThoken();
-
+            // start auth
+            AuthShikiController authController = new AuthShikiController(activity, query, activity.getShikiUser());
+            authController.shikiAuth(login, pass, this);
         }
     }
 
-    // FIXME Переделать когда будет нормальный токен
-    void getAuthThoken() {
-        query.init(ShikiApi.getUrl(ShikiPath.GET_AUTH_THOKEN))
-                .getResult(new Query.OnQuerySuccessListener() {
-                    @Override
-                    public void onQuerySuccess(StatusResult res) {
-                        auth(res.getParameter("authenticity_token"));
-                    }
-                });
+    /**
+     * Ответ от сервера
+     * @param res
+     */
+    @Override
+    public void onQuerySuccess(StatusResult res) {
+        activity.getLoaderController().hide();
+        // success auth
+        if(res.isSuccess())
+            h.showMsg(activity, R.string.success_auth);
+        // error auth
+        else if(res.isError() && !TextUtils.isEmpty(res.getMsg()))
+            h.showMsg(activity, res.getMsg());
+
     }
-
-    void auth(String thoken) {
-        query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-             .setMethod(Query.METHOD.POST)
-             .addParam("user[nickname]", cetLogin.getText())
-             .addParam("user[password]", cetPassword.getText())
-             .addParam("authenticity_token", thoken)
-            .getResult(new Query.OnQuerySuccessListener() {
-                @Override
-                public void onQuerySuccess(StatusResult res) {
-                    if(activity == null)
-                        return;
-
-                    activity.getLoaderController().hide();
-
-                    if(h.match("\\/users\\/sign_in", res.getHtml())){
-                        h.showMsg(activity, R.string.error_auth);
-                        return;
-                    }
-
-                    String cookie = res.getHeader("Set-Cookie");
-                    activity.getShikiUser().setCookie(cookie);
-                    h.showMsg(activity, R.string.success_auth);
-                }
-            });
-    }
-
 }

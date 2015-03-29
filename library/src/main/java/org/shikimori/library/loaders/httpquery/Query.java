@@ -28,7 +28,7 @@ public class Query {
     public static final long HOUR = 3600000L;
     public static final long DAY = 86400000L;
 
-    static AsyncHttpClient library;
+    static AsyncHttpClient client;
     RequestParams params;
     private Context context;
     private OnQueryErrorListener errorListener;
@@ -42,11 +42,16 @@ public class Query {
     private DbCache dbCache;
 
     public void onStop() {
-        library.cancelAllRequests(true);
+        client.cancelAllRequests(true);
     }
 
     public LoaderController getLoader() {
         return loaderController;
+    }
+
+    public Query addHeader(String key, String header) {
+        client.addHeader(key, header);
+        return this;
     }
 
     public enum METHOD{
@@ -63,8 +68,8 @@ public class Query {
 
     public Query(Context context) {
         this.context = context;
-        if (library == null)
-            library = new AsyncHttpClient();
+        if (client == null)
+            client = new AsyncHttpClient();
     }
 
     public Query init(String prefix) {
@@ -72,6 +77,7 @@ public class Query {
         cache = false;
         this.method = METHOD.GET;
         this.type = StatusResult.TYPE.OBJECT;
+        client.removeAllHeaders();
         params = new RequestParams();
         return this;
     }
@@ -153,9 +159,9 @@ public class Query {
             return;
         }
         if(method == METHOD.POST)
-            library.post(prefix, params, getSuccessListener(successListener));
+            client.post(prefix, params, getSuccessListener(successListener));
         else if (method == METHOD.GET)
-            library.get(prefix, params, getSuccessListener(successListener));
+            client.get(prefix, params, getSuccessListener(successListener));
     }
 
     RequestData getRequestData(){
@@ -185,6 +191,7 @@ public class Query {
                 StatusResult res = new StatusResult(data, reqData.type);
                 res.setHeaders(headers);
                 res.setSuccess();
+                // TODO Сделать обработчик ошибок от shikimori
                 if (showError(res))
                     return;
 
