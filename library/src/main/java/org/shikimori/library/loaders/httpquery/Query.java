@@ -71,6 +71,7 @@ public class Query {
         this.prefix = prefix;
         cache = false;
         this.method = METHOD.GET;
+        this.type = StatusResult.TYPE.OBJECT;
         params = new RequestParams();
         return this;
     }

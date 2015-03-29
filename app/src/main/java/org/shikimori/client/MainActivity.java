@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.shikimori.client.fragments.AuthFragment;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.library.fragments.CalendarFragment;
@@ -78,10 +79,9 @@ public class MainActivity extends BaseActivity {
         });
 
         mDrawerAdapter = new DrawerAdapter(this);
-        mDrawerAdapter.setSelected(0);
         // Set the adapter for the list view
         mDrawerList.setAdapter(mDrawerAdapter);
-
+        mDrawerAdapter.setSelected(3);
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(drawerClickItemListener);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -140,6 +140,8 @@ public class MainActivity extends BaseActivity {
         // Услуги (Сервисы)
         if (pageId == DrawerAdapter.DRAWER_MENU_CALENDAR_ID) {
             frag = CalendarFragment.newInstance();
+        } else if(pageId == DrawerAdapter.DRAWER_MENU_PROFILE_ID){
+            frag = AuthFragment.newInstance();
         }
 
         clearBackStack();

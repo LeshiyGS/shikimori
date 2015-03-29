@@ -10,6 +10,7 @@
     <dimen name="guTextSizeMegaBig">48sp</dimen>
 
     <dimen name="defaultPadding3">3dp</dimen>
+    <dimen name="defaultPadding4">4dp</dimen>
     <dimen name="defaultPadding6">6dp</dimen>
     <dimen name="defaultPaddingMini">8dp</dimen>
     <dimen name="defaultPaddingSmall">10dp</dimen>

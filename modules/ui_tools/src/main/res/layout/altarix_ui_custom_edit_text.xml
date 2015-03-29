@@ -22,20 +22,14 @@
             android:id="@+id/tvLabel"
             style="?attr/altarixUiAttrLabelStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/ivImage" />
+            android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/etText"
             style="?attr/altarixUiAttrEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvLabel"
-            android:layout_marginTop="@dimen/negativeTop"
-            android:layout_toRightOf="@+id/ivImage"
             android:inputType="text"
-            android:paddingLeft="@dimen/defaultPaddingMini"
-            android:paddingRight="@dimen/defaultPaddingMini"
             android:singleLine="true" />
     </LinearLayout>
 
@@ -43,8 +37,6 @@
         android:id="@+id/ivWarning"
         android:layout_width="@dimen/defaultPaddingEnormous"
         android:layout_height="@dimen/defaultPaddingEnormous"
-        android:layout_alignBottom="@+id/etText"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/defaultPadding3"
         android:layout_marginRight="@dimen/defaultPadding3"
         android:scaleType="centerInside"

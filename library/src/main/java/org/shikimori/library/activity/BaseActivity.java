@@ -17,6 +17,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.LoaderController;
+import org.shikimori.library.tool.ShikiUser;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
     protected FragmentManager fManager;
     private SharedPreferences mSettings;
     private boolean dowbleBack;
+    private ShikiUser shikiUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
 
         query = new Query(this);
         query.setLoader(new LoaderController(this));
+
+        shikiUser = new ShikiUser(this);
     }
 
     /*
@@ -193,6 +197,10 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
      */
     public LoaderController getLoaderController(){
         return query.getLoader();
+    }
+
+    public ShikiUser getShikiUser() {
+        return shikiUser;
     }
 
     /**

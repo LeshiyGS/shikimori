@@ -93,9 +93,10 @@ public class CustomEditText extends CustomViewBase implements View.OnClickListen
         if(ivWarning!=null)
             ivWarning.setOnClickListener(this);
 
-        animateLabel = new AnimateLabel(mContext, tvLabel, mHideLabelIfEmpty, etText);
-        if(mHideLabelIfEmpty)
-            etText.addTextChangedListener(animateLabel);
+//        setLabel();
+//        animateLabel = new AnimateLabel(mContext, tvLabel, mHideLabelIfEmpty, etText);
+//        if(mHideLabelIfEmpty)
+//            etText.addTextChangedListener(animateLabel);
 
         etText.setHint(getHint());
         if(attrs !=null) {
@@ -124,8 +125,8 @@ public class CustomEditText extends CustomViewBase implements View.OnClickListen
     }
 
     private void setTextOfType(){
-        if(TextUtils.isEmpty(mText) && tvLabel!=null)
-                tvLabel.setVisibility(INVISIBLE);
+//        if(TextUtils.isEmpty(mText) && tvLabel!=null)
+//                tvLabel.setVisibility(INVISIBLE);
 
         if(inpType == InputType.TYPE_CLASS_PHONE){
             if(mText == null || mText.length() < 3 || cleanup(mText).length() < 3)

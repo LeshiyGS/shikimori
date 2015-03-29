@@ -11,6 +11,7 @@
         <item name="android:windowActionBar" tools:ignore="NewApi">false</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:textColorHint">@color/greenColor</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 </resources>

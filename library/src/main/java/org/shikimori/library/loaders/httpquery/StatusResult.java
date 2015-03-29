@@ -40,7 +40,7 @@ public class StatusResult {
     public StatusResult(String data, TYPE type){
         if (data == null)
             return;
-
+        bodyText = data;
         try {
             if(type == TYPE.ARRAY)
                 jsonArray = new JSONArray(data);

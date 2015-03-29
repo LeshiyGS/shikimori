@@ -5,7 +5,7 @@
         <item name="android:textSize">@dimen/guTextSizeNormal</item>
         <item name="android:textColor">@color/altarixUiTextColor</item>
         <item name="android:textColorHint">@color/altarixUiHintColor</item>
-        <item name="android:background">@drawable/altarix_ui_edit_text_background</item>
+        <item name="android:layout_margin">0dp</item>
     </style>
 
     <style name="altarixUiBackgroundPressedStyle">
@@ -57,8 +57,8 @@
         <item name="android:textSize">@dimen/guTextSizeMini</item>
     </style>
 
-    <style name="altarixUiLabel.smallWithPaddintLeft" parent="altarixUiLabel.mini">
-        <item name="android:paddingLeft">@dimen/defaultPaddingMini</item>
+    <style name="altarixUiLabel.smallWithPaddintLeft" parent="altarixUiLabel.small">
+        <item name="android:paddingLeft">@dimen/defaultPadding4</item>
     </style>
 
     <style name="altarixUiText" parent="android:Widget.TextView">
