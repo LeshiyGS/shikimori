@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+apply from: "../params.gradle"
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.github.nicolasjafelle:paginglistview:1.1'
+    compile 'com.loopj.android:android-async-http:1.4.6'
+//    compile project(":modules:easyAdapter")
+    compile project(":modules:ui_tools")
+    compile project(":modules:PinnedSectionAdapter")
+}

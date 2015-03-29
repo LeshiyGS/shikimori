@@ -53,9 +53,10 @@ dependencies {
 //    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 //    compile 'com.google.android.gms:play-services-base:6.5.87'
 
+    compile project(":library")
     compile 'com.github.nicolasjafelle:paginglistview:1.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
-    compile project(":modules:easyAdapter")
+//    compile project(":modules:easyAdapter")
     compile project(":modules:ui_tools")
     compile project(":modules:PinnedSectionAdapter")
 }

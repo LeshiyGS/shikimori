@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.shikimori.client.activity.BaseActivity;
+import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
-import org.shikimori.client.fragments.CalendarFragment;
-import org.shikimori.client.loaders.httpquery.Query;
-import org.shikimori.client.tool.Constants;
-import org.shikimori.client.tool.h;
+import org.shikimori.library.fragments.CalendarFragment;
+import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.tool.Constants;
+import org.shikimori.library.tool.h;
 
 
 /**

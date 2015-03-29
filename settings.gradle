@@ -1,4 +1,6 @@
 include ':app',
-        ":modules:easyAdapter",
+        ':library',
+//        ':extention',
+//        ":modules:easyAdapter",
         ":modules:ui_tools",
         ":modules:PinnedSectionAdapter"

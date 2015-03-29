@@ -1,7 +1,4 @@
 <resources>
 
-    <style name="progresbarspiner" parent="Base.Widget.AppCompat.ProgressBar.Horizontal">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
 
 </resources>
