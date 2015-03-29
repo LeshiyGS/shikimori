@@ -161,6 +161,22 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (hideDrawer())
+            return;
+
+        super.onBackPressed();
+    }
+
+    public boolean hideDrawer() {
+        if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+            mDrawerLayout.closeDrawer(mDrawerList);
+            return true;
+        }
+        return false;
+    }
+
     public ActionBarDrawerToggle getDrawerToggle() {
         return mDrawerToggle;
     }
