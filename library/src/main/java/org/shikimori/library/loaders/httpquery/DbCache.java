@@ -2,6 +2,7 @@ package org.shikimori.library.loaders.httpquery;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 public class DbCache extends HttpCache {
@@ -95,7 +96,7 @@ public class DbCache extends HttpCache {
     public Cursor getData(String queryRow){
         clearOldCache();
         return select()
-                .where(QUERY_ROW, queryRow)
+                .where(QUERY_ROW, DatabaseUtils.sqlEscapeString(queryRow))
                 .getCursor();
     }
 
@@ -107,22 +108,22 @@ public class DbCache extends HttpCache {
 
     public void delete(String queryRow){
         Core.init().delete()
-            .where(QUERY_ROW, queryRow)
+            .where(QUERY_ROW, DatabaseUtils.sqlEscapeString(queryRow))
             .execute();
     }
 
     public void setData(String queryRow, String queryData, long timeCache){
         delete(queryRow);
         Core.init().insert()
-            .set(QUERY_ROW, queryRow)
-            .set(QUERY_DATA, queryData)
-            .set(CREATED_AT, String.valueOf(System.currentTimeMillis()+timeCache))
+            .set(QUERY_ROW, DatabaseUtils.sqlEscapeString(queryRow))
+            .set(QUERY_DATA, DatabaseUtils.sqlEscapeString(queryData))
+            .set(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache))
             .execute();
     }
 
     public void invalidateCache(String prefix) {
         Core.init().delete()
-            .where(QUERY_ROW, LIKE, prefix)
+            .where(QUERY_ROW, LIKE, DatabaseUtils.sqlEscapeString(prefix))
             .execute();
     }
 }
