@@ -159,7 +159,9 @@ public class Query {
         if(cache){
             Cursor cur = getDbCache().getData(prefix+params.toString());
             if(cur.moveToFirst()){
-                StatusResult res = new StatusResult(DbCache.getValue(cur, DbCache.QUERY_DATA), type);
+                String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
+                data = data.replace("\'", "'");
+                StatusResult res = new StatusResult(data, type);
                 res.setSuccess();
                 if (successListener != null)
                     successListener.onQuerySuccess(res);

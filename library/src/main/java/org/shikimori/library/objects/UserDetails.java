@@ -26,6 +26,9 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
 
     @Override
     public UserDetails createFromJson(JSONObject json) {
+        if(json == null)
+            return this;
+
         AbstractHelperObj helper = new AbstractHelperObj(json);
         id = helper.addString("id");
         nickname = helper.addString("nickname");

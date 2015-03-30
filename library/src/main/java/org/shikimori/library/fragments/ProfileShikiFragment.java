@@ -126,16 +126,17 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         tvUserName.setText(userDetails.nickname);
 
         StringBuffer buf = new StringBuffer();
-        for (String info : userDetails.commonInfo) {
-            if(buf.length() != 0)
-                buf.append(" / ");
-            buf.append(Html.fromHtml(info));
-        }
+        if(userDetails.commonInfo !=null)
+            for (String info : userDetails.commonInfo) {
+                if(buf.length() != 0)
+                    buf.append(" / ");
+                buf.append(Html.fromHtml(info));
+            }
 
         tvMiniDetails.setText(buf.toString());
 
-
-        tvAbout.setText(Html.fromHtml(userDetails.aboutHtml, imgGetter3, null));
+        if(userDetails.aboutHtml != null)
+            tvAbout.setText(Html.fromHtml(userDetails.aboutHtml, imgGetter3, null));
     }
 
     public class URLDrawable extends BitmapDrawable {
