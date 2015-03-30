@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.shikimori.library.R;
@@ -75,6 +76,10 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
             fManager.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
+        ViewGroup contentView = (ViewGroup) findViewById(R.id.content_frame);
+        if(contentView!=null)
+            contentView.removeAllViews();
+
     }
 
     public void loadPage(int id){
@@ -90,8 +95,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
         // clear fragment back pressed
         fragmentBackListener = null;
 
-        new Handler().post(new Runnable() {
-            public void run() {
+       // new Handler().post(new Runnable() {
+       //     public void run() {
                 FragmentTransaction fr = fManager.beginTransaction();
 
                 if(!backstack)
@@ -99,18 +104,21 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
 
                 fr.addToBackStack(_frag.getClass().getSimpleName());
                 fr.replace(R.id.content_frame, _frag)
-                  .commitAllowingStateLoss();
-            }
-        });
+                  .commit();
+//            }
+       // });
     }
     /**
      * If next fragment is not be in stack
      * remove current fragment from stack
      */
     public void removeCurrentFragment(){
+        Fragment _frag = getVisibleFragment();
+        if(_frag == null)
+            return;
         FragmentTransaction fr = fManager.beginTransaction();
-        fr.remove(getVisibleFragment());
-        fr.commitAllowingStateLoss();
+        fr.remove(_frag);
+        fr.commit();
         fManager.popBackStack();
     }
 

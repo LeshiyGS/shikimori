@@ -11,20 +11,25 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.fragments.base.BaseFragment;
+import org.shikimori.library.interfaces.UserDataChangeListener;
+import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.UserDetails;
+import org.shikimori.library.pull.PullableFragment;
 
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class ProfileShikiFragment extends BaseFragment<BaseActivity> {
+public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener {
 
     public static final String USER_ID = "user_id";
 
     String userId;
-    String avatarUrl;
-    String userName;
     private ImageView avatar;
     private TextView tvUserName;
+    private UserDetails userDetails;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -48,10 +53,22 @@ public class ProfileShikiFragment extends BaseFragment<BaseActivity> {
     }
 
     @Override
+    public int pullableViewId() {
+        return R.id.bodyScroll;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initData();
-        preFillUi();
+        showRefreshLoader();
+        loadDataFromServer();
+    }
+
+    @Override
+    public void onStartRefresh() {
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + userId);
+        loadDataFromServer();
     }
 
     private void initData() {
@@ -59,27 +76,38 @@ public class ProfileShikiFragment extends BaseFragment<BaseActivity> {
         if(b != null)
             userId = b.getString(USER_ID);
 
-        if(userId == null){
+        if(userId == null)
             userId    = activity.getShikiUser().getId();
-            avatarUrl = activity.getShikiUser().getAvatar();
-            userName  = activity.getShikiUser().getNickname();
-        }
     }
 
-    /**
-     * Проверяем свой ли профиль или смотрим чужой
-     */
-    private void preFillUi() {
-        if(userName == null){
-            // TODO load from server user data
-        } else {
-            fillUi();
+    void loadDataFromServer(){
+        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS)+userId)
+             .setCache(true, Query.HOUR)
+             .getResult(this);
+
+    }
+
+    @Override
+    public void onQuerySuccess(StatusResult res) {
+        stopRefresh();
+        userDetails = UserDetails.create(res.getResultObject());
+        if(activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id)){
+            activity.getShikiUser().setData(res.getResultObject());
+            if(activity instanceof UserDataChangeListener)
+                ((UserDataChangeListener) activity).updateUserUI();
+
         }
+
+        fillUi();
+
     }
 
     private void fillUi() {
-        if(avatarUrl!=null)
-            ImageLoader.getInstance().displayImage(avatarUrl, avatar);
-        tvUserName.setText(userName);
+        if(userDetails == null)
+            return;
+
+        if(userDetails.avatar!=null)
+            ImageLoader.getInstance().displayImage(userDetails.avatar, avatar);
+        tvUserName.setText(userDetails.nickname);
     }
 }

@@ -13,13 +13,14 @@ import org.shikimori.client.R;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.library.fragments.CalendarFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
+import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.tool.h;
 
 
 /**
  * Created by Владимир on 20.06.2014.
  */
-public class DrawerActivity extends ProjectActivity {
+public class DrawerActivity extends ProjectActivity implements UserDataChangeListener {
 
     protected DrawerLayout mDrawerLayout;
     protected ListView mDrawerList;
@@ -143,7 +144,7 @@ public class DrawerActivity extends ProjectActivity {
         }
 
         clearBackStack();
-        loadPage(frag, true);
+        loadPage(frag);
     }
 
     @Override
@@ -182,5 +183,11 @@ public class DrawerActivity extends ProjectActivity {
     @Override
     public void setHomeArrow(boolean arrow) {
         mDrawerToggle.setDrawerIndicatorEnabled(!arrow);
+    }
+
+
+    @Override
+    public void updateUserUI() {
+        setUserDrawerData();
     }
 }
