@@ -34,7 +34,6 @@ import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
 public class AnimesFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     private GridView gvList;
-    private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
     private String search="";
 
     public static AnimesFragment newInstance() {
@@ -131,7 +130,12 @@ public class AnimesFragment extends PullableFragment<BaseActivity> implements Qu
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
+                if (newText.length() == 0){
+                    search="";
+                    showRefreshLoader();
+                    loadAnimes();
+                    return true;
+                }
                 return false;
             }
         });
