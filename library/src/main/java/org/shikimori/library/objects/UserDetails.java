@@ -30,6 +30,8 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
         id = helper.addString("id");
         nickname = helper.addString("nickname");
         avatar = helper.addString("avatar");
+        if(avatar!=null)
+            avatar = avatar.replace("x48", "x80");
         lastOnlineAt = helper.addString("last_online_at");
         name = helper.addString("name");
         sex = helper.addString("sex");

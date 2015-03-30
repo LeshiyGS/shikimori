@@ -50,9 +50,14 @@ public class ShikiUser {
     public void setData(JSONObject data) {
         if(data == null)
             return;
+
+        String ava = data.optString(AVATAR);
+        if(ava!=null)
+            ava = ava.replace("x48", "x80");
+
         prefs.edit()
              .putString(NICKNAME, data.optString(NICKNAME))
-             .putString(AVATAR, data.optString(AVATAR))
+             .putString(AVATAR, ava)
              .putString(ID, data.optString(ID))
              .apply();
     }
