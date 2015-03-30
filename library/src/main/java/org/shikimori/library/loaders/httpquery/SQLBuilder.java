@@ -3,6 +3,7 @@ package org.shikimori.library.loaders.httpquery;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
@@ -144,7 +145,7 @@ public class SQLBuilder {
 
     private void _set(String column, String value) {
         sqlQuery.append(column).append("='")
-                .append(value).append("' ");
+                .append(escapeString(value)).append("' ");
     }
 
     private boolean if_set_if_insert(String column, String value) {
@@ -152,7 +153,7 @@ public class SQLBuilder {
             sqlQuery.append(column);
             boolean nul = (!value.equals("null") && !value.equals("=null"));
             if (nul) insert_values.append("'");
-            insert_values.append(value);
+            insert_values.append(escapeString(value));
             if (nul) insert_values.append("'");
             return false;
         }
@@ -199,11 +200,11 @@ public class SQLBuilder {
     private SQLBuilder buildWhere(String type, String column, String compare, String value) {
         if (compare.equals(LIKE)) {
             sqlQuery.append(type).append(column).append(" ").append(LIKE)
-                    .append(" '%").append(value).append("%' ")
+                    .append(" '%").append(escapeString(value)).append("%' ")
             ;
         } else {
             sqlQuery.append(type).append(column).append(compare)
-                    .append("'").append(value).append("' ")
+                    .append("'").append(escapeString(value)).append("' ")
             ;
         }
         return this;
@@ -225,7 +226,7 @@ public class SQLBuilder {
 
     public SQLBuilder where(String column, String value) {
         sqlQuery.append(WHERE).append(column).append(EQUAL)
-                .append("'").append(value).append("' ")
+                .append("'").append(escapeString(value)).append("' ")
         ;
         return this;
     }
@@ -357,7 +358,7 @@ public class SQLBuilder {
 
     @SuppressLint("DefaultLocale")
     private String prepareSearch(String column, String text) {
-        text = text.replace("'", "");
+        text = escapeString(text);
         text = text.trim();
         if (text.isEmpty())
             return null;
@@ -496,6 +497,11 @@ public class SQLBuilder {
         cur.moveToFirst();
         clear();
         return cur;
+    }
+
+    String escapeString(String sqlString){
+//        StringBuilder sb = new StringBuilder();
+        return  sqlString.replace("'", "\"");
     }
 
     public Cursor getItemById(String id) {
