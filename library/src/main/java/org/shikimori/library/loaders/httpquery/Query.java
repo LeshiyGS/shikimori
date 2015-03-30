@@ -160,7 +160,7 @@ public class Query {
             Cursor cur = getDbCache().getData(prefix+params.toString());
             if(cur.moveToFirst()){
                 String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
-                data = data.replace("\'", "'");
+                data = data.replace("__|__","'");
                 StatusResult res = new StatusResult(data, type);
                 res.setSuccess();
                 if (successListener != null)

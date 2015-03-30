@@ -96,7 +96,7 @@ public class DbCache extends HttpCache {
     public Cursor getData(String queryRow){
         clearOldCache();
         return select()
-                .where(QUERY_ROW, queryRow)
+                .where(QUERY_ROW, queryRow.replace("'", "__|__"))
                 .getCursor();
     }
 
@@ -108,22 +108,22 @@ public class DbCache extends HttpCache {
 
     public void delete(String queryRow){
         Core.init().delete()
-            .where(QUERY_ROW, queryRow)
-            .execute();
+            .where(QUERY_ROW, queryRow.replace("'", "__|__"))
+                .execute();
     }
 
-    public void setData(String queryRow, String queryData, long timeCache){
+    public void setData(String queryRow, String queryData, long timeCache) {
         delete(queryRow);
         Core.init().insert()
-            .set(QUERY_ROW, queryRow)
-            .set(QUERY_DATA, queryData)
-            .set(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache))
+            .set(QUERY_ROW, queryRow.replace("'", "__|__"))
+            .set(QUERY_DATA, queryData.replace("'", "__|__"))
+                .set(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache))
             .execute();
     }
 
     public void invalidateCache(String prefix) {
         Core.init().delete()
             .where(QUERY_ROW, LIKE, prefix)
-            .execute();
+                .execute();
     }
 }

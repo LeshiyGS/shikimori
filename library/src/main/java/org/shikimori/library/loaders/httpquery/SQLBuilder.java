@@ -500,7 +500,7 @@ public class SQLBuilder {
     }
 
     String escapeString(String sqlString){
-        return  sqlString.replace("'", "");
+        return  sqlString;
     }
 
     public Cursor getItemById(String id) {

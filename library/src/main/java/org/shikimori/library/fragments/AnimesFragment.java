@@ -1,10 +1,8 @@
 package org.shikimori.library.fragments;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,11 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.AnimesAdapter;
-import org.shikimori.library.adapters.CalendarAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -26,21 +24,16 @@ import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.h;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
-import dev.dworks.libs.astickyheader.ui.PinnedSectionGridView;
 
 /**
  * Created by Владимир on 27.03.2015.
  */
 public class AnimesFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
-    private PinnedSectionGridView gvList;
+    private GridView gvList;
     private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
     private String search="";
 
@@ -57,7 +50,7 @@ public class AnimesFragment extends PullableFragment<BaseActivity> implements Qu
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.view_shiki_animes, null);
-        gvList = (PinnedSectionGridView) v.findViewById(R.id.gvList);
+        gvList = (GridView) v.findViewById(R.id.gvList);
         gvList.setOnItemClickListener(this);
         return v;
     }
@@ -101,39 +94,14 @@ public class AnimesFragment extends PullableFragment<BaseActivity> implements Qu
     }
 
     private void prepareData(List<ItemAnimesShiki> list) {
-        CopyOnWriteArrayList<String> headers = new CopyOnWriteArrayList<>();
-        ArrayList<Object> sections = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            ItemAnimesShiki itemAnimesShiki = list.get(i);
-        }
-
         AnimesAdapter adapter = new AnimesAdapter(activity, list);
-        simpleSectionedGridAdapter = new SimpleSectionedGridAdapter(activity, adapter,
-                R.layout.item_shiki_calendar_header, R.id.header_layout, R.id.header);
-        simpleSectionedGridAdapter.setGridView(gvList);
-        simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedGridAdapter.Section[0]));
-        gvList.setAdapter(simpleSectionedGridAdapter);
-
+        gvList.setAdapter(adapter);
     }
 
-
-    String formatDate(String date, String format) {
-        Date _date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", date);
-        return h.getStringDate(format, _date);
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         h.showMsg(activity, "click");
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        gvList.invalidate();
-        if(simpleSectionedGridAdapter!=null)
-            simpleSectionedGridAdapter.onConfigurationChange(activity);
     }
 
     @Override
@@ -155,6 +123,7 @@ public class AnimesFragment extends PullableFragment<BaseActivity> implements Qu
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                search = query;
                 showRefreshLoader();
                 loadAnimes();
                 return false;
