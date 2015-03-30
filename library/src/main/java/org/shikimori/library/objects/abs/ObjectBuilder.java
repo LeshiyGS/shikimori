@@ -33,7 +33,7 @@ public class ObjectBuilder<T extends JsonParseable> {
      */
     public ObjectBuilder(JSONArray data, Class<T> objCls) {
         this.objCls = objCls;
-        list = new ArrayList<T>(data.length());
+        list = new ArrayList<T>(data !=null ? data.length() : 0);
         prepareData(data);
     }
 
