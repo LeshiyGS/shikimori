@@ -8,9 +8,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="@dimen/defaultPaddingMini"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         />
 
     <TextView
@@ -18,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/altarixUiText"
+        android:layout_marginLeft="@dimen/defaultPaddingMini"
         android:textColor="@android:color/white"
         android:textSize="@dimen/guTextSizeTitle"
         />

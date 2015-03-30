@@ -137,6 +137,34 @@ public class h {
         return animation;
     }
 
+    public static void visibility(final View view,
+                                        final boolean visibility, int animation) {
+        if (view == null)
+            return;
+
+        Animation fades = AnimationUtils.loadAnimation(view.getContext(), animation);
+        fades.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (!visibility) {
+                    view.clearAnimation();
+                    view.setVisibility(View.GONE);
+                }
+            }
+        });
+        if (visibility)
+            view.setVisibility(View.VISIBLE);
+        view.startAnimation(fades);
+    }
+
     public static void expand(final View v) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final int targtetHeight = v.getMeasuredHeight();

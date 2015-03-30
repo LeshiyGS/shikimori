@@ -62,7 +62,7 @@ public class AuthShikiController {
                         }
 
                         String cookie = res.getHeader("Set-Cookie");
-                        user.setCookie(cookie);
+                        user.setToken(cookie);
                         getUserData();
                     }
                 });
@@ -73,7 +73,7 @@ public class AuthShikiController {
      */
     private void getUserData() {
         query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DATA))
-                .addHeader("Set-Cookie", user.getCookie())
+                .addHeader("Set-Cookie", user.getToken())
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override
                     public void onQuerySuccess(StatusResult res) {

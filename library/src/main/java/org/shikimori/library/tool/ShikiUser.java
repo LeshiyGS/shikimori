@@ -9,11 +9,11 @@ import org.json.JSONObject;
  * Created by Феофилактов on 29.03.2015.
  */
 public class ShikiUser {
+    public static String TOKEN;
     private static final String COOKIE = "cookie";
     private static final String NICKNAME = "nickname";
     private static final String AVATAR = "avatar";
-    private static final String IMAGE = "image";
-    private static final String LAST_ONLINE_AT = "last_online_at";
+    private static final String ID = "id";
 
     private final SharedPreferences prefs;
     private Context mContext;
@@ -21,14 +21,15 @@ public class ShikiUser {
     public ShikiUser(Context mContext){
         this.mContext = mContext;
         prefs = mContext.getSharedPreferences(Constants.SETTINGS_USER, Context.MODE_PRIVATE);
+        TOKEN = prefs.getString(COOKIE, null);
     }
 
-    public void setCookie(String cookie){
+    public void setToken(String cookie){
         prefs.edit().putString(COOKIE, cookie).apply();
     }
 
-    public String getCookie(){
-        return prefs.getString(COOKIE, null);
+    public static String getToken(){
+        return TOKEN;
     }
 
     public void logout(){
@@ -42,8 +43,8 @@ public class ShikiUser {
         return prefs.getString(AVATAR, null);
     }
 
-    public String getLastOnlineAt(){
-        return prefs.getString(LAST_ONLINE_AT, null);
+    public String getId(){
+        return prefs.getString(ID, null);
     }
 
     public void setData(JSONObject data) {
@@ -52,7 +53,7 @@ public class ShikiUser {
         prefs.edit()
              .putString(NICKNAME, data.optString(NICKNAME))
              .putString(AVATAR, data.optString(AVATAR))
-             .putString(LAST_ONLINE_AT, data.optString(LAST_ONLINE_AT))
+             .putString(ID, data.optString(ID))
              .apply();
     }
 }

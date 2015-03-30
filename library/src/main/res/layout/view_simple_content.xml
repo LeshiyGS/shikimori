@@ -4,30 +4,15 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/shiki_base_background">
+    android:background="@drawable/page_background">
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+
+    <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <FrameLayout
-            android:id="@+id/content_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:layout_height="match_parent"/>
 
         <!-- The navigation drawer -->
-        <ListView
-            android:id="@+id/left_drawer"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:dividerHeight="0dp"
-            android:divider="@null"
-            android:background="@drawable/drawer_background"
-            />
-    </android.support.v4.widget.DrawerLayout>
 
     <FrameLayout
         android:id="@+id/llbackExpandedImage"

@@ -6,5 +6,6 @@
     <string name="set_login_and_pass">Введите логин и пароль</string>
     <string name="enter">Вход</string>
     <string name="success_auth">Тест текст, авторизация успешна</string>
+    <string name="forgot_password">Забыли пароль?</string>
 
 </resources>

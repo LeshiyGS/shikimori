@@ -9,7 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.shikimori.client.R;
+import org.shikimori.library.tool.ShikiUser;
 
 import ru.altarix.ui.tool.h;
 
@@ -27,6 +30,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     private Context mContext;
     private LayoutInflater inflater;
     private int selectedPos = 0;
+    private ShikiUser shikiUser;
 
     @SuppressWarnings("deprecation")
     public DrawerAdapter(Context context) {
@@ -58,18 +62,24 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
         view.setId(elem.id);
         // set menu name
         holder.tvTitle.setText(elem.title);
+        if(position == 0 && shikiUser!=null) {
+            // set avatar
+            if(shikiUser.getAvatar()!=null)
+                ImageLoader.getInstance().displayImage(shikiUser.getAvatar(), holder.icon);
+            // set user name
+            holder.tvTitle.setText(shikiUser.getNickname());
         // set icon
-        if (elem.icon != 0)
+        } else if (elem.icon != 0)
             holder.icon.setImageResource(elem.icon);
+        else
+            holder.icon.setImageDrawable(null);
+
 
         // set selection item
-        if(position==selectedPos){
+        if(position==selectedPos)
             view.setBackgroundColor(mContext.getResources().getColor(R.color.greenColor));
-            //holder.tvTitle.setTextColor(Color.WHITE);
-        } else {
+        else
             view.setBackgroundColor(0);
-            //holder.tvTitle.setTextColor(mContext.getResources().getColor(R.color.altarixUiTextColor));
-        }
 
         return view;
     }
@@ -113,6 +123,11 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
             this.title = title;
             this.icon  = icon;
         }
+    }
+
+    public void setUserData(ShikiUser shikiUser) {
+        this.shikiUser = shikiUser;
+        notifyDataSetChanged();
     }
 
     /**

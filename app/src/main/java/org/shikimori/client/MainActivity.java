@@ -21,6 +21,6 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void initDrawer() {
         super.initDrawer();
-        mDrawerList.setSelection(3);
+        mDrawerAdapter.setSelected(3);
     }
 }

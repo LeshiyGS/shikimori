@@ -17,6 +17,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.shikimori.library.R;
 import org.shikimori.library.tool.LoaderController;
+import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
 
 /**
@@ -32,15 +33,23 @@ public class Query {
     RequestParams params;
     private Context context;
     private OnQueryErrorListener errorListener;
+    // url for request
     private String prefix;
     private ProgressDialog pd;
+    // loader
     private LoaderController loaderController;
+    // type return content
     StatusResult.TYPE type = StatusResult.TYPE.OBJECT;
+    // request method
     METHOD method = METHOD.GET;
     private boolean cache = false;
     private long timeCache = HALFHOUR; // 30 минут
     private DbCache dbCache;
 
+    public enum METHOD{
+        GET, POST
+    }
+    // cancell all request
     public void onStop() {
         client.cancelAllRequests(true);
     }
@@ -52,10 +61,6 @@ public class Query {
     public Query addHeader(String key, String header) {
         client.addHeader(key, header);
         return this;
-    }
-
-    public enum METHOD{
-        GET, POST
     }
 
     public interface OnQueryErrorListener {
@@ -72,16 +77,32 @@ public class Query {
             client = new AsyncHttpClient();
     }
 
+    /**
+     * Call before make request
+     * @param prefix
+     * @return
+     */
     public Query init(String prefix) {
         this.prefix = prefix;
         cache = false;
+        // request method
         this.method = METHOD.GET;
+        // type return content
         this.type = StatusResult.TYPE.OBJECT;
         client.removeAllHeaders();
+        // add user token
+        if(ShikiUser.getToken()!=null)
+            addHeader("Set-Cookie", ShikiUser.getToken());
         params = new RequestParams();
         return this;
     }
 
+    /**
+     * Call before make request
+     * @param prefix
+     * @param type
+     * @return
+     */
     public Query init(String prefix, StatusResult.TYPE type){
         init(prefix);
         this.type = type;
@@ -190,8 +211,8 @@ public class Query {
                 String data = new String(bytes);
                 StatusResult res = new StatusResult(data, reqData.type);
                 res.setHeaders(headers);
-                res.setSuccess();
                 // TODO Сделать обработчик ошибок от shikimori
+                res.setSuccess();
                 if (showError(res))
                     return;
 
@@ -211,6 +232,11 @@ public class Query {
         };
     }
 
+    /**
+     * Remove cache by url like (http://shikimori/api/calendar)
+     * @param prefix
+     * @return
+     */
     public Query invalidateCache(String prefix){
         getDbCache().invalidateCache(prefix);
         return this;
@@ -256,6 +282,10 @@ public class Query {
         return false;
     }
 
+    /**
+     * Show standart error dialog
+     * @param res
+     */
     public void showStandartError(StatusResult res) {
         if (context == null)
             return;
@@ -277,6 +307,9 @@ public class Query {
         h.showMsg(context, res.getMsg());
     }
 
+    /**
+     * Нужно чтобы следующий запрос не перетер данные предыдущего
+     */
     static class RequestData{
         public METHOD method;
         public boolean cache;

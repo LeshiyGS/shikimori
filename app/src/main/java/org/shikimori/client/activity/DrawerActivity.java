@@ -1,7 +1,5 @@
 package org.shikimori.client.activity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,18 +11,15 @@ import android.widget.ListView;
 
 import org.shikimori.client.R;
 import org.shikimori.client.adapters.DrawerAdapter;
-import org.shikimori.client.fragments.AuthFragment;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.fragments.CalendarFragment;
-import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.tool.Constants;
+import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.tool.h;
 
 
 /**
  * Created by Владимир on 20.06.2014.
  */
-public class DrawerActivity extends BaseActivity {
+public class DrawerActivity extends ProjectActivity {
 
     protected DrawerLayout mDrawerLayout;
     protected ListView mDrawerList;
@@ -86,6 +81,11 @@ public class DrawerActivity extends BaseActivity {
          */
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        setUserDrawerData();
+    }
+
+    public void setUserDrawerData(){
+        mDrawerAdapter.setUserData(getShikiUser());
     }
 
     /**
@@ -95,7 +95,7 @@ public class DrawerActivity extends BaseActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if(position == mDrawerAdapter.getSelectedPosition()) {
+            if (position == mDrawerAdapter.getSelectedPosition()) {
                 mDrawerLayout.closeDrawers();
                 return;
             }
@@ -110,8 +110,8 @@ public class DrawerActivity extends BaseActivity {
     public void chooseItem(int id) {
         launchId = id;
 //        if (id == DrawerAdapter.DRAWER_MENU_MAP_ID)
-            if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
-                mDrawerLayout.closeDrawers();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
+            mDrawerLayout.closeDrawers();
 //            else
 //                loadPage();
 //        else
@@ -125,7 +125,9 @@ public class DrawerActivity extends BaseActivity {
     }
 
 
-    /** Открытие корневой страницы. Бекстек очищается*/
+    /**
+     * Открытие корневой страницы. Бекстек очищается
+     */
     public void loadPage(int pageId) {
 
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
@@ -136,8 +138,8 @@ public class DrawerActivity extends BaseActivity {
         // Услуги (Сервисы)
         if (pageId == DrawerAdapter.DRAWER_MENU_CALENDAR_ID) {
             frag = CalendarFragment.newInstance();
-        } else if(pageId == DrawerAdapter.DRAWER_MENU_PROFILE_ID){
-            frag = AuthFragment.newInstance();
+        } else if (pageId == DrawerAdapter.DRAWER_MENU_PROFILE_ID) {
+            frag = ProfileShikiFragment.newInstance();
         }
 
         clearBackStack();
@@ -177,26 +179,8 @@ public class DrawerActivity extends BaseActivity {
         return mDrawerToggle;
     }
 
-    /**
-     * get shared preference
-     */
-    public SharedPreferences getSettings() {
-        return getSharedPreferences(Constants.SETTINGS, Context.MODE_PRIVATE);
-    }
-
     @Override
-    public void setHomeArrow(boolean arrow){
+    public void setHomeArrow(boolean arrow) {
         mDrawerToggle.setDrawerIndicatorEnabled(!arrow);
-    }
-
-    @Override
-    public Query prepareQuery(boolean separate) {
-        if(separate){
-            Query q = new Query(this);
-            q.setLoader(query.getLoader());
-            return q;
-        }
-
-        return query;
     }
 }
