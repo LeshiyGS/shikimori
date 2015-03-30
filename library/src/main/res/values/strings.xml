@@ -13,6 +13,8 @@
     <string name="about">О программе</string>
     <string name="one_more_back_to_exit">Для выхода нажмите еще раз</string>
     <string name="serie_name">серия:</string>
+    <string name="filter">Фильтр</string>
+    <string name="search">Поиск</string>
     <string name="shiki_calendar">Календарь</string>
     <string name="user_name">Имя пользователя</string>
     <string name="error_auth">Не верный логин или пароль</string>

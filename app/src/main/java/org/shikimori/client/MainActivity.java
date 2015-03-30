@@ -14,13 +14,13 @@ public class MainActivity extends DrawerActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadPage(DrawerAdapter.DRAWER_MENU_CALENDAR_ID);
+        loadPage(DrawerAdapter.DRAWER_MENU_PROFILE_ID);
         setDowbleBackPressetToExit(true);
     }
 
     @Override
     public void initDrawer() {
         super.initDrawer();
-        mDrawerAdapter.setSelected(3);
+        mDrawerAdapter.setSelected(0);
     }
 }
