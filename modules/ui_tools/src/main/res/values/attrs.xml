@@ -38,5 +38,6 @@
     <attr name="altarixUiAttrDateStyle" format="reference" />
     <attr name="altarixUiAttrDividerColor" format="reference|color" />
     <attr name="altarixUiAttrTextStyle" format="reference" />
+    <attr name="altarixUiAttrSelectedColorTab" format="reference|color" />
 
 </resources>

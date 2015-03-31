@@ -15,7 +15,6 @@ import org.shikimori.library.adapters.FragmentPageAdapter;
 import org.shikimori.library.interfaces.PageNextlistener;
 import org.shikimori.library.tool.h;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.altarix.ui.ExSlidingTabLayout;
@@ -69,7 +68,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_pager_fragment, null);
+        View v = inflater.inflate(R.layout.view_shiki_pager_fragment, null);
         pagerStrip = (ExSlidingTabLayout)v.findViewById(R.id.pagerStrip);
         pager = (ViewPager) v.findViewById(R.id.viewPager);
         return v;
@@ -83,12 +82,16 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         pager.setAdapter(pageAdapter);
         pagerStrip.setTitles(titles);
         pagerStrip.setViewPager(pager);
-        int colorId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrTextColor);
-        int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
-        // цвет теста табов
-        int clr = h.getAttributeResourceId(activity, colorId);
-        int clrNotSelected = h.getAttributeResourceId(activity, colorLabelId);
 
+        int colorId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrSelectedColorTab);
+        int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
+        int colorIndicator = h.getAttributeResourceId(activity, R.attr.altarixUiAttrDividerColor);
+        // цвет теста табов
+        int clr = activity.getResources().getColor(colorId);
+        int clrNotSelected = activity.getResources().getColor(colorLabelId);
+        int clrIndicator = activity.getResources().getColor(colorIndicator);
+
+        pagerStrip.setSelectedIndicatorColors(clrIndicator);
         pagerStrip.setTextColors(clr,clrNotSelected);
     }
 

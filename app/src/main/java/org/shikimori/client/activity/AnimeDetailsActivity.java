@@ -34,4 +34,10 @@ public class AnimeDetailsActivity extends DrawerActivity {
             getString(R.string.Discusion)
         ));
     }
+
+    @Override
+    public void initDrawer() {
+        super.initDrawer();
+        mDrawerAdapter.setSelected(-1);
+    }
 }

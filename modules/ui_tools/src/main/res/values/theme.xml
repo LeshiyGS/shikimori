@@ -36,6 +36,8 @@
         <item name="altarixUiAttrTextStyle">@style/altarixUiText</item>
         <!-- divider color-->
         <item name="altarixUiAttrDividerColor">@color/dialog_divider_color</item>
+
+        <item name="altarixUiAttrSelectedColorTab">@color/dialog_divider_color</item>
     </style>
 
 </resources>

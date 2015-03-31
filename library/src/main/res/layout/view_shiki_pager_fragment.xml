@@ -7,8 +7,10 @@
 
     <ru.altarix.ui.ExSlidingTabLayout
         android:id="@+id/pagerStrip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/altarixUiAttrTabBackgroundColor"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

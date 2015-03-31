@@ -38,6 +38,7 @@ public class AnimesAdapter extends ArrayAdapter<ItemAnimesShiki> {
         if (convertView == null) {
             v = inflater.inflate(R.layout.item_shiki_calendar, parent, false);
             viewHolder = getViewHolder(v);
+            viewHolder.ivImage.setOnTouchListener(h.getImageHighlight);
             v.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) v.getTag();
