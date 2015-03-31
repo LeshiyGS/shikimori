@@ -24,6 +24,7 @@ public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuer
 
     private ObjectBuilder builder;
     int limit = 20;
+    private AnimesAdapter adapter;
 
     public static AnimesFragment newInstance() {
         return new AnimesFragment();
@@ -54,17 +55,11 @@ public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuer
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        if(builder == null)
-            builder = new ObjectBuilder(res.getResultArray(), ItemAnimesShiki.class);
-        else {
-            if(page == DEFAULT_FIRST_PAGE)
-                builder.list.clear();
-            builder.addData(res.getResultArray());
-        }
+        builder = new ObjectBuilder(res.getResultArray(), ItemAnimesShiki.class);
         int size = builder.list.size();
         // если предыдущее количество кратно limit+1
         // значит есть еще данные
-        if(size%((page * limit)+1) == 0){
+        if(size%((limit)+1) == 0){
             hasMoreItems(true);
             // удаляем последний элемент
             builder.list.remove(size - 1);
@@ -75,16 +70,22 @@ public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuer
     }
 
     private void prepareData(List<ItemAnimesShiki> list) {
-        AnimesAdapter adapter = new AnimesAdapter(activity, list);
-        setAdapter(adapter);
+        if (adapter == null){
+            adapter = new AnimesAdapter(activity, list);
+            setAdapter(adapter);
+        }else {
+            if(page == DEFAULT_FIRST_PAGE)
+                adapter.clear();
+
+            for (int i = 0; i < list.size(); i++) {
+                adapter.add(list.get(i));
+            }
+        }
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ItemAnimesShiki item = (ItemAnimesShiki) parent.getAdapter().getItem(position);
-
-        h.showMsg(activity, "click " + item.name);
     }
 
     @Override
