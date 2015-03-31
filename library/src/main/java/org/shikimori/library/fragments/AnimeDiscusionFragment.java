@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.fragments.base.BaseFragment;
+import org.shikimori.library.tool.Constants;
 
 /**
  * Created by Владимир on 31.03.2015.
  */
 public class AnimeDiscusionFragment extends BaseFragment<BaseActivity> {
 
+
+    private String animeId;
 
     public static AnimeDiscusionFragment newInstance(Bundle b) {
         AnimeDiscusionFragment frag = new AnimeDiscusionFragment();
@@ -29,5 +32,14 @@ public class AnimeDiscusionFragment extends BaseFragment<BaseActivity> {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initArgiments();
+    }
+
+    private void initArgiments() {
+        Bundle b = getArguments();
+        if(b == null)
+            return;
+
+        animeId = getArguments().getString(Constants.ANIME_ID);
     }
 }

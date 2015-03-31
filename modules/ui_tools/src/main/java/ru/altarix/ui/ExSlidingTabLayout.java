@@ -265,7 +265,7 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
             mTabStrip.addView(tabView);
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
-                if(tabView instanceof TextView)
+                if(tabView instanceof TextView && selectedColor!=0)
                     ((TextView) tabView).setTextColor(selectedColor);
             }
         }
@@ -392,6 +392,8 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
     }
 
     boolean setViewTextColor(View v, int color){
+        if(color == 0)
+            return false;
         if(v instanceof TextView){
             ((TextView) v).setTextColor(color);
             return true;

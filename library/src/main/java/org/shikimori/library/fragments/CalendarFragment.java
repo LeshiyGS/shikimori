@@ -113,7 +113,6 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        h.showMsg(activity, "click");
     }
 
     @Override

@@ -6,4 +6,5 @@ package org.shikimori.library.tool;
 public class Constants {
     public static final String SETTINGS = "SETTINGS";
     public static final String SETTINGS_USER = "SETTINGS_USER";
+    public static final String ANIME_ID = "anime_id";
 }

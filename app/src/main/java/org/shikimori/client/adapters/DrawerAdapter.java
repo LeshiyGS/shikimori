@@ -85,7 +85,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     }
 
     public void setSelected(int position){
-        if(position<0 || position>=getCount()) return;
+        if(position>=getCount()) return;
 
         selectedPos = position;
         notifyDataSetChanged();

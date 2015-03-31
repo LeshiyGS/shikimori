@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -606,18 +607,34 @@ public class h {
             try {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        ImageView view = (ImageView) v;
+                        final ImageView view = (ImageView) v;
+
                         //overlay is black with transparency of 0x77 (119)
                         view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
                         view.invalidate();
+
+
+                        new CountDownTimer(100,100){
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                if(view!=null){
+                                    view.getDrawable().clearColorFilter();
+                                    view.invalidate();
+                                }
+                            }
+                        }.start();
                         break;
                     }
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL: {
-                        ImageView view = (ImageView) v;
-                        //clear the overlay
-                        view.getDrawable().clearColorFilter();
-                        view.invalidate();
+//                        ImageView view = (ImageView) v;
+//                        //clear the overlay
+//                        view.getDrawable().clearColorFilter();
+//                        view.invalidate();
                         break;
                     }
                 }

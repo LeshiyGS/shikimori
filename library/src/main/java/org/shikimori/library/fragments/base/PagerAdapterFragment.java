@@ -80,9 +80,6 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
 
         pageAdapter = new FragmentPageAdapter(activity.getSupportFragmentManager(), pages);
         pager.setAdapter(pageAdapter);
-        pagerStrip.setTitles(titles);
-        pagerStrip.setViewPager(pager);
-
         int colorId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrSelectedColorTab);
         int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
         int colorIndicator = h.getAttributeResourceId(activity, R.attr.altarixUiAttrDividerColor);
@@ -90,9 +87,12 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         int clr = activity.getResources().getColor(colorId);
         int clrNotSelected = activity.getResources().getColor(colorLabelId);
         int clrIndicator = activity.getResources().getColor(colorIndicator);
-
+        // set colors
         pagerStrip.setSelectedIndicatorColors(clrIndicator);
         pagerStrip.setTextColors(clr,clrNotSelected);
+
+        pagerStrip.setTitles(titles);
+        pagerStrip.setViewPager(pager);
     }
 
     /**
