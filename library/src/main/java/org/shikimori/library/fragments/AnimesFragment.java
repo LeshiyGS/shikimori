@@ -1,145 +1,99 @@
 package org.shikimori.library.fragments;
 
-import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.AnimesAdapter;
+import org.shikimori.library.fragments.base.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimesShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
 
-import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
-
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class AnimesFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
-    private GridView gvList;
-    private String search="";
+    private ObjectBuilder builder;
+    int limit = 20;
 
     public static AnimesFragment newInstance() {
         return new AnimesFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_animes, null);
-        gvList = (GridView) v.findViewById(R.id.gvList);
-        gvList.setOnItemClickListener(this);
-        return v;
-    }
-
-    @Override
-    public int pullableViewId() {
-        return R.id.gvList;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        activity.getSupportActionBar().setTitle(R.string.app_name);
-        activity.getSupportActionBar().setSubtitle(R.string.anime);
-
-        showRefreshLoader();
-        loadAnimes();
+    public int getActionBarTitle() {
+        return R.string.anime;
     }
 
     @Override
     public void onStartRefresh() {
+        super.onStartRefresh();
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.ANIMES));
-        loadAnimes();
+        loadData();
     }
 
-    private void loadAnimes() {
+    @Override
+    public void loadData() {
         query.init(ShikiApi.getUrl(ShikiPath.ANIMES), StatusResult.TYPE.ARRAY)
-                .addParam("limit", "20")
-                .addParam("page", "1")
-                .addParam("search", search)
-                .setCache(true, Query.DAY)
-                .getResult(this);
+            .addParam("limit", limit)
+            .addParam("page", page)
+            .addParam("search", getSearchText())
+            .setCache(true, Query.DAY)
+            .getResult(this);
     }
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemAnimesShiki.class);
+        super.onQuerySuccess(res);
+        if(builder == null)
+            builder = new ObjectBuilder(res.getResultArray(), ItemAnimesShiki.class);
+        else {
+            if(page == DEFAULT_FIRST_PAGE)
+                builder.list.clear();
+            builder.addData(res.getResultArray());
+        }
+        int size = builder.list.size();
+        // если предыдущее количество кратно limit+1
+        // значит есть еще данные
+        if(size%((page * limit)+1) == 0){
+            hasMoreItems(true);
+            // удаляем последний элемент
+            builder.list.remove(size - 1);
+        } else
+            hasMoreItems(false);
+
         prepareData(builder.list);
-        stopRefresh();
     }
 
     private void prepareData(List<ItemAnimesShiki> list) {
         AnimesAdapter adapter = new AnimesAdapter(activity, list);
-        gvList.setAdapter(adapter);
+        setAdapter(adapter);
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        h.showMsg(activity, "click");
+        ItemAnimesShiki item = (ItemAnimesShiki) parent.getAdapter().getItem(position);
+
+        h.showMsg(activity, "click " + item.name);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_animes_filter){
+        if (item.getItemId() == R.id.menu_animes_filter) {
 
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.animes_menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.anime_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                search = query;
-                showRefreshLoader();
-                loadAnimes();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.length() == 0){
-                    search="";
-                    showRefreshLoader();
-                    loadAnimes();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 }

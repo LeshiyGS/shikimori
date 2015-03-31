@@ -3,6 +3,7 @@
     android:id="@+id/bodyScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:padding="@dimen/defaultPadding">
 
 
@@ -13,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
@@ -25,7 +26,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/defaultPadding">
 
                 <TextView
@@ -42,13 +43,6 @@
             </LinearLayout>
 
         </LinearLayout>
-        <TextView
-            android:id="@+id/tvAbout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="200dp"
-            android:paddingTop="@dimen/defaultPadding"
-            />
     </LinearLayout>
 
 </ScrollView>

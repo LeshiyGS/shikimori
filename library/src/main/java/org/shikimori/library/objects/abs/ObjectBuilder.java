@@ -120,7 +120,7 @@ public class ObjectBuilder<T extends JsonParseable> {
      * @param array
      */
     public void addData(JSONArray array) {
-        buildData(array);
+        prepareData(array);
     }
 
     public List<T> getDataList() {

@@ -26,4 +26,5 @@ dependencies {
     compile project(":modules:ui_tools")
     compile project(":modules:PinnedSectionAdapter")
     compile 'com.koushikdutta.ion:ion:2.1.3'
+    compile 'in.srain.cube:grid-view-with-header-footer:1.0.9'
 }

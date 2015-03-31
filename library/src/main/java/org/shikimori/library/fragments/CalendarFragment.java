@@ -53,12 +53,13 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
     }
 
     @Override
+    public int getActionBarTitle() {
+        return R.string.shiki_calendar;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        activity.getSupportActionBar().setTitle(R.string.app_name);
-        activity.getSupportActionBar().setSubtitle(R.string.shiki_calendar);
-
         showRefreshLoader();
         loadCalendar();
     }

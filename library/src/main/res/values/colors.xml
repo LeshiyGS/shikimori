@@ -2,6 +2,7 @@
 <resources>
     <color name="tool_background_70">#d9000000</color>
     <color name="greenColor">#689f38</color>
+    <color name="lightBlue">#03A9F4</color>
     <color name="shiki_base_background">#d9d9d9</color>
     <color name="image_loader_color">#705a5d5a</color>
     <color name="drawerBackground">#546e7a</color>

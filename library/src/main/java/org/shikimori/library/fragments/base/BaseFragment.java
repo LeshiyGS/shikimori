@@ -1,8 +1,10 @@
 package org.shikimori.library.fragments.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -11,7 +13,7 @@ import org.shikimori.library.tool.h;
 /**
  * Created by Владимир on 02.07.2014.
  */
-public class BaseFragment<T extends Activity> extends Fragment {
+public class BaseFragment<T extends ActionBarActivity> extends Fragment {
 
     /**
      * Root activity
@@ -27,12 +29,27 @@ public class BaseFragment<T extends Activity> extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    public int getActionBarTitle(){
+        return 0;
+    }
+
+    public String getActionBarTitleString(){
+        return null;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         this.activity = (T) getActivity();
         query = ((Queryable)activity).prepareQuery(false);
+
+        ActionBar actionBar = activity.getSupportActionBar();
+
+        if(getActionBarTitle()!=0 && actionBar!=null)
+            actionBar.setTitle(getActionBarTitle());
+        else if (getActionBarTitleString()!=null && actionBar!=null)
+            actionBar.setTitle(getActionBarTitleString());
     }
 
 
