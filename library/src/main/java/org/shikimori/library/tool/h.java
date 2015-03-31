@@ -621,9 +621,13 @@ public class h {
 
                             @Override
                             public void onFinish() {
-                                if(view!=null){
-                                    view.getDrawable().clearColorFilter();
-                                    view.invalidate();
+                                try {
+                                    if(view!=null){
+                                        view.getDrawable().clearColorFilter();
+                                        view.invalidate();
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
                         }.start();
