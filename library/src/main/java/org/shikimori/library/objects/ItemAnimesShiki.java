@@ -36,10 +36,8 @@ public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Crea
         episodes = helper.addString("episodes");
         episodes_aired = helper.addString("episodes_aired");
 
-        JSONObject status = json;
-
-        ongoing = status.optBoolean("ongoing");
-        anons = status.optBoolean("anons");
+        ongoing = json.optBoolean("ongoing");
+        anons = json.optBoolean("anons");
 
         JSONObject image = json.optJSONObject("image");
         if(image!=null){

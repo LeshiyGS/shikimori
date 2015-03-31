@@ -33,7 +33,7 @@ public class AnimeDiscusionFragment extends BaseFragment<BaseActivity> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initArgiments();
-    }
+     }
 
     private void initArgiments() {
         Bundle b = getArguments();
