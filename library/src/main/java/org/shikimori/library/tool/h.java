@@ -633,34 +633,5 @@ public class h {
         }
     };
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    public static class TypefaceSpan extends MetricAffectingSpan {
-        private LruCache<String, Typeface> sTypefaceCache =  new LruCache<String, Typeface>(12);
 
-        private Typeface mTypeface;
-
-
-        public TypefaceSpan(Context context, String typefaceName) {
-            mTypeface = sTypefaceCache.get(typefaceName);
-
-            if (mTypeface == null) {
-                mTypeface = Typeface.createFromAsset(context.getApplicationContext()
-                        .getAssets(), String.format("fonts/%s", typefaceName));
-
-                sTypefaceCache.put(typefaceName, mTypeface);
-            }
-        }
-
-        @Override
-        public void updateMeasureState(TextPaint p) {
-            p.setTypeface(mTypeface);
-            p.setFlags(p.getFlags() | Paint.SUBPIXEL_TEXT_FLAG);
-        }
-
-        @Override
-        public void updateDrawState(TextPaint tp) {
-            tp.setTypeface(mTypeface);
-            tp.setFlags(tp.getFlags() | Paint.SUBPIXEL_TEXT_FLAG);
-        }
-    }
 }

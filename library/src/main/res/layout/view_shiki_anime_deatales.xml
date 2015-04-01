@@ -18,7 +18,7 @@
 
         <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
+            android:layout_height="250dp"
             android:id="@+id/ivPoster"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"

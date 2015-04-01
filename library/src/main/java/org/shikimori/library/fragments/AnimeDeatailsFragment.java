@@ -99,7 +99,7 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
 
     private void prepareData() {
-       tvTitle.setText(animeDetails.name.toString());
+       tvTitle.setText(animeDetails.name.toString() + " / " + animeDetails.russian);
        ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.img_original, ivPoster);
     }
 }

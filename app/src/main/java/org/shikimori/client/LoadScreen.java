@@ -14,6 +14,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import org.shikimori.client.activity.AuthActivity;
+import org.shikimori.library.tool.FontCache;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
 
@@ -30,11 +31,8 @@ public class LoadScreen extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_shiki_splash_screen);
         tvLogo = (TextView) findViewById(R.id.tvLogo);
-
-        SpannableString s = new SpannableString("Shikimori.org");
-        s.setSpan(new h.TypefaceSpan(this, this.getString(R.string.shiki_font)), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        tvLogo.setText(s);
+        tvLogo.setText("Shikimori.org");
+        h.setFont(LoadScreen.this, tvLogo, FontCache.FONT.STYLO);
 
         animateLogo();
         pauseBeforeLoad();
