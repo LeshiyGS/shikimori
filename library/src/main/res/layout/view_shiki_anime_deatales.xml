@@ -21,7 +21,8 @@
             android:id="@+id/tvTitle"
             android:gravity="center"
             android:layout_alignBottom="@+id/imageView"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:textColor="#ffffffff" />
 
         <ImageView
             android:layout_width="fill_parent"
