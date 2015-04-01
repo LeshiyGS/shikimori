@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.interfaces.UpdateCommentsListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -99,6 +100,8 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+        if(activity == null)
+            return;
         stopRefresh();
         animeDetails = AnimeDetails.create(res.getResultObject());
         prepareData();
@@ -106,18 +109,24 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
 
     private void prepareData() {
-        AnimeDiscusionFragment.commentable_id = animeDetails.thread_id;
         tvTitle.setText(animeDetails.name.toString() + " / " + animeDetails.russian);
         ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.img_original, ivPoster);
-        h.setTextViewHTML(getActivity(), tvInfo, "<b>Тип: </b>"+ animeDetails.kind + "<br>" +
-                "<b>Эпизоды: </b>"+ animeDetails.episodes + "<br>" +
-                "<b>Длительность эпизода: </b>"+ animeDetails.duration + " минуты<br>" +
-                "<b>Статус: </b>"+ animeDetails.aired_on + "<br>" +
-                "<b>Рейтинг: </b>"+ animeDetails.rating + "<br>" +
-                "<b>Жанры: </b>"+ animeDetails.aired_on + "<br>" +
-                "<b>Студии: </b>"+ animeDetails.aired_on);
+        h.setTextViewHTML(getActivity(), tvInfo, "<b>Тип: </b>" + animeDetails.kind + "<br>" +
+                "<b>Эпизоды: </b>" + animeDetails.episodes + "<br>" +
+                "<b>Длительность эпизода: </b>" + animeDetails.duration + " минуты<br>" +
+                "<b>Статус: </b>" + animeDetails.aired_on + "<br>" +
+                "<b>Рейтинг: </b>" + animeDetails.rating + "<br>" +
+                "<b>Жанры: </b>" + animeDetails.aired_on + "<br>" +
+                "<b>Студии: </b>" + animeDetails.aired_on);
         h.setTextViewHTML(getActivity(), tvReview, animeDetails.description_html);
         h.setTextViewHTML(getActivity(), tvScore, "Оценка: " + animeDetails.score);
-        rbTitle.setRating(Float.parseFloat(animeDetails.score)/2);
+        rbTitle.setRating(Float.parseFloat(animeDetails.score) / 2);
+        // exemple
+        String.format(activity.getString(R.string.episodes), animeDetails.episodes + "\n");
+
+
+        if(activity instanceof UpdateCommentsListener)
+            ((UpdateCommentsListener) activity).startLoadComments(animeDetails.thread_id);
+
     }
 }

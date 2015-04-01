@@ -39,12 +39,10 @@ import dev.dworks.libs.astickyheader.ui.PinnedSectionListView;
  */
 public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener{
 
-
-
     private String animeId;
     private ListView gvList;
     private CommentsAdapter adapter;
-    static String commentable_id="";
+    private String treadId;
 
     public static AnimeDiscusionFragment newInstance(Bundle b) {
         AnimeDiscusionFragment frag = new AnimeDiscusionFragment();
@@ -68,8 +66,6 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initArgiments();
-//        showRefreshLoader();
-//        loadAnimeInfo();
      }
 
     @Override
@@ -80,7 +76,7 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
 
     public void loadData() {
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
-                .addParam("commentable_id", commentable_id)
+                .addParam("commentable_id", treadId)
                 .addParam("commentable_type", "Entry")
                 .addParam("limit", "20")
                 .addParam("page", "1")
@@ -109,5 +105,11 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
 
         gvList.setAdapter(adapter);
 
+    }
+
+    public void startLoadComments(String treadId) {
+        this.treadId = treadId;
+        showRefreshLoader();
+        loadData();
     }
 }
