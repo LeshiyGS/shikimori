@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Shikimori</string>
 
+    <string name="shiki_font">stylo-bold.ttf</string>
     <string name="error_connection">Отсутствует подключение к интернету</string>
     <string name="error_server">Сервер не доступен, попробуйте позже</string>
     <string name="profile">Профиль</string>

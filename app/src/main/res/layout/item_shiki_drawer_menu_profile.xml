@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:padding="@dimen/defaultPaddingMini">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
         />
 
     <TextView
@@ -19,7 +19,7 @@
         style="@style/altarixUiText"
         android:layout_marginLeft="@dimen/defaultPaddingMini"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/guTextSizeTitle"
-        />
+        android:enabled="false"
+        android:ellipsize="end" />
 
 </LinearLayout>

@@ -3,9 +3,12 @@ package org.shikimori.client;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -20,11 +23,19 @@ import org.shikimori.library.tool.h;
 public class LoadScreen extends FragmentActivity {
 
     private long splashTime = 2000;
+    TextView tvLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_shiki_splash_screen);
+        tvLogo = (TextView) findViewById(R.id.tvLogo);
+
+        SpannableString s = new SpannableString("Shikimori.org");
+        s.setSpan(new h.TypefaceSpan(this, this.getString(R.string.shiki_font)), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        tvLogo.setText(s);
+
         animateLogo();
         pauseBeforeLoad();
     }

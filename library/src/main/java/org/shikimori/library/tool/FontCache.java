@@ -10,6 +10,7 @@ public class FontCache {
     public static enum FONT {
         ROBOTO,
         ROBOTO_BOLD,
+        STYLO,
     }
 
     private static Hashtable<String, Typeface> fontCache = new Hashtable<String, Typeface>();
@@ -20,6 +21,8 @@ public class FontCache {
             name = "roboto.ttf";
         else if (font == FONT.ROBOTO_BOLD)
             name = "roboto_bold.ttf";
+        else if (font == FONT.STYLO)
+            name = "stylo-bold.ttf";
         Typeface tf = fontCache.get(name);
         if(tf == null) {
             try {

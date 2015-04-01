@@ -1,5 +1,6 @@
 package org.shikimori.library.fragments;
 
+import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -86,6 +87,7 @@ public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuer
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 
     @Override

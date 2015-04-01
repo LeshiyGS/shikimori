@@ -71,4 +71,6 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
     public Query getQuery() {
         return query;
     }
+
+
 }
