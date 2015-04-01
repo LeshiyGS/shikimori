@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
@@ -27,6 +30,7 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
     private String animeId;
     ScrollView svMain;
     TextView tvTitle;
+    ImageView ivPoster;
 
     private AnimeDetails animeDetails;
 
@@ -43,6 +47,7 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
         View v = inflater.inflate(R.layout.view_shiki_anime_deatales, null);
         svMain = (ScrollView) v.findViewById(R.id.svMain);
         tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+        ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         return v;
     }
 
@@ -95,5 +100,6 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
     private void prepareData() {
        tvTitle.setText(animeDetails.name.toString());
+       ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.img_original, ivPoster);
     }
 }

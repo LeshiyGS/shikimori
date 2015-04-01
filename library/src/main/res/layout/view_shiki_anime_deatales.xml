@@ -15,24 +15,27 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:id="@+id/ivPoster"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop" />
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tvTitle"
             android:gravity="center"
-            android:layout_alignBottom="@+id/imageView"
-            android:textSize="30dp"
-            android:textColor="#ffffffff" />
+            android:textSize="18dp"
+            android:textColor="#ffffffff"
+            android:layout_alignBottom="@+id/ivPoster"
+            android:background="#7f000000" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:id="@+id/imageView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:scaleType="matrix" />
     </RelativeLayout>
     </ScrollView>
 
