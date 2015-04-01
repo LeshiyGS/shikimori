@@ -5,6 +5,7 @@ package org.shikimori.library.loaders;
  */
 public interface ShikiPath {
     public String CALENDAR = "api/calendar";
+    public String COMMENTS = "/api/comments";
     public String ANIMES = "api/animes";
     public String ANIMES_ID = "api/animes/";
     public String AUTH = "users/sign_in";

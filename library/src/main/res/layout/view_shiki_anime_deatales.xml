@@ -36,6 +36,98 @@
             android:layout_alignBottom="@+id/ivPoster"
             android:background="#7f000000" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Информация:"
+            android:id="@+id/tvMenuInfo"
+            android:drawableLeft="@mipmap/ic_info"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/ivPoster"
+            android:textStyle="bold"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:background="#32000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@+id/tvMenuInfo"
+            android:id="@+id/tvInfo"
+            android:gravity="top"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#ff000000"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Описание:"
+            android:id="@+id/tvMenuRewiew"
+            android:drawableLeft="@mipmap/ic_review"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tvInfo"
+            android:textStyle="bold"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:background="#32000000"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_below="@+id/tvMenuRewiew"
+            android:id="@+id/tvReview"
+            android:gravity="top"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+            android:textColor="#ff000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Оценка:"
+            android:id="@+id/tvMenuScore"
+            android:drawableLeft="@mipmap/ic_score"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tvReview"
+            android:textStyle="bold"
+            android:textColor="#ff000000"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:background="#32000000"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbTitle"
+            android:layout_below="@+id/tvMenuScore"
+            android:layout_centerHorizontal="true"
+            android:focusable="false"
+            android:numStars="5"
+            android:layout_margin="10dp"
+            android:isIndicator="true"
+            android:stepSize="0.01" />
+
+
     </RelativeLayout>
     </ScrollView>
 

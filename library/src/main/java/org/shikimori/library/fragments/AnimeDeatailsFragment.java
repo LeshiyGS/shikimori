@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import org.shikimori.library.objects.AnimeDetails;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.Constants;
+import org.shikimori.library.tool.h;
 
 
 /**
@@ -29,8 +31,9 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
     private String animeId;
     ScrollView svMain;
-    TextView tvTitle;
+    TextView tvTitle, tvInfo, tvScore, tvReview;
     ImageView ivPoster;
+    RatingBar rbTitle;
 
     private AnimeDetails animeDetails;
 
@@ -47,7 +50,11 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
         View v = inflater.inflate(R.layout.view_shiki_anime_deatales, null);
         svMain = (ScrollView) v.findViewById(R.id.svMain);
         tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+        tvInfo = (TextView) v.findViewById(R.id.tvInfo);
+        tvScore = (TextView) v.findViewById(R.id.tvMenuScore);
+        tvReview = (TextView) v.findViewById(R.id.tvReview);
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
+        rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
         return v;
     }
 
@@ -99,7 +106,18 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
 
     private void prepareData() {
-       tvTitle.setText(animeDetails.name.toString() + " / " + animeDetails.russian);
-       ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.img_original, ivPoster);
+        AnimeDiscusionFragment.commentable_id = animeDetails.thread_id;
+        tvTitle.setText(animeDetails.name.toString() + " / " + animeDetails.russian);
+        ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.img_original, ivPoster);
+        h.setTextViewHTML(getActivity(), tvInfo, "<b>Тип: </b>"+ animeDetails.kind + "<br>" +
+                "<b>Эпизоды: </b>"+ animeDetails.episodes + "<br>" +
+                "<b>Длительность эпизода: </b>"+ animeDetails.duration + " минуты<br>" +
+                "<b>Статус: </b>"+ animeDetails.aired_on + "<br>" +
+                "<b>Рейтинг: </b>"+ animeDetails.rating + "<br>" +
+                "<b>Жанры: </b>"+ animeDetails.aired_on + "<br>" +
+                "<b>Студии: </b>"+ animeDetails.aired_on);
+        h.setTextViewHTML(getActivity(), tvReview, animeDetails.description_html);
+        h.setTextViewHTML(getActivity(), tvScore, "Оценка: " + animeDetails.score);
+        rbTitle.setRating(Float.parseFloat(animeDetails.score)/2);
     }
 }
