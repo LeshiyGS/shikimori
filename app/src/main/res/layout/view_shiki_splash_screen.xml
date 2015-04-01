@@ -12,6 +12,7 @@
         android:layout_gravity="center"
         android:textColor="@android:color/white"
         android:gravity="bottom"
+        android:text="@string/shiki_site"
         android:textSize="@dimen/guTextSizeBig"
         />
 

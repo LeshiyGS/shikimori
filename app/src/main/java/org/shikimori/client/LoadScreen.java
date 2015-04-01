@@ -30,9 +30,8 @@ public class LoadScreen extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_shiki_splash_screen);
-        tvLogo = (TextView) findViewById(R.id.tvLogo);
-        tvLogo.setText("Shikimori.org");
-        h.setFont(LoadScreen.this, tvLogo, FontCache.FONT.STYLO);
+
+        h.setFont(LoadScreen.this, findViewById(R.id.tvLogo), FontCache.FONT.STYLO);
 
         animateLogo();
         pauseBeforeLoad();
