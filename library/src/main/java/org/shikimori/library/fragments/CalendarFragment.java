@@ -20,6 +20,8 @@ import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -78,7 +80,15 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemCaclendarShiki.class);
+        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemCaclendarShiki.class,
+                new ObjectBuilder.AdvanceCheck<ItemCaclendarShiki>() {
+            @Override
+            public boolean check(ItemCaclendarShiki item, int position) {
+                Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.nextEpisodeAt);
+                item.order = date.getTime();
+                return false;
+            }
+        });
         prepareData(builder.list);
         stopRefresh();
     }
@@ -86,16 +96,23 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
     private void prepareData(List<ItemCaclendarShiki> list) {
         CopyOnWriteArrayList<String> headers = new CopyOnWriteArrayList<>();
         ArrayList<Object> sections = new ArrayList<>();
+        // Сортировка списка по дате
+        Collections.sort(list, new Comparator<ItemCaclendarShiki>() {
+            public int compare(ItemCaclendarShiki emp1, ItemCaclendarShiki emp2) {
+                return emp1.order.compareTo(emp2.order);
+            }
+        });
+        // Строим список с загаловками
         for (int i = 0; i < list.size(); i++) {
             ItemCaclendarShiki itemCaclendarShiki = list.get(i);
-            String date = formatDate(itemCaclendarShiki.nextEpisodeAt, "EEEE - dd MMMM yyyy");
+            String date = formatDate(itemCaclendarShiki.order, "EEEE - dd MMMM yyyy");
 
             if(!headers.contains(date)){
                 sections.add(new SimpleSectionedGridAdapter.Section(i, date));
                 headers.add(date);
             }
         }
-
+        // создаем адаптер
         CalendarAdapter adapter = new CalendarAdapter(activity, list);
         simpleSectionedGridAdapter = new SimpleSectionedGridAdapter(activity, adapter,
                 R.layout.item_shiki_calendar_header, R.id.header_layout, R.id.header);
@@ -105,10 +122,14 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
 
     }
 
+//
+//    String formatDate(String date, String format) {
+//        Date _date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", date);
+//        return h.getStringDate(format, _date);
+//    }
 
-    String formatDate(String date, String format) {
-        Date _date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", date);
-        return h.getStringDate(format, _date);
+    String formatDate(long date, String format) {
+        return h.getStringDate(format, new Date(date));
     }
 
     @Override

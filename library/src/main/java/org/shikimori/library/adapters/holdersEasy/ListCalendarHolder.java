@@ -12,7 +12,7 @@ import org.shikimori.library.R;
 /**
  * Created by Феофилактов on 24.02.2015.
  */
-//@LayoutId(R.layout.item_shiki_calendar)
+//@LayoutId(R.layout.item_shiki_anime_grid)
 public class ListCalendarHolder  {
 
 //    @ViewId(R.id.ivImage)

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
+import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.ItemAnimesShiki;
 import org.shikimori.library.tool.h;
@@ -20,52 +21,21 @@ import java.util.List;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class AnimesAdapter extends ArrayAdapter<ItemAnimesShiki> {
-
-    LayoutInflater inflater;
+public class AnimesAdapter extends BaseAnimeGridAdapter<ItemAnimesShiki> {
 
     public AnimesAdapter(Context context, List<ItemAnimesShiki> list) {
-        super(context, 0, list);
-        inflater = LayoutInflater.from(context);
+        super(context, list);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        View v = convertView;
-        ItemAnimesShiki item = getItem(position);
+    public void setValues(BaseAnimeGridAdapter.ViewHolder holder, ItemAnimesShiki item) {
+        holder.tvTitle.setText(item.name);
+        holder.tvTitleRus.setText(item.russian);
 
-        if (convertView == null) {
-            v = inflater.inflate(R.layout.item_shiki_calendar, parent, false);
-            viewHolder = getViewHolder(v);
-            viewHolder.ivImage.setOnTouchListener(h.getImageHighlight);
-            v.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) v.getTag();
-        }
+        h.setVisibleGone(holder.tvEpisode);
 
-        viewHolder.tvTitle.setText(item.name);
-        viewHolder.tvTitleRus.setText(item.russian);
-
-        viewHolder.tvEpisode.setVisibility(View.GONE);
-
-        viewHolder.ivImage.setImageDrawable(null);
-        ImageLoader.getInstance().displayImage(ShikiApi.getUrl(item.original), viewHolder.ivImage);
-
-        return v;
-    }
-
-    ViewHolder getViewHolder(View v){
-        ViewHolder holder = new ViewHolder();
-        holder.ivImage = (ImageView) v.findViewById(R.id.ivImage);
-        holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        holder.tvTitleRus = (TextView) v.findViewById(R.id.tvTitleRus);
-        holder.tvEpisode = (TextView) v.findViewById(R.id.tvEpisode);
-        return holder;
-    }
-
-    static class ViewHolder {
-        ImageView ivImage;
-        TextView tvTitle, tvTitleRus, tvEpisode;
+        // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
+        holder.ivImage.setImageDrawable(null);
+        ImageLoader.getInstance().displayImage(ShikiApi.getUrl(item.original), holder.ivImage);
     }
 }

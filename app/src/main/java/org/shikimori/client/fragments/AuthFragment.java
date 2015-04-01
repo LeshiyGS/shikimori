@@ -1,6 +1,7 @@
 package org.shikimori.client.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.shikimori.client.BuildConfig;
 import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
 import org.shikimori.library.activity.BaseActivity;
@@ -56,6 +58,12 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         activity.getSupportActionBar().setSubtitle(R.string.auth);
+
+        if(BuildConfig.DEBUG == true){
+            cetLogin.setText("LeshiyGS");
+            cetPassword.setText("339953");
+        }
+
     }
 
     @Override

@@ -12,6 +12,7 @@ public class ItemCaclendarShiki extends JsonParseable implements JsonParseable.C
     public String id, name, russianName, nextEpisode, episodesIired, nextEpisodeAt, imgPreview, imgOrigin;
     public boolean ongoing;
     private JSONObject allData;
+    public Long order;
 
     @Override
     public String toString() {

@@ -40,6 +40,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.daimajia.androidanimations.library.fading_entrances.FadeInAnimator;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ObjectAnimator;
+
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -600,52 +606,23 @@ public class h {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-
             if(v == null)
                 return false;
-
             try {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        final ImageView view = (ImageView) v;
-
-                        //overlay is black with transparency of 0x77 (119)
-                        view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-                        view.invalidate();
-
-
-                        new CountDownTimer(100,100){
-                            @Override
-                            public void onTick(long millisUntilFinished) {
+                        YoYo.with(new FadeInAnimator(){
+                            public void prepare(View target) {
+                                this.getAnimatorAgent().playTogether(new Animator[]{ObjectAnimator.ofFloat(target, "alpha", new float[]{0.5F, 1.0F})});
                             }
-
-                            @Override
-                            public void onFinish() {
-                                try {
-                                    if(view!=null){
-                                        view.getDrawable().clearColorFilter();
-                                        view.invalidate();
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }.start();
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL: {
-//                        ImageView view = (ImageView) v;
-//                        //clear the overlay
-//                        view.getDrawable().clearColorFilter();
-//                        view.invalidate();
+                        }).duration(200)
+                          .playOn(v);
                         break;
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return false;
         }
     };

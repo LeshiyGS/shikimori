@@ -11,6 +11,7 @@ import android.widget.TextView;
 import org.shikimori.library.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.ItemCaclendarShiki;
 import org.shikimori.library.tool.h;
@@ -20,57 +21,26 @@ import java.util.List;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class CalendarAdapter extends ArrayAdapter<ItemCaclendarShiki> {
-
-    LayoutInflater inflater;
+public class CalendarAdapter extends BaseAnimeGridAdapter<ItemCaclendarShiki> {
 
     public CalendarAdapter(Context context, List<ItemCaclendarShiki> list) {
-        super(context, 0, list);
-        inflater = LayoutInflater.from(context);
+        super(context, list);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        View v = convertView;
-        ItemCaclendarShiki item = getItem(position);
-
-        if (convertView == null) {
-            v = inflater.inflate(R.layout.item_shiki_calendar, parent, false);
-            viewHolder = getViewHolder(v);
-            viewHolder.ivImage.setOnTouchListener(h.getImageHighlight);
-            v.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) v.getTag();
-        }
-
-        viewHolder.tvTitle.setText(item.name);
-        viewHolder.tvTitleRus.setText(item.russianName);
+    public void setValues(BaseAnimeGridAdapter.ViewHolder holder, ItemCaclendarShiki item) {
+        holder.tvTitle.setText(item.name);
+        holder.tvTitleRus.setText(item.russianName);
 
         if(item.ongoing){
-            viewHolder.tvEpisode.setText(getContext().getString(R.string.serie_name) + " " + item.nextEpisode);
-            h.setVisible(viewHolder.tvEpisode, true);
+            holder.tvEpisode.setText(getContext().getString(R.string.serie_name) + " " + item.nextEpisode);
+            h.setVisible(holder.tvEpisode, true);
         }else{
-            h.setVisibleGone(viewHolder.tvEpisode);
+            h.setVisibleGone(holder.tvEpisode);
         }
-
-        viewHolder.ivImage.setImageDrawable(null);
-        ImageLoader.getInstance().displayImage(ShikiApi.getUrl(item.imgOrigin), viewHolder.ivImage);
-
-        return v;
+        // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
+        holder.ivImage.setImageDrawable(null);
+        ImageLoader.getInstance().displayImage(ShikiApi.getUrl(item.imgOrigin), holder.ivImage);
     }
 
-    ViewHolder getViewHolder(View v){
-        ViewHolder holder = new ViewHolder();
-        holder.ivImage = (ImageView) v.findViewById(R.id.ivImage);
-        holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        holder.tvTitleRus = (TextView) v.findViewById(R.id.tvTitleRus);
-        holder.tvEpisode = (TextView) v.findViewById(R.id.tvEpisode);
-        return holder;
-    }
-
-    static class ViewHolder {
-        ImageView ivImage;
-        TextView tvTitle, tvTitleRus, tvEpisode;
-    }
 }
