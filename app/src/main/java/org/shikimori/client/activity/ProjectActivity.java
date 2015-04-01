@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import org.shikimori.client.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.tool.Constants;
+import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by me on 30.03.2015.

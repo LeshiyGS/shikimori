@@ -5,10 +5,9 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import org.shikimori.client.activity.AnimeDetailsActivity;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.CalendarFragment;
 import org.shikimori.library.objects.ItemCaclendarShiki;
-import org.shikimori.library.tool.Constants;
+import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Владимир on 31.03.2015.

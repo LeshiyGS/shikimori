@@ -1,15 +1,12 @@
 package org.shikimori.library.fragments;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -21,14 +18,18 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.AnimeManga;
 import org.shikimori.library.objects.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.h;
+
+import java.util.List;
 
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener {
+public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener {
 
     public static final String USER_ID = "user_id";
 
@@ -36,7 +37,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private ImageView avatar;
     private TextView tvUserName;
     private UserDetails userDetails;
-    private TextView tvMiniDetails;
+    private TextView tvMiniDetails,tvAnimeProgress,tvMangaProgress, tvLastOnline;
+    private SeekBar sbAnimeProgress, sbMangaProgress;
+    private View llBody, ivWebShow;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -54,9 +57,20 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shiki_profile, null);
+        llBody = v.findViewById(R.id.ava);
+        ivWebShow = v.findViewById(R.id.ivWebShow);
         avatar = (ImageView) v.findViewById(R.id.ava);
         tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+        tvLastOnline = (TextView) v.findViewById(R.id.tvLastOnline);
         tvMiniDetails = (TextView) v.findViewById(R.id.tvMiniDetails);
+        tvAnimeProgress = (TextView) v.findViewById(R.id.tvAnimeProgress);
+        tvMangaProgress = (TextView) v.findViewById(R.id.tvMangaProgress);
+        sbAnimeProgress = (SeekBar) v.findViewById(R.id.sbAnimeProgress);
+        sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
+        h.setVisible(llBody, false);
+
+        ivWebShow.setOnClickListener(this);
+
         return v;
     }
 
@@ -97,6 +111,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+        h.setVisible(llBody, true);
         stopRefresh();
         userDetails = UserDetails.create(res.getResultObject());
         if(activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id)){
@@ -118,15 +133,95 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             ImageLoader.getInstance().displayImage(userDetails.avatar, avatar);
         tvUserName.setText(userDetails.nickname);
 
-        StringBuffer buf = new StringBuffer();
-        if(userDetails.commonInfo !=null)
-            for (String info : userDetails.commonInfo) {
-                if(buf.length() != 0)
-                    buf.append(" <br/> ");
-                buf.append(info.trim());
-            }
-        h.setTextViewHTML(activity, tvMiniDetails, buf.toString());
+        setSexYearLocation();
 
+        // когда был на сайте
+        tvLastOnline.setText(userDetails.lastOnline);
+        // web site
+        setWebSite();
+        // anime / manga progress
+        setProgress();
+
+        setProgress();
+    }
+
+    private void setProgress() {
+        Integer[] progress;
+        if(userDetails.fullStatuses!=null){
+            // set anime progress
+            progress = getProgress(userDetails.fullStatuses.animes);
+            sbAnimeProgress.setProgress(progress[0]);
+            sbAnimeProgress.setSecondaryProgress(progress[1]);
+            // set manga progress
+            progress = getProgress(userDetails.fullStatuses.manga);
+            sbMangaProgress.setProgress(progress[0]);
+            sbMangaProgress.setSecondaryProgress(progress[1]);
+        }
+    }
+
+    /**
+     * Показываем иконку web странички
+     */
+    private void setWebSite() {
+        if(!TextUtils.isEmpty(userDetails.website))
+            h.setVisible(ivWebShow, true);
+        else
+            h.setVisibleGone(ivWebShow);
+    }
+
+    private void setSexYearLocation() {
+        StringBuffer str = new StringBuffer();
+        // пол
+        if(!TextUtils.isEmpty(userDetails.sex)){
+            switch (userDetails.sex){
+                case "male": str.append(activity.getString(R.string.male)); break;
+                case "female": str.append(activity.getString(R.string.female)); break;
+            }
+        }
+        // сколько лет
+        if(str.length() > 0 && !TextUtils.isEmpty(userDetails.fullYears)){
+            str.append(" / ")
+               .append(activity.getString(R.string.years))
+               .append(" ")
+               .append(userDetails.fullYears);
+        }
+        // где живем
+        if(!TextUtils.isEmpty(userDetails.location))
+            str.append("\n").append(userDetails.location);
+
+        tvMiniDetails.setText(str.toString());
+    }
+
+    /**
+     * Расчет прочитанного из аниме и манги
+     * progress 1 = просмотренно
+       progress 2 = запланированно + смотрю + просмотренно + отложено
+       max size = запланированно + смотрю + просмотренно + отложено + брошено
+     */
+    private Integer[] getProgress(List<AnimeManga> list) {
+        int fullProgress = 0;
+        int firstProgress = 0;
+        int secondProgress = 0;
+        for (AnimeManga animeManga : list) {
+            fullProgress += animeManga.counted;
+            if(AnimeStatuses.COMPLETED.equals(animeManga.name))
+                firstProgress += animeManga.counted;
+            if (!AnimeStatuses.DROPPED.equals(animeManga.name)
+                    && !AnimeStatuses.REWATCHING.equals(animeManga.name))
+                secondProgress += animeManga.counted;
+        }
+
+        return new Integer[]{
+            firstProgress * 100 / fullProgress,
+            secondProgress * 100 / fullProgress
+        };
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.ivWebShow){
+            h.launchUrlLink(activity, userDetails.website);
+        }
     }
 
 //    public class URLDrawable extends BitmapDrawable {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import org.json.JSONObject;
+import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Феофилактов on 29.03.2015.

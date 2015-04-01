@@ -1,4 +1,4 @@
-package org.shikimori.library.tool;
+package org.shikimori.library.tool.constpack;
 
 /**
  * Created by Феофилактов on 28.03.2015.

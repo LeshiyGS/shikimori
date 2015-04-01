@@ -9,11 +9,12 @@
 
 
     <LinearLayout
+        android:id="@+id/llBody"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -24,10 +25,22 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp" />
 
+            <ru.altarix.ui.CustomIconButton
+                android:id="@+id/ivWebShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:uiIcon="@drawable/ic_shiki_web"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:clickable="true"
+                />
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ava"
+                android:layout_toEndOf="@+id/ivWebShow"
                 android:layout_marginLeft="@dimen/defaultPadding">
 
                 <TextView
@@ -37,13 +50,21 @@
                     style="@style/altarixUiText.TextTitle" />
 
                 <TextView
+                    android:id="@+id/tvLastOnline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/altarixUiLabel.mini"
+                    android:textColor="@color/greenColor"
+                    />
+
+                <TextView
                     android:id="@+id/tvMiniDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/altarixUiLabel.mini" />
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -71,13 +92,14 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:padding="0dp"
+                    android:max="100"
                     android:progressDrawable="@drawable/progress_shiki_background"
                     android:thumb="@null" />
 
                 <TextView
+                    android:id="@+id/tvAnimeProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/seeing"
                     android:layout_gravity="center" />
 
             </FrameLayout>
@@ -103,6 +125,16 @@
                 style="@style/altarixUiLabel"
                 android:text="@string/manga" />
 
+            <ru.altarix.ui.CustomIconButton
+                android:id="@+id/ivMangaListShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:uiIcon="@drawable/ic_action_list"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:clickable="true"
+                />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -116,25 +148,17 @@
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:padding="0dp"
-                    android:progressDrawable="@drawable/progress_shiki_background"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progress_shiki_background_pink"
                     android:thumb="@null" />
 
                 <TextView
+                    android:id="@+id/tvMangaProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/seeing"
                     android:layout_gravity="center" />
 
             </FrameLayout>
-            <ru.altarix.ui.CustomIconButton
-                android:id="@+id/ivMangaListShow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:uiIcon="@drawable/ic_action_list"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true"
-                />
         </RelativeLayout>
 
     </LinearLayout>

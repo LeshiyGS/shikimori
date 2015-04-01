@@ -9,7 +9,7 @@ import org.shikimori.library.objects.abs.JsonParseable;
  */
 public class AnimeManga extends JsonParseable implements JsonParseable.Creator<AnimeManga> {
     public String id, groupedId, name;
-    public int size;
+    public int counted;
 
     public static AnimeManga create(JSONObject json) {
         return new AnimeManga().createFromJson(json);
@@ -24,8 +24,8 @@ public class AnimeManga extends JsonParseable implements JsonParseable.Creator<A
         id = helper.addString("id");
         groupedId = helper.addString("grouped_id");
         name = helper.addString("name");
-        size = helper.addInt("size");
-        return null;
+        counted = helper.addInt("size");
+        return this;
     }
 
 }

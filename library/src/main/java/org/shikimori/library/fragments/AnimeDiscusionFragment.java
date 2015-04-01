@@ -8,31 +8,17 @@ import android.widget.ListView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.adapters.AnimesAdapter;
-import org.shikimori.library.adapters.CalendarAdapter;
 import org.shikimori.library.adapters.CommentsAdapter;
-import org.shikimori.library.fragments.base.BaseFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemCaclendarShiki;
 import org.shikimori.library.objects.ItemCommentsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.Constants;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.constpack.Constants;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
-import dev.dworks.libs.astickyheader.ui.PinnedSectionGridView;
-import dev.dworks.libs.astickyheader.ui.PinnedSectionListView;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
@@ -73,7 +59,7 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS));
         loadData();
     }
-
+    // TODO create loader list
     public void loadData() {
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
                 .addParam("commentable_id", treadId)

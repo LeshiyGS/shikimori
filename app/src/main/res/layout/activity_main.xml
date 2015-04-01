@@ -23,10 +23,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
-            android:dividerHeight="1dp"
+            android:dividerHeight="0dp"
             android:divider="#22FFFFFF"
-            android:background="@drawable/drawer_background"
-            android:padding="8dp" />
+            android:background="@drawable/drawer_background" />
     </android.support.v4.widget.DrawerLayout>
 
     <FrameLayout
