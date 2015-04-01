@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bodyScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,6 +44,99 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/logoAnime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiLabel"
+                android:text="@string/anime" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/logoAnime"
+                android:layout_toLeftOf="@+id/ivAnimeListShow"
+                >
+
+                <SeekBar
+                    android:id="@+id/sbAnimeProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:padding="0dp"
+                    android:progressDrawable="@drawable/progress_shiki_background"
+                    android:thumb="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seeing"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+            <ru.altarix.ui.CustomIconButton
+                android:id="@+id/ivAnimeListShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:uiIcon="@drawable/ic_action_list"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:clickable="true"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/logoManga"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiLabel"
+                android:text="@string/manga" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/logoManga"
+                android:layout_toLeftOf="@+id/ivMangaListShow"
+                >
+
+                <SeekBar
+                    android:id="@+id/sbMangaProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:padding="0dp"
+                    android:progressDrawable="@drawable/progress_shiki_background"
+                    android:thumb="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seeing"
+                    android:layout_gravity="center" />
+
+            </FrameLayout>
+            <ru.altarix.ui.CustomIconButton
+                android:id="@+id/ivMangaListShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:uiIcon="@drawable/ic_action_list"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:clickable="true"
+                />
+        </RelativeLayout>
+
     </LinearLayout>
 
 </ScrollView>

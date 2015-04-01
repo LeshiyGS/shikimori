@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="button">
-        <item name="android:padding">@dimen/defaultPaddingMini</item>
-        <item name="android:textColor">@color/white_overlay</item>
-        <item name="android:background">@drawable/button_selector</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/guTextSizeNormal</item>
-    </style>
-
     <style name="altarixUiEditTextStyle" parent="android:Widget.EditText">
         <item name="android:textSize">@dimen/guTextSizeNormal</item>
         <item name="android:textColor">@color/altarixUiTextColor</item>
