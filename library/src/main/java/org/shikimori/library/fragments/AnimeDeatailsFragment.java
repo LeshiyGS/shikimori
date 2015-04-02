@@ -128,18 +128,30 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
         h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
         h.setTextViewHTML(activity, tvScore, "Оценка: " + animeDetails.score);
         rbTitle.setRating(Float.parseFloat(animeDetails.score) / 2);
+
         tvInfo.setText(
-            String.format(activity.getString(R.string.type), animeDetails.kind + "\n") +
-            String.format(activity.getString(R.string.episodes), animeDetails.episodesAired, animeDetails.episodes + "\n") +
-            String.format(activity.getString(R.string.title_time), animeDetails.duration + activity.getString(R.string.min) + "\n") +
-            String.format(activity.getString(R.string.title_status), animeDetails.status + "\n") +
-            String.format(activity.getString(R.string.title_rating), animeDetails.rating + "\n") +
-            String.format(activity.getString(R.string.title_genres), TextUtils.join(", ", animeDetails.genres) + "\n") +
-            String.format(activity.getString(R.string.title_studios), TextUtils.join(", ", animeDetails.studios) + "\n")
+                String.format(activity.getString(R.string.type), animeDetails.kind + "\n") +
+                        String.format(activity.getString(R.string.episodes), animeDetails.episodesAired, animeDetails.episodes + "\n") +
+                        String.format(activity.getString(R.string.title_time), animeDetails.duration + activity.getString(R.string.min) + "\n") +
+                        String.format(activity.getString(R.string.title_status), getStatus() + "\n") +
+                        String.format(activity.getString(R.string.title_rating), animeDetails.rating + "\n") +
+                        String.format(activity.getString(R.string.title_genres), TextUtils.join(", ", animeDetails.genres) + "\n") +
+                        String.format(activity.getString(R.string.title_studios), TextUtils.join(", ", animeDetails.studios) + "\n")
         );
 
         if(activity instanceof UpdateCommentsListener)
             ((UpdateCommentsListener) activity).startLoadComments(animeDetails.thread_id);
 
+    }
+
+    String getStatus(){
+        if (!animeDetails.anons && !animeDetails.ongoing){
+            return activity.getString(R.string.incoming);
+        }else if(animeDetails.anons){
+            return activity.getString(R.string.anons);
+        }else if(animeDetails.ongoing){
+            return activity.getString(R.string.ongoing);
+        }
+        return "";
     }
 }

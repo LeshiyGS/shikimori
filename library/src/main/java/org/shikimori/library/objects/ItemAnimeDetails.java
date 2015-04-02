@@ -3,7 +3,6 @@ package org.shikimori.library.objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.abs.AbstractHelperObj;
-import org.shikimori.library.objects.abs.JsonParseable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,24 +45,21 @@ public class ItemAnimeDetails extends ItemAnimesShiki {
         user_rate  = helper.addString("user_rate");
         favoured = json.optBoolean("favoured");
 
-        JSONArray gen = json.optJSONArray("genres");
-        if(gen!=null){
-            genres = new ArrayList<>();
-            for (int i = 0; i < gen.length(); i++) {
-                JSONObject item = gen.optJSONObject(i);
-                genres.add(item.optString("russian"));
-            }
-        }
+        genres  = getList(json.optJSONArray("genres"), "russian");
+        studios = getList(json.optJSONArray("studios"), "name");
 
-        JSONArray std = json.optJSONArray("studios");
-        if(std!=null){
-            studios = new ArrayList<>();
-            for (int i = 0; i < std.length(); i++) {
-                JSONObject item = std.optJSONObject(i);
-                studios.add(item.optString("name"));
-            }
-        }
         return this;
+    }
+
+    ArrayList<String> getList(JSONArray arr, String name){
+        ArrayList<String> list = new ArrayList<>();
+        if(arr == null)
+            return list;
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject item = arr.optJSONObject(i);
+            list.add(item.optString(name));
+        }
+        return list;
     }
 
 

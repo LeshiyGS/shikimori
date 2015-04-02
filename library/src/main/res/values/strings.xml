@@ -37,4 +37,7 @@
     <string name="title_rating"><b>Рейтинг: </b> %1$s</string>
     <string name="title_genres"><b>Жанры: </b> %1$s</string>
     <string name="title_studios"><b>Студии: </b>" %1$s</string>
+    <string name="incoming">Вышло</string>
+    <string name="anons">Анонс</string>
+    <string name="ongoing">Онгоинг</string>
 </resources>
