@@ -9,7 +9,7 @@ import org.shikimori.library.objects.abs.JsonParseable;
  * Created by LeshiyGS on 30.08.2014.
  */
 public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Creator<ItemAnimesShiki> {
-    public String id, name,russianName, nextEpisodeAt, imgOriginal, imgPreview,img_x96,img_x64,url,episodes, episodesAired;
+    public String id, name,russianName, nextEpisodeAt, imgOriginal, imgPreview,img_x96,img_x64, url ,episodes, episodesAired, status;
     public boolean ongoing, anons;
     protected JSONObject allData;
 
@@ -32,6 +32,7 @@ public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Crea
         AbstractHelperObj helper = new AbstractHelperObj(json);
         id = helper.addString("id");
         name = helper.addString("name");
+        url = helper.addString("utl");
         russianName = helper.addString("russian");
         episodes = helper.addString("episodes");
         episodesAired = helper.addString("episodes_aired");
@@ -39,6 +40,15 @@ public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Crea
 
         ongoing = json.optBoolean("ongoing");
         anons = json.optBoolean("anons");
+
+        if (!anons && !ongoing){
+            status = "Вышло";
+            episodesAired = episodes;
+        }else if(anons){
+            status = "Анонс";
+        }else if(ongoing){
+            status = "Онгоинг";
+        }
 
         JSONObject image = json.optJSONObject("image");
         if(image!=null){

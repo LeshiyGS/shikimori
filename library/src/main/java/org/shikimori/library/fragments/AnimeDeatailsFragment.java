@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import ru.altarix.ui.tool.TextStyling;
 
 
 /**
- * Created by Владимир on 31.03.2015.
+ * Created by LeshiyGS on 31.03.2015.
  */
 public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener{
 
@@ -124,19 +125,18 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
             tvTitle.setText(animeDetails.name);
 
         ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.imgOriginal, ivPoster);
-        h.setTextViewHTML(getActivity(), tvInfo, "<b>Тип: </b>" + animeDetails.kind + "<br>" +
-                "<b>Эпизоды: </b>" + animeDetails.episodes + "<br>" +
-                "<b>Длительность эпизода: </b>" + animeDetails.duration + " минуты<br>" +
-                "<b>Статус: </b>" + animeDetails.aired_on + "<br>" +
-                "<b>Рейтинг: </b>" + animeDetails.rating + "<br>" +
-                "<b>Жанры: </b>" + animeDetails.aired_on + "<br>" +
-                "<b>Студии: </b>" + animeDetails.aired_on);
         h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
         h.setTextViewHTML(activity, tvScore, "Оценка: " + animeDetails.score);
         rbTitle.setRating(Float.parseFloat(animeDetails.score) / 2);
-        // exemple
-        String.format(activity.getString(R.string.episodes), animeDetails.episodes + "\n");
-
+        tvInfo.setText(
+            String.format(activity.getString(R.string.type), animeDetails.kind + "\n") +
+            String.format(activity.getString(R.string.episodes), animeDetails.episodesAired, animeDetails.episodes + "\n") +
+            String.format(activity.getString(R.string.title_time), animeDetails.duration + activity.getString(R.string.min) + "\n") +
+            String.format(activity.getString(R.string.title_status), animeDetails.status + "\n") +
+            String.format(activity.getString(R.string.title_rating), animeDetails.rating + "\n") +
+            String.format(activity.getString(R.string.title_genres), TextUtils.join(", ", animeDetails.genres) + "\n") +
+            String.format(activity.getString(R.string.title_studios), TextUtils.join(", ", animeDetails.studios) + "\n")
+        );
 
         if(activity instanceof UpdateCommentsListener)
             ((UpdateCommentsListener) activity).startLoadComments(animeDetails.thread_id);

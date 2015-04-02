@@ -26,6 +26,8 @@
             android:dividerHeight="0dp"
             android:divider="#22FFFFFF"
             android:background="@drawable/drawer_background" />
+            android:background="@drawable/drawer_background"
+            android:padding="@dimen/defaultPaddingMini" />
     </android.support.v4.widget.DrawerLayout>
 
     <FrameLayout

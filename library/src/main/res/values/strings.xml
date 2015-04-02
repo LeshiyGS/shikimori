@@ -22,11 +22,19 @@
     <string name="Discusion">Обсуждения</string>
     <string name="seeing">Просмотренно %1$d / %2$d</string>
     <string name="reading">Прочитано %1$d / %2$d</string>
-    <string name="episodes"><b>Эпизоды</b> %1$s</string>
+    <string name="episodes"><b>Эпизоды: </b> %1$s / %2$s</string>
     <string name="male">муж</string>
     <string name="female">жен</string>
     <string name="years">лет:</string>
+    <string name="min"> мин.</string>
     <string name="info">Информация</string>
     <string name="description">Описание</string>
     <string name="rating">Оценка</string>
+    <string name="gray">#222222</string>
+    <string name="type"><b>Тип: </b> %1$s</string>
+    <string name="title_time"><b>Длительность эпизода: </b> %1$s</string>
+    <string name="title_status"><b>Статус: </b> %1$s</string>
+    <string name="title_rating"><b>Рейтинг: </b> %1$s</string>
+    <string name="title_genres"><b>Жанры: </b> %1$s</string>
+    <string name="title_studios"><b>Студии: </b>" %1$s</string>
 </resources>

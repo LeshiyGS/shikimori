@@ -1,7 +1,9 @@
 package org.shikimori.library.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.h;
 
 import java.util.List;
 
@@ -41,6 +44,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
     private boolean dowbleBack;
     private ShikiUser shikiUser;
 
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

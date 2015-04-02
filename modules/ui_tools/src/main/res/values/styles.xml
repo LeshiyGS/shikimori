@@ -57,6 +57,11 @@
         <item name="android:textSize">@dimen/guTextSizeMini</item>
     </style>
 
+    <style name="altarixUiLabel.miniblack" parent="altarixUiLabel">
+        <item name="android:textSize">@dimen/guTextSizeMini</item>
+        <item name="android:textColor">@color/altarixUiTextColor</item>
+    </style>
+
     <style name="altarixUiLabel.smallWithPaddintLeft" parent="altarixUiLabel.small">
         <item name="android:paddingLeft">@dimen/defaultPadding4</item>
     </style>

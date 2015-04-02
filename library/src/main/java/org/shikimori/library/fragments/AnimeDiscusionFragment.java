@@ -27,6 +27,8 @@ import java.util.List;
  */
 public class AnimeDiscusionFragment extends BaseListViewFragment{
 
+
+
     private String animeId;
     private String treadId;
     public static final int LIMIT = 20;
