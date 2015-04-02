@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ShikiUser;
 
 /**
@@ -27,6 +28,7 @@ public class ShikiApplikation extends Application {
             // ignored
         }
         new ShikiUser(this);
+        ShikiApi.setIsDebug(BuildConfig.DEBUG);
         initImageLoader(getApplicationContext());
     }
 

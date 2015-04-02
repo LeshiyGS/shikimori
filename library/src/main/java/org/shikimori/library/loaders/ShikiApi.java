@@ -5,7 +5,13 @@ package org.shikimori.library.loaders;
  */
 public class ShikiApi {
     public static final String HTTP_SERVER = "http://shikimori.org";
+    public static boolean isDebug;
+
     public static String getUrl(String aniApi) {
         return HTTP_SERVER + "/" + aniApi;
+    }
+
+    public static void setIsDebug(boolean isDebug) {
+        ShikiApi.isDebug = isDebug;
     }
 }

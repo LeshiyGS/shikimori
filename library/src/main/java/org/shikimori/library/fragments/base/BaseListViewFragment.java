@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
+import com.paging.listview.PagingListView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
@@ -28,46 +29,50 @@ import org.shikimori.library.tool.h;
 /**
  * Created by Владимир on 31.03.2015.
  */
-public abstract class BaseGridViewFragment extends BaseListFragment<BaseActivity> {
-    private PaggingGridView2 gvList;
+public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity> {
+    private PagingListView lvList;
     private Parcelable state;
-    private View footerGridLoading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_grid, null);
-        gvList = (PaggingGridView2) v.findViewById(R.id.gvList);
-        gvList.setOnItemClickListener(this);
-        gvList.setOnEndListListener(endGridListener);
-        footerGridLoading = inflater.inflate(R.layout.loading_view, null);
-        gvList.addFooterView(footerGridLoading);
-        gvList.setOnScrollListener(pauseImageLoading);
+        View v = inflater.inflate(R.layout.view_shiki_list, null);
+        lvList = (PagingListView) v.findViewById(R.id.lvList);
+        lvList.setHasMoreItems(true);
+        lvList.setOnItemClickListener(this);
+        lvList.setPagingableListener(endListListener);
+        lvList.setOnScrollListener(pauseImageLoading);
         return v;
     }
 
-    PaggingGridView2.OnEndListListener endGridListener = new PaggingGridView2.OnEndListListener() {
+    /**
+     * Достигаем последнего элемента, грузим новые данные
+     */
+    PagingListView.Pagingable endListListener = new PagingListView.Pagingable() {
         @Override
-        public void endReach() {
+        public void onLoadMoreItems() {
             page++;
             loadData();
         }
     };
 
+    /**
+     * View id на которую привязываем pull to refresh
+     * @return
+     */
     @Override
     public int pullableViewId() {
-        return R.id.gvList;
+        return R.id.lvList;
     }
 
-    @Override
     public void setAdapter(BaseAdapter adapter) {
         // save position
         if(page != DEFAULT_FIRST_PAGE)
-            state = gvList.onSaveInstanceState();
+            state = lvList.onSaveInstanceState();
         // set data
-        gvList.setAdapter(adapter);
+        lvList.setAdapter(adapter);
         // restore position
         if(state!=null)
-            gvList.onRestoreInstanceState(state);
+            lvList.onRestoreInstanceState(state);
         state = null;
     }
 
@@ -75,12 +80,11 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseActivity
      * Показываем лоадер если есть еще что подгружать
      * @param more
      */
-    @Override
     public void hasMoreItems(boolean more){
-        if(!more)
-            h.setVisibleGone(footerGridLoading);
-        else
-            h.setVisible(footerGridLoading, true);
-        gvList.setHasMoreItems(more);
+        try {
+            lvList.onFinishLoading(more, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

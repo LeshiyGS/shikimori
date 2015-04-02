@@ -111,12 +111,18 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
 
     private void prepareData() {
 
+        if(animeDetails.id == null)
+            return;
+
         TextStyling styling = new TextStyling()
                 .addGlobalStyle(TextStyling.TextStyle.COLOR, "66ffffff");
 
-        Spannable text = styling.formatString(animeDetails.russianName, animeDetails.name + "\n" + animeDetails.russianName);
+        if(animeDetails.russianName!=null){
+            Spannable text = styling.formatString(animeDetails.russianName, animeDetails.name + "\n" + animeDetails.russianName);
+            tvTitle.setText(text);
+        } else
+            tvTitle.setText(animeDetails.name);
 
-        tvTitle.setText(text);
         ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.imgOriginal, ivPoster);
         h.setTextViewHTML(getActivity(), tvInfo, "<b>Тип: </b>" + animeDetails.kind + "<br>" +
                 "<b>Эпизоды: </b>" + animeDetails.episodes + "<br>" +
@@ -125,8 +131,8 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
                 "<b>Рейтинг: </b>" + animeDetails.rating + "<br>" +
                 "<b>Жанры: </b>" + animeDetails.aired_on + "<br>" +
                 "<b>Студии: </b>" + animeDetails.aired_on);
-        h.setTextViewHTML(getActivity(), tvReview, animeDetails.description_html);
-        h.setTextViewHTML(getActivity(), tvScore, "Оценка: " + animeDetails.score);
+        h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
+        h.setTextViewHTML(activity, tvScore, "Оценка: " + animeDetails.score);
         rbTitle.setRating(Float.parseFloat(animeDetails.score) / 2);
         // exemple
         String.format(activity.getString(R.string.episodes), animeDetails.episodes + "\n");

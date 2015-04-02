@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle"
+            android:dither="true">
+
+            <corners android:radius="@dimen/defaultPadding3"/>
+
+            <solid android:color="@color/black_owerlay_20" />
+
+        </shape>
+    </item>
+
+    <item android:bottom="2dp">
+        <shape android:shape="rectangle"
+            android:dither="true">
+
+            <corners android:radius="@dimen/defaultPadding3" />
+
+            <solid android:color="@android:color/white" />
+
+            <padding android:bottom="@dimen/defaultPadding"
+                android:left="@dimen/defaultPadding"
+                android:right="@dimen/defaultPadding"
+                android:top="@dimen/defaultPadding" />
+        </shape>
+    </item>
+</layer-list>

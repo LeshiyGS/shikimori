@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -15,7 +16,9 @@ import com.loopj.android.http.ResponseHandlerInterface;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.shikimori.library.BuildConfig;
 import org.shikimori.library.R;
+import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -28,6 +31,7 @@ public class Query {
     public static final long HALFHOUR = 1800000L; // 30 минут
     public static final long HOUR = 3600000L;
     public static final long DAY = 86400000L;
+    private static final String TAG = "httpquery";
 
     static AsyncHttpClient client;
     RequestParams params;
@@ -161,6 +165,8 @@ public class Query {
             if(cur.moveToFirst()){
                 String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
                 data = data.replace("__|__","'");
+                if(ShikiApi.isDebug)
+                    Log.d(TAG, "cache: " + data);
                 StatusResult res = new StatusResult(data, type);
                 res.setSuccess();
                 if (successListener != null)
@@ -174,6 +180,10 @@ public class Query {
     }
 
     public void getResult(final OnQuerySuccessListener successListener) {
+        if(ShikiApi.isDebug){
+            Log.d(TAG, "request: " +prefix);
+            Log.d(TAG, "params: " +params.toString());
+        }
         if (getCache(successListener))
             return;
         if (!h.getConnection(context)) {
@@ -208,9 +218,16 @@ public class Query {
 
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                if (context == null)
+                if (context == null){
+                    if(ShikiApi.isDebug)
+                        Log.d(TAG, "response success but context is null (no ui return)");
                     return;
+                }
                 String data = new String(bytes);
+
+                if(ShikiApi.isDebug)
+                    Log.d(TAG, "response: " + data);
+
                 StatusResult res = new StatusResult(data, reqData.type);
                 res.setHeaders(headers);
                 // TODO Сделать обработчик ошибок от shikimori
@@ -230,6 +247,8 @@ public class Query {
                 StatusResult stat = new StatusResult();
                 stat.setServerError();
                 showError(stat);
+                if(ShikiApi.isDebug)
+                    Log.d(TAG, "server not response: " + new String(bytes));
             }
         };
     }

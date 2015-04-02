@@ -8,7 +8,9 @@ import android.widget.ListView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.adapters.AnimesAdapter;
 import org.shikimori.library.adapters.CommentsAdapter;
+import org.shikimori.library.fragments.base.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -23,12 +25,12 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener{
+public class AnimeDiscusionFragment extends BaseListViewFragment{
 
     private String animeId;
-    private ListView gvList;
-    private CommentsAdapter adapter;
     private String treadId;
+    public static final int LIMIT = 20;
+    private CommentsAdapter adapter;
 
     public static AnimeDiscusionFragment newInstance(Bundle b) {
         AnimeDiscusionFragment frag = new AnimeDiscusionFragment();
@@ -37,25 +39,20 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_list, null);
-        gvList = (ListView) v.findViewById(R.id.gvList);
-        return  v;
-    }
-
-    @Override
-    public int pullableViewId() {
-        return R.id.gvList;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initArgiments();
-     }
+    }
 
     @Override
     public void onStartRefresh() {
+        super.onStartRefresh();
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS));
         loadData();
     }
@@ -64,8 +61,8 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
                 .addParam("commentable_id", treadId)
                 .addParam("commentable_type", "Entry")
-                .addParam("limit", "20")
-                .addParam("page", "1")
+                .addParam("limit", LIMIT)
+                .addParam("page", page)
                 .addParam("desc", "1")
                 .setCache(true, Query.DAY)
                 .getResult(this);
@@ -81,16 +78,33 @@ public class AnimeDiscusionFragment extends PullableFragment<BaseActivity> imple
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemCommentsShiki.class);
-        prepareData(builder.list);
         stopRefresh();
+        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemCommentsShiki.class);
+
+        int size = builder.list.size();
+        // если предыдущее количество кратно limit+1
+        // значит есть еще данные
+        if(size!=0 && size%((LIMIT)+1) == 0){
+            hasMoreItems(true);
+            // удаляем последний элемент
+            builder.list.remove(size - 1);
+        } else
+            hasMoreItems(false);
+        prepareData(builder.list);
     }
 
     private void prepareData(List<ItemCommentsShiki> list) {
-        CommentsAdapter adapter = new CommentsAdapter(activity, list);
+        if (adapter == null){
+            adapter = new CommentsAdapter(activity, list);
+            setAdapter(adapter);
+        }else {
+            if(page == DEFAULT_FIRST_PAGE)
+                adapter.clear();
 
-        gvList.setAdapter(adapter);
-
+            for (int i = 0; i < list.size(); i++) {
+                adapter.add(list.get(i));
+            }
+        }
     }
 
     public void startLoadComments(String treadId) {

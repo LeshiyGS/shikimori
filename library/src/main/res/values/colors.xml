@@ -12,6 +12,7 @@
     <color name="drawerBackground">#546e7a</color>
     <color name="gray_black">#333333</color>
     <color name="title_black_transparent">#aa000000</color>
+    <color name="black_owerlay_20">#33000000</color>
     <color name="black_owerlay_40">#66000000</color>
     <color name="black_owerlay_60">#99000000</color>
     <color name="black_owerlay_80">#CC000000</color>

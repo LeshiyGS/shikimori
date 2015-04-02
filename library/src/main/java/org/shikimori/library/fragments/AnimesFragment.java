@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments;
 
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +15,6 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimesShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.tool.h;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
 public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     private ObjectBuilder builder;
-    int limit = 20;
+    private static int LIMIT = 20;
     private AnimesAdapter adapter;
 
     public static AnimesFragment newInstance() {
@@ -44,9 +44,15 @@ public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuer
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        StartFirstLoad();
+    }
+
+    @Override
     public void loadData() {
         query.init(ShikiApi.getUrl(ShikiPath.ANIMES), StatusResult.TYPE.ARRAY)
-            .addParam("limit", limit)
+            .addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("search", getSearchText())
             .setCache(true, Query.DAY)
@@ -60,10 +66,10 @@ public class AnimesFragment extends BaseGridViewFragment implements Query.OnQuer
         int size = builder.list.size();
         // если предыдущее количество кратно limit+1
         // значит есть еще данные
-        if(size%((limit)+1) == 0){
+        if(size!=0 && size%((LIMIT)+1) == 0){
             hasMoreItems(true);
             // удаляем последний элемент
-            builder.list.remove(size - 1);
+            builder.list.remove(builder.list.size() - 1);
         } else
             hasMoreItems(false);
 
