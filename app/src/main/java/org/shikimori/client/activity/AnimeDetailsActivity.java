@@ -2,6 +2,7 @@ package org.shikimori.client.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import org.shikimori.client.R;
 import org.shikimori.client.adapters.DrawerAdapter;
@@ -9,6 +10,7 @@ import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.AnimeDiscusionFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.interfaces.UpdateCommentsListener;
+import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class AnimeDetailsActivity extends DrawerActivity implements UpdateCommen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setAnimeTitle();
+
         // данные об anime (id)
         Bundle b = getIntent().getExtras();
         // список фрагментов
@@ -37,6 +41,15 @@ public class AnimeDetailsActivity extends DrawerActivity implements UpdateCommen
             getString(R.string.anime),
             getString(R.string.Discusion)
         ));
+    }
+
+    private void setAnimeTitle() {
+        Bundle b = getIntent().getExtras();
+        if(b==null)
+            return;
+        String title = b.getString(Constants.ANIME_NAME);
+        if(!TextUtils.isEmpty(title))
+            setTitle(title);
     }
 
     @Override

@@ -26,6 +26,7 @@ public class AnimesShikiFragment extends AnimesFragment {
         ItemAnimesShiki item = (ItemAnimesShiki) parent.getAdapter().getItem(position);
         Intent i = new Intent(activity, AnimeDetailsActivity.class);
         i.putExtra(Constants.ANIME_ID, item.id);
+        i.putExtra(Constants.ANIME_NAME, item.name);
         activity.startActivity(i);
     }
 }

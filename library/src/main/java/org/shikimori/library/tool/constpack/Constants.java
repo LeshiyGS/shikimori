@@ -7,4 +7,5 @@ public class Constants {
     public static final String SETTINGS = "SETTINGS";
     public static final String SETTINGS_USER = "SETTINGS_USER";
     public static final String ANIME_ID = "anime_id";
+    public static final String ANIME_NAME = "anime_name";
 }

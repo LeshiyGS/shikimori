@@ -27,6 +27,7 @@ public class CalendarShikiFragment extends CalendarFragment {
         ItemCaclendarShiki item = (ItemCaclendarShiki) parent.getAdapter().getItem(position);
         Intent i = new Intent(activity, AnimeDetailsActivity.class);
         i.putExtra(Constants.ANIME_ID, item.id);
+        i.putExtra(Constants.ANIME_NAME, item.name);
         activity.startActivity(i);
     }
 }
