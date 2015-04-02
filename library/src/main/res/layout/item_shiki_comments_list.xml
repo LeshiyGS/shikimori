@@ -2,42 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:background="@drawable/card_style">
 
     <ImageView
-        android:layout_width="58dp"
-        android:layout_height="58dp"
-        android:id="@+id/ivUser" />
+        android:id="@+id/ivUser"
+        android:layout_width="@dimen/defaultPadding58"
+        android:layout_height="@dimen/defaultPadding58"/>
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top">
+        android:layout_marginLeft="@dimen/defaultPaddingMini"
+        >
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/tvUserName"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:paddingTop="10dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiText"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/tvCommentsDate"
-            android:layout_gravity="center_horizontal"
-            android:textColor="#000000" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiLabel.mini"
+            />
 
         <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:id="@+id/tvCommentsText"
-            android:layout_gravity="center_horizontal"
-            android:textColor="#000000" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/defaultPaddingMini"
+            style="@style/altarixUiText"
+            />
     </LinearLayout>
 </LinearLayout>

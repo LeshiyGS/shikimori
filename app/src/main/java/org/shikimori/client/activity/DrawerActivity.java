@@ -103,7 +103,7 @@ public class DrawerActivity extends ProjectActivity implements UserDataChangeLis
             }
 
             chooseItem(view.getId());
-            mDrawerAdapter.setSelected(position);
+            mDrawerAdapter.setSelected(view.getId());
         }
     };
 

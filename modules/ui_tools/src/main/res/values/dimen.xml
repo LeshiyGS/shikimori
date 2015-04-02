@@ -19,6 +19,7 @@
     <dimen name="defaultPaddingBig">24dp</dimen>
     <dimen name="defaultPaddingEnormous">32dp</dimen>
     <dimen name="defaultPaddingLarge">48dp</dimen>
+    <dimen name="defaultPadding58">58dp</dimen>
     <dimen name="negativeTop">-10dp</dimen>
     <dimen name="paddingMapInfoLeft">40dp</dimen>
     <dimen name="paddingMfcQueueTime">76dp</dimen>
