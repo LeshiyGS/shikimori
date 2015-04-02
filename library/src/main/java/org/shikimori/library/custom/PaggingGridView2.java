@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
-import in.srain.cube.views.GridViewWithHeaderAndFooter;
 
 /**
  * Created by Феофилактов on 26.01.2015.

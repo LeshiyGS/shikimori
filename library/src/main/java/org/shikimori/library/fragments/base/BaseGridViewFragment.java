@@ -2,27 +2,14 @@ package org.shikimori.library.fragments.base;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.PaggingGridView2;
-import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.h;
 
 /**
@@ -61,23 +48,24 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseActivity
     @Override
     public void setAdapter(BaseAdapter adapter) {
         // save position
-        if(page != DEFAULT_FIRST_PAGE)
+        if (page != DEFAULT_FIRST_PAGE)
             state = gvList.onSaveInstanceState();
         // set data
         gvList.setAdapter(adapter);
         // restore position
-        if(state!=null)
+        if (state != null)
             gvList.onRestoreInstanceState(state);
         state = null;
     }
 
     /**
      * Показываем лоадер если есть еще что подгружать
+     *
      * @param more
      */
     @Override
-    public void hasMoreItems(boolean more){
-        if(!more)
+    public void hasMoreItems(boolean more) {
+        if (!more)
             h.setVisibleGone(footerGridLoading);
         else
             h.setVisible(footerGridLoading, true);
