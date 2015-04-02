@@ -17,8 +17,11 @@ import org.shikimori.client.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.controllers.AuthShikiController;
 import org.shikimori.library.fragments.base.BaseFragment;
+import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -59,7 +62,7 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
         super.onActivityCreated(savedInstanceState);
         activity.getSupportActionBar().setSubtitle(R.string.auth);
 
-        if(BuildConfig.DEBUG == true){
+        if(ShikiApi.isDebug){
             cetLogin.setText("LeshiyGS");
             cetPassword.setText("339953");
         }
@@ -82,7 +85,7 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
             // show loader
             activity.getLoaderController().show();
             // start auth
-            AuthShikiController authController = new AuthShikiController(activity, query, activity.getShikiUser());
+            AuthShikiController authController = new AuthShikiController(query, activity.getShikiUser());
             authController.shikiAuth(login, pass, this);
         }
     }
@@ -95,7 +98,7 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
     public void onQuerySuccess(StatusResult res) {
         activity.getLoaderController().hide();
         // success auth
-        if(res.isSuccess()){
+        if(res.isSuccess() && activity.getShikiUser().getId()!=null){
             activity.startActivity(new Intent(activity, MainActivity.class));
             activity.finish();
         // error auth

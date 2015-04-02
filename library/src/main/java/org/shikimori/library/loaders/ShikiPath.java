@@ -8,7 +8,8 @@ public interface ShikiPath {
     public String COMMENTS = "/api/comments";
     public String ANIMES = "api/animes";
     public String ANIMES_ID = "api/animes/";
-    public String AUTH = "users/sign_in";
+//    public String AUTH = "users/sign_in";
+    public String AUTH = "api/sessions";
     public String GET_AUTH_THOKEN = "api/authenticity_token";
     public String GET_USER_DATA = "api/users/whoami";
     public String GET_USER_DETAILS = "api/users/";

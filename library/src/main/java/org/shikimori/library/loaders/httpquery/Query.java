@@ -16,9 +16,12 @@ import com.loopj.android.http.ResponseHandlerInterface;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.shikimori.library.BuildConfig;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -49,6 +52,7 @@ public class Query {
     private boolean cache = false;
     private long timeCache = HALFHOUR; // 30 минут
     private DbCache dbCache;
+    private boolean useAutorization;
 
     public enum METHOD{
         GET, POST
@@ -97,6 +101,7 @@ public class Query {
         // add user token
         if(ShikiUser.getToken()!=null)
             addHeader("Set-Cookie", ShikiUser.getToken());
+        useAutorization = false;
         params = new RequestParams();
         return this;
     }
@@ -186,11 +191,46 @@ public class Query {
         }
         if (getCache(successListener))
             return;
+
         if (!h.getConnection(context)) {
             h.showMsg(context, R.string.error_connection);
             hideLoaders();
             return;
         }
+
+        if(useAutorization){
+            requestAutorizeToken(successListener);
+        } else {
+            requestToServer(successListener);
+        }
+
+
+    }
+
+    private void requestAutorizeToken(final OnQuerySuccessListener successListener){
+        client.removeAllHeaders();
+        client.get(ShikiApi.getUrl(ShikiPath.GET_AUTH_THOKEN), new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                StatusResult res = new StatusResult(new String(responseBody), StatusResult.TYPE.OBJECT);
+                res.setHeaders(headers);
+                String cookie = res.getHeader("Set-Cookie");
+                client.removeAllHeaders();
+                client.addHeader("Set-Cookie", cookie);
+                params.add("authenticity_token", res.getParameter("authenticity_token"));
+                requestToServer(successListener);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                failResult(responseBody);
+            }
+        });
+
+
+    }
+
+    private void requestToServer(final OnQuerySuccessListener successListener){
         if(method == METHOD.POST)
             client.post(prefix, params, getSuccessListener(successListener));
         else if (method == METHOD.GET)
@@ -244,13 +284,26 @@ public class Query {
 
             @Override
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                StatusResult stat = new StatusResult();
-                stat.setServerError();
-                showError(stat);
-                if(ShikiApi.isDebug)
-                    Log.d(TAG, "server not response: " + new String(bytes));
+                failResult(bytes);
             }
         };
+    }
+
+    void failResult(byte[] bytes){
+        StatusResult stat = new StatusResult();
+        try {
+            JSONObject data = new JSONObject(new String(bytes));
+            if(data.has("error")){
+                stat.setError();
+                stat.setMsg(data.optString("error"));
+            }
+        } catch (Exception e) {
+            stat.setServerError();
+            e.printStackTrace();
+        }
+        showError(stat);
+        if(ShikiApi.isDebug)
+            Log.d(TAG, "server not response: " + new String(bytes));
     }
 
     /**
@@ -326,6 +379,12 @@ public class Query {
             }
         }
         h.showMsg(context, res.getMsg());
+    }
+
+
+    public Query useAutorisation(){
+        useAutorization = true;
+        return this;
     }
 
     /**
