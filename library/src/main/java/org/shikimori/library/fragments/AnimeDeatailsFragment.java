@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
+import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,13 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.AnimeDetails;
+import org.shikimori.library.objects.ItemAnimeDetails;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
+
+import ru.altarix.ui.tool.TextStyling;
 
 
 /**
@@ -36,9 +39,7 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
     ImageView ivPoster;
     RatingBar rbTitle;
 
-    private AnimeDetails animeDetails;
-
-    private ObjectBuilder builder;
+    private ItemAnimeDetails animeDetails;
 
     public static AnimeDeatailsFragment newInstance(Bundle b) {
         AnimeDeatailsFragment frag = new AnimeDeatailsFragment();
@@ -103,14 +104,20 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
         if(activity == null)
             return;
         stopRefresh();
-        animeDetails = AnimeDetails.create(res.getResultObject());
+        animeDetails = ItemAnimeDetails.create(res.getResultObject());
         prepareData();
     }
 
 
     private void prepareData() {
-        tvTitle.setText(animeDetails.name.toString() + " / " + animeDetails.russian);
-        ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.img_original, ivPoster);
+
+        TextStyling styling = new TextStyling()
+                .addGlobalStyle(TextStyling.TextStyle.COLOR, "66ffffff");
+
+        Spannable text = styling.formatString(animeDetails.russianName, animeDetails.name + "\n" + animeDetails.russianName);
+
+        tvTitle.setText(text);
+        ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.imgOriginal, ivPoster);
         h.setTextViewHTML(getActivity(), tvInfo, "<b>Тип: </b>" + animeDetails.kind + "<br>" +
                 "<b>Эпизоды: </b>" + animeDetails.episodes + "<br>" +
                 "<b>Длительность эпизода: </b>" + animeDetails.duration + " минуты<br>" +

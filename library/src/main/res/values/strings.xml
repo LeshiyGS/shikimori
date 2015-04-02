@@ -26,4 +26,7 @@
     <string name="male">муж</string>
     <string name="female">жен</string>
     <string name="years">лет:</string>
+    <string name="info">Информация</string>
+    <string name="description">Описание</string>
+    <string name="rating">Оценка</string>
 </resources>

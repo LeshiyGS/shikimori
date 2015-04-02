@@ -8,17 +8,8 @@ import org.shikimori.library.objects.abs.JsonParseable;
 /**
  * Created by Владимир on 27.08.2014.
  */
-public class ItemMangaShiki extends JsonParseable implements JsonParseable.Creator<ItemMangaShiki> {
-    public String id, name, russianName, nextEpisode, episodesIired, nextEpisodeAt, imgPreview, imgOrigin;
-    public boolean ongoing;
-    private JSONObject allData;
-
-    @Override
-    public String toString() {
-        if (allData != null)
-            return allData.toString();
-        return "";
-    }
+public class ItemMangaShiki extends ItemAnimesShiki {
+    public String nextEpisode;
 
     public static ItemMangaShiki create(JSONObject json) {
         return new ItemMangaShiki().createFromJson(json);
@@ -26,31 +17,11 @@ public class ItemMangaShiki extends JsonParseable implements JsonParseable.Creat
 
     @Override
     public ItemMangaShiki createFromJson(JSONObject json) {
-        allData = json;
+        super.createFromJson(json);
         if (json == null)
             return null;
         AbstractHelperObj helper = new AbstractHelperObj(json);
         nextEpisode = helper.addString("next_episode");
-        nextEpisodeAt = helper.addString("next_episode_at");
-
-
-        JSONObject anime = json.optJSONObject("anime");
-
-        if(anime!=null){
-            helper.setData(anime);
-            id = helper.addString("id");
-            name = helper.addString("name");
-            russianName = helper.addString("russian");
-            episodesIired = helper.addString("episodes_aired");
-            ongoing = anime.optBoolean("ongoing");
-
-            JSONObject img = anime.optJSONObject("image");
-            if(img!=null){
-                imgOrigin = img.optString("original");
-                imgPreview = img.optString("preview");
-            }
-        }
-
         return this;
     }
 }

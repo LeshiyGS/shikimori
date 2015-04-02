@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
@@ -57,7 +59,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shiki_profile, null);
-        llBody = v.findViewById(R.id.ava);
+        llBody = v.findViewById(R.id.llBody);
         ivWebShow = v.findViewById(R.id.ivWebShow);
         avatar = (ImageView) v.findViewById(R.id.ava);
         tvUserName = (TextView) v.findViewById(R.id.tvUserName);
@@ -112,6 +114,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     @Override
     public void onQuerySuccess(StatusResult res) {
         h.setVisible(llBody, true);
+        YoYo.with(Techniques.FadeIn)
+            .playOn(llBody);
+
         stopRefresh();
         userDetails = UserDetails.create(res.getResultObject());
         if(activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id)){

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import org.shikimori.client.R;
+import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.AnimeDiscusionFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
@@ -41,7 +42,7 @@ public class AnimeDetailsActivity extends DrawerActivity implements UpdateCommen
     @Override
     public void initDrawer() {
         super.initDrawer();
-        mDrawerAdapter.setSelected(-1);
+        mDrawerAdapter.setSelected(DrawerAdapter.NON_SELECTED);
     }
 
     @Override

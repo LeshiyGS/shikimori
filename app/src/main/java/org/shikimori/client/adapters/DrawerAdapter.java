@@ -26,11 +26,13 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     public static final int DRAWER_MENU_COMUNITY_ID = 4562;
     public static final int DRAWER_MENU_SETTINGS_ID = 4563;
     public static final int DRAWER_MENU_ABOUT_ID = 4564;
+    public static final int NON_SELECTED = -1;
 
     private Context mContext;
     private LayoutInflater inflater;
-    private int selectedPos = 0;
+    private int selectedPos = NON_SELECTED;
     private ShikiUser shikiUser;
+    private int selectedId;
 
     @SuppressWarnings("deprecation")
     public DrawerAdapter(Context context) {
@@ -76,18 +78,20 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
 
 
         // set selection item
-        if(position==selectedPos)
+        if(selectedId==elem.id){
+            selectedPos = position;
             view.setBackgroundColor(mContext.getResources().getColor(R.color.greenColor));
-        else
+        }else
             view.setBackgroundColor(0);
 
         return view;
     }
 
-    public void setSelected(int position){
-        if(position>=getCount()) return;
+    public void setSelected(int menuId){
+        if(selectedId == menuId) return;
 
-        selectedPos = position;
+        selectedId = menuId;
+        selectedPos = NON_SELECTED;
         notifyDataSetChanged();
     }
 

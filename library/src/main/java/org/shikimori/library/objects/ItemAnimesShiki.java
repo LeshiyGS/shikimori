@@ -9,9 +9,9 @@ import org.shikimori.library.objects.abs.JsonParseable;
  * Created by LeshiyGS on 30.08.2014.
  */
 public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Creator<ItemAnimesShiki> {
-    public String id, name,russian, original,preview,x96,x64,url,episodes,episodes_aired;
-    public boolean ongoing,anons;
-    private JSONObject allData;
+    public String id, name,russianName, nextEpisodeAt, imgOriginal, imgPreview,img_x96,img_x64,url,episodes, episodesAired;
+    public boolean ongoing, anons;
+    protected JSONObject allData;
 
     @Override
     public String toString() {
@@ -32,19 +32,20 @@ public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Crea
         AbstractHelperObj helper = new AbstractHelperObj(json);
         id = helper.addString("id");
         name = helper.addString("name");
-        russian = helper.addString("russian");
+        russianName = helper.addString("russian");
         episodes = helper.addString("episodes");
-        episodes_aired = helper.addString("episodes_aired");
+        episodesAired = helper.addString("episodes_aired");
+        nextEpisodeAt = helper.addString("next_episode_at");
 
         ongoing = json.optBoolean("ongoing");
         anons = json.optBoolean("anons");
 
         JSONObject image = json.optJSONObject("image");
         if(image!=null){
-            original = image.optString("original");
-            preview = image.optString("preview");
-            x96 = image.optString("x96");
-            x64 = image.optString("x64");
+            imgOriginal = image.optString("original");
+            imgPreview = image.optString("preview");
+            img_x96 = image.optString("x96");
+            img_x64 = image.optString("x64");
         }
 
         return this;
