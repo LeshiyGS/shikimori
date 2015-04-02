@@ -16,14 +16,9 @@ public class ListPopup extends BasePopup {
 
     private List<String> selectList;
     private BaseAdapter adapter;
-    private AdapterView.OnItemClickListener lister;
 
     public ListPopup(Activity mContext) {
         super(mContext);
-    }
-
-    public void setOnItemClickListener(AdapterView.OnItemClickListener lister){
-        this.lister = lister;
     }
 
     public void setList(List<String> list){
@@ -45,7 +40,11 @@ public class ListPopup extends BasePopup {
     }
 
     private void showAdapter() {
-
+        LinearLayout body = getLinearView();
+        for (int i = 0; i < adapter.getCount(); i++) {
+            body.addView(adapter.getView(i, null, null));
+        }
+        showPopup(body);
     }
 
     private void showList() {
@@ -73,4 +72,5 @@ public class ListPopup extends BasePopup {
             hide();
         }
     };
+
 }

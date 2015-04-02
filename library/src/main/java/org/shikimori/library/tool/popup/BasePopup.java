@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import de.keyboardsurfer.android.widget.crouton.Configuration;
@@ -16,6 +17,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 public abstract class BasePopup {
     protected Activity mContext;
     private Crouton crouton;
+    protected AdapterView.OnItemClickListener lister;
 
     public BasePopup (Activity mContext){
         this.mContext = mContext;
@@ -32,6 +34,10 @@ public abstract class BasePopup {
         return false;
     }
 
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener lister){
+        this.lister = lister;
+    }
 
     protected void showPopup(View body) {
         hide();
@@ -56,4 +62,5 @@ public abstract class BasePopup {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 r.getDisplayMetrics());
     }
+
 }
