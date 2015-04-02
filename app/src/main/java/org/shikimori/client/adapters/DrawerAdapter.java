@@ -63,6 +63,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
 
         view.setId(elem.id);
         // set menu name
+        holder.icon.setImageDrawable(null);
         holder.tvTitle.setText(elem.title);
         if(position == 0 && shikiUser!=null) {
             // set avatar
@@ -73,13 +74,10 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
         // set icon
         } else if (elem.icon != 0)
             holder.icon.setImageResource(elem.icon);
-        else
-            holder.icon.setImageDrawable(null);
 
 
         // set selection item
         if(selectedId==elem.id){
-            selectedPos = position;
             view.setBackgroundColor(mContext.getResources().getColor(R.color.greenColor));
         }else
             view.setBackgroundColor(0);
@@ -88,10 +86,14 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     }
 
     public void setSelected(int menuId){
+        setSelected(menuId, NON_SELECTED);
+    }
+
+    public void setSelected(int menuId, int selectedPos){
         if(selectedId == menuId) return;
 
         selectedId = menuId;
-        selectedPos = NON_SELECTED;
+        this.selectedPos = selectedPos;
         notifyDataSetChanged();
     }
 

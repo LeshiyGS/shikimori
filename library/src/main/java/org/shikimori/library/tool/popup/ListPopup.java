@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Феофилактов on 28.03.2015.
+ * Created by Р¤РµРѕС„РёР»Р°РєС‚РѕРІ on 28.03.2015.
  */
 public class ListPopup extends BasePopup {
 

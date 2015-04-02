@@ -11,7 +11,7 @@ import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 /**
- * Created by Феофилактов on 28.03.2015.
+ * Created by Р¤РµРѕС„РёР»Р°РєС‚РѕРІ on 28.03.2015.
  */
 public abstract class BasePopup {
     protected Activity mContext;
