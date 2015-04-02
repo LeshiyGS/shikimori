@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/defaultPaddingMini"
-    android:background="@color/white_overlay_2"
+    android:background="@color/white_overlay_40"
     >
 
     <TextView

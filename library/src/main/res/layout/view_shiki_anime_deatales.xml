@@ -33,7 +33,7 @@
                     android:gravity="center_vertical"
                     style="@style/altarixUiText.TextTitle"
                     android:minHeight="@dimen/paddingMfcQueueTime"
-                    android:textColor="@color/white_overlay"
+                    android:textColor="@color/white_overlay_85"
                     android:padding="@dimen/defaultPadding"
                     android:background="@color/tool_background_70" />
             </FrameLayout>
@@ -47,7 +47,7 @@
                 android:textColor="@color/title_black_transparent"
                 android:textStyle="bold"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay" />
+                android:background="@color/white_overlay_85" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:textColor="@color/title_black_transparent"
                 android:textStyle="bold"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay" />
+                android:background="@color/white_overlay_85" />
 
             <TextView
                 android:id="@+id/tvReview"
@@ -85,7 +85,7 @@
                 android:textStyle="bold"
                 android:text="@string/rating"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay" />
+                android:background="@color/white_overlay_85" />
 
             <RatingBar
                 android:layout_width="wrap_content"

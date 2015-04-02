@@ -100,7 +100,9 @@
                     android:id="@+id/tvAnimeProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:textColor="@color/black_owerlay_40"
+                    />
 
             </FrameLayout>
             <ru.altarix.ui.CustomIconButton
@@ -156,7 +158,9 @@
                     android:id="@+id/tvMangaProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:textColor="@color/black_owerlay_40"
+                    />
 
             </FrameLayout>
         </RelativeLayout>

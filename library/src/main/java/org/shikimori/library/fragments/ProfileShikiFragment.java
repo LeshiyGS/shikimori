@@ -3,6 +3,7 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -72,9 +73,18 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         h.setVisible(llBody, false);
 
         ivWebShow.setOnClickListener(this);
+        sbAnimeProgress.setOnTouchListener(disableScrolling);
+        sbMangaProgress.setOnTouchListener(disableScrolling);
 
         return v;
     }
+
+    View.OnTouchListener disableScrolling = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            return true;
+        }
+    };
 
     @Override
     public int pullableViewId() {
@@ -146,21 +156,29 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         setWebSite();
         // anime / manga progress
         setProgress();
-
-        setProgress();
     }
 
     private void setProgress() {
-        Integer[] progress;
+        ProgressData progress;
         if(userDetails.fullStatuses!=null){
             // set anime progress
             progress = getProgress(userDetails.fullStatuses.animes);
-            sbAnimeProgress.setProgress(progress[0]);
-            sbAnimeProgress.setSecondaryProgress(progress[1]);
+            sbAnimeProgress.setProgress(progress.percentage1);
+            sbAnimeProgress.setSecondaryProgress(progress.percentage2);
+            tvAnimeProgress.setText(String.format(
+                    activity.getString(R.string.seeing),
+                    progress.firstProgress,
+                    progress.fullProgress
+            ));
             // set manga progress
             progress = getProgress(userDetails.fullStatuses.manga);
-            sbMangaProgress.setProgress(progress[0]);
-            sbMangaProgress.setSecondaryProgress(progress[1]);
+            sbMangaProgress.setProgress(progress.percentage1);
+            sbMangaProgress.setSecondaryProgress(progress.percentage2);
+            tvMangaProgress.setText(String.format(
+                    activity.getString(R.string.reading),
+                    progress.firstProgress,
+                    progress.fullProgress
+            ));
         }
     }
 
@@ -203,23 +221,21 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
        progress 2 = запланированно + смотрю + просмотренно + отложено
        max size = запланированно + смотрю + просмотренно + отложено + брошено
      */
-    private Integer[] getProgress(List<AnimeManga> list) {
-        int fullProgress = 0;
-        int firstProgress = 0;
-        int secondProgress = 0;
+    private ProgressData getProgress(List<AnimeManga> list) {
+        ProgressData progr = new ProgressData();
         for (AnimeManga animeManga : list) {
-            fullProgress += animeManga.counted;
+            progr.fullProgress += animeManga.counted;
             if(AnimeStatuses.COMPLETED.equals(animeManga.name))
-                firstProgress += animeManga.counted;
+                progr.firstProgress += animeManga.counted;
             if (!AnimeStatuses.DROPPED.equals(animeManga.name)
                     && !AnimeStatuses.REWATCHING.equals(animeManga.name))
-                secondProgress += animeManga.counted;
+                progr.secondProgress += animeManga.counted;
         }
 
-        return new Integer[]{
-            firstProgress * 100 / fullProgress,
-            secondProgress * 100 / fullProgress
-        };
+        progr.percentage1 = progr.firstProgress * 100 / progr.fullProgress;
+        progr.percentage2 = progr.secondProgress * 100 / progr.fullProgress;
+
+        return progr;
     }
 
     @Override
@@ -227,6 +243,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         if(v.getId() == R.id.ivWebShow){
             h.launchUrlLink(activity, userDetails.website);
         }
+    }
+
+    class ProgressData{
+        int firstProgress, secondProgress, fullProgress, percentage1, percentage2;
     }
 
 //    public class URLDrawable extends BitmapDrawable {
