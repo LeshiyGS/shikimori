@@ -43,6 +43,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
     private SharedPreferences mSettings;
     private boolean dowbleBack;
     private ShikiUser shikiUser;
+    private ViewGroup contentView;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -57,6 +58,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
         query.setLoader(new LoaderController(this));
 
         shikiUser = new ShikiUser(this);
+
+        contentView = (ViewGroup) findViewById(R.id.content_frame);
     }
 
     /*
@@ -81,10 +84,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
             fManager.popBackStack(backStackId, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
-        ViewGroup contentView = (ViewGroup) findViewById(R.id.content_frame);
         if(contentView!=null)
             contentView.removeAllViews();
-
     }
 
     public void loadPage(int id){
@@ -100,6 +101,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
         // clear fragment back pressed
         fragmentBackListener = null;
 
+        if(contentView!=null)
+            contentView.removeAllViews();
        // new Handler().post(new Runnable() {
        //     public void run() {
                 FragmentTransaction fr = fManager.beginTransaction();
@@ -123,7 +126,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
             return;
         FragmentTransaction fr = fManager.beginTransaction();
         fr.remove(_frag);
-        fr.commit();
+        fr.commitAllowingStateLoss();
         fManager.popBackStack();
     }
 

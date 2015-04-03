@@ -273,13 +273,22 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            AnimeManga item = userDetails.fullStatuses.animes.get(position);
+            Bundle b = new Bundle();
+            // TODO SET DATA
+
+            activity.loadPage(AnimeFavoritesFragment.newInstance(b));
         }
     };
 
     AdapterView.OnItemClickListener mangaPopupListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            AnimeManga item = userDetails.fullStatuses.manga.get(position);
+            Bundle b = new Bundle();
+            // TODO SET DATA
 
+            activity.loadPage(AnimeFavoritesFragment.newInstance(b));
         }
     };
 
