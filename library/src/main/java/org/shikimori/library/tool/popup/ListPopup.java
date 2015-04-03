@@ -7,6 +7,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.shikimori.library.R;
+import org.shikimori.library.tool.h;
+
 import java.util.List;
 
 /**
@@ -16,7 +19,6 @@ public class ListPopup extends BasePopup {
 
     private List<String> selectList;
     private BaseAdapter adapter;
-
     public ListPopup(Activity mContext) {
         super(mContext);
     }
@@ -40,17 +42,17 @@ public class ListPopup extends BasePopup {
     }
 
     private void showAdapter() {
-        LinearLayout body = getLinearView();
         for (int i = 0; i < adapter.getCount(); i++) {
-            body.addView(adapter.getView(i, null, null));
+            View v = adapter.getView(i, null, null);
+            v.setOnClickListener(click);
+            addViewToBody(v);
         }
-        showPopup(body);
+        showPopup();
     }
 
     private void showList() {
-        LinearLayout body = getLinearView();
         int padd = dpToPx(16);
-        int padd2 = dpToPx(8);
+        int padd2 = dpToPx(16);
         for (int i = 0; i < selectList.size(); i++) {
             String s = selectList.get(i);
             TextView text = new TextView(mContext);
@@ -58,15 +60,17 @@ public class ListPopup extends BasePopup {
             text.setText(s);
             text.setTag(i);
             text.setOnClickListener(click);
-            body.addView(text);
+            text.setBackgroundResource(h.getAttributeResourceId(mContext, R.attr.selectableItemBackground));
+            addViewToBody(text);
         }
-        showPopup(body);
+        showPopup();
     }
 
     View.OnClickListener click = new View.OnClickListener() {
+
         @Override
         public void onClick(View v) {
-            int position = (int) v.getTag();
+            int position = getPositionView(v);
             if(lister!=null)
                 lister.onItemClick(null,v,position,position);
             hide();

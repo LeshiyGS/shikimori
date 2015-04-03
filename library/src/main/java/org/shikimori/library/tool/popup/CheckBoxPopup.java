@@ -31,9 +31,8 @@ public class CheckBoxPopup extends BasePopup {
     }
 
     private void showList() {
-        LinearLayout body = getLinearView();
         int padd = dpToPx(16);
-        int padd2 = dpToPx(8);
+        int padd2 = dpToPx(16);
         for (int i = 0; i < list.size(); i++) {
             String s = list.get(i);
             TextView text = new TextView(mContext);
@@ -41,9 +40,9 @@ public class CheckBoxPopup extends BasePopup {
             text.setText(s);
             text.setTag(i);
             text.setOnClickListener(click);
-            body.addView(text);
+            addViewToBody(text);
         }
-        showPopup(body);
+        showPopup();
     }
 
     @Override

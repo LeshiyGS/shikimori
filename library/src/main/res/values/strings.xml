@@ -40,4 +40,15 @@
     <string name="incoming">Вышло</string>
     <string name="anons">Анонс</string>
     <string name="ongoing">Онгоинг</string>
+    <string name="planned">Запланировано</string>
+    <string name="watching">Смотрю</string>
+    <string name="watchingmanga">Читаю</string>
+    <string name="completed">Просмотрено</string>
+    <string name="completedmanga">Прочитано</string>
+    <string name="on_hold">Отложено</string>
+    <string name="dropped">Брошено</string>
+    <string name="rewatching">Пересматриваю</string>
+    <string name="rewatchingmanga">Перечитываю</string>
+    <string name="lists_anime">Списки аниме</string>
+    <string name="lists_manga">Список манги</string>
 </resources>

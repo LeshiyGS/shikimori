@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 custom:uiIcon="@drawable/ic_shiki_web"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
                 android:clickable="true"
                 />
@@ -41,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/ava"
                 android:layout_toEndOf="@+id/ivWebShow"
+                android:layout_marginStart="@dimen/defaultPadding"
                 android:layout_marginLeft="@dimen/defaultPadding">
 
                 <TextView
@@ -79,10 +81,22 @@
                 style="@style/altarixUiLabel"
                 android:text="@string/anime" />
 
+            <ru.altarix.ui.CustomIconButton
+                android:id="@+id/ivAnimeListShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:uiIcon="@drawable/ic_action_list"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:clickable="true"
+                />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_below="@+id/logoAnime"
+                android:layout_toStartOf="@+id/ivAnimeListShow"
                 android:layout_toLeftOf="@+id/ivAnimeListShow"
                 >
 
@@ -105,15 +119,6 @@
                     />
 
             </FrameLayout>
-            <ru.altarix.ui.CustomIconButton
-                android:id="@+id/ivAnimeListShow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:uiIcon="@drawable/ic_action_list"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true"
-                />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -133,6 +138,7 @@
                 android:layout_height="wrap_content"
                 custom:uiIcon="@drawable/ic_action_list"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
                 android:clickable="true"
                 />
@@ -142,6 +148,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/logoManga"
                 android:layout_toLeftOf="@+id/ivMangaListShow"
+                android:layout_toStartOf="@+id/ivMangaListShow"
                 >
 
                 <SeekBar

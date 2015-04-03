@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -26,13 +27,15 @@ import org.shikimori.library.objects.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.popup.ListPopup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener {
+public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseActivity.OnFragmentBackListener {
 
     public static final String USER_ID = "user_id";
 
@@ -43,6 +46,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private TextView tvMiniDetails,tvAnimeProgress,tvMangaProgress, tvLastOnline;
     private SeekBar sbAnimeProgress, sbMangaProgress;
     private View llBody, ivWebShow;
+    private ListPopup pop;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -77,6 +81,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
         h.setVisible(llBody, false);
 
+        v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
+        v.findViewById(R.id.ivMangaListShow).setOnClickListener(this);
         ivWebShow.setOnClickListener(this);
         sbAnimeProgress.setOnTouchListener(disableScrolling);
         sbMangaProgress.setOnTouchListener(disableScrolling);
@@ -102,6 +108,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         initData();
         showRefreshLoader();
         loadDataFromServer();
+        activity.setOnFragmentBackListener(this);
     }
 
     @Override
@@ -198,7 +205,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     private void setSexYearLocation() {
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
         // пол
         if(!TextUtils.isEmpty(userDetails.sex)){
             switch (userDetails.sex){
@@ -247,7 +254,74 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     public void onClick(View v) {
         if(v.getId() == R.id.ivWebShow){
             h.launchUrlLink(activity, userDetails.website);
+        } else if (v.getId() == R.id.ivAnimeListShow){
+            pop = new ListPopup(activity);
+            pop.setOnItemClickListener(animePopupListener);
+            pop.setList(getListNames(userDetails.fullStatuses.animes, anime));
+            pop.setTitle(R.string.lists_anime);
+            pop.show();
+        } else if (v.getId() == R.id.ivMangaListShow){
+            pop = new ListPopup(activity);
+            pop.setOnItemClickListener(mangaPopupListener);
+            pop.setList(getListNames(userDetails.fullStatuses.animes, manga));
+            pop.setTitle(R.string.lists_manga);
+            pop.show();
         }
+    }
+
+    AdapterView.OnItemClickListener animePopupListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+    };
+
+    AdapterView.OnItemClickListener mangaPopupListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        }
+    };
+
+    /**
+     * Получаем список аниме или манги статусов
+     */
+    int anime = 0, manga = 1; // type
+    List<String> getListNames(List<AnimeManga> array, int type){
+        List<String> list = new ArrayList<>();
+        if(array!=null){
+            for (AnimeManga animeManga : array) {
+                switch (animeManga.name){
+                    case AnimeStatuses.COMPLETED:
+                        list.add(getTextStatus(type == 0 ? R.string.completed : R.string.completedmanga, animeManga.counted));
+                        break;
+                    case AnimeStatuses.DROPPED:
+                        list.add(getTextStatus(R.string.dropped, animeManga.counted)); break;
+                    case AnimeStatuses.ON_HOLD:
+                        list.add(getTextStatus(R.string.on_hold, animeManga.counted)); break;
+                    case AnimeStatuses.PLANNED:
+                        list.add(getTextStatus(R.string.planned, animeManga.counted)); break;
+                    case AnimeStatuses.WATCHING:
+                        list.add(getTextStatus(type == 0 ? R.string.watching : R.string.watchingmanga, animeManga.counted));
+                        break;
+                    case AnimeStatuses.REWATCHING:
+                        list.add(getTextStatus(type == 0 ? R.string.rewatching : R.string.rewatchingmanga, animeManga.counted));
+                        break;
+                }
+            }
+        }
+        return list;
+    }
+
+    String getTextStatus(int resigd, int count){
+        return activity.getString(resigd) + " (" + count +")";
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if(pop!=null && pop.hide())
+            return true;
+        return false;
     }
 
     class ProgressData{
