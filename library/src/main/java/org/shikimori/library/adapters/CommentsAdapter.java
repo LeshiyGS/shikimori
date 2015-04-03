@@ -4,10 +4,7 @@ import android.content.Context;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
 import org.shikimori.library.adapters.base.BaseCommentsListAdapter;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.objects.ItemAnimesShiki;
 import org.shikimori.library.objects.ItemCommentsShiki;
 import org.shikimori.library.tool.h;
 
