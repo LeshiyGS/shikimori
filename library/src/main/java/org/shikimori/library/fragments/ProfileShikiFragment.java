@@ -263,7 +263,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         } else if (v.getId() == R.id.ivMangaListShow){
             pop = new ListPopup(activity);
             pop.setOnItemClickListener(mangaPopupListener);
-            pop.setList(getListNames(userDetails.fullStatuses.animes, manga));
+            pop.setList(getListNames(userDetails.fullStatuses.manga, manga));
             pop.setTitle(R.string.lists_manga);
             pop.show();
         }
