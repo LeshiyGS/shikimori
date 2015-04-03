@@ -19,10 +19,10 @@
 
             <solid android:color="@android:color/white" />
 
-            <padding android:bottom="@dimen/defaultPadding"
-                android:left="@dimen/defaultPadding"
-                android:right="@dimen/defaultPadding"
-                android:top="@dimen/defaultPadding" />
+            <padding android:bottom="@dimen/defaultPaddingMini"
+                android:left="@dimen/defaultPaddingMini"
+                android:right="@dimen/defaultPaddingMini"
+                android:top="@dimen/defaultPaddingMini" />
         </shape>
     </item>
 </layer-list>

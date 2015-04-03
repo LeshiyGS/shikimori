@@ -1,44 +1,25 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
-import android.text.Spannable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.UpdateCommentsListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
-import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.objects.abstracts.AMDetails;
 import org.shikimori.library.tool.h;
-
-import ru.altarix.ui.tool.TextStyling;
 
 
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener{
-
-    private String animeId;
-    ScrollView svMain;
-    TextView tvTitle, tvInfo, tvScore, tvReview;
-    ImageView ivPoster;
-    RatingBar rbTitle;
+public class AnimeDeatailsFragment extends AMDeatailsFragment{
 
     private ItemAnimeDetails animeDetails;
 
@@ -49,109 +30,54 @@ public class AnimeDeatailsFragment extends PullableFragment<BaseActivity> implem
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_anime_deatales, null);
-        svMain = (ScrollView) v.findViewById(R.id.svMain);
-        tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        tvInfo = (TextView) v.findViewById(R.id.tvInfo);
-        tvScore = (TextView) v.findViewById(R.id.tvMenuScore);
-        tvReview = (TextView) v.findViewById(R.id.tvReview);
-        ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
-        rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
-        return v;
-    }
-
-    @Override
-    public int pullableViewId() {
-        return R.id.svMain;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        initArgiments();
-        showRefreshLoader();
-        loadAnimeInfo();
-    }
-
-    @Override
-    public void onStartRefresh() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.ANIMES_ID + animeId));
-        loadAnimeInfo();
-    }
-
-    private void loadAnimeInfo() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.ANIMES_ID) + animeId);
-        loadDataFromServer();
-    }
-
-    void loadDataFromServer(){
-        query.init(ShikiApi.getUrl(ShikiPath.ANIMES_ID)+animeId)
-                .setCache(true, Query.HOUR)
-                .getResult(this);
-
-    }
-
-    private void initArgiments() {
-        Bundle b = getArguments();
-        if(b == null)
-            return;
-
-        animeId = getArguments().getString(Constants.ANIME_ID);
+    public String getPatch() {
+        return ShikiPath.ANIMES_ID;
     }
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+        super.onQuerySuccess(res);
         if(activity == null)
             return;
-        stopRefresh();
         animeDetails = ItemAnimeDetails.create(res.getResultObject());
         prepareData();
     }
-
 
     private void prepareData() {
 
         if(animeDetails.id == null)
             return;
-
-        TextStyling styling = new TextStyling()
-                .addGlobalStyle(TextStyling.TextStyle.COLOR, "66ffffff");
-
-        if(animeDetails.russianName!=null){
-            Spannable text = styling.formatString(animeDetails.russianName, animeDetails.name + "\n" + animeDetails.russianName);
-            tvTitle.setText(text);
-        } else
-            tvTitle.setText(animeDetails.name);
-
+        // название аниме в карточке
+        setTitleElement(animeDetails.russianName, animeDetails.name);
+        // poster
         ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.imgOriginal, ivPoster);
+        // description
         h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
-        h.setTextViewHTML(activity, tvScore, "Оценка: " + animeDetails.score);
+        // rating
+        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating)+ ": " + animeDetails.score);
         rbTitle.setRating(Float.parseFloat(animeDetails.score) / 2);
+        // info
 
-        tvInfo.setText(
-                String.format(activity.getString(R.string.type), animeDetails.kind + "\n") +
-                        String.format(activity.getString(R.string.episodes), animeDetails.episodesAired, animeDetails.episodes + "\n") +
-                        String.format(activity.getString(R.string.title_time), animeDetails.duration + activity.getString(R.string.min) + "\n") +
-                        String.format(activity.getString(R.string.title_status), getStatus() + "\n") +
-                        String.format(activity.getString(R.string.title_rating), animeDetails.rating + "\n") +
-                        String.format(activity.getString(R.string.title_genres), TextUtils.join(", ", animeDetails.genres) + "\n") +
-                        String.format(activity.getString(R.string.title_studios), TextUtils.join(", ", animeDetails.studios) + "\n")
-        );
+        StringBuilder builder = new StringBuilder();
+        builder.append("<b>").append(activity.getString(R.string.type)).append("</b> ")
+                .append(animeDetails.kind).append("<br/>")
+                .append("<b>").append(activity.getString(R.string.episodes)).append("</b> ")
+                .append(animeDetails.episodesAired).append(" / ").append(animeDetails.episodes).append("<br/>")
+                .append("<b>").append(activity.getString(R.string.title_time)).append("</b> ")
+                .append(animeDetails.duration).append(" ").append(activity.getString(R.string.min)).append("<br/>")
+                .append("<b>").append(activity.getString(R.string.title_status)).append("</b> ")
+                .append(getStatus(animeDetails.anons, animeDetails.anons)).append("<br/>")
+                .append("<b>").append(activity.getString(R.string.title_rating)).append("</b> ")
+                .append(animeDetails.rating).append("<br/>")
+                .append("<b>").append(activity.getString(R.string.title_genres)).append("</b> ")
+                .append(TextUtils.join(", ", animeDetails.genres)).append("<br/>")
+                .append("<b>").append(activity.getString(R.string.title_publishers)).append("</b> ")
+                .append(TextUtils.join(", ", animeDetails.studios));
+
+        h.setTextViewHTML(activity, tvInfo, builder.toString());
 
         if(activity instanceof UpdateCommentsListener)
             ((UpdateCommentsListener) activity).startLoadComments(animeDetails.thread_id);
 
-    }
-
-    String getStatus(){
-        if (!animeDetails.anons && !animeDetails.ongoing){
-            return activity.getString(R.string.incoming);
-        }else if(animeDetails.anons){
-            return activity.getString(R.string.anons);
-        }else if(animeDetails.ongoing){
-            return activity.getString(R.string.ongoing);
-        }
-        return "";
     }
 }

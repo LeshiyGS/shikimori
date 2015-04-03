@@ -3,13 +3,12 @@ package org.shikimori.library.objects;
 
 import org.json.JSONObject;
 import org.shikimori.library.objects.abs.AbstractHelperObj;
-import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
  * Created by Владимир on 27.08.2014.
  */
-public class ItemMangaShiki extends ItemAnimesShiki {
-    public String nextEpisode;
+public class ItemMangaShiki extends AMShiki {
+    public String nextEpisode,volumes,chapters;
 
     public static ItemMangaShiki create(JSONObject json) {
         return new ItemMangaShiki().createFromJson(json);
@@ -22,6 +21,10 @@ public class ItemMangaShiki extends ItemAnimesShiki {
             return null;
         AbstractHelperObj helper = new AbstractHelperObj(json);
         nextEpisode = helper.addString("next_episode");
+
+        volumes = helper.addString("volumes");
+        chapters = helper.addString("chapters");
+
         return this;
     }
 }

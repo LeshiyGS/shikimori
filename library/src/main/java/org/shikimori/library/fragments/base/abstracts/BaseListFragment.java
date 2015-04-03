@@ -1,7 +1,6 @@
-package org.shikimori.library.fragments.base;
+package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -11,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,15 +22,19 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.h;
 
+import java.util.List;
+
 /**
  * Created by Владимир on 02.04.2015.
  */
 public abstract class BaseListFragment<T extends ActionBarActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
     public static final int DEFAULT_FIRST_PAGE = 1;
-    protected String search = "";
+    public static final int LIMIT = 20;
     protected int page = DEFAULT_FIRST_PAGE;
+    protected String search = "";
     protected boolean pauseOnScroll = false; // or true
     protected boolean pauseOnFling = true; // or false
+    ArrayAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         }
     };
 
-    public void StartFirstLoad(){
+    public void StartFirstLoad() {
         showRefreshLoader();
         loadData();
     }
@@ -69,13 +73,13 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
 
     /**
      * Показываем лоадер если есть еще что подгружать
+     *
      * @param more
      */
     public abstract void hasMoreItems(boolean more);
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        h.showMsg(activity, "click");
     }
 
     @Override
@@ -100,7 +104,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         searchView.setOnQueryTextListener(this);
     }
 
-    public String getSearchText(){
+    public String getSearchText() {
         return search;
     }
 
@@ -117,6 +121,36 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         showRefreshLoader();
         loadData();
         return false;
+    }
+
+    public abstract ArrayAdapter<?> getAdapter(List<?> list);
+
+    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+
+        int size = list.size();
+        // повешать на +1 или нет
+        int limit = limitOver ? (LIMIT+1) : LIMIT;
+        // если предыдущее количество кратно limit+1
+        // значит есть еще данные
+        if(size!=0 && size%(limit) == 0){
+            hasMoreItems(true);
+            // удаляем последний элемент
+            if(removeLastItem)
+                list.remove(size - 1);
+        } else
+            hasMoreItems(false);
+
+        if (adapter == null) {
+            adapter = getAdapter(list);
+            setAdapter(adapter);
+        } else {
+            if (page == DEFAULT_FIRST_PAGE)
+                adapter.clear();
+
+            for (int i = 0; i < list.size(); i++) {
+                adapter.add(list.get(i));
+            }
+        }
     }
 
     /**

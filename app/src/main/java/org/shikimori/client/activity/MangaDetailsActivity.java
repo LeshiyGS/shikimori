@@ -7,6 +7,7 @@ import org.shikimori.client.R;
 import org.shikimori.client.activity.base.BaseDetailsActivity;
 import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
+import org.shikimori.library.fragments.MangaDeatailsFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.interfaces.UpdateCommentsListener;
 
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Владимир on 31.03.2015.
  */
-public class AnimeDetailsActivity extends BaseDetailsActivity implements UpdateCommentsListener {
+public class MangaDetailsActivity extends BaseDetailsActivity implements UpdateCommentsListener {
 
     private List<Fragment> pageList;
 
@@ -28,12 +29,12 @@ public class AnimeDetailsActivity extends BaseDetailsActivity implements UpdateC
         Bundle b = getIntent().getExtras();
         // список фрагментов
         pageList = new ArrayList<>();
-        pageList.add(AnimeDeatailsFragment.newInstance(b));
+        pageList.add(MangaDeatailsFragment.newInstance(b));
         pageList.add(DiscusionFragment.newInstance(b));
         // view pager
         loadPage(PagerAdapterFragment.newInstance(
                 pageList,
-                getString(R.string.anime),
+                getString(R.string.manga),
                 getString(R.string.Discusion)
         ));
     }

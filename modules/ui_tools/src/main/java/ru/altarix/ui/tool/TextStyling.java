@@ -54,9 +54,9 @@ public class TextStyling {
 
         for (CStyle s : styles) {
             List<CharacterStyle> rebuild = new ArrayList();
-            if (s.tag.startsWith("<b")) {
+            if (s.tag.startsWith("b")) {
                 rebuild.add(new StyleSpan(Typeface.BOLD));
-            } else if (s.tag.startsWith("<i")) {
+            } else if (s.tag.startsWith("i")) {
                 rebuild.add(new StyleSpan(Typeface.ITALIC));
             }
 

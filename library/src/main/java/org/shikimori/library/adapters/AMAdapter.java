@@ -6,7 +6,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.objects.ItemAnimesShiki;
+import org.shikimori.library.objects.AMShiki;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -14,14 +14,14 @@ import java.util.List;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class AnimesAdapter extends BaseAnimeGridAdapter<ItemAnimesShiki> {
+public class AMAdapter extends BaseAnimeGridAdapter<AMShiki> {
 
-    public AnimesAdapter(Context context, List<ItemAnimesShiki> list) {
+    public AMAdapter(Context context, List<AMShiki> list) {
         super(context, list);
     }
 
     @Override
-    public void setValues(BaseAnimeGridAdapter.ViewHolder holder, ItemAnimesShiki item) {
+    public void setValues(BaseAnimeGridAdapter.ViewHolder holder, AMShiki item) {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
 

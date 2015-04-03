@@ -1,30 +1,16 @@
-package org.shikimori.library.fragments.base;
+package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.paging.listview.PagingListView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.custom.PaggingGridView2;
-import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.h;
 
 /**
  * Created by Владимир on 31.03.2015.
@@ -64,6 +50,7 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
         return R.id.lvList;
     }
 
+    @Override
     public void setAdapter(BaseAdapter adapter) {
         // save position
         if(page != DEFAULT_FIRST_PAGE)
@@ -80,6 +67,7 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
      * Показываем лоадер если есть еще что подгружать
      * @param more
      */
+    @Override
     public void hasMoreItems(boolean more){
         try {
             lvList.onFinishLoading(more, null);
@@ -87,4 +75,5 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
             e.printStackTrace();
         }
     }
+
 }

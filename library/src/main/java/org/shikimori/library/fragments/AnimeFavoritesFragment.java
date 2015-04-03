@@ -1,15 +1,11 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
-import org.shikimori.library.adapters.CommentsAdapter;
-import org.shikimori.library.fragments.base.BaseListViewFragment;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemCommentsShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
@@ -65,7 +61,7 @@ public class AnimeFavoritesFragment extends BaseListViewFragment{
         if(b == null)
             return;
 
-        listId = getArguments().getString(Constants.ANIME_ID);
+        listId = getArguments().getString(Constants.ITEM_ID);
         userId = getArguments().getString(Constants.USER_ID);
     }
 
@@ -86,7 +82,12 @@ public class AnimeFavoritesFragment extends BaseListViewFragment{
 //        prepareData(builder.list);
     }
 
-    private void prepareData(List<ItemCommentsShiki> list) {
+    @Override
+    public ArrayAdapter<ItemCommentsShiki> getAdapter(List<?> list) {
+        return null;
+    }
+
+//    private void prepareData(List<ItemCommentsShiki> list) {
 //        if (adapter == null){
 //            adapter = new CommentsAdapter(activity, list);
 //            setAdapter(adapter);
@@ -98,6 +99,6 @@ public class AnimeFavoritesFragment extends BaseListViewFragment{
 //                adapter.add(list.get(i));
 //            }
 //        }
-    }
+//    }
 
 }

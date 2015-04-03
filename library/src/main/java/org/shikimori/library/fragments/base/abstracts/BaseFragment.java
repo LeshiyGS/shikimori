@@ -1,4 +1,4 @@
-package org.shikimori.library.fragments.base;
+package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

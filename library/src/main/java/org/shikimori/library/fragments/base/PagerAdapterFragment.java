@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.FragmentPageAdapter;
+import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.interfaces.PageNextlistener;
 import org.shikimori.library.tool.h;
 

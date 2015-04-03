@@ -6,7 +6,7 @@ import android.widget.AdapterView;
 
 import org.shikimori.client.activity.AnimeDetailsActivity;
 import org.shikimori.library.fragments.AnimesFragment;
-import org.shikimori.library.objects.ItemAnimesShiki;
+import org.shikimori.library.objects.AMShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**
@@ -23,10 +23,10 @@ public class AnimesShikiFragment extends AnimesFragment {
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         super.onItemClick(parent, view, position, id);
 
-        ItemAnimesShiki item = (ItemAnimesShiki) parent.getAdapter().getItem(position);
+        AMShiki item = (AMShiki) parent.getAdapter().getItem(position);
         Intent i = new Intent(activity, AnimeDetailsActivity.class);
-        i.putExtra(Constants.ANIME_ID, item.id);
-        i.putExtra(Constants.ANIME_NAME, item.name);
+        i.putExtra(Constants.ITEM_ID, item.id);
+        i.putExtra(Constants.ITEM_NAME, item.name);
         activity.startActivity(i);
     }
 }

@@ -1,6 +1,5 @@
 package org.shikimori.library.pull;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -11,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.fragments.base.BaseFragment;
+import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 

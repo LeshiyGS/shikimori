@@ -8,10 +8,11 @@ import org.shikimori.library.objects.abs.JsonParseable;
 /**
  * Created by LeshiyGS on 30.08.2014.
  */
-public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Creator<ItemAnimesShiki> {
+public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMShiki> {
     public String id, name,russianName, nextEpisodeAt, imgOriginal, imgPreview,img_x96,img_x64, url ,episodes, episodesAired;
     public boolean ongoing, anons;
     protected JSONObject allData;
+    protected AbstractHelperObj helper;
 
     @Override
     public String toString() {
@@ -20,16 +21,16 @@ public class ItemAnimesShiki extends JsonParseable implements JsonParseable.Crea
         return "";
     }
 
-    public static ItemAnimesShiki create(JSONObject json) {
-        return new ItemAnimesShiki().createFromJson(json);
+    public static AMShiki create(JSONObject json) {
+        return new AMShiki().createFromJson(json);
     }
 
     @Override
-    public ItemAnimesShiki createFromJson(JSONObject json) {
+    public AMShiki createFromJson(JSONObject json) {
         allData = json;
         if (json == null)
             return null;
-        AbstractHelperObj helper = new AbstractHelperObj(json);
+        helper = new AbstractHelperObj(json);
         id = helper.addString("id");
         name = helper.addString("name");
         url = helper.addString("utl");

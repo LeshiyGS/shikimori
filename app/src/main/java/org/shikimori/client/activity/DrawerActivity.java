@@ -13,6 +13,7 @@ import org.shikimori.client.R;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.client.fragments.AnimesShikiFragment;
 import org.shikimori.client.fragments.CalendarShikiFragment;
+import org.shikimori.client.fragments.MangasShikiFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.tool.h;
@@ -144,6 +145,8 @@ public class DrawerActivity extends ProjectActivity implements UserDataChangeLis
             frag = ProfileShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_ANIME_ID) {
             frag = AnimesShikiFragment.newInstance();
+        } else if (pageId == DrawerAdapter.DRAWER_MENU_MANGA_ID) {
+            frag = MangasShikiFragment.newInstance();
         }
 
         clearBackStack();
