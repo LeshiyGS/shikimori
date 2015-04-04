@@ -110,8 +110,7 @@ public class CustomViewBase extends LinearLayout {
     }
 
     public void setHint(String hint){
-        if(tvLabel!=null)
-            tvLabel.setText(hint);
+        setLabel(hint);
     }
 
     public String getHint(){
@@ -129,8 +128,7 @@ public class CustomViewBase extends LinearLayout {
         }
     }
     public void setLabel(int label){
-        if(tvLabel !=null)
-            tvLabel.setText(label);
+        setLabel(mContext.getString(label));
     }
 
     public void setIcon(int icon_resorce){

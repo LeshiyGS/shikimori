@@ -31,12 +31,12 @@
     <string name="description">Описание</string>
     <string name="rating">Оценка</string>
     <string name="gray">#222222</string>
-    <string name="type">Тип: </string>
+    <string name="type">Тип</string>
     <string name="title_time">Длительность эпизода:</string>
-    <string name="title_status">Статус:</string>
-    <string name="title_rating">Рейтинг:</string>
-    <string name="title_genres">Жанры:</string>
-    <string name="title_studios">Студии:</string>
+    <string name="title_status">Статус</string>
+    <string name="title_rating">Рейтинг</string>
+    <string name="title_genres">Жанры</string>
+    <string name="title_studios">Студии</string>
     <string name="incoming">Вышло</string>
     <string name="anons">Анонс</string>
     <string name="ongoing">Онгоинг</string>
@@ -51,7 +51,7 @@
     <string name="rewatchingmanga">Перечитываю</string>
     <string name="lists_anime">Списки аниме</string>
     <string name="lists_manga">Список манги</string>
-    <string name="volumes">Тома:</string>
-    <string name="chapters">Главы:</string>
-    <string name="title_publishers">Издатель:</string>
+    <string name="volumes">Тома</string>
+    <string name="chapters">Главы</string>
+    <string name="title_publishers">Издатель</string>
 </resources>

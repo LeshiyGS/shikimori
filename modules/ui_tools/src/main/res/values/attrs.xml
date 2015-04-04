@@ -34,6 +34,7 @@
     <attr name="altarixUiAttrCirclePressedStyle" format="reference" />
     <attr name="altarixUiAttrLabelColor" format="reference|color" />
     <attr name="altarixUiAttrLabelStyle" format="reference" />
+    <attr name="altarixUiAttrLabelEditTextStyle" format="reference" />
     <attr name="altarixUiAttrLabelTitleStyle" format="reference" />
     <attr name="altarixUiAttrDateStyle" format="reference" />
     <attr name="altarixUiAttrDividerColor" format="reference|color" />

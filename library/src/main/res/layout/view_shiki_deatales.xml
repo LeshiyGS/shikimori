@@ -49,13 +49,20 @@
                 android:padding="@dimen/defaultPadding"
                 android:background="@color/white_overlay_85" />
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/llInfo"
+                android:padding="@dimen/defaultPadding"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/tvInfo"
-                android:textColor="@color/title_black_transparent"
-                android:padding="@dimen/defaultPadding" />
+                android:orientation="vertical"/>
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:id="@+id/tvInfo"-->
+                <!--android:textColor="@color/title_black_transparent"-->
+                <!--android:padding="@dimen/defaultPadding" />-->
 
             <TextView
                 android:layout_width="match_parent"

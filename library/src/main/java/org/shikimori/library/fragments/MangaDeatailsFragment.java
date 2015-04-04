@@ -56,22 +56,13 @@ public class MangaDeatailsFragment extends AMDeatailsFragment{
         h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
         rbTitle.setRating(Float.parseFloat(details.score) / 2);
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("<b>").append(activity.getString(R.string.type)).append("</b> ")
-               .append(details.kind).append("<br/>")
-               .append("<b>").append(activity.getString(R.string.volumes)).append("</b> ")
-               .append(details.volumes).append("<br/>")
-               .append("<b>").append(activity.getString(R.string.chapters)).append("</b> ")
-               .append(details.chapters).append("<br/>")
-               .append("<b>").append(activity.getString(R.string.title_status)).append("</b> ")
-               .append(getStatus(details.anons, details.ongoing)).append("<br/>")
-               .append("<b>").append(activity.getString(R.string.title_genres)).append("</b> ")
-               .append(TextUtils.join(", ", details.genres)).append("<br/>")
-               .append("<b>").append(activity.getString(R.string.title_publishers)).append("</b> ")
-               .append(TextUtils.join(", ", details.publishers));
 
-
-        h.setTextViewHTML(activity, tvInfo, builder.toString());
+        addInfo(R.string.type, details.kind);
+        addInfo(R.string.volumes, details.volumes);
+        addInfo(R.string.chapters, details.chapters);
+        addInfo(R.string.title_status, getStatus(details.anons, details.ongoing));
+        addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
+        addInfo(R.string.title_publishers, TextUtils.join(", ", details.publishers));
 
         if(activity instanceof UpdateCommentsListener)
             ((UpdateCommentsListener) activity).startLoadComments(details.thread_id);

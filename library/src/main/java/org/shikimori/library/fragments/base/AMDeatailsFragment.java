@@ -18,6 +18,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
+import ru.altarix.ui.CustomTextView;
 import ru.altarix.ui.tool.TextStyling;
 
 
@@ -28,16 +29,17 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
 
     private String itemId;
     protected ScrollView svMain;
-    protected TextView tvTitle, tvInfo, tvScore, tvReview;
+    protected TextView tvTitle, tvScore, tvReview;
     protected ImageView ivPoster;
     protected RatingBar rbTitle;
+    protected ViewGroup llInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_anime_deatales, null);
+        View v = inflater.inflate(R.layout.view_shiki_deatales, null);
         svMain = (ScrollView) v.findViewById(R.id.svMain);
         tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        tvInfo = (TextView) v.findViewById(R.id.tvInfo);
+        llInfo = (ViewGroup) v.findViewById(R.id.llInfo);
         tvScore = (TextView) v.findViewById(R.id.tvMenuScore);
         tvReview = (TextView) v.findViewById(R.id.tvReview);
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
@@ -105,5 +107,12 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
             return activity.getString(R.string.ongoing);
         }
         return "";
+    }
+
+    protected void addInfo(int label,  String text) {
+        CustomTextView row = new CustomTextView(activity);
+        row.setLabel(label);
+        row.setText(text);
+        llInfo.addView(row);
     }
 }

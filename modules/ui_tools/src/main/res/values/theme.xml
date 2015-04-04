@@ -27,7 +27,9 @@
         <!-- Цвет фона сружочка когда нажимаешь на иконку-->
         <item name="altarixUiAttrLabelColor">@color/altarixUiLabelColor</item>
         <!-- style label-->
-        <item name="altarixUiAttrLabelStyle">@style/altarixUiLabelEditTextStyle</item>
+        <item name="altarixUiAttrLabelStyle">@style/altarixUiLabel.small</item>
+        <!-- style label-->
+        <item name="altarixUiAttrLabelEditTextStyle">@style/altarixUiLabelEditTextStyle</item>
         <!-- style label title-->
         <item name="altarixUiAttrLabelTitleStyle">@style/altarixUiText.TextTitle</item>
         <!-- style date-->
