@@ -17,14 +17,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.custom.CustomProfileTextView;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.AnimeManga;
-import org.shikimori.library.objects.UserDetails;
+import org.shikimori.library.objects.one.AnimeManga;
+import org.shikimori.library.objects.one.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.controllers.NotifyProfileController;

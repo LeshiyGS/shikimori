@@ -6,7 +6,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.objects.AMShiki;
+import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.h;
 
 import java.util.List;

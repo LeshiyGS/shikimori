@@ -3,16 +3,14 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.CommentsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemCommentsShiki;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.adapters.base.BaseCommentsListAdapter;
-import org.shikimori.library.objects.ItemCommentsShiki;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.h;
 
 import java.util.Date;

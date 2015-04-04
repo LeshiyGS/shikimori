@@ -635,6 +635,8 @@ public class h {
 
 
     public static void launchUrlLink(Context mContext, String url){
+        if(url == null)
+            return;
         if (!url.startsWith("http://") && !url.startsWith("https://"))
             url = "http://" + url;
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));

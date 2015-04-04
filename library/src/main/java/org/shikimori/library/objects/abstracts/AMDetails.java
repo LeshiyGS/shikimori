@@ -2,8 +2,8 @@ package org.shikimori.library.objects.abstracts;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.shikimori.library.objects.AMShiki;
-import org.shikimori.library.objects.abs.AbstractHelperObj;
+import org.shikimori.library.objects.one.AMShiki;
+import org.shikimori.library.objects.abs.HelperObj;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class AMDetails extends AMShiki {
             return this;
         super.createFromJson(json);
 
-        AbstractHelperObj helper = new AbstractHelperObj(json);
+        HelperObj helper = new HelperObj(json);
         rating = helper.addString("rating");
         kind = helper.addString("kind");
         aired_on = helper.addString("aired_on");

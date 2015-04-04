@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter;
 
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemCommentsShiki;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;

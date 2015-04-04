@@ -1,19 +1,13 @@
 package org.shikimori.library.adapters;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.shikimori.library.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.objects.ItemCaclendarShiki;
+import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import org.shikimori.library.tool.h;
 
 import java.util.List;

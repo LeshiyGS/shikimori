@@ -1,9 +1,11 @@
 package org.shikimori.library.loaders.httpquery;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
@@ -20,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.library.BuildConfig;
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.interfaces.LogouUserLister;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.LoaderController;
@@ -99,8 +103,8 @@ public class Query {
         this.type = StatusResult.TYPE.OBJECT;
         client.removeAllHeaders();
         // add user token
-        if(ShikiUser.getToken()!=null)
-            addHeader("Set-Cookie", ShikiUser.getToken());
+//        if(ShikiUser.getToken()!=null)
+//            addHeader("Set-Cookie", ShikiUser.TOKEN);
         useAutorization = false;
         params = new RequestParams();
         return this;
@@ -188,6 +192,7 @@ public class Query {
         if(ShikiApi.isDebug){
             Log.d(TAG, "request: " +prefix);
             Log.d(TAG, "params: " +params.toString());
+            Log.d(TAG, "token: " +ShikiUser.TOKEN);
         }
         if (getCache(successListener))
             return;
@@ -294,6 +299,13 @@ public class Query {
         try {
             JSONObject data = new JSONObject(new String(bytes));
             if(data.has("error")){
+                String errorMessage = data.optString("error");
+                if(errorMessage.contains("Вам необходимо войти в систему")){
+                    if ((context instanceof LogouUserLister)){
+                        ((LogouUserLister) context).logoutTrigger();
+                        return;
+                    }
+                }
                 stat.setError();
                 stat.setMsg(data.optString("error"));
             }

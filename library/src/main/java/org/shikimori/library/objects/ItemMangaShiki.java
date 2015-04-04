@@ -2,7 +2,8 @@ package org.shikimori.library.objects;
 
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.AbstractHelperObj;
+import org.shikimori.library.objects.abs.HelperObj;
+import org.shikimori.library.objects.one.AMShiki;
 
 /**
  * Created by Владимир on 27.08.2014.
@@ -19,7 +20,7 @@ public class ItemMangaShiki extends AMShiki {
         super.createFromJson(json);
         if (json == null)
             return null;
-        AbstractHelperObj helper = new AbstractHelperObj(json);
+        HelperObj helper = new HelperObj(json);
         nextEpisode = helper.addString("next_episode");
 
         volumes = helper.addString("volumes");

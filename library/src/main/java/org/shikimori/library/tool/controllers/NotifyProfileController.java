@@ -1,17 +1,19 @@
 package org.shikimori.library.tool.controllers;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.json.JSONObject;
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.CustomProfileTextView;
+import org.shikimori.library.fragments.NewsUserFragment;
+import org.shikimori.library.fragments.NotificationsUserFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.ShikiUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +30,13 @@ public class NotifyProfileController {
     public static final int FAVORITE = 5;
     public static final int FRIENDS = 6;
 
-    private final Context mContext;
+    private final BaseActivity mContext;
     private Query query;
     private String userId;
     private final ViewGroup body;
     private List<Item> menu = new ArrayList<>();
 
-    public NotifyProfileController(Context mContext, Query query, String userId, ViewGroup body){
+    public NotifyProfileController(BaseActivity mContext, Query query, String userId, ViewGroup body){
         this.mContext = mContext;
         this.query = query;
         this.userId = userId;
@@ -61,7 +63,7 @@ public class NotifyProfileController {
     }
 
     public void load(){
-        query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES.replace(":id:", userId)))
+        query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
              .setCache(true)
              .getResult(new Query.OnQuerySuccessListener() {
                  @Override
@@ -93,7 +95,10 @@ public class NotifyProfileController {
         @Override
         public void onClick(View v) {
             int id = (int) v.getTag();
-            h.showMsg(mContext, "click");
+            if(id == NEWS){
+                mContext.loadPage(NewsUserFragment.newInstance());
+            } else if (id == NOTIFYING)
+                mContext.loadPage(NotificationsUserFragment.newInstance());
         }
     };
 

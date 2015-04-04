@@ -1,7 +1,7 @@
-package org.shikimori.library.objects;
+package org.shikimori.library.objects.one;
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.AbstractHelperObj;
+import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
@@ -20,7 +20,7 @@ public class AnimeManga extends JsonParseable implements JsonParseable.Creator<A
         if (json == null)
             return this;
 
-        AbstractHelperObj helper = new AbstractHelperObj(json);
+        HelperObj helper = new HelperObj(json);
         id = helper.addString("id");
         groupedId = helper.addString("grouped_id");
         name = helper.addString("name");

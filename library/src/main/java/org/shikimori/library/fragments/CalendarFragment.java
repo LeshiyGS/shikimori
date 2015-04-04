@@ -14,7 +14,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemCaclendarShiki;
+import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.h;

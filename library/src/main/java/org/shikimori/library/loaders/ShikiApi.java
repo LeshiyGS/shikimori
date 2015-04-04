@@ -11,6 +11,10 @@ public class ShikiApi {
         return HTTP_SERVER + "/" + aniApi;
     }
 
+    public static String getUrl(String aniApi, String userId) {
+        return getUrl(aniApi).replace(ShikiPath.ID, userId);
+    }
+
     public static void setIsDebug(boolean isDebug) {
         ShikiApi.isDebug = isDebug;
     }

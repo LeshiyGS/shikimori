@@ -1,8 +1,8 @@
-package org.shikimori.library.objects;
+package org.shikimori.library.objects.one;
 
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.AbstractHelperObj;
+import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
@@ -30,7 +30,7 @@ public class ItemCaclendarShiki extends JsonParseable implements JsonParseable.C
         allData = json;
         if (json == null)
             return null;
-        AbstractHelperObj helper = new AbstractHelperObj(json);
+        HelperObj helper = new HelperObj(json);
         nextEpisode = helper.addString("next_episode");
         nextEpisodeAt = helper.addString("next_episode_at");
 

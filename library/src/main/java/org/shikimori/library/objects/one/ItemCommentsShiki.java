@@ -1,8 +1,8 @@
-package org.shikimori.library.objects;
+package org.shikimori.library.objects.one;
 
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.AbstractHelperObj;
+import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
@@ -30,7 +30,7 @@ public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Cr
         allData = json;
         if (json == null)
             return null;
-        AbstractHelperObj helper = new AbstractHelperObj(json);
+        HelperObj helper = new HelperObj(json);
         id = helper.addString("id");
         user_id = helper.addString("user_id");
         commentable_id = helper.addString("commentable_id");

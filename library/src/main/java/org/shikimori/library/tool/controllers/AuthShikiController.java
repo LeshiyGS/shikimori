@@ -1,4 +1,4 @@
-package org.shikimori.library.controllers;
+package org.shikimori.library.tool.controllers;
 
 import android.content.Context;
 
@@ -44,6 +44,7 @@ public class AuthShikiController {
                         String cookie = res.getHeader("Set-Cookie", "_kawai_session");
                         user.setToken(cookie);
                         user.setData(res.getResultObject());
+                        user.getId();
                         listener.onQuerySuccess(res);
                     }
                 });

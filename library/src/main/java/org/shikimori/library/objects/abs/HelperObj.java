@@ -7,11 +7,11 @@ import org.json.JSONObject;
 /**
  * Created by gars on 5/30/14.
  */
-public class AbstractHelperObj {
+public class HelperObj {
 
     private JSONObject object;
 
-    public AbstractHelperObj(JSONObject object) {
+    public HelperObj(JSONObject object) {
         this.object = object;
     }
 
@@ -78,6 +78,16 @@ public class AbstractHelperObj {
 
     public JSONObject getObject() {
         return object;
+    }
+
+    public static String getString(JSONObject object, String name){
+        if (object != null && object.has(name)){
+            String n = object.optString(name);
+
+            if (n!=null && !n.equals("null"))
+                return n;
+        }
+        return null;
     }
 
 }

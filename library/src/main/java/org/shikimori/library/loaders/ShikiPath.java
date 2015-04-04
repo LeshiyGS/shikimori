@@ -4,6 +4,7 @@ package org.shikimori.library.loaders;
  * Created by Феофилактов on 15.10.2014.
  */
 public interface ShikiPath {
+    public String ID = ":id";
     public String CALENDAR = "api/calendar";
     public String COMMENTS = "/api/comments";
     public String ANIMES = "api/animes";
@@ -11,7 +12,8 @@ public interface ShikiPath {
     public String MANGAS = "api/mangas";
     public String MANGAS_ID = "api/mangas/";
     public String TOPICS = "api/topics";
-    public String UNREAD_MESSAGES = "api/users/:id:/unread_messages";
+    public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
+    public String MESSAGES = "api/users/:id/messages";
     public String TOPICS_ID = "api/topics/";
 //    public String AUTH = "users/sign_in";
     public String AUTH = "api/sessions";

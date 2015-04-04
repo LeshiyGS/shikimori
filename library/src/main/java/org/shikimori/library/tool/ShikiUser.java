@@ -11,6 +11,7 @@ import org.shikimori.library.tool.constpack.Constants;
  */
 public class ShikiUser {
     public static String TOKEN;
+    public static String USER_ID;
     private static final String COOKIE = "cookie";
     private static final String NICKNAME = "nickname";
     private static final String AVATAR = "avatar";
@@ -23,6 +24,7 @@ public class ShikiUser {
         this.mContext = mContext;
         prefs = mContext.getSharedPreferences(Constants.SETTINGS_USER, Context.MODE_PRIVATE);
         TOKEN = prefs.getString(COOKIE, null);
+        USER_ID = prefs.getString(ID, null);
     }
 
     public void setToken(String cookie){
@@ -34,6 +36,8 @@ public class ShikiUser {
     }
 
     public void logout(){
+        TOKEN = null;
+        USER_ID = null;
         prefs.edit().clear().apply();
     }
 
@@ -45,7 +49,9 @@ public class ShikiUser {
     }
 
     public String getId(){
-        return prefs.getString(ID, null);
+        if(USER_ID == null || USER_ID.length() == 0)
+            USER_ID = prefs.getString(ID, null);
+        return USER_ID;
     }
 
     public void setData(JSONObject data) {

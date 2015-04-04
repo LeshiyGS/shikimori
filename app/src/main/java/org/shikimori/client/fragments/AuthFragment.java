@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.controllers.AuthShikiController;
+import org.shikimori.library.tool.controllers.AuthShikiController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;

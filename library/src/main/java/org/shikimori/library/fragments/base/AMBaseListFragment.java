@@ -2,19 +2,16 @@ package org.shikimori.library.fragments.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import org.shikimori.library.R;
 import org.shikimori.library.adapters.AMAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.AMShiki;
+import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 
 import java.util.List;

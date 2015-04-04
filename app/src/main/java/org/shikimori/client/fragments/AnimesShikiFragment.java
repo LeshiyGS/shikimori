@@ -6,7 +6,7 @@ import android.widget.AdapterView;
 
 import org.shikimori.client.activity.AnimeDetailsActivity;
 import org.shikimori.library.fragments.AnimesFragment;
-import org.shikimori.library.objects.AMShiki;
+import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**

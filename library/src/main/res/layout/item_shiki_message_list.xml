@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/defaultPaddingMini"
+    android:paddingRight="@dimen/defaultPaddingMini"
+    android:paddingTop="@dimen/defaultPadding4"
+    android:paddingBottom="@dimen/defaultPadding4">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_style">
+
+        <ImageView
+            android:id="@+id/ivUser"
+            android:layout_width="@dimen/defaultPadding58"
+            android:layout_height="@dimen/defaultPadding58" />
+
+        <ImageView
+            android:id="@+id/ivPoster"
+            android:layout_width="@dimen/defaultPadding58"
+            android:layout_height="@dimen/paddingCommentDesc"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/ivPoster"
+            android:layout_toStartOf="@+id/ivPoster"
+            android:layout_toRightOf="@+id/ivUser"
+            android:layout_toEndOf="@+id/ivUser"
+            android:layout_marginLeft="@dimen/defaultPaddingMini"
+            android:layout_marginRight="@dimen/defaultPaddingMini"
+            >
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiText"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCommentsDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiLabel.mini" />
+
+            <TextView
+                android:id="@+id/tvCommentsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                style="@style/altarixUiLabel.miniblack" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

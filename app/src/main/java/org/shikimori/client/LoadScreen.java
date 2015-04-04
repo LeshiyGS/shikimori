@@ -51,8 +51,7 @@ public class LoadScreen extends FragmentActivity {
 
     void startApp(){
 
-        String tokent = ShikiUser.getToken();
-        if(!tokent.contains("_kawai_session"))
+        if(ShikiUser.TOKEN!= null && !ShikiUser.TOKEN.contains("_kawai_session"))
             ShikiUser.TOKEN = null;
 
         if(TextUtils.isEmpty(ShikiUser.getToken())){

@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
-import org.shikimori.client.activity.AnimeDetailsActivity;
 import org.shikimori.client.activity.MangaDetailsActivity;
-import org.shikimori.library.fragments.AnimesFragment;
 import org.shikimori.library.fragments.MangasFragment;
-import org.shikimori.library.objects.AMShiki;
+import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**

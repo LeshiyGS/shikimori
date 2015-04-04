@@ -1,8 +1,8 @@
-package org.shikimori.library.objects;
+package org.shikimori.library.objects.one;
 
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.AbstractHelperObj;
+import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
@@ -12,7 +12,7 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
     public String id, name,russianName, nextEpisodeAt, imgOriginal, imgPreview,img_x96,img_x64, url ,episodes, episodesAired;
     public boolean ongoing, anons;
     protected JSONObject allData;
-    protected AbstractHelperObj helper;
+    protected HelperObj helper;
 
     @Override
     public String toString() {
@@ -30,7 +30,7 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
         allData = json;
         if (json == null)
             return null;
-        helper = new AbstractHelperObj(json);
+        helper = new HelperObj(json);
         id = helper.addString("id");
         name = helper.addString("name");
         url = helper.addString("utl");
