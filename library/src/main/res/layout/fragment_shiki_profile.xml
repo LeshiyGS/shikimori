@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:padding="@dimen/defaultPadding">
-
+    android:paddingTop="@dimen/defaultPadding"
+    android:paddingBottom="@dimen/defaultPadding"
+    >
 
     <LinearLayout
         android:id="@+id/llBody"
@@ -17,6 +18,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/defaultPadding"
+            android:paddingRight="@dimen/defaultPaddingMini"
             android:orientation="horizontal">
 
             <ImageView
@@ -33,8 +36,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true"
-                />
+                android:clickable="true" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -56,8 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/altarixUiLabel.mini"
-                    android:textColor="@color/greenColor"
-                    />
+                    android:textColor="@color/greenColor" />
 
                 <TextView
                     android:id="@+id/tvMiniDetails"
@@ -71,8 +72,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:paddingLeft="@dimen/defaultPadding"
+            android:paddingRight="@dimen/defaultPaddingMini"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/logoAnime"
@@ -88,17 +90,16 @@
                 custom:uiIcon="@drawable/ic_action_list"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/defaultPaddingMini"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true"
-                />
+                android:clickable="true" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_below="@+id/logoAnime"
                 android:layout_toStartOf="@+id/ivAnimeListShow"
-                android:layout_toLeftOf="@+id/ivAnimeListShow"
-                >
+                android:layout_toLeftOf="@+id/ivAnimeListShow">
 
                 <SeekBar
                     android:id="@+id/sbAnimeProgress"
@@ -115,15 +116,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/black_owerlay_40"
-                    />
+                    android:textColor="@color/black_owerlay_40" />
 
             </FrameLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:paddingLeft="@dimen/defaultPadding"
+            android:paddingRight="@dimen/defaultPaddingMini">
 
             <TextView
                 android:id="@+id/logoManga"
@@ -140,16 +142,15 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true"
-                />
+                android:layout_marginLeft="@dimen/defaultPaddingMini"
+                android:clickable="true" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_below="@+id/logoManga"
                 android:layout_toLeftOf="@+id/ivMangaListShow"
-                android:layout_toStartOf="@+id/ivMangaListShow"
-                >
+                android:layout_toStartOf="@+id/ivMangaListShow">
 
                 <SeekBar
                     android:id="@+id/sbMangaProgress"
@@ -166,11 +167,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/black_owerlay_40"
-                    />
+                    android:textColor="@color/black_owerlay_40" />
 
             </FrameLayout>
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/llBodyProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/defaultPaddingMini"
+            android:paddingRight="@dimen/defaultPaddingMini"
+            android:orientation="vertical"
+            >
+
+        </LinearLayout>
 
     </LinearLayout>
 

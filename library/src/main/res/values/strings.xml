@@ -54,4 +54,12 @@
     <string name="volumes">Тома</string>
     <string name="chapters">Главы</string>
     <string name="title_publishers">Издатель</string>
+    <string name="news">Новости</string>
+    <string name="messages">Почта</string>
+    <string name="notifying">Уведомления</string>
+    <string name="history">История</string>
+    <string name="forums">Форумы</string>
+    <string name="favorite">Избранное</string>
+    <string name="friends">Друзья</string>
+    <string name="statistics">Статистика</string>
 </resources>

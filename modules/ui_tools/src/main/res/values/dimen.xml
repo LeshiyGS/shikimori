@@ -14,6 +14,8 @@
     <dimen name="defaultPadding6">6dp</dimen>
     <dimen name="defaultPaddingMini">8dp</dimen>
     <dimen name="defaultPaddingSmall">10dp</dimen>
+    <dimen name="defaultPadding12">12dp</dimen>
+    <dimen name="defaultPadding14">14dp</dimen>
     <dimen name="defaultPadding">16dp</dimen>
     <dimen name="defaultPadding20">20dp</dimen>
     <dimen name="defaultPaddingBig">24dp</dimen>

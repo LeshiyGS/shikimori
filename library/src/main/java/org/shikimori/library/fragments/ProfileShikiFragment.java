@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.custom.CustomProfileTextView;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -26,6 +27,7 @@ import org.shikimori.library.objects.AnimeManga;
 import org.shikimori.library.objects.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
+import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.popup.ListPopup;
 
@@ -47,6 +49,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private SeekBar sbAnimeProgress, sbMangaProgress;
     private View llBody, ivWebShow;
     private ListPopup pop;
+    private ViewGroup llBodyProfile;
+    private NotifyProfileController notifyController;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -79,6 +83,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         tvMangaProgress = (TextView) v.findViewById(R.id.tvMangaProgress);
         sbAnimeProgress = (SeekBar) v.findViewById(R.id.sbAnimeProgress);
         sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
+        llBodyProfile = (ViewGroup) v.findViewById(R.id.llBodyProfile);
         h.setVisible(llBody, false);
 
         v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
@@ -105,6 +110,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // load unread messages
+        notifyController = new NotifyProfileController(activity,
+                query, activity.getShikiUser().getId(), llBodyProfile);
         initData();
         showRefreshLoader();
         loadDataFromServer();
@@ -168,6 +176,13 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         setWebSite();
         // anime / manga progress
         setProgress();
+
+        // profile data
+        buildProfile();
+    }
+
+    private void buildProfile() {
+        notifyController.load();
     }
 
     private void setProgress() {

@@ -51,6 +51,10 @@ public class LoadScreen extends FragmentActivity {
 
     void startApp(){
 
+        String tokent = ShikiUser.getToken();
+        if(!tokent.contains("_kawai_session"))
+            ShikiUser.TOKEN = null;
+
         if(TextUtils.isEmpty(ShikiUser.getToken())){
             startActivity(new Intent(this, AuthActivity.class));
         } else {

@@ -74,7 +74,7 @@ public class CustomViewBase extends LinearLayout {
                 // нужно в случае когда лабел отличаеться от hint
                 mLabel     = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiLabel, 0);
                 mTypeImage = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiIcon, 0);
-                guLayout   = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiLayout, 0);
+                guLayout   = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiLayout, guLayout);
                 guVisibleLabel   = typedArray.getInt(R.styleable.AltarixUiDesclareStyle_uiLabelVisible, INVISIBLE);
                 // если текст пустой то обычно лейбел скрываетсья
                 mHideLabelIfEmpty = typedArray.getBoolean(R.styleable.AltarixUiDesclareStyle_uiHideLabelIfEmpty, true);

@@ -214,7 +214,7 @@ public class Query {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 StatusResult res = new StatusResult(new String(responseBody), StatusResult.TYPE.OBJECT);
                 res.setHeaders(headers);
-                String cookie = res.getHeader("Set-Cookie");
+                String cookie = res.getHeader("Set-Cookie", "_kawai_session");
                 client.removeAllHeaders();
                 client.addHeader("Set-Cookie", cookie);
                 params.add("authenticity_token", res.getParameter("authenticity_token"));

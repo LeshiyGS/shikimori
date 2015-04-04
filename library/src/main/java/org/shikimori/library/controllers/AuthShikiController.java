@@ -41,7 +41,7 @@ public class AuthShikiController {
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override
                     public void onQuerySuccess(StatusResult res) {
-                        String cookie = res.getHeader("Set-Cookie");
+                        String cookie = res.getHeader("Set-Cookie", "_kawai_session");
                         user.setToken(cookie);
                         user.setData(res.getResultObject());
                         listener.onQuerySuccess(res);

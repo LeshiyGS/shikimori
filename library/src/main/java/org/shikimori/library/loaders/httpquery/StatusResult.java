@@ -118,11 +118,20 @@ public class StatusResult {
     }
 
     public String getHeader(String key){
+        getHeader(key, null);
+        return null;
+    }
+
+    public String getHeader(String key, String searchParam){
         if(headers == null)
             return null;
         for(Header head : headers){
-            if(head.getName().equalsIgnoreCase(key))
-                return head.getValue();
+            if(head.getName().equalsIgnoreCase(key)){
+                if(searchParam == null)
+                    return head.getValue();
+                else if (head.getValue().contains(searchParam))
+                    return head.getValue();
+            }
         }
 
         return null;
