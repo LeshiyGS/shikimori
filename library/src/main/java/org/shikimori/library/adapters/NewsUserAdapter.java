@@ -37,7 +37,7 @@ public class NewsUserAdapter extends BaseMessageListAdapter<ItemNewsUserShiki> {
         holder.ivUser.setImageDrawable(null);
         holder.ivPoster.setImageDrawable(null);
         ShikiImage.show(item.from.img148, holder.ivUser);
-        if(item.linked!=null)
+        if(item.linked!=null && item.linked.image!=null)
             ShikiImage.show(item.linked.image.x96, holder.ivPoster);
 
     }
