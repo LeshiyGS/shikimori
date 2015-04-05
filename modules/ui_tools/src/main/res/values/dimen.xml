@@ -26,4 +26,6 @@
     <dimen name="paddingMapInfoLeft">40dp</dimen>
     <dimen name="paddingMfcQueueTime">76dp</dimen>
     <dimen name="paddingCommentDesc">103dp</dimen>
+    <dimen name="paddingPosterW">80dp</dimen>
+    <dimen name="paddingPosterH">115dp</dimen>
 </resources>

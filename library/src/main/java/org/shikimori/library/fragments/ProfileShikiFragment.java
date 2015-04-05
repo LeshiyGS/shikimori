@@ -26,6 +26,7 @@ import org.shikimori.library.objects.one.AnimeManga;
 import org.shikimori.library.objects.one.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.popup.ListPopup;
@@ -290,8 +291,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             AnimeManga item = userDetails.fullStatuses.animes.get(position);
             Bundle b = new Bundle();
             // TODO SET DATA
-
-            activity.loadPage(AnimeFavoritesFragment.newInstance(b));
+            b.putString(Constants.LIST_ID, String.valueOf(position));
+            b.putString(Constants.USER_ID, userId);
+            activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
     };
 
@@ -301,8 +303,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             AnimeManga item = userDetails.fullStatuses.manga.get(position);
             Bundle b = new Bundle();
             // TODO SET DATA
-
-            activity.loadPage(AnimeFavoritesFragment.newInstance(b));
+            b.putString(Constants.LIST_ID, String.valueOf(position));
+            b.putString(Constants.USER_ID, userId);
+            activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
     };
 
