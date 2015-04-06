@@ -51,7 +51,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment{
             return;
         // название аниме в карточке
         setTitleElement(details.russianName, details.name);
-        ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + details.imgOriginal, ivPoster);
+        ImageLoader.getInstance().displayImage(details.imgOriginal, ivPoster);
         h.setTextViewHTML(activity, tvReview, details.description_html);
         h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
         rbTitle.setRating(Float.parseFloat(details.score) / 2);

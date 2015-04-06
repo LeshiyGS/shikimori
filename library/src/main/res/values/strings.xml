@@ -62,4 +62,5 @@
     <string name="favorite">Избранное</string>
     <string name="friends">Друзья</string>
     <string name="statistics">Статистика</string>
+    <string name="status">Статус: </string>
 </resources>

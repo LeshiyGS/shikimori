@@ -52,7 +52,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment{
         // название аниме в карточке
         setTitleElement(animeDetails.russianName, animeDetails.name);
         // poster
-        ImageLoader.getInstance().displayImage(ShikiApi.HTTP_SERVER + animeDetails.imgOriginal, ivPoster);
+        ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster);
         // description
         h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
         // rating

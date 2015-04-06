@@ -14,7 +14,7 @@
         android:background="@drawable/card_style">
 
         <ImageView
-            android:id="@+id/ivUser"
+            android:id="@+id/ivPoster"
             android:layout_width="@dimen/paddingPosterW"
             android:layout_height="@dimen/paddingPosterH"
             android:scaleType="centerCrop" />
@@ -26,7 +26,7 @@
             android:layout_marginLeft="@dimen/defaultPaddingMini">
 
             <TextView
-                android:id="@+id/tvUserName"
+                android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/altarixUiText"
@@ -35,7 +35,7 @@
                 android:lines="1" />
 
             <TextView
-                android:id="@+id/tvCommentsDate"
+                android:id="@+id/tvRusName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/altarixUiLabel.mini"
@@ -43,7 +43,7 @@
                 android:lines="1"/>
 
             <TextView
-                android:id="@+id/tvCommentsText"
+                android:id="@+id/tvStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/defaultPaddingMini"

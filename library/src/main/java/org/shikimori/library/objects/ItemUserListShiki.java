@@ -15,7 +15,7 @@ import org.shikimori.library.objects.one.AMShiki;
 public class ItemUserListShiki extends JsonParseable implements JsonParseable.Creator<ItemUserListShiki> {
     public String id, score, status, status_name, text, episodes, chapters, volumes, text_html, rewatches;
     // TODO delete this line after set ItemMangaDetails
-    public String tId, tName, tRussian, tpreview,tx96, tx64, tUrl, tOngoing, tAnons, tEpisodes, tEpisodesAired, tVolumes, tChapters;
+    public String tId, tName, tRussian, tpreview,tx96, tx64, tUrl, tEpisodes, tEpisodesAired, tVolumes, tChapters;
     protected JSONObject allData;
 
     public ItemAMDetails amDetails;
@@ -55,23 +55,6 @@ public class ItemUserListShiki extends JsonParseable implements JsonParseable.Cr
             amDetails = ItemAMDetails.create(anime);
         else if(manga!=null)
             amDetails = ItemAMDetails.create(manga);
-
-        // TODO do remove manga
-        if(manga!=null){
-            tId = manga.optString("id");
-            tName = manga.optString("name");
-            tRussian = manga.optString("russian");
-            tOngoing = manga.optString("ongoing");
-            tAnons = manga.optString("anons");
-            tVolumes = manga.optString("volumes");
-            tChapters = manga.optString("chapters");
-            tUrl = manga.optString("url");
-
-            JSONObject imgManga = manga.optJSONObject("image");
-            tpreview = ShikiApi.getUrl(imgManga.optString("preview"));
-            tx96 = ShikiApi.getUrl(imgManga.optString("x96"));
-            tx64 = ShikiApi.getUrl(imgManga.optString("x64"));
-        }
 
         return this;
     }

@@ -289,7 +289,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             AnimeManga item = userDetails.fullStatuses.animes.get(position);
             Bundle b = new Bundle();
             // TODO SET DATA
-            b.putString(Constants.LIST_ID, String.valueOf(position));
+            b.putString(Constants.LIST_ID, item.id);
+            b.putString(Constants.LIST_NAME, getListStatusName(item.name , 0));
             b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
@@ -301,7 +302,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             AnimeManga item = userDetails.fullStatuses.manga.get(position);
             Bundle b = new Bundle();
             // TODO SET DATA
-            b.putString(Constants.LIST_ID, String.valueOf(position));
+            b.putString(Constants.LIST_ID, item.id);
+            b.putString(Constants.LIST_NAME, getListStatusName(item.name , 1));
             b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
@@ -321,7 +323,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                         list.add(getTextStatus(type == 0 ? R.string.completed : R.string.completedmanga, animeManga.counted));
                         break;
                     case AnimeStatuses.DROPPED:
-                        list.add(getTextStatus(R.string.dropped, animeManga.counted)); break;
+                        list.add(getTextStatus(R.string.dropped, animeManga.counted)) ; break;
                     case AnimeStatuses.ON_HOLD:
                         list.add(getTextStatus(R.string.on_hold, animeManga.counted)); break;
                     case AnimeStatuses.PLANNED:
@@ -336,6 +338,24 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             }
         }
         return list;
+    }
+
+    public String getListStatusName(String statusName, int type){
+        switch (statusName){
+            case AnimeStatuses.COMPLETED:
+                return type == 0 ? getString(R.string.completed) : getString(R.string.completedmanga);
+            case AnimeStatuses.DROPPED:
+                return getString(R.string.dropped);
+            case AnimeStatuses.ON_HOLD:
+                return getString(R.string.on_hold);
+            case AnimeStatuses.PLANNED:
+                return getString(R.string.planned);
+            case AnimeStatuses.WATCHING:
+                return type == 0 ? getString(R.string.watching) : getString(R.string.watchingmanga);
+            case AnimeStatuses.REWATCHING:
+                return type == 0 ? getString(R.string.rewatching) : getString(R.string.rewatchingmanga);
+        }
+        return null;
     }
 
     String getTextStatus(int resigd, int count){

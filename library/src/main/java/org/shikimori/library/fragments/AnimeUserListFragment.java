@@ -1,11 +1,8 @@
 package org.shikimori.library.fragments;
 
-import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+
+import android.support.v7.app.ActionBar;
 import android.widget.ArrayAdapter;
 
 import org.shikimori.library.adapters.UserListAdapter;
@@ -46,13 +43,6 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initArgiments();
-//        ActionBar actionBar = getActivity().getActionBar();
-        if (listId.equals("0")) ;
-        else if (listId.equals("1")) ;
-        else if (listId.equals("2")) ;
-        else if (listId.equals("3")){  listId = "9";}
-        else if(listId.equals("4")){  listId = "3";}
-        else if(listId.equals("5")){  listId = "4";}
         showRefreshLoader();
         loadData();
     }
@@ -78,8 +68,10 @@ public class AnimeUserListFragment extends BaseListViewFragment {
         if (b == null)
             return;
 
+        ActionBar actionBar = activity.getSupportActionBar();
         listId = getArguments().getString(Constants.LIST_ID);
         userId = getArguments().getString(Constants.USER_ID);
+        actionBar.setTitle(getArguments().getString(Constants.LIST_NAME));
 
     }
 
@@ -88,11 +80,6 @@ public class AnimeUserListFragment extends BaseListViewFragment {
         stopRefresh();
         ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemUserListShiki.class);
         prepareData(builder.list, true, true);
-    }
-
-
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
     }
 
     @Override
