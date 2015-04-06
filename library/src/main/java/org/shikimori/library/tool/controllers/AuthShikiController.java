@@ -77,6 +77,7 @@ public class AuthShikiController {
                 @Override
                 public void onQuerySuccess(StatusResult res) {
                     user.setData(res.getResultObject());
+                    user.initStaticParams();
                     listener.onQuerySuccess(res);
                 }
             });

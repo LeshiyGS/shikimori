@@ -90,6 +90,7 @@ public class DrawerActivity extends ProjectActivity implements UserDataChangeLis
 
     public void setUserDrawerData() {
         mDrawerAdapter.setUserData(getShikiUser());
+
     }
 
     /**

@@ -33,6 +33,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     private int selectedPos = NON_SELECTED;
     private ShikiUser shikiUser;
     private int selectedId;
+    private int countnotification;
 
     @SuppressWarnings("deprecation")
     public DrawerAdapter(Context context) {
@@ -71,9 +72,14 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
                 ImageLoader.getInstance().displayImage(shikiUser.getAvatar(), holder.icon);
             // set user name
             holder.tvTitle.setText(shikiUser.getNickname());
+            h.setVisible(holder.tvNotifyCount, countnotification > 0);
+            holder.tvNotifyCount.setText(String.valueOf(countnotification));
+
         // set icon
-        } else if (elem.icon != 0)
+        } else if (elem.icon != 0){
+            h.setVisibleGone(holder.tvNotifyCount);
             holder.icon.setImageResource(elem.icon);
+        }
 
 
         // set selection item
@@ -105,6 +111,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     private ViewHolder getViewHolder(View view) {
         ViewHolder holder = new ViewHolder();
         holder.tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        holder.tvNotifyCount = (TextView) view.findViewById(R.id.tvNotifyCount);
         holder.icon = (ImageView) view.findViewById(R.id.icon);
         return holder;
     }
@@ -114,7 +121,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     }
 
     static class ViewHolder {
-        TextView tvTitle;
+        TextView tvTitle,tvNotifyCount;
         ImageView icon;
     }
 
@@ -133,6 +140,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
 
     public void setUserData(ShikiUser shikiUser) {
         this.shikiUser = shikiUser;
+        countnotification = shikiUser.getNotificationCount();
         notifyDataSetChanged();
     }
 

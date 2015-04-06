@@ -20,6 +20,22 @@
         android:layout_marginLeft="@dimen/defaultPaddingMini"
         android:textColor="@android:color/white"
         android:enabled="false"
+        android:layout_weight="1"
         android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/tvNotifyCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/altarixUiText"
+        android:layout_weight="0"
+        android:visibility="gone"
+        android:paddingLeft="@dimen/defaultPaddingMini"
+        android:paddingRight="@dimen/defaultPaddingMini"
+        android:background="@drawable/notify_style"
+        android:layout_marginLeft="@dimen/defaultPaddingMini"
+        android:textColor="@android:color/white" />
+
+
 
 </LinearLayout>

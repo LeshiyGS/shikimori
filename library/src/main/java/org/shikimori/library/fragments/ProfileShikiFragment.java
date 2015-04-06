@@ -25,6 +25,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.AnimeManga;
 import org.shikimori.library.objects.one.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
@@ -112,7 +113,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         super.onActivityCreated(savedInstanceState);
         // load unread messages
         notifyController = new NotifyProfileController(activity,
-                query, activity.getShikiUser().getId(), llBodyProfile);
+                query, activity.getShikiUser(), llBodyProfile);
         initData();
         showRefreshLoader();
         loadDataFromServer();
@@ -149,15 +150,17 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
         stopRefresh();
         userDetails = UserDetails.create(res.getResultObject());
-        if(activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id)){
-            activity.getShikiUser().setData(res.getResultObject());
-            if(activity instanceof UserDataChangeListener)
-                ((UserDataChangeListener) activity).updateUserUI();
-
-        }
 
         fillUi();
+        if(activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id))
+            activity.getShikiUser().setData(res.getResultObject());
+    }
 
+    void updateUserUI(){
+        if(userId!=null && userId.equalsIgnoreCase(ShikiUser.USER_ID)){
+            if(activity instanceof UserDataChangeListener)
+                ((UserDataChangeListener) activity).updateUserUI();
+        }
     }
 
     private void fillUi() {
@@ -182,7 +185,15 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     private void buildProfile() {
-        notifyController.load();
+        if(userId == ShikiUser.USER_ID){
+            notifyController.load(new Query.OnQuerySuccessListener() {
+                @Override
+                public void onQuerySuccess(StatusResult res) {
+                    updateUserUI();
+                }
+            });
+
+        }
     }
 
     private void setProgress() {
@@ -317,6 +328,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         List<String> list = new ArrayList<>();
         if(array!=null){
             for (AnimeManga animeManga : array) {
+
                 switch (animeManga.name){
                     case AnimeStatuses.COMPLETED:
                         list.add(getTextStatus(type == 0 ? R.string.completed : R.string.completedmanga, animeManga.counted));

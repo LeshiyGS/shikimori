@@ -13,6 +13,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
 
 import java.util.ArrayList;
@@ -32,14 +33,14 @@ public class NotifyProfileController {
 
     private final BaseActivity mContext;
     private Query query;
-    private String userId;
+    private ShikiUser user;
     private final ViewGroup body;
     private List<Item> menu = new ArrayList<>();
 
-    public NotifyProfileController(BaseActivity mContext, Query query, String userId, ViewGroup body){
+    public NotifyProfileController(BaseActivity mContext, Query query, ShikiUser user, ViewGroup body){
         this.mContext = mContext;
         this.query = query;
-        this.userId = userId;
+        this.user = user;
         this.body = body;
         initList();
     }
@@ -62,13 +63,14 @@ public class NotifyProfileController {
         }
     }
 
-    public void load(){
+    public void load(final Query.OnQuerySuccessListener listener){
         query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
              .setCache(true)
              .getResult(new Query.OnQuerySuccessListener() {
                  @Override
                  public void onQuerySuccess(StatusResult res) {
                      load(res.getResultObject());
+                     listener.onQuerySuccess(res);
                  }
              });
     }
@@ -76,18 +78,17 @@ public class NotifyProfileController {
     public void load(JSONObject dataFromServer){
         if(dataFromServer == null)
             return;
-        int messages = dataFromServer.optInt("messages");
-        int news = dataFromServer.optInt("news");
-        int notifications = dataFromServer.optInt("notifications");
+        Notification notify = new Notification(dataFromServer);
+        user.setNotification(notify);
         for (int i = 0, size = body.getChildCount(); i < size; i++) {
             CustomProfileTextView row = (CustomProfileTextView) body.getChildAt(i);
             int id = (int) row.getTag();
-            if(messages > 0 && id == MESSAGES)
-                row.setCount(messages);
-            else if(news > 0 && id == NEWS)
-                row.setCount(news);
-            else if(notifications > 0 && id == NOTIFYING)
-                row.setCount(notifications);
+            if(notify.messages > 0 && id == MESSAGES)
+                row.setCount(notify.messages);
+            else if(notify.news > 0 && id == NEWS)
+                row.setCount(notify.news);
+            else if(notify.notifications > 0 && id == NOTIFYING)
+                row.setCount(notify.notifications);
         }
     }
 
