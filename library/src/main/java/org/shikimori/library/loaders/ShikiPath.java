@@ -15,8 +15,9 @@ public interface ShikiPath {
     public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
     public String MESSAGES = "api/users/:id/messages";
     public String TOPICS_ID = "api/topics/";
-//    public String AUTH = "users/sign_in";
-    public String AUTH = "api/sessions";
+    //    public String AUTH = "users/sign_in";
+//    public String AUTH = "api/sessions";
+    public String AUTH = "api/access_token";
     public String GET_AUTH_THOKEN = "api/authenticity_token";
     public String GET_USER_DATA = "api/users/whoami";
     public String GET_USER_DETAILS = "api/users/";

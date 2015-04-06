@@ -12,6 +12,7 @@ import org.shikimori.library.tool.constpack.Constants;
 public class ShikiUser {
     public static String TOKEN;
     public static String USER_ID;
+    public static String USER_NAME;
     private static final String COOKIE = "cookie";
     private static final String NICKNAME = "nickname";
     private static final String AVATAR = "avatar";
@@ -23,8 +24,7 @@ public class ShikiUser {
     public ShikiUser(Context mContext){
         this.mContext = mContext;
         prefs = mContext.getSharedPreferences(Constants.SETTINGS_USER, Context.MODE_PRIVATE);
-        TOKEN = prefs.getString(COOKIE, null);
-        USER_ID = prefs.getString(ID, null);
+        initStaticParams();
     }
 
     public void setToken(String cookie){
@@ -38,6 +38,7 @@ public class ShikiUser {
     public void logout(){
         TOKEN = null;
         USER_ID = null;
+        USER_NAME = null;
         prefs.edit().clear().apply();
     }
 
@@ -48,10 +49,17 @@ public class ShikiUser {
         return prefs.getString(AVATAR, null);
     }
 
+
+    public void initStaticParams(){
+        USER_ID = prefs.getString(ID, null);
+        TOKEN = prefs.getString(COOKIE, null);
+        USER_NAME = prefs.getString(NICKNAME, null);
+    }
+
+
+
     public String getId(){
-        if(USER_ID == null || USER_ID.length() == 0)
-            USER_ID = prefs.getString(ID, null);
-        return USER_ID;
+        return prefs.getString(ID, null);
     }
 
     public void setData(JSONObject data) {
@@ -67,5 +75,9 @@ public class ShikiUser {
              .putString(AVATAR, ava)
              .putString(ID, data.optString(ID))
              .apply();
+    }
+
+    public void setName(String login) {
+        prefs.edit().putString(NICKNAME, login).apply();
     }
 }

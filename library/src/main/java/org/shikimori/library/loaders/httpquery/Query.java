@@ -103,8 +103,11 @@ public class Query {
         this.type = StatusResult.TYPE.OBJECT;
         client.removeAllHeaders();
         // add user token
-//        if(ShikiUser.getToken()!=null)
-//            addHeader("Set-Cookie", ShikiUser.TOKEN);
+
+        if(ShikiUser.getToken()!=null){
+            addHeader("X-User-Nickname", ShikiUser.USER_NAME);
+            addHeader("X-User-Api-Access-Token", ShikiUser.getToken());
+        }
         useAutorization = false;
         params = new RequestParams();
         return this;
@@ -203,36 +206,7 @@ public class Query {
             return;
         }
 
-        if(useAutorization){
-            requestAutorizeToken(successListener);
-        } else {
-            requestToServer(successListener);
-        }
-
-
-    }
-
-    private void requestAutorizeToken(final OnQuerySuccessListener successListener){
-        client.removeAllHeaders();
-        client.get(ShikiApi.getUrl(ShikiPath.GET_AUTH_THOKEN), new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                StatusResult res = new StatusResult(new String(responseBody), StatusResult.TYPE.OBJECT);
-                res.setHeaders(headers);
-                String cookie = res.getHeader("Set-Cookie", "_kawai_session");
-                client.removeAllHeaders();
-                client.addHeader("Set-Cookie", cookie);
-                params.add("authenticity_token", res.getParameter("authenticity_token"));
-                requestToServer(successListener);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                failResult(responseBody);
-            }
-        });
-
-
+        requestToServer(successListener);
     }
 
     private void requestToServer(final OnQuerySuccessListener successListener){

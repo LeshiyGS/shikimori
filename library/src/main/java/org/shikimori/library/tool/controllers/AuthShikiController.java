@@ -1,6 +1,7 @@
 package org.shikimori.library.tool.controllers;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
@@ -33,20 +34,51 @@ public class AuthShikiController {
     }
 
     void auth() {
+//        query.init(ShikiApi.getUrl(ShikiPath.AUTH))
+//                .setMethod(Query.METHOD.POST)
+//                .useAutorisation()
+//                .addParam("user[nickname]", login)
+//                .addParam("user[password]", password)
+//                .getResult(new Query.OnQuerySuccessListener() {
+//                    @Override
+//                    public void onQuerySuccess(StatusResult res) {
+//                        String cookie = res.getHeader("Set-Cookie", "_kawai_session");
+//                        user.setToken(cookie);
+//                        user.setData(res.getResultObject());
+//                        user.getId();
+//                        listener.onQuerySuccess(res);
+//                    }
+//                });
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-                .setMethod(Query.METHOD.POST)
-                .useAutorisation()
-                .addParam("user[nickname]", login)
-                .addParam("user[password]", password)
+                .addParam("nickname", login)
+                .addParam("password", password)
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override
                     public void onQuerySuccess(StatusResult res) {
-                        String cookie = res.getHeader("Set-Cookie", "_kawai_session");
-                        user.setToken(cookie);
-                        user.setData(res.getResultObject());
-                        user.getId();
-                        listener.onQuerySuccess(res);
+
+                        String token = res.getParameter("api_access_token");
+                        if(!TextUtils.isEmpty(token)){
+                            user.setToken(token);
+                            user.setName(login);
+                            user.initStaticParams();
+                            getUserData();
+                        }
+
                     }
                 });
+    }
+
+    /**
+     * Get id, avatar
+     */
+    void getUserData(){
+        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DATA))
+            .getResult(new Query.OnQuerySuccessListener() {
+                @Override
+                public void onQuerySuccess(StatusResult res) {
+                    user.setData(res.getResultObject());
+                    listener.onQuerySuccess(res);
+                }
+            });
     }
 }
