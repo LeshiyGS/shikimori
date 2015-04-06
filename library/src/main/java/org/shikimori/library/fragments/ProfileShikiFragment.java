@@ -40,9 +40,6 @@ import java.util.List;
  */
 public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseActivity.OnFragmentBackListener {
 
-    public static final String USER_ID = "user_id";
-
-    String userId;
     private ImageView avatar;
     private TextView tvUserName;
     private UserDetails userDetails;
@@ -59,7 +56,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     public static ProfileShikiFragment newInstance(String userId) {
         Bundle b = new Bundle();
-        b.putString(USER_ID, userId);
+        b.putString(Constants.USER_ID, userId);
 
         ProfileShikiFragment frag = new ProfileShikiFragment();
         frag.setArguments(b);
@@ -114,7 +111,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         // load unread messages
         notifyController = new NotifyProfileController(activity,
                 query, activity.getShikiUser(), llBodyProfile);
-        initData();
         showRefreshLoader();
         loadDataFromServer();
         activity.setOnFragmentBackListener(this);
@@ -122,21 +118,12 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public void onStartRefresh() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + userId);
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId());
         loadDataFromServer();
     }
 
-    private void initData() {
-        Bundle b = getArguments();
-        if(b != null)
-            userId = b.getString(USER_ID);
-
-        if(userId == null)
-            userId    = activity.getShikiUser().getId();
-    }
-
     void loadDataFromServer(){
-        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS)+userId)
+        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS)+getUserId())
              .setCache(true, Query.HOUR)
              .getResult(this);
 
@@ -157,7 +144,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     void updateUserUI(){
-        if(userId!=null && userId.equalsIgnoreCase(ShikiUser.USER_ID)){
+        if(getUserId()!=null && getUserId().equalsIgnoreCase(ShikiUser.USER_ID)){
             if(activity instanceof UserDataChangeListener)
                 ((UserDataChangeListener) activity).updateUserUI();
         }
@@ -185,7 +172,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     private void buildProfile() {
-        if(userId == ShikiUser.USER_ID){
+        if(getUserId().equals(ShikiUser.USER_ID)){
             notifyController.load(new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {
@@ -303,7 +290,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Bundle b = new Bundle();
             // TODO SET DATA
             b.putString(Constants.LIST_ID, String.valueOf(position));
-            b.putString(Constants.USER_ID, userId);
+            b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
     };
@@ -315,7 +302,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Bundle b = new Bundle();
             // TODO SET DATA
             b.putString(Constants.LIST_ID, String.valueOf(position));
-            b.putString(Constants.USER_ID, userId);
+            b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
     };

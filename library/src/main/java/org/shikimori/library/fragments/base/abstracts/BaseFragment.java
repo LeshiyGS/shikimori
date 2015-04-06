@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 
 import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 /**
@@ -23,6 +25,7 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
      * get data from server or cache
      */
     protected Query query;
+    private String userId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        initData();
         this.activity = (T) getActivity();
         query = ((Queryable)activity).prepareQuery(false);
 
@@ -72,5 +75,18 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         return query;
     }
 
+
+    private void initData() {
+        Bundle b = getArguments();
+        if(b != null)
+            userId = b.getString(Constants.USER_ID);
+
+        if(userId == null)
+            userId    = ShikiUser.USER_ID;
+    }
+
+    public String getUserId(){
+        return userId;
+    }
 
 }
