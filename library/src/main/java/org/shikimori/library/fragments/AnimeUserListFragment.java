@@ -87,17 +87,7 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
         ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemUserListShiki.class);
-
-        int size = builder.list.size();
-        // если предыдущее количество кратно limit+1
-        // значит есть еще данные
-        if (size != 0 && size % ((LIMIT) + 1) == 0) {
-            hasMoreItems(true);
-            // удаляем последний элемент
-            builder.list.remove(size - 1);
-        } else
-            hasMoreItems(false);
-        prepareData(builder.list);
+        prepareData(builder.list, true, true);
     }
 
 
@@ -106,21 +96,8 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     }
 
     @Override
-    public ArrayAdapter<?> getAdapter(List<?> list) {
-        return null;
+    public ArrayAdapter<ItemUserListShiki> getAdapter(List<?> list) {
+        return new UserListAdapter(activity, (List<ItemUserListShiki>) list);
     }
 
-    private void prepareData(List<ItemUserListShiki> list) {
-        if (adapter == null) {
-            adapter = new UserListAdapter(activity, list);
-            setAdapter(adapter);
-        } else {
-            if (page == DEFAULT_FIRST_PAGE)
-                adapter.clear();
-
-            for (int i = 0; i < list.size(); i++) {
-                adapter.add(list.get(i));
-            }
-        }
-    }
 }

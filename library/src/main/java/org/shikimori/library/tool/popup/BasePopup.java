@@ -9,8 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 
@@ -28,6 +34,7 @@ public abstract class BasePopup {
     private View view;
     private TextView tvTitle;
     private boolean hideOnClickItem = true;
+    View backView;
 
     public BasePopup (Activity mContext){
         this.mContext = mContext;
@@ -92,11 +99,29 @@ public abstract class BasePopup {
      */
     protected void showPopup() {
         hide();
+        initBackPopup();
         crouton = Crouton.make(mContext, view);
         Configuration croutonConfiguration = new Configuration.Builder()
                 .setDuration(Configuration.DURATION_INFINITE).build();
         crouton.setConfiguration(croutonConfiguration);
         crouton.show();
+        showBackPopup();
+    }
+
+    private void showBackPopup() {
+        YoYo.with(Techniques.FadeIn)
+            .withListener(new AnimateBackListener(backView, true))
+            .duration(600)
+            .playOn(backView);
+    }
+
+    private void hideBackPopup(){
+        if(backView.getVisibility()!=View.VISIBLE)
+            backView.setVisibility(View.VISIBLE);
+        YoYo.with(Techniques.FadeOut)
+                .duration(600)
+                .withListener(new AnimateBackListener(backView, false))
+            .playOn(backView);
     }
 
     /**
@@ -130,6 +155,7 @@ public abstract class BasePopup {
             if(crouton!=null){
                 crouton.hide();
                 crouton = null;
+                hideBackPopup();
                 return true;
             }
         }
@@ -146,5 +172,76 @@ public abstract class BasePopup {
             hide(true);
         }
     };
+
+    private void initBackPopup(){
+
+        if(backView !=null)
+            return;
+
+        ViewGroup decorView = (ViewGroup) mContext.findViewById(android.R.id.content);
+        if(decorView!=null){
+
+            backView = decorView.findViewById(R.id.back_popup_view);
+            if(backView!=null)
+                return;
+
+            View firstChaild = decorView.getChildAt(0);
+
+            ViewGroup root;
+            if(firstChaild instanceof RelativeLayout == false && firstChaild instanceof FrameLayout == false){
+                FrameLayout rootViewNew = new FrameLayout(mContext);
+                rootViewNew.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                decorView.removeView(firstChaild);
+                rootViewNew.addView(firstChaild);
+                decorView.addView(rootViewNew);
+                root = rootViewNew;
+            } else {
+                root = (ViewGroup) firstChaild;
+            }
+
+            if(root!=null){
+
+                backView = new View(mContext);
+                backView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                backView.setBackgroundColor(mContext.getResources().getColor(R.color.black_owerlay_60));
+                backView.setOnClickListener(closeToClick);
+
+                root.addView(backView);
+            }
+        }
+    }
+
+    private static class AnimateBackListener implements Animator.AnimatorListener {
+
+        private View view;
+        private boolean visibility;
+
+        public AnimateBackListener(View view, boolean visibility){
+            this.view = view;
+            this.visibility = visibility;
+        }
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+            if(visibility && view.getVisibility()!=View.VISIBLE)
+                view.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            if(!visibility && view.getVisibility()!=View.GONE)
+                view.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+    }
 
 }
