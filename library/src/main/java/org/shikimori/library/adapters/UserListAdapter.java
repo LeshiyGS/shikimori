@@ -7,36 +7,33 @@ import android.content.Context;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.shikimori.library.adapters.base.BaseCommentsListAdapter;
-import org.shikimori.library.adapters.base.BaseUserListAdapter;
+import org.shikimori.library.R;
+import org.shikimori.library.adapters.base.BaseListAdapter;
+import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.objects.ItemUserListShiki;
-import org.shikimori.library.tool.h;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserListAdapter extends BaseUserListAdapter<ItemUserListShiki> {
+public class UserListAdapter extends BaseListAdapter<ItemUserListShiki, BaseHolder> {
 
     public UserListAdapter(Context context, List<ItemUserListShiki> list) {
-        super(context, list);
-    }
-
-    String formatDate(long date, String format) {
-        return h.getStringDate(format, new Date(date));
+        super(context, list, R.layout.item_shiki_user_list);
     }
 
     @Override
-    public void setValues(ViewHolder holder, ItemUserListShiki item) {
-        holder.tvUserName.setText(item.tName);
-        holder.tvCommentsDate.setText(item.tRussian);
-        //h.setTextViewHTML(getContext(),holder.tvCommentsText,item.text_html.toString());
+    public void setValues(BaseHolder holder, ItemUserListShiki item) {
+        if(item.amDetails!=null){
+            holder.tvName.setText(item.amDetails.name);
+            holder.tvDate.setText(item.amDetails.russianName);
+            //h.setTextViewHTML(getContext(),holder.tvCommentsText,item.text_html.toString());
 
-        // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
-        holder.ivImage.setImageDrawable(null);
-        ImageLoader.getInstance().displayImage(item.tpreview, holder.ivImage);
+            // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
+            holder.ivUser.setImageDrawable(null);
+            ImageLoader.getInstance().displayImage(item.amDetails.imgPreview, holder.ivUser);
+        }
     }
 
 }

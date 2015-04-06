@@ -2,6 +2,7 @@ package org.shikimori.library.objects.one;
 
 
 import org.json.JSONObject;
+import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
@@ -33,7 +34,7 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
         helper = new HelperObj(json);
         id = helper.addString("id");
         name = helper.addString("name");
-        url = helper.addString("utl");
+        url = helper.addString("url");
         russianName = helper.addString("russian");
         episodes = helper.addString("episodes");
         episodesAired = helper.addString("episodes_aired");
@@ -45,12 +46,18 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
 
         JSONObject image = json.optJSONObject("image");
         if(image!=null){
-            imgOriginal = image.optString("original");
-            imgPreview = image.optString("preview");
-            img_x96 = image.optString("x96");
-            img_x64 = image.optString("x64");
+            imgOriginal = getImageUrl(image.optString("original"));
+            imgPreview = getImageUrl(image.optString("preview"));
+            img_x96 = getImageUrl(image.optString("x96"));
+            img_x64 = getImageUrl(image.optString("x64"));
         }
 
         return this;
+    }
+
+    String getImageUrl(String url){
+        if(url.startsWith("/"))
+            return ShikiApi.HTTP_SERVER + url;
+        return url;
     }
 }

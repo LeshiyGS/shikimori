@@ -39,6 +39,7 @@ public class NewsUserFragment extends BaseListViewFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        showRefreshLoader();
         loadData();
     }
 

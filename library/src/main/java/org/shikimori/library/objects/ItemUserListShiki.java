@@ -7,14 +7,18 @@ import org.json.JSONObject;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
+import org.shikimori.library.objects.one.AMShiki;
 
 /**
  * Created by LeshiyGS on 30.08.2014.
  */
 public class ItemUserListShiki extends JsonParseable implements JsonParseable.Creator<ItemUserListShiki> {
     public String id, score, status, status_name, text, episodes, chapters, volumes, text_html, rewatches;
+    // TODO delete this line after set ItemMangaDetails
     public String tId, tName, tRussian, tpreview,tx96, tx64, tUrl, tOngoing, tAnons, tEpisodes, tEpisodesAired, tVolumes, tChapters;
     protected JSONObject allData;
+
+    public ItemAMDetails amDetails;
 
     @Override
     public String toString() {
@@ -44,25 +48,15 @@ public class ItemUserListShiki extends JsonParseable implements JsonParseable.Cr
         text_html = helper.addString("text_html");
         rewatches = helper.addString("rewatches");
 
-
+        // anime build
         JSONObject anime = json.optJSONObject("anime");
-        if(anime!=null){
-            tId = anime.optString("id");
-            tName = anime.optString("name");
-            tRussian = anime.optString("russian");
-            tOngoing = anime.optString("ongoing");
-            tAnons = anime.optString("anons");
-            tEpisodes = anime.optString("episodes");
-            tEpisodesAired = anime.optString("episodes_aired");
-            tUrl = anime.optString("url");
-
-            JSONObject imgAnime = anime.optJSONObject("image");
-            tpreview = ShikiApi.getUrl(imgAnime.optString("preview"));
-            tx96 = ShikiApi.getUrl(imgAnime.optString("x96"));
-            tx64 = ShikiApi.getUrl(imgAnime.optString("x64"));
-        }
-
         JSONObject manga = json.optJSONObject("manga");
+        if(anime!=null)
+            amDetails = ItemAMDetails.create(anime);
+        else if(manga!=null)
+            amDetails = ItemAMDetails.create(manga);
+
+        // TODO do remove manga
         if(manga!=null){
             tId = manga.optString("id");
             tName = manga.optString("name");

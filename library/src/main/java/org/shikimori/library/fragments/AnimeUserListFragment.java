@@ -53,6 +53,7 @@ public class AnimeUserListFragment extends BaseListViewFragment {
         else if (listId.equals("3")){  listId = "9";}
         else if(listId.equals("4")){  listId = "3";}
         else if(listId.equals("5")){  listId = "4";}
+        showRefreshLoader();
         loadData();
     }
 
