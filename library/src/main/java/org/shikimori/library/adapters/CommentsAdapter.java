@@ -35,7 +35,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, BaseHold
         h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
-        holder.ivUser.setImageDrawable(null);
-        ImageLoader.getInstance().displayImage(item.avatar, holder.ivUser);
+        holder.ivPoster.setImageDrawable(null);
+        ImageLoader.getInstance().displayImage(item.avatar, holder.ivPoster);
     }
 }

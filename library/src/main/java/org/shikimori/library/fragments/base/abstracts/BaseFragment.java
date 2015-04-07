@@ -2,7 +2,6 @@ package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
@@ -36,7 +35,14 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         return 0;
     }
 
+    /**
+     * Set action bar title
+     * @return
+     */
     public String getActionBarTitleString(){
+        Bundle b = getArguments();
+        if(b!=null)
+            return b.getString(Constants.ACTION_BAR_TITLE);
         return null;
     }
 
@@ -47,12 +53,20 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         this.activity = (T) getActivity();
         query = ((Queryable)activity).prepareQuery(false);
 
-        ActionBar actionBar = activity.getSupportActionBar();
+        setActionBarTitle();
+    }
 
-        if(getActionBarTitle()!=0 && actionBar!=null)
-            actionBar.setTitle(getActionBarTitle());
-        else if (getActionBarTitleString()!=null && actionBar!=null)
-            actionBar.setTitle(getActionBarTitleString());
+    private void setActionBarTitle(){
+        ActionBar actionBar = activity.getSupportActionBar();
+        if(actionBar!=null){
+            String title;
+            // set int title
+            if(getActionBarTitle()!=0)
+                actionBar.setTitle(getActionBarTitle());
+            // set String title
+            else if ((title = getActionBarTitleString())!=null)
+                actionBar.setTitle(title);
+        }
     }
 
 

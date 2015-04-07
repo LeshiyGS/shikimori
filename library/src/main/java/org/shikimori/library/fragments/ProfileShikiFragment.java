@@ -290,7 +290,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Bundle b = new Bundle();
             // TODO SET DATA
             b.putString(Constants.LIST_ID, item.id);
-            b.putString(Constants.LIST_NAME, getListStatusName(item.name , 0));
+            b.putString(Constants.ACTION_BAR_TITLE, getListStatusName(item.name, 0));
             b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
@@ -303,7 +303,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Bundle b = new Bundle();
             // TODO SET DATA
             b.putString(Constants.LIST_ID, item.id);
-            b.putString(Constants.LIST_NAME, getListStatusName(item.name , 1));
+            b.putString(Constants.ACTION_BAR_TITLE, getListStatusName(item.name, 1));
             b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
@@ -317,24 +317,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         List<String> list = new ArrayList<>();
         if(array!=null){
             for (AnimeManga animeManga : array) {
-
-                switch (animeManga.name){
-                    case AnimeStatuses.COMPLETED:
-                        list.add(getTextStatus(type == 0 ? R.string.completed : R.string.completedmanga, animeManga.counted));
-                        break;
-                    case AnimeStatuses.DROPPED:
-                        list.add(getTextStatus(R.string.dropped, animeManga.counted)) ; break;
-                    case AnimeStatuses.ON_HOLD:
-                        list.add(getTextStatus(R.string.on_hold, animeManga.counted)); break;
-                    case AnimeStatuses.PLANNED:
-                        list.add(getTextStatus(R.string.planned, animeManga.counted)); break;
-                    case AnimeStatuses.WATCHING:
-                        list.add(getTextStatus(type == 0 ? R.string.watching : R.string.watchingmanga, animeManga.counted));
-                        break;
-                    case AnimeStatuses.REWATCHING:
-                        list.add(getTextStatus(type == 0 ? R.string.rewatching : R.string.rewatchingmanga, animeManga.counted));
-                        break;
-                }
+                String name = getListStatusName(animeManga.name, type);
+                if(name!=null)
+                    list.add(name);
             }
         }
         return list;

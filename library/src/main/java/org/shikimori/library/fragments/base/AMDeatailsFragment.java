@@ -16,6 +16,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 
 import ru.altarix.ui.CustomTextView;
@@ -99,14 +100,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     }
 
     protected String getStatus(boolean anons, boolean ongoing){
-        if (!anons && !ongoing){
-            return activity.getString(R.string.incoming);
-        }else if(anons){
-            return activity.getString(R.string.anons);
-        }else if(ongoing){
-            return activity.getString(R.string.ongoing);
-        }
-        return "";
+        return ProjectTool.getStatus(activity, anons, ongoing);
     }
 
     protected void addInfo(int label,  String text) {

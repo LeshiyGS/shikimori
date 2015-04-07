@@ -173,7 +173,7 @@ public class Query {
 
     private boolean getCache(OnQuerySuccessListener successListener){
         if(cache){
-            Cursor cur = getDbCache().getData(prefix+params.toString());
+            Cursor cur = getDbCache().getData(prefix + params.toString());
             if(cur.moveToFirst()){
                 String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
                 data = data.replace("__|__","'");
@@ -193,9 +193,14 @@ public class Query {
 
     public void getResult(final OnQuerySuccessListener successListener) {
         if(ShikiApi.isDebug){
-            Log.d(TAG, "request: " +prefix);
-            Log.d(TAG, "params: " +params.toString());
-            Log.d(TAG, "token: " +ShikiUser.TOKEN);
+            String p = params.toString();
+            if(method == METHOD.GET){
+                Log.d(TAG, "request: " +prefix + "?"+p);
+            } else {
+                Log.d(TAG, "request: " +prefix);
+                Log.d(TAG, "params: " +p);
+            }
+            Log.d(TAG, "token: " + ShikiUser.TOKEN);
         }
         if (getCache(successListener))
             return;

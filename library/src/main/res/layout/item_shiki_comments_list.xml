@@ -14,7 +14,7 @@
         android:background="@drawable/card_style">
 
         <ImageView
-            android:id="@+id/ivUser"
+            android:id="@+id/ivPoster"
             android:layout_width="@dimen/defaultPadding58"
             android:layout_height="@dimen/defaultPadding58" />
 
@@ -25,20 +25,20 @@
             android:layout_marginLeft="@dimen/defaultPaddingMini">
 
             <TextView
-                android:id="@+id/tvUserName"
+                android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/altarixUiText"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvCommentsDate"
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/altarixUiLabel.mini" />
 
             <TextView
-                android:id="@+id/tvCommentsText"
+                android:id="@+id/tvText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/defaultPaddingMini"

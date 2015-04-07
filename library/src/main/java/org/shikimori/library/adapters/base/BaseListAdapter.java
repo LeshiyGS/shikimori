@@ -32,8 +32,11 @@ public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<
     @Override
     public void setListeners(H holder) {
         super.setListeners(holder);
+        if(holder.ivPoster !=null)
+            holder.ivPoster.setOnTouchListener(h.getImageHighlight);
         if(holder.ivUser!=null)
             holder.ivUser.setOnTouchListener(h.getImageHighlight);
+
     }
 
     @Override
@@ -45,14 +48,15 @@ public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<
     public H getViewHolder(View v) {
         try {
             H holder = classHolder.newInstance();
+            holder.ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
             holder.ivUser = (ImageView) v.findViewById(R.id.ivUser);
-            holder.tvDate = (TextView) v.findViewById(R.id.tvCommentsDate);
-            holder.tvText = (TextView) v.findViewById(R.id.tvCommentsText);
-            holder.tvName = (TextView) v.findViewById(R.id.tvUserName);
+            holder.tvDate = (TextView) v.findViewById(R.id.tvDate);
+            holder.tvText = (TextView) v.findViewById(R.id.tvText);
+            holder.tvName = (TextView) v.findViewById(R.id.tvName);
+            holder.tvRusName = (TextView) v.findViewById(R.id.tvRusName);
+            holder.tvStatus = (TextView) v.findViewById(R.id.tvStatus);
             return holder;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

@@ -11,6 +11,7 @@ import org.shikimori.library.loaders.ShikiApi;
  */
 public class ShikiImage {
     public static boolean show(String url, ImageView imageView){
+        imageView.setImageDrawable(null);
         if(url == null)
             return false;
 
@@ -18,6 +19,14 @@ public class ShikiImage {
             url = ShikiApi.HTTP_SERVER + url;
 
         ImageLoader.getInstance().displayImage(url,imageView);
+        return true;
+    }
+    public static boolean show(String url, ImageView imageView, boolean hideIfEnpty){
+        if(!show(url, imageView) && hideIfEnpty){
+            h.setVisibleGone(imageView);
+            return false;
+        }else
+            h.setVisible(imageView, true);
         return true;
     }
 }

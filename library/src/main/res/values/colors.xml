@@ -24,4 +24,7 @@
     <color name="button_background_default">#333333</color>
     <color name="button_background_selected">#000000</color>
     <color name="button_text_color">@color/white_overlay_85</color>
+    <color name="anons">#ca4929</color>
+    <color name="ongoing">#419541</color>
+    <color name="done">#333333</color>
 </resources>

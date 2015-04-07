@@ -21,5 +21,5 @@ public interface ShikiPath {
     public String GET_AUTH_THOKEN = "api/authenticity_token";
     public String GET_USER_DATA = "api/users/whoami";
     public String GET_USER_DETAILS = "api/users/";
-    public String GET_USER_ANIME_LIST = "api/users/%1$s/anime_rates";
+    public String GET_USER_ANIME_LIST = "api/users/:id/anime_rates";
 }

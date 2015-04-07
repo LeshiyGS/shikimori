@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseListAdapter;
+import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.adapters.holder.MessageHolder;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ShikiImage;
@@ -51,12 +52,11 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         holder.tvDate.setText(sdate);
         h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
 
-        // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
-        holder.ivUser.setImageDrawable(null);
-        holder.ivPoster.setImageDrawable(null);
-        ShikiImage.show(item.from.img148, holder.ivUser);
+        ShikiImage.show(item.from.img148, holder.ivUser, true);
         if(item.linked!=null && item.linked.image!=null)
-            ShikiImage.show(item.linked.image.x96, holder.ivPoster);
+            ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
+        else
+            h.setVisibleGone(holder.ivPoster);
 
     }
 }

@@ -22,10 +22,8 @@ import java.util.List;
  */
 public class AnimeUserListFragment extends BaseListViewFragment {
 
-    private String userId;
     private String listId;
     public static final int LIMIT = 250;
-    private UserListAdapter adapter;
 
     public static AnimeUserListFragment newInstance(Bundle b) {
         AnimeUserListFragment frag = new AnimeUserListFragment();
@@ -50,12 +48,12 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(String.format(ShikiPath.GET_USER_ANIME_LIST, userId)));
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getUserId()));
         loadData();
     }
 
     public void loadData() {
-        query.init(ShikiApi.getUrl(String.format(ShikiPath.GET_USER_ANIME_LIST, userId)), StatusResult.TYPE.ARRAY)
+        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getUserId()), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("status", listId)
@@ -68,11 +66,7 @@ public class AnimeUserListFragment extends BaseListViewFragment {
         if (b == null)
             return;
 
-        ActionBar actionBar = activity.getSupportActionBar();
         listId = getArguments().getString(Constants.LIST_ID);
-        userId = getArguments().getString(Constants.USER_ID);
-        actionBar.setTitle(getArguments().getString(Constants.LIST_NAME));
-
     }
 
     @Override

@@ -14,8 +14,6 @@ import org.shikimori.library.objects.one.AMShiki;
  */
 public class ItemUserListShiki extends JsonParseable implements JsonParseable.Creator<ItemUserListShiki> {
     public String id, score, status, status_name, text, episodes, chapters, volumes, text_html, rewatches;
-    // TODO delete this line after set ItemMangaDetails
-    public String tId, tName, tRussian, tpreview,tx96, tx64, tUrl, tEpisodes, tEpisodesAired, tVolumes, tChapters;
     protected JSONObject allData;
 
     public ItemAMDetails amDetails;
