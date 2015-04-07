@@ -4,6 +4,31 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="notyfy_style_blue" >
+        <item name="android:paddingLeft">@dimen/defaultPaddingMini</item>
+        <item name="android:paddingRight">@dimen/defaultPaddingMini</item>
+        <item name="android:background">@drawable/notify_style</item>
+        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+        <item name="android:textColor">@android:color/white</item>
+        <!-- shadow -->
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+    </style>
+
+    <style name="notyfy_style_green" parent="notyfy_style_blue">
+        <item name="android:background">@drawable/notify_style_green</item>
+    </style>
+
+    <style name="notyfy_style_pink" parent="notyfy_style_blue">
+        <item name="android:background">@drawable/notify_style_pink</item>
+    </style>
+
+    <style name="notyfy_style_gray" parent="notyfy_style_blue">
+        <item name="android:background">@drawable/notify_style_gray</item>
+    </style>
+
     <style name="button">
         <item name="android:padding">@dimen/defaultPaddingMini</item>
         <item name="android:textColor">@color/white_overlay_85</item>

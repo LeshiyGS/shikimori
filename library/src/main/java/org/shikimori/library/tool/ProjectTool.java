@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.shikimori.library.R;
+import org.shikimori.library.tool.constpack.AnimeStatuses;
 
 /**
  * Created by Владимир on 07.04.2015.
@@ -28,5 +29,26 @@ public class ProjectTool {
         }else if(ongoing){
             v.setBackgroundColor(context.getResources().getColor(R.color.ongoing));
         }
+    }
+
+    public enum TYPE{
+        ANIME, MANGA
+    }
+    public static String getListStatusName(Context context, String statusName, TYPE type){
+        switch (statusName){
+            case AnimeStatuses.COMPLETED:
+                return type == TYPE.ANIME ? context.getString(R.string.completed) : context.getString(R.string.completedmanga);
+            case AnimeStatuses.DROPPED:
+                return context.getString(R.string.dropped);
+            case AnimeStatuses.ON_HOLD:
+                return context.getString(R.string.on_hold);
+            case AnimeStatuses.PLANNED:
+                return context.getString(R.string.planned);
+            case AnimeStatuses.WATCHING:
+                return type == TYPE.ANIME ? context.getString(R.string.watching) : context.getString(R.string.watchingmanga);
+            case AnimeStatuses.REWATCHING:
+                return type == TYPE.ANIME ? context.getString(R.string.rewatching) : context.getString(R.string.rewatchingmanga);
+        }
+        return null;
     }
 }

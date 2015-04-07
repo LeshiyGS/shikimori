@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.adapters.ProfileMangaAnnimeNameAdapter;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -25,6 +26,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.AnimeManga;
 import org.shikimori.library.objects.one.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
@@ -270,13 +272,17 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         } else if (v.getId() == R.id.ivAnimeListShow){
             pop = new ListPopup(activity);
             pop.setOnItemClickListener(animePopupListener);
-            pop.setList(getListNames(userDetails.fullStatuses.animes, anime));
+            pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
+                    userDetails.fullStatuses.animes, ProjectTool.TYPE.ANIME));
+//            pop.setList(getListNames(userDetails.fullStatuses.animes, anime));
             pop.setTitle(R.string.lists_anime);
             pop.show();
         } else if (v.getId() == R.id.ivMangaListShow){
             pop = new ListPopup(activity);
             pop.setOnItemClickListener(mangaPopupListener);
-            pop.setList(getListNames(userDetails.fullStatuses.manga, manga));
+            pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
+                    userDetails.fullStatuses.manga, ProjectTool.TYPE.MANGA));
+//            pop.setList(getListNames(userDetails.fullStatuses.manga, manga));
             pop.setTitle(R.string.lists_manga);
             pop.show();
         }
@@ -290,7 +296,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Bundle b = new Bundle();
             // TODO SET DATA
             b.putString(Constants.LIST_ID, item.id);
-            b.putString(Constants.ACTION_BAR_TITLE, getListStatusName(item.name, 0));
+            b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, item.name, ProjectTool.TYPE.ANIME));
             b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
@@ -303,7 +309,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Bundle b = new Bundle();
             // TODO SET DATA
             b.putString(Constants.LIST_ID, item.id);
-            b.putString(Constants.ACTION_BAR_TITLE, getListStatusName(item.name, 1));
+            b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, item.name, ProjectTool.TYPE.MANGA));
             b.putString(Constants.USER_ID, getUserId());
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         }
@@ -312,35 +318,16 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     /**
      * Получаем список аниме или манги статусов
      */
-    int anime = 0, manga = 1; // type
-    List<String> getListNames(List<AnimeManga> array, int type){
+    List<String> getListNames(List<AnimeManga> array, ProjectTool.TYPE type){
         List<String> list = new ArrayList<>();
         if(array!=null){
             for (AnimeManga animeManga : array) {
-                String name = getListStatusName(animeManga.name, type);
+                String name = ProjectTool.getListStatusName(activity, animeManga.name, type);
                 if(name!=null)
-                    list.add(name);
+                    list.add(name + " / " + animeManga.counted);
             }
         }
         return list;
-    }
-
-    public String getListStatusName(String statusName, int type){
-        switch (statusName){
-            case AnimeStatuses.COMPLETED:
-                return type == 0 ? getString(R.string.completed) : getString(R.string.completedmanga);
-            case AnimeStatuses.DROPPED:
-                return getString(R.string.dropped);
-            case AnimeStatuses.ON_HOLD:
-                return getString(R.string.on_hold);
-            case AnimeStatuses.PLANNED:
-                return getString(R.string.planned);
-            case AnimeStatuses.WATCHING:
-                return type == 0 ? getString(R.string.watching) : getString(R.string.watchingmanga);
-            case AnimeStatuses.REWATCHING:
-                return type == 0 ? getString(R.string.rewatching) : getString(R.string.rewatchingmanga);
-        }
-        return null;
     }
 
     String getTextStatus(int resigd, int count){

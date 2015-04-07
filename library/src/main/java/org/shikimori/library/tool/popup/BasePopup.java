@@ -19,6 +19,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
+import org.shikimori.library.tool.h;
 
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -100,6 +101,7 @@ public abstract class BasePopup {
     protected void showPopup() {
         hide();
         initBackPopup();
+        h.setFont(mContext, view);
         crouton = Crouton.make(mContext, view);
         Configuration croutonConfiguration = new Configuration.Builder()
                 .setDuration(Configuration.DURATION_INFINITE).build();
