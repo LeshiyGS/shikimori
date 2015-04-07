@@ -9,6 +9,7 @@ import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.adapters.holder.MessageHolder;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.h;
 
@@ -23,11 +24,6 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     public NewsUserAdapter(Context context, List list) {
         super(context, list, R.layout.item_shiki_message_list, MessageHolder.class);
     }
-
-    String formatDate(long date, String format) {
-        return h.getStringDate(format, new Date(date));
-    }
-
 
     @Override
     public void setListeners(MessageHolder holder) {
@@ -46,10 +42,8 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     public void setValues(MessageHolder holder, ItemNewsUserShiki item) {
         if(item.from!=null)
             holder.tvName.setText(item.from.nickname);
-        Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.createdAt);
-        String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
 
-        holder.tvDate.setText(sdate);
+        holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
         h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
 
         ShikiImage.show(item.from.img148, holder.ivUser, true);

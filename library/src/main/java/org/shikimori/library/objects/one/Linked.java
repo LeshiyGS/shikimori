@@ -19,6 +19,7 @@ public class Linked {
         threadId = HelperObj.getString(object, "thread_id");
         type = HelperObj.getString(object, "type");
         russianName = HelperObj.getString(object, "russian_name");
+        name = HelperObj.getString(object, "name");
         image = new ItemImage(object.optJSONObject("image"));
         ongoing = object.optBoolean("ongoing");
         anons = object.optBoolean("anons");

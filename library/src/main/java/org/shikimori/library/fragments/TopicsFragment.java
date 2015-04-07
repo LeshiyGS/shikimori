@@ -1,7 +1,6 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -9,13 +8,14 @@ import android.widget.ArrayAdapter;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.NewsUserAdapter;
+import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class TopicsFragment extends BaseListViewFragment{
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS) + "?section" + section);
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS));
         loadData();
     }
 
@@ -67,18 +67,18 @@ public class TopicsFragment extends BaseListViewFragment{
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
-        ObjectBuilder<ItemNewsUserShiki> builder = new ObjectBuilder<>(res.getResultArray(), ItemNewsUserShiki.class);
+        ObjectBuilder<ItemTopicsShiki> builder = new ObjectBuilder<>(res.getResultArray(), ItemTopicsShiki.class);
         prepareData(builder.list, true, true);
     }
 
     @Override
-    public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        return new NewsUserAdapter(activity, list);
+    public ArrayAdapter<ItemTopicsShiki> getAdapter(List list) {
+        return new TopicsAdapter(activity, list);
     }
 
     @Override
     protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.global_news_menu, menu);
+        inflater.inflate(R.menu.topics_menu, menu);
         return menu;
     }
 

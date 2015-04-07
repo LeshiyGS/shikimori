@@ -137,11 +137,13 @@ public class h {
     }
 
     public static Date getDateFromString(String format, String date){
-        SimpleDateFormat _format = new SimpleDateFormat(format);
-        try {
-            return  _format.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(date!=null && format!=null){
+            SimpleDateFormat _format = new SimpleDateFormat(format);
+            try {
+                return  _format.parse(date);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return new Date();
     }

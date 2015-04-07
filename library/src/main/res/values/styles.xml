@@ -7,9 +7,12 @@
     <style name="notyfy_style_blue" >
         <item name="android:paddingLeft">@dimen/defaultPaddingMini</item>
         <item name="android:paddingRight">@dimen/defaultPaddingMini</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
         <item name="android:background">@drawable/notify_style</item>
-        <item name="android:textSize">@dimen/guTextSizeNormal</item>
+        <item name="android:textSize">@dimen/guTextSizeMini</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
         <!-- shadow -->
         <item name="android:shadowColor">#000000</item>
         <item name="android:shadowRadius">1</item>

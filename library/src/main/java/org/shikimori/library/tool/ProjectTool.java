@@ -10,6 +10,11 @@ import org.shikimori.library.tool.constpack.AnimeStatuses;
  * Created by Владимир on 07.04.2015.
  */
 public class ProjectTool {
+
+    public enum TYPE{
+        ANIME, MANGA, OFFTOP
+    }
+
     public static String getStatus(Context context, boolean anons, boolean ongoing){
         if (!anons && !ongoing){
             return context.getString(R.string.incoming);
@@ -31,9 +36,29 @@ public class ProjectTool {
         }
     }
 
-    public enum TYPE{
-        ANIME, MANGA
+    public static void setTypeColor(Context context, View v, TYPE type){
+        if (type == TYPE.MANGA){
+            v.setBackgroundColor(context.getResources().getColor(R.color.lightPink));
+        }else if(type == TYPE.ANIME){
+            v.setBackgroundColor(context.getResources().getColor(R.color.darkBlue));
+        }else if(type == TYPE.OFFTOP){
+            v.setBackgroundColor(context.getResources().getColor(R.color.anons));
+        } else
+            v.setBackgroundColor(context.getResources().getColor(R.color.done));
     }
+    
+    public static void setTypeColor(Context context, View v, String type){
+        int color = R.color.done;
+        if(type != null){
+            switch (type.toLowerCase()){
+                case "anime": color = R.color.darkBlue; break;
+                case "manga": color = R.color.lightPink; break;
+                case "topic": color = R.color.anons; break;
+            }
+        }
+        v.setBackgroundColor(context.getResources().getColor(color));
+    }
+
     public static String getListStatusName(Context context, String statusName, TYPE type){
         switch (statusName){
             case AnimeStatuses.COMPLETED:
@@ -50,5 +75,10 @@ public class ProjectTool {
                 return type == TYPE.ANIME ? context.getString(R.string.rewatching) : context.getString(R.string.rewatchingmanga);
         }
         return null;
+    }
+
+    public static String formatDatePost(String cteatedAt){
+        return h.getStringDate("dd MMMM yyyy HH:mm",
+                h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", cteatedAt));
     }
 }
