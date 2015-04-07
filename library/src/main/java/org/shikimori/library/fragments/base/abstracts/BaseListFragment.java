@@ -91,11 +91,15 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.animes_menu, menu);
         inflateSearch(menu);
-        super.onCreateOptionsMenu(menu, inflater);
+        return menu;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(getActionBarMenu(menu, inflater), inflater);
     }
 
     private void inflateSearch(Menu menu) {

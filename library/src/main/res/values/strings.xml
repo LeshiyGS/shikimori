@@ -63,4 +63,12 @@
     <string name="friends">Друзья</string>
     <string name="statistics">Статистика</string>
     <string name="status">Статус: </string>
+    <string name="all">Все</string>
+    <string name="all_topics">Все топики сайта</string>
+    <string name="characters">Персонажи</string>
+    <string name="site">Сайт</string>
+    <string name="offtop">Оффтопик</string>
+    <string name="clubs">Клубы</string>
+    <string name="reviews">Обзоры</string>
+    <string name="polls">Опросы</string>
 </resources>

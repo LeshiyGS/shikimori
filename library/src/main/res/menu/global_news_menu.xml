@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:library="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_animes_filter"
+        android:title="@string/filter"
+        android:icon="@drawable/ic_action_filter"
+        library:showAsAction="always">
+        <menu>
+            <item android:id="@+id/all"
+                android:title="@string/all_topics" />
+            <item android:id="@+id/news"
+                android:title="@string/news" />
+            <item android:id="@+id/anime"
+                android:title="@string/anime" />
+            <item android:id="@+id/manga"
+                android:title="@string/manga" />
+            <item android:id="@+id/characters"
+                android:title="@string/characters" />
+            <item android:id="@+id/site"
+                android:title="@string/site" />
+            <item android:id="@+id/offtop"
+                android:title="@string/offtop" />
+            <item android:id="@+id/group"
+                android:title="@string/clubs" />
+            <item android:id="@+id/reviews"
+                android:title="@string/reviews" />
+            <item android:id="@+id/polls"
+                android:title="@string/polls" />
+        </menu>
+    </item>
+</menu>

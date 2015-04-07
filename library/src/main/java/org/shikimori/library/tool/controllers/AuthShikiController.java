@@ -73,6 +73,7 @@ public class AuthShikiController {
      */
     void getUserData(){
         query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DATA))
+            .setMethod(Query.METHOD.POST)
             .getResult(new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {
