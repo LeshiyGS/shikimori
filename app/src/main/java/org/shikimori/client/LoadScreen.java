@@ -51,7 +51,8 @@ public class LoadScreen extends FragmentActivity {
 
     void startApp(){
 
-        if(TextUtils.isEmpty(ShikiUser.getToken())){
+        if(TextUtils.isEmpty(ShikiUser.getToken())
+                || TextUtils.isEmpty(ShikiUser.USER_NAME) || TextUtils.isEmpty(ShikiUser.USER_ID)){
             startActivity(new Intent(this, AuthActivity.class));
         } else {
             startActivity(new Intent(this, MainActivity.class));

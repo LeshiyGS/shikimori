@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.shikimori.library" >
 
-    <application />
-
+    <application android:allowBackup="true">
+        <activity
+            android:name=".activity.ShowPageActivity"
+            android:configChanges="orientation|screenSize" />
+    </application>
 </manifest>

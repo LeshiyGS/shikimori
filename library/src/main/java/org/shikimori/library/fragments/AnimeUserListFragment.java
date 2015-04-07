@@ -1,10 +1,15 @@
 package org.shikimori.library.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v7.app.ActionBar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import org.shikimori.library.activity.PageActivity;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.UserListAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -23,7 +28,7 @@ import java.util.List;
 public class AnimeUserListFragment extends BaseListViewFragment {
 
     private String listId;
-    public static final int LIMIT = 250;
+    public static final int LIMIT = 20;
 
     public static AnimeUserListFragment newInstance(Bundle b) {
         AnimeUserListFragment frag = new AnimeUserListFragment();
@@ -81,4 +86,12 @@ public class AnimeUserListFragment extends BaseListViewFragment {
         return new UserListAdapter(activity, (List<ItemUserListShiki>) list);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ItemUserListShiki item = (ItemUserListShiki) parent.getAdapter().getItem(position);
+        Intent i = new Intent(activity, ShowPageActivity.class);
+        i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+        i.putExtra(Constants.ITEM_ID, item.id);
+        activity.startActivity(i);
+    }
 }

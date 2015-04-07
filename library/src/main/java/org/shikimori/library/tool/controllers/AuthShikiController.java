@@ -34,22 +34,8 @@ public class AuthShikiController {
     }
 
     void auth() {
-//        query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-//                .setMethod(Query.METHOD.POST)
-//                .useAutorisation()
-//                .addParam("user[nickname]", login)
-//                .addParam("user[password]", password)
-//                .getResult(new Query.OnQuerySuccessListener() {
-//                    @Override
-//                    public void onQuerySuccess(StatusResult res) {
-//                        String cookie = res.getHeader("Set-Cookie", "_kawai_session");
-//                        user.setToken(cookie);
-//                        user.setData(res.getResultObject());
-//                        user.getId();
-//                        listener.onQuerySuccess(res);
-//                    }
-//                });
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
+                .setMethod(Query.METHOD.POST)
                 .addParam("nickname", login)
                 .addParam("password", password)
                 .getResult(new Query.OnQuerySuccessListener() {
@@ -73,7 +59,6 @@ public class AuthShikiController {
      */
     void getUserData(){
         query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DATA))
-            .setMethod(Query.METHOD.POST)
             .getResult(new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {

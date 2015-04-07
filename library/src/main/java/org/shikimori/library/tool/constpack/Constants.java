@@ -11,4 +11,5 @@ public class Constants {
     public static final String LIST_ID = "list_id";
     public static final String ACTION_BAR_TITLE = "action_bar_title";
     public static final String ITEM_NAME = "anime_name";
+    public static final String PAGE_FRAGMENT = "page_fragment";
 }

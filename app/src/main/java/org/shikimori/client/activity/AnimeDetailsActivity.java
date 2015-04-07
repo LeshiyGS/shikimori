@@ -34,7 +34,7 @@ public class AnimeDetailsActivity extends BaseDetailsActivity implements UpdateC
         loadPage(PagerAdapterFragment.newInstance(
                 pageList,
                 getString(R.string.anime),
-                getString(R.string.Discusion)
+                getString(R.string.discusion)
         ));
     }
 
