@@ -20,9 +20,9 @@
                 android:layout_height="250dp">
 
                 <ImageView
+                    android:id="@+id/ivPoster"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/ivPoster"
                     android:scaleType="centerCrop" />
 
                 <TextView
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="center_vertical"
-                    style="@style/altarixUiText.TextTitle"
+                    style="@style/altarixUiText.TextTitle.shadow"
                     android:minHeight="@dimen/paddingMfcQueueTime"
                     android:layout_alignParentBottom="true"
                     android:textColor="@color/white_overlay_85"

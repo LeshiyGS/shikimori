@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/card_style">
+        android:background="@drawable/shiki_list_selector">
 
         <ImageView
             android:id="@+id/ivPoster"

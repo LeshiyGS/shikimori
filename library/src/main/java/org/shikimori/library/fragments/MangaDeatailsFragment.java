@@ -47,21 +47,23 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
             return;
         // название аниме в карточке
         setTitleElement(details.russianName, details.name);
-        ImageLoader.getInstance().displayImage(details.imgOriginal, ivPoster);
+        // poster
+        ImageLoader.getInstance().displayImage(details.imgOriginal, ivPoster, addBlurToTitle);
+        // description
         h.setTextViewHTML(activity, tvReview, details.description_html);
+        // rating
         h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
         rbTitle.setRating(Float.parseFloat(details.score) / 2);
 
-
+        // info list
         addInfo(R.string.type, details.kind);
         addInfo(R.string.volumes, details.volumes);
         addInfo(R.string.chapters, details.chapters);
-
-        setStatus(details.anons, details.ongoing);
-
         addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
         addInfo(R.string.title_publishers, TextUtils.join(", ", details.publishers));
-
+        // status color and animation
+        setStatus(details.anons, details.ongoing);
+        // load comments
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
 

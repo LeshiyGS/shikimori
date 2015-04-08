@@ -17,7 +17,7 @@
 
             <corners android:radius="@dimen/defaultPadding3" />
 
-            <solid android:color="@android:color/white" />
+            <solid android:color="@color/white_overlay_60" />
 
             <padding android:bottom="@dimen/defaultPaddingMini"
                 android:left="@dimen/defaultPaddingMini"

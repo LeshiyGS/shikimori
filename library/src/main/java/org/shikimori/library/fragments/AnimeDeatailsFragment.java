@@ -47,8 +47,6 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             return;
         // название аниме в карточке
         setTitleElement(animeDetails.russianName, animeDetails.name);
-        // poster
-        ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster);
         // description
         h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
         // rating
@@ -69,6 +67,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(animeDetails.thread_id);
 
+        // poster
+        ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster, addBlurToTitle);
     }
 
 }

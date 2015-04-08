@@ -79,6 +79,13 @@
         <item name="android:textSize">@dimen/guTextSizeTitle</item>
     </style>
 
+    <style name="altarixUiText.TextTitle.shadow" parent="altarixUiText.TextTitle">
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+    </style>
+
     <!-- tool -->
     <style name="progresbar" parent="Widget.AppCompat.ProgressBar">
 

@@ -1,5 +1,6 @@
 package org.shikimori.library.fragments.base;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
@@ -20,9 +23,11 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.BaseAnimationListener;
+import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
+import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
 import org.shikimori.library.tool.ProjectTool;
+import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
@@ -53,6 +58,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
         tvStatus = (TextView) v.findViewById(R.id.tvStatus);
+
+        ivPoster.setOnTouchListener(h.getImageHighlight);
         return v;
     }
 
@@ -94,7 +101,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     }
 
     public void setStatus(boolean anons, boolean ongoing){
-        tvStatus.setText(getStatus(anons, anons));
+        tvStatus.setText(getStatus(anons, ongoing));
         ProjectTool.setStatusColor(activity, tvStatus, anons, ongoing);
         YoYo.AnimationComposer composer = YoYo.with(Techniques.BounceInRight)
                 .withListener(new BaseAnimationListener() {
@@ -133,5 +140,12 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         row.setText(text);
         llInfo.addView(row);
     }
+
+    protected ImageLoadingListener addBlurToTitle = new BaseImageLoadListener() {
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            Blur.apply(activity, ivPoster, tvTitle);
+        }
+    };
 
 }
