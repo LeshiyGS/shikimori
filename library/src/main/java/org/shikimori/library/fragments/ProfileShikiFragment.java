@@ -133,6 +133,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+
+        if(activity == null)
+            return;
+
         h.setVisible(llBody, true);
         YoYo.with(Techniques.FadeIn)
             .playOn(llBody);
