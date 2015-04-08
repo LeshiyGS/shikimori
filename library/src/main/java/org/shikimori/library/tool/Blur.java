@@ -74,13 +74,13 @@ public class Blur {
     }
 
     private static void playFade(View view){
-        int timer = 200;
+        int timer = 100;
 
         YoYo.with(new FadeInAnimator(){
             @Override
             public void prepare(View target) {
                 this.getAnimatorAgent().playTogether(
-                        new Animator[]{ObjectAnimator.ofFloat(target, "alpha", new float[]{1.0F, 0.9F})});
+                        new Animator[]{ObjectAnimator.ofFloat(target, "alpha", new float[]{1.0F, 0.8F})});
             }
         })
         .duration(timer)
@@ -90,11 +90,11 @@ public class Blur {
             @Override
             public void prepare(View target) {
                 this.getAnimatorAgent().playTogether(
-                        new Animator[]{ObjectAnimator.ofFloat(target, "alpha", new float[]{0.9F, 1.0F})});
+                        new Animator[]{ObjectAnimator.ofFloat(target, "alpha", new float[]{0.8F, 1.0F})});
             }
         })
         .delay(timer)
-        .duration(timer)
+        .duration(timer*20)
         .playOn(view);
     }
 }
