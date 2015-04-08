@@ -13,6 +13,7 @@ import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -22,11 +23,8 @@ import java.util.List;
  */
 public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder> {
 
-    private final String commentsText;
-
     public TopicsAdapter(Context context, List list) {
         super(context, list, R.layout.item_shiki_topic_list, TopicHolder.class);
-        commentsText = context.getString(R.string.comments) + ": ";
     }
 
     @Override
@@ -41,6 +39,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         holder.ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         holder.tvCountComments = (TextView) v.findViewById(R.id.tvCountComments);
         holder.tvSection = (TextView) v.findViewById(R.id.tvSection);
+        holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
         return holder;
     }
 
@@ -49,10 +48,13 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         if(item.user!=null)
             holder.tvName.setText(item.user.nickname);
         // count comments
-        holder.tvCountComments.setText(commentsText + String.valueOf(item.commentsCount));
+        holder.tvCountComments.setText(String.valueOf(item.commentsCount));
         // date
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
         // text
+
+        holder.tvTitle.setText(item.title);
+//        holder.tvText.setText(item.body);
         h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
         // images
         ShikiImage.show(item.user.img148, holder.ivUser, true);

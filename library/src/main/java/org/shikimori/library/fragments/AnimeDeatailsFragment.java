@@ -58,7 +58,6 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         addInfo(R.string.episodes, animeDetails.episodesAired + " / " + animeDetails.episodes);
         addInfo(R.string.title_time, animeDetails.duration + " " + activity.getString(R.string.min));
 
-        setStatus(animeDetails.anons, animeDetails.ongoing);
 
         addInfo(R.string.title_rating, animeDetails.rating);
         addInfo(R.string.title_genres, TextUtils.join(", ", animeDetails.genres));
@@ -68,7 +67,13 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             ((ExtraLoadInterface) activity).extraLoad(animeDetails.thread_id);
 
         // poster
-        ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster, addBlurToTitle);
+        getView().post(new Runnable() {
+            @Override
+            public void run() {
+                ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster, addBlurToTitle);
+                setStatus(animeDetails.anons, animeDetails.ongoing);
+            }
+        });
     }
 
 }

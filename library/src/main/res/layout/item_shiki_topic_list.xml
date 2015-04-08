@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/card_style">
+        android:background="@drawable/shiki_list_selector">
 
         <ImageView
             android:id="@+id/ivUser"
@@ -67,7 +67,18 @@
                 android:id="@+id/tvCountComments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_action_comments"
+                android:drawableStart="@drawable/ic_action_comments"
+                android:gravity="center_vertical"
+                android:drawablePadding="@dimen/defaultPaddingMini"
                 style="@style/altarixUiLabel.mini" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiText.TextTitle"
+                />
 
             <TextView
                 android:id="@+id/tvText"

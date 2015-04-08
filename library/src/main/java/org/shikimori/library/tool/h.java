@@ -591,7 +591,7 @@ public class h {
         for (URLSpan span : urls) {
             makeLinkClickable(activity, strBuilder, span);
         }
-        text.setMovementMethod(LinkMovementMethod.getInstance());
+//        text.setMovementMethod(LinkMovementMethod.getInstance());
         text.setText(strBuilder);
     }
 

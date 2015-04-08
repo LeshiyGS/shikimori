@@ -5,6 +5,7 @@ import android.view.View;
 
 import org.shikimori.library.R;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
+import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Владимир on 07.04.2015.
@@ -51,9 +52,9 @@ public class ProjectTool {
         int color = R.color.done;
         if(type != null){
             switch (type.toLowerCase()){
-                case "anime": color = R.color.darkBlue; break;
-                case "manga": color = R.color.lightPink; break;
-                case "topic": color = R.color.anons; break;
+                case Constants.ANIME: color = R.color.darkBlue; break;
+                case Constants.MANGA: color = R.color.lightPink; break;
+                case Constants.TOPIC: color = R.color.anons; break;
             }
         }
         v.setBackgroundColor(context.getResources().getColor(color));

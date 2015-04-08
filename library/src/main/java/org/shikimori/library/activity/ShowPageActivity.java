@@ -14,6 +14,7 @@ public class ShowPageActivity extends PageActivity {
 
     public static final int ANIME_PAGE = 1;
     public static final int MANGA_PAGE = 2;
+    public static final int TOPIC_PAGE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

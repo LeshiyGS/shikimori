@@ -13,4 +13,10 @@ public class Constants {
     public static final String ITEM_NAME = "anime_name";
     public static final String PAGE_FRAGMENT = "page_fragment";
     public static final String PAGE_EXTRA_LOAD = "page_extra_load";
+
+    // type topic type
+    public static final String ANIME = "anime";
+    public static final String ANIMANGACOMMENT = "AniMangaComment";
+    public static final String MANGA = "manga";
+    public static final String TOPIC = "topic";
 }

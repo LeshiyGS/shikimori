@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:paddingTop="@dimen/defaultPadding"
-    android:paddingBottom="@dimen/defaultPadding"
-    >
+    android:paddingBottom="@dimen/defaultPadding">
 
     <LinearLayout
         android:id="@+id/llBody"

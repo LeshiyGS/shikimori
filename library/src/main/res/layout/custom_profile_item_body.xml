@@ -3,7 +3,7 @@
     android:id="@+id/rlContainerBackAnimated"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/paddingMapInfoLeft"
+    android:minHeight="@dimen/defaultPaddingLarge"
     android:gravity="center_vertical"
     android:paddingLeft="@dimen/defaultPaddingMini"
     android:paddingRight="@dimen/defaultPadding4"

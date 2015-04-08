@@ -1,13 +1,17 @@
 package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
@@ -18,6 +22,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
 
@@ -50,7 +55,7 @@ public class TopicsFragment extends BaseListViewFragment{
         ContentValues cv = new ContentValues();
         cv.put("section", section);
 
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS),cv);
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS), cv);
         loadData();
     }
 
@@ -63,7 +68,7 @@ public class TopicsFragment extends BaseListViewFragment{
                 .addParam("section", section)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
-                .addParam("desc", "1")
+//                .addParam("desc", "1")
                 .setCache(true, Query.HALFHOUR)
                 .getResult(this);
     }
@@ -76,7 +81,25 @@ public class TopicsFragment extends BaseListViewFragment{
     }
 
     @Override
-    public ArrayAdapter<ItemTopicsShiki> getAdapter(List list) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+        ItemTopicsShiki item = (ItemTopicsShiki) parent.getAdapter().getItem(position);
+        Intent intent = new Intent(activity, ShowPageActivity.class);
+        String type = item.linkedType == null? item.type : item.linkedType;
+        switch (type.toLowerCase()){
+            case Constants.ANIME:
+                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+                break;
+            case Constants.MANGA:
+                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
+                break;
+        }
+        intent.putExtra(Constants.ITEM_ID, item.linkedId);
+        activity.startActivity(intent);
+    }
+
+    @Override
+    public ArrayAdapter<ItemTopicsShiki> getAdapter(List<?> list) {
         return new TopicsAdapter(activity, list);
     }
 

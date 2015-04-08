@@ -72,4 +72,6 @@
     <string name="reviews">Обзоры</string>
     <string name="polls">Опросы</string>
     <string name="comments">Комментарии</string>
+    <string name="discus_anime">Обсуждение аниме</string>
+    <string name="discus_manga">Обсуждение манги</string>
 </resources>
