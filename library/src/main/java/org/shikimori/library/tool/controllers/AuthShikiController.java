@@ -35,7 +35,7 @@ public class AuthShikiController {
 
     void auth() {
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-                .setMethod(Query.METHOD.GET)
+                .setMethod(Query.METHOD.POST)
                 .addParam("nickname", login)
                 .addParam("password", password)
                 .getResult(new Query.OnQuerySuccessListener() {

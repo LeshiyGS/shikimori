@@ -1,9 +1,15 @@
 package org.shikimori.library.loaders.httpquery;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class DbCache extends HttpCache {
     public static final String TABLE = "chache_table";
@@ -125,5 +131,25 @@ public class DbCache extends HttpCache {
         Core.init().delete()
             .where(QUERY_ROW, LIKE, prefix)
                 .execute();
+    }
+
+    public void invalidateCache(String prefix, ContentValues cv) {
+
+        Set<Map.Entry<String, Object>> s=cv.valueSet();
+        Iterator itr = s.iterator();
+
+        Log.d("DatabaseSync", "ContentValue Length :: " + cv.size());
+
+        SQLBuilder sql = Core.init().delete()
+                .where(QUERY_ROW, LIKE, prefix);
+        // clear by params
+        while(itr.hasNext())
+        {
+            Map.Entry me = (Map.Entry)itr.next();
+            String key = me.getKey().toString();
+            Object value =  me.getValue();
+            sql.andWhere(QUERY_ROW, LIKE, key+"="+value);
+        }
+        sql.execute();
     }
 }

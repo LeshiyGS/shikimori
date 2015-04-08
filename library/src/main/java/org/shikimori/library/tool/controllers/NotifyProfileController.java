@@ -65,7 +65,7 @@ public class NotifyProfileController {
 
     public void load(final Query.OnQuerySuccessListener listener){
         query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
-             .setCache(true)
+             .setCache(true, Query.FIVE_MIN)
              .getResult(new Query.OnQuerySuccessListener() {
                  @Override
                  public void onQuerySuccess(StatusResult res) {

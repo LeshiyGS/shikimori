@@ -1,5 +1,6 @@
 package org.shikimori.library.fragments;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +47,10 @@ public class TopicsFragment extends BaseListViewFragment{
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS));
+        ContentValues cv = new ContentValues();
+        cv.put("section", section);
+
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS),cv);
         loadData();
     }
 
@@ -99,8 +103,10 @@ public class TopicsFragment extends BaseListViewFragment{
         else if(id == R.id.polls)  section = "v";
 
         if(section!=null){
+            page = DEFAULT_FIRST_PAGE;
             showRefreshLoader();
-            onStartRefresh();
+            loadData();
+
             return true;
         } else
             section = "all";

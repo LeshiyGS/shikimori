@@ -3,6 +3,7 @@ package org.shikimori.library.loaders.httpquery;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,6 +39,7 @@ public class Query {
     public static final long HALFHOUR = 1800000L; // 30 минут
     public static final long HOUR = 3600000L;
     public static final long DAY = 86400000L;
+    public static final long FIVE_MIN = 300000L;
     private static final String TAG = "httpquery";
 
     static AsyncHttpClient client;
@@ -197,8 +199,8 @@ public class Query {
             if(method == METHOD.GET){
                 Log.d(TAG, "request: " +prefix + "?"+p);
             } else {
-                Log.d(TAG, "request: " +prefix);
-                Log.d(TAG, "params: " +p);
+                Log.d(TAG, "request: " + prefix);
+                Log.d(TAG, "params: " + p);
             }
             Log.d(TAG, "token: " + ShikiUser.TOKEN);
         }
@@ -304,6 +306,10 @@ public class Query {
      */
     public Query invalidateCache(String prefix){
         getDbCache().invalidateCache(prefix);
+        return this;
+    }
+    public Query invalidateCache(String prefix, ContentValues cv){
+        getDbCache().invalidateCache(prefix, cv);
         return this;
     }
 
