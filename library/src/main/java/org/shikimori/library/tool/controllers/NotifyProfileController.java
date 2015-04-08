@@ -1,7 +1,10 @@
 package org.shikimori.library.tool.controllers;
 
+import android.app.ActionBar;
+import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 import org.json.JSONObject;
 import org.shikimori.library.R;
@@ -54,8 +57,19 @@ public class NotifyProfileController {
         menu.add(new Item(FAVORITE, mContext.getString(R.string.favorite)));
         menu.add(new Item(FRIENDS, mContext.getString(R.string.friends)));
 
+        int columnCount = ((GridLayout) body).getColumnCount();
+
         for (Item item : menu) {
             CustomProfileTextView row = new CustomProfileTextView(mContext);
+            GridLayout.LayoutParams params = (GridLayout.LayoutParams) row.getLayoutParams();
+            if(params == null)
+                params = new GridLayout.LayoutParams(new ViewGroup.LayoutParams(
+                        GridLayout.LayoutParams.MATCH_PARENT,
+                        GridLayout.LayoutParams.WRAP_CONTENT));
+
+            params.width = (body.getWidth()/columnCount) - params.rightMargin - params.leftMargin;
+            row.setLayoutParams(params);
+//            row.setLayoutParams(new GridView.LayoutParams(200, GridView.LayoutParams.WRAP_CONTENT));
             row.setText(item.name);
             row.setTag(item.id);
             row.setOnClickListener(loadGroup);

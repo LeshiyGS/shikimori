@@ -172,16 +172,27 @@
             </FrameLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.GridLayout
             android:id="@+id/llBodyProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/defaultPaddingMini"
-            android:paddingRight="@dimen/defaultPaddingMini"
-            android:orientation="vertical"
-            >
+            custom:orientation="horizontal"
+            android:layout_marginLeft="@dimen/defaultPaddingMini"
+            android:layout_marginRight="@dimen/defaultPaddingMini"
+            custom:columnCount="2">
 
-        </LinearLayout>
+        </android.support.v7.widget.GridLayout>
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingLeft="@dimen/defaultPaddingMini"-->
+            <!--android:paddingRight="@dimen/defaultPaddingMini"-->
+            <!--android:orientation="vertical"-->
+            <!-->-->
+
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
