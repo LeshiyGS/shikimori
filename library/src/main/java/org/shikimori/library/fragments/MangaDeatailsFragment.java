@@ -7,21 +7,17 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
-import org.shikimori.library.interfaces.UpdateCommentsListener;
-import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemMangaDetails;
-import org.shikimori.library.objects.abstracts.AMDetails;
 import org.shikimori.library.tool.h;
-
-import ru.altarix.ui.tool.TextStyling;
 
 
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class MangaDeatailsFragment extends AMDeatailsFragment{
+public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLoadInterface{
 
     private ItemMangaDetails details;
 
@@ -39,7 +35,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment{
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        if(activity == null)
+        if (activity == null)
             return;
         details = ItemMangaDetails.create(res.getResultObject());
         prepareData();
@@ -47,7 +43,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment{
 
     private void prepareData() {
 
-        if(details.id == null)
+        if (details.id == null)
             return;
         // название аниме в карточке
         setTitleElement(details.russianName, details.name);
@@ -60,12 +56,19 @@ public class MangaDeatailsFragment extends AMDeatailsFragment{
         addInfo(R.string.type, details.kind);
         addInfo(R.string.volumes, details.volumes);
         addInfo(R.string.chapters, details.chapters);
-        addInfo(R.string.title_status, getStatus(details.anons, details.ongoing));
+
+        setStatus(details.anons, details.ongoing);
+
         addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
         addInfo(R.string.title_publishers, TextUtils.join(", ", details.publishers));
 
-        if(activity instanceof UpdateCommentsListener)
-            ((UpdateCommentsListener) activity).startLoadComments(details.thread_id);
+        if (activity instanceof ExtraLoadInterface)
+            ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
+
+    }
+
+    @Override
+    public void extraLoad(String itemId) {
 
     }
 }

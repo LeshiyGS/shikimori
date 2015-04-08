@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 
 import org.shikimori.library.adapters.CommentsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
+import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class DiscusionFragment extends BaseListViewFragment{
+public class DiscusionFragment extends BaseListViewFragment implements ExtraLoadInterface {
 
     private String treadId;
 
@@ -70,8 +71,9 @@ public class DiscusionFragment extends BaseListViewFragment{
         return new CommentsAdapter(activity, list);
     }
 
-    public void startLoadComments(String treadId) {
-        this.treadId = treadId;
+    @Override
+    public void extraLoad(String itemId) {
+        this.treadId = itemId;
         // Ждем пока фрагмент присасется к активити и не инициализируеться
         Thread mythread = new Thread() {
             public void run() {

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp">
 
@@ -33,10 +33,23 @@
                     android:gravity="center_vertical"
                     style="@style/altarixUiText.TextTitle"
                     android:minHeight="@dimen/paddingMfcQueueTime"
+                    android:layout_alignParentBottom="true"
                     android:textColor="@color/white_overlay_85"
                     android:padding="@dimen/defaultPadding"
                     android:background="@color/tool_background_70" />
-            </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_above="@+id/tvTitle"
+                    style="@style/notyfy_style_blue"
+                    android:visibility="gone"
+                    android:textSize="@dimen/guTextSizeNormal"
+                    />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="match_parent"

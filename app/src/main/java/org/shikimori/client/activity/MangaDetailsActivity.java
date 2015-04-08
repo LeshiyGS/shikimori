@@ -5,11 +5,10 @@ import android.support.v4.app.Fragment;
 
 import org.shikimori.client.R;
 import org.shikimori.client.activity.base.BaseDetailsActivity;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.MangaDeatailsFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
-import org.shikimori.library.interfaces.UpdateCommentsListener;
+import org.shikimori.library.interfaces.ExtraLoadInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Created by Владимир on 31.03.2015.
  */
-public class MangaDetailsActivity extends BaseDetailsActivity implements UpdateCommentsListener {
+public class MangaDetailsActivity extends BaseDetailsActivity implements ExtraLoadInterface {
 
     private List<Fragment> pageList;
 
@@ -40,9 +39,9 @@ public class MangaDetailsActivity extends BaseDetailsActivity implements UpdateC
     }
 
     @Override
-    public void startLoadComments(String treadId) {
+    public void extraLoad(String itemId) {
         pageList.get(1);
-        DiscusionFragment frag = (DiscusionFragment) pageList.get(1);
-        frag.startLoadComments(treadId);
+        ExtraLoadInterface frag = (ExtraLoadInterface) pageList.get(1);
+        frag.extraLoad(itemId);
     }
 }

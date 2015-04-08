@@ -91,7 +91,7 @@ public class AnimeUserListFragment extends BaseListViewFragment {
         ItemUserListShiki item = (ItemUserListShiki) parent.getAdapter().getItem(position);
         Intent i = new Intent(activity, ShowPageActivity.class);
         i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-        i.putExtra(Constants.ITEM_ID, item.id);
+        i.putExtra(Constants.ITEM_ID, item.amDetails.id);
         activity.startActivity(i);
     }
 }

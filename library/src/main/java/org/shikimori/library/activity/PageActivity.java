@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import org.shikimori.library.R;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
-import org.shikimori.library.fragments.DiscusionFragment;
-import org.shikimori.library.fragments.MangaDeatailsFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
-import org.shikimori.library.interfaces.UpdateCommentsListener;
+import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -20,11 +17,13 @@ import java.util.List;
 /**
  * Created by Феофилактов on 07.04.2015.
  */
-public class PageActivity extends BaseActivity implements UpdateCommentsListener {
+public class PageActivity extends BaseActivity implements ExtraLoadInterface {
 
     protected int page;
     private List<Fragment> pageList;
     private List<String> titleList;
+
+    protected int extraLoad = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,8 @@ public class PageActivity extends BaseActivity implements UpdateCommentsListener
         initData();
     }
 
-    protected void addPageFragment(Fragment frag, String title){
-        if(pageList==null){
+    protected void addPageFragment(Fragment frag, String title) {
+        if (pageList == null) {
             pageList = new ArrayList<>();
             titleList = new ArrayList<>();
         }
@@ -41,7 +40,7 @@ public class PageActivity extends BaseActivity implements UpdateCommentsListener
         titleList.add(title);
     }
 
-    protected void addPageFragment(Fragment frag, int title){
+    protected void addPageFragment(Fragment frag, int title) {
         addPageFragment(frag, getString(title));
     }
 
@@ -58,26 +57,31 @@ public class PageActivity extends BaseActivity implements UpdateCommentsListener
     }
 
     @Override
-    public void startLoadComments(String treadId) {
-        if(pageList!=null)
-            for (Fragment fragment : pageList) {
-                if(fragment instanceof DiscusionFragment)
-                    ((DiscusionFragment) fragment).startLoadComments(treadId);
+    public void extraLoad(String treadId) {
+        if (pageList != null)
+            for (int i = 0; i < pageList.size(); i++) {
+                Fragment fragment = pageList.get(i);
+                boolean insof = fragment instanceof ExtraLoadInterface;
+                if ((extraLoad < 0 && insof) || (extraLoad == i && insof))
+                    ((ExtraLoadInterface) fragment).extraLoad(treadId);
             }
     }
 
     private void initData() {
         Bundle b = getIntent().getExtras();
-        if(b==null)
+        if (b == null)
             return;
         page = b.getInt(Constants.PAGE_FRAGMENT);
+        extraLoad = b.getInt(Constants.PAGE_EXTRA_LOAD, -1);
     }
 
 
-    /****************************************************
+    /**
+     * *************************************************
      * SYSTEMS
-     * @return
-     ***************************************************/
+     *
+     * @return *************************************************
+     */
 
     @Override
     protected int getLayoutId() {
@@ -91,7 +95,7 @@ public class PageActivity extends BaseActivity implements UpdateCommentsListener
 
     @Override
     public Query prepareQuery(boolean separate) {
-        if(separate){
+        if (separate) {
             Query q = new Query(this);
             q.setLoader(query.getLoader());
             return q;

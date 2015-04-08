@@ -10,14 +10,21 @@ import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
+
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.BaseAnimationListener;
+import org.shikimori.library.tool.FixPauseAnimate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.h;
 
 import ru.altarix.ui.CustomTextView;
 import ru.altarix.ui.tool.TextStyling;
@@ -30,7 +37,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
 
     private String itemId;
     protected ScrollView svMain;
-    protected TextView tvTitle, tvScore, tvReview;
+    protected TextView tvTitle, tvScore, tvReview,tvStatus;
     protected ImageView ivPoster;
     protected RatingBar rbTitle;
     protected ViewGroup llInfo;
@@ -45,6 +52,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         tvReview = (TextView) v.findViewById(R.id.tvReview);
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
+        tvStatus = (TextView) v.findViewById(R.id.tvStatus);
         return v;
     }
 
@@ -59,6 +67,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initArgiments();
+        if(itemId == null)
+            return;
         showRefreshLoader();
         loadDataFromServer();
     }
@@ -81,6 +91,20 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
             return;
 
         itemId = getArguments().getString(Constants.ITEM_ID);
+    }
+
+    public void setStatus(boolean anons, boolean ongoing){
+        tvStatus.setText(getStatus(anons, anons));
+        ProjectTool.setStatusColor(activity, tvStatus, anons, ongoing);
+        YoYo.AnimationComposer composer = YoYo.with(Techniques.BounceInRight)
+                .withListener(new BaseAnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        super.onAnimationStart(animation);
+                        h.setVisible(tvStatus, true);
+                    }
+                });
+        FixPauseAnimate.play(composer, tvStatus, 700);
     }
 
     @Override
@@ -109,4 +133,5 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         row.setText(text);
         llInfo.addView(row);
     }
+
 }
