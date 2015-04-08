@@ -67,13 +67,14 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             ((ExtraLoadInterface) activity).extraLoad(animeDetails.thread_id);
 
         // poster
-        getView().post(new Runnable() {
-            @Override
-            public void run() {
-                ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster, addBlurToTitle);
-                setStatus(animeDetails.anons, animeDetails.ongoing);
-            }
-        });
+        if(getView()!=null)
+            getView().post(new Runnable() {
+                @Override
+                public void run() {
+                    ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster, addBlurToTitle);
+                    setStatus(animeDetails.anons, animeDetails.ongoing);
+                }
+            });
     }
 
 }
