@@ -24,7 +24,6 @@ import org.shikimori.library.tool.h;
 public class LoadScreen extends FragmentActivity {
 
     private long splashTime = 2000;
-    TextView tvLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
