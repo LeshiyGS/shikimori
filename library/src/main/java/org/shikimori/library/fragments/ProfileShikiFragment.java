@@ -111,16 +111,17 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // load unread messages
-        getView().post(new Runnable() {
-            @Override
-            public void run() {
-                notifyController = new NotifyProfileController(activity,
-                        query, activity.getShikiUser(), llBodyProfile);
-                showRefreshLoader();
-                loadDataFromServer();
-                activity.setOnFragmentBackListener(ProfileShikiFragment.this);
-            }
-        });
+        if(getView()!=null)
+            getView().post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyController = new NotifyProfileController(activity,
+                            query, activity.getShikiUser(), llBodyProfile);
+                    showRefreshLoader();
+                    loadDataFromServer();
+                    activity.setOnFragmentBackListener(ProfileShikiFragment.this);
+                }
+            });
     }
 
     @Override
