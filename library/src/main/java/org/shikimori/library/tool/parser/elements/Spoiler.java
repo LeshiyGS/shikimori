@@ -30,6 +30,8 @@ public class Spoiler {
         spoilerName.setPadding(padding, padding, padding, padding);
         spoilerName.setTypeface(null, Typeface.BOLD);
         spoiler.setVisibility(View.GONE);
+        spoiler.setOrientation(LinearLayout.VERTICAL);
+        spoiler.setPadding(padding, padding, padding, padding);
         //Обработчик нажатия на название спойлера
         spoilerName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +44,18 @@ public class Spoiler {
 
             }
         });
+    }
+
+    public TextView getContent(){
+        return text;
+    }
+
+    public LinearLayout getSpoiler() {
+        return spoiler;
+    }
+
+    public TextView getTitle(){
+        return spoilerName;
     }
 
     public void setTitle(String title){

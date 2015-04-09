@@ -1,62 +1,68 @@
-//package org.shikimori.library.tool.parser;
+package org.shikimori.library.tool.parser;
+
+import android.app.Activity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import org.shikimori.library.tool.parser.elements.HtmlText;
+import org.shikimori.library.tool.parser.elements.PostImage;
+import org.shikimori.library.tool.parser.elements.Spoiler;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Владимир on 09.04.2015.
+ */
+public class Parcer {
+
+    public static void addComment(String body, ArrayList<String> comments_sname, LinearLayout layout, final Activity activity, Boolean is_link) {
+        ArrayList<LinearLayout> spoiler_layout = new ArrayList<>();
+        spoiler_layout.add(layout);
+        body = body.replace("[Отправлено с Android]", "");
+
+        if (body.contains("[SEP]")) {
+            final String[] body_elements = body.split("\\[SEP\\]");
+            for (int i = 0; i < body_elements.length; i++) {
+                //Если кусок комментария начало спойлера
+                if (body_elements[i].contains("SP:true")) {
+                    //Получаем номер названия спойлера
+                    int tag = Integer.parseInt(body_elements[i].substring(0, body_elements[i].indexOf("!")).split(":")[2]);
+                    body_elements[i] = body_elements[i].replace("SP:true:" + tag + "!", ""); //Удаляем служебную информацию
+                    //Создаем элементы комментария
+
+                    Spoiler sp = new Spoiler(activity);
+                    sp.setTitle(comments_sname.get(tag));
+
+//                    final LinearLayout spoiler = new LinearLayout(context);
+//                    final TextView text = new TextView(context);
+//                    TextView spoiler_name = new TextView(context);
+//                    if (Functions.preference.theme.equals("ligth")){
+//                        spoiler_name.setTextColor(context.getResources().getColor(R.color.white));
+//                        spoiler_name.setBackgroundColor(context.getResources().getColor(R.color.gray_dark));
+//                    }else{
+//                        spoiler_name.setTextColor(context.getResources().getColor(R.color.black));
+//                        spoiler_name.setBackgroundColor(context.getResources().getColor(R.color.gray_ligth));
+//                    }
+//                    spoiler_name.setPadding(5, 2, 5, 5);
+//                    spoiler_name.setTypeface(null, Typeface.BOLD);
+//                    spoiler_name.setText("[" + comments_sname.get(tag) + "]");
+//                    spoiler.setVisibility(View.GONE);
+//                    //Обработчик нажатия на название спойлера
+//                    spoiler_name.setOnClickListener(new OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (spoiler.getVisibility() == View.VISIBLE) {
+//                                spoiler.setVisibility(View.GONE);
+//                            } else {
+//                                spoiler.setVisibility(View.VISIBLE);
+//                            }
 //
-//import android.app.Activity;
-//import android.widget.LinearLayout;
-//
-//import org.shikimori.library.tool.parser.elements.Spoiler;
-//
-//import java.util.ArrayList;
-//
-///**
-// * Created by Владимир on 09.04.2015.
-// */
-//public class Parcer {
-//
-//    public static void addComment(String body, ArrayList<String> comments_sname, LinearLayout layout, final Activity activity, Boolean is_link){
-//        ArrayList<LinearLayout> spoiler_layout = new ArrayList<>();
-//        spoiler_layout.add(layout);
-//        body = body.replace("[Отправлено с Android]", "");
-//
-//        if (body.contains("[SEP]")){
-//            final String[] body_elements = body.split("\\[SEP\\]");
-//            for (int i=0;i < body_elements.length; i++){
-//                //Если кусок комментария начало спойлера
-//                if (body_elements[i].contains("SP:true")){
-//                    //Получаем номер названия спойлера
-//                    int tag = Integer.parseInt(body_elements[i].substring(0, body_elements[i].indexOf("!")).split(":")[2]);
-//                    body_elements[i] = body_elements[i].replace("SP:true:"+tag+"!", ""); //Удаляем служебную информацию
-//                    //Создаем элементы комментария
-//
-//                    Spoiler sp = new Spoiler(activity);
-//                    sp.setTitle(comments_sname.get(tag));
-//
-////                    final LinearLayout spoiler = new LinearLayout(context);
-////                    final TextView text = new TextView(context);
-////                    TextView spoiler_name = new TextView(context);
-////                    if (Functions.preference.theme.equals("ligth")){
-////                        spoiler_name.setTextColor(context.getResources().getColor(R.color.white));
-////                        spoiler_name.setBackgroundColor(context.getResources().getColor(R.color.gray_dark));
-////                    }else{
-////                        spoiler_name.setTextColor(context.getResources().getColor(R.color.black));
-////                        spoiler_name.setBackgroundColor(context.getResources().getColor(R.color.gray_ligth));
-////                    }
-////                    spoiler_name.setPadding(5, 2, 5, 5);
-////                    spoiler_name.setTypeface(null, Typeface.BOLD);
-////                    spoiler_name.setText("[" + comments_sname.get(tag) + "]");
-////                    spoiler.setVisibility(View.GONE);
-////                    //Обработчик нажатия на название спойлера
-////                    spoiler_name.setOnClickListener(new OnClickListener() {
-////                        @Override
-////                        public void onClick(View v) {
-////                            if (spoiler.getVisibility() == View.VISIBLE) {
-////                                spoiler.setVisibility(View.GONE);
-////                            } else {
-////                                spoiler.setVisibility(View.VISIBLE);
-////                            }
-////
-////                        }
-////                    });
-//                    //Загрузка смайлов и авок
+//                        }
+//                    });
+                    //Загрузка смайлов и авок
+
+                    HtmlText htmlText = new HtmlText(activity, is_link);
+                    htmlText.setText(body_elements[i], sp.getContent());
 //                    final int finalI = i;
 //                    ImageGetter imgGetter1 = new ImageGetter() {
 //
@@ -78,25 +84,26 @@
 //                    if(is_link) {
 //                        text.setMovementMethod(LinkMovementMethod.getInstance());
 //                    }
-////                    if (Functions.preference.theme.equals("ligth")){
-////                        spoiler.setBackgroundColor(context.getResources().getColor(R.color.gray_ligth));
-////                    }else{
-////                        spoiler.setBackgroundColor(context.getResources().getColor(R.color.gray_medium));
-////                    }
-//                    spoiler.setOrientation(LinearLayout.VERTICAL);
-//                    spoiler.setPadding(15, 0, 15, 0);
-//                    //Добавляем элементы на слой спойлера
-//                    spoiler_layout.add(spoiler);
-//                    spoiler_layout.get(spoiler_layout.size()-2).addView(spoiler_name);
-//                    spoiler_layout.get(spoiler_layout.size()-2).addView(spoiler);
-//                    spoiler_layout.get(spoiler_layout.size()-1).addView(text);
-//                    //Если кусок комментария конец спойлера
-//                }else if(body_elements[i].contains("SP:false")){
-//                    //закрываем слой и добавляем текстовое поле в предидущем
-//                    int tag = Integer.parseInt(body_elements[i].substring(0, body_elements[i].indexOf("!")).split(":")[2]);
-//                    body_elements[i] = body_elements[i].replace("SP:false:"+tag+"!", ""); //Удаляем служебную информацию
-//                    final TextView text = new TextView(context);
+//                    if (Functions.preference.theme.equals("ligth")){
+//                        spoiler.setBackgroundColor(context.getResources().getColor(R.color.gray_ligth));
+//                    }else{
+//                        spoiler.setBackgroundColor(context.getResources().getColor(R.color.gray_medium));
+//                    }
+                    //Добавляем элементы на слой спойлера
+                    spoiler_layout.add(sp.getSpoiler());
+                    spoiler_layout.get(spoiler_layout.size() - 2).addView(sp.getTitle());
+                    spoiler_layout.get(spoiler_layout.size() - 2).addView(sp.getSpoiler());
+                    spoiler_layout.get(spoiler_layout.size() - 1).addView(sp.getContent());
+                    //Если кусок комментария конец спойлера
+                } else if (body_elements[i].contains("SP:false")) {
+                    //закрываем слой и добавляем текстовое поле в предидущем
+                    int tag = Integer.parseInt(body_elements[i].substring(0, body_elements[i].indexOf("!")).split(":")[2]);
+                    body_elements[i] = body_elements[i].replace("SP:false:" + tag + "!", ""); //Удаляем служебную информацию
+//                    final TextView text = new TextView(activity);
 //                    final int finalI = i;
+
+                    HtmlText htmlText = new HtmlText(activity, is_link);
+                    htmlText.setText(body_elements[i]);
 //                    //Обработчик нажатия на название спойлера
 //                    ImageGetter imgGetter2 = new ImageGetter() {
 //
@@ -124,14 +131,17 @@
 //                    if(is_link) {
 //                        text.setMovementMethod(LinkMovementMethod.getInstance());
 //                    }
-//                    //Удаляем слой из массива
-//                    spoiler_layout.remove(spoiler_layout.size()-1);
-//                    //Добавляем текст после спойлера
-//                    spoiler_layout.get(spoiler_layout.size()-1).addView(text);
-//                }else if(body_elements[i].contains("CI:")){
-//                    final String tag = body_elements[i].substring(0, body_elements[i].indexOf("!")+1);
-//                    body_elements[i] = body_elements[i].replace(tag, ""); //Удаляем служебную информацию
-//                    //Вставляем картинку
+                    //Удаляем слой из массива
+                    spoiler_layout.remove(spoiler_layout.size() - 1);
+                    //Добавляем текст после спойлера
+                    spoiler_layout.get(spoiler_layout.size() - 1).addView(htmlText.getText());
+                } else if (body_elements[i].contains("CI:")) {
+                    final String tag = body_elements[i].substring(0, body_elements[i].indexOf("!") + 1);
+                    body_elements[i] = body_elements[i].replace(tag, ""); //Удаляем служебную информацию
+                    //Вставляем картинку
+
+                    PostImage img = new PostImage(activity, tag);
+                    spoiler_layout.get(spoiler_layout.size() - 1).addView(img.getImage());
 //                    ImageView image = new ImageView(context);
 //                    if (Functions.preference.theme.equals("ligth")){
 //                        image.setBackgroundResource(R.drawable.w_border);
@@ -175,12 +185,13 @@
 //
 //                        }
 //                    });
-//
-//
-//                    final TextView text = new TextView(context);
+
+                    HtmlText htmlText = new HtmlText(activity, is_link);
+                    htmlText.setText(body_elements[i]);
+                    spoiler_layout.get(spoiler_layout.size() - 1).addView(htmlText.getText());
 //                    final int finalI = i;
 //                    //Обработчик нажатия на название спойлера
-//                    ImageGetter imgGetter3 = new ImageGetter() {
+//                    Html.ImageGetter imgGetter3 = new Html.ImageGetter() {
 //
 //                        public Drawable getDrawable(String source) {
 //                            if (source.contains("missing_logo")){
@@ -206,22 +217,20 @@
 //                    if(is_link) {
 //                        text.setMovementMethod(LinkMovementMethod.getInstance());
 //                    }
-//
-//                    Ion.with(image)
-//                            //.placeholder(R.drawable.ic_launcher)
-//                            .animateLoad(R.anim.spin_animation)
-//                            .error(R.drawable.missing_preview)
-//                            .load(tag.substring(3, tag.length() - 1));
-//                    //ImageLoader.getInstance().displayImage(tag.substring(3, tag.length()-1), image);
+
+                    //ImageLoader.getInstance().displayImage(tag.substring(3, tag.length()-1), image);
 //                    spoiler_layout.get(spoiler_layout.size()-1).addView(image);
-//                    spoiler_layout.get(spoiler_layout.size()-1).addView(text);
-//                }else if(body_elements[i].contains("VI:")){
-//                    ////
-//                    final String tag = "http:" + body_elements[i].substring(3, body_elements[i].indexOf("!")).split("http:")[2];
-//                    final String tag2 = "http:" + body_elements[i].substring(3, body_elements[i].indexOf("!")).split("http:")[1];
-//                    //
-//                    body_elements[i] = body_elements[i].replace(body_elements[i].substring(0, body_elements[i].indexOf("!")+1), ""); //Удаляем служебную информацию
-//                    //Вставляем картинку
+//                    spoiler_layout.get(spoiler_layout.size()-1).addView(htmlText.getText());
+                } else if (body_elements[i].contains("VI:")) {
+                    ////
+                    final String tag = "http:" + body_elements[i].substring(3, body_elements[i].indexOf("!")).split("http:")[2];
+                    final String tag2 = "http:" + body_elements[i].substring(3, body_elements[i].indexOf("!")).split("http:")[1];
+                    //
+                    body_elements[i] = body_elements[i].replace(body_elements[i].substring(0, body_elements[i].indexOf("!") + 1), ""); //Удаляем служебную информацию
+                    //Вставляем картинку
+
+                    PostImage img = new PostImage(activity, tag);
+                    spoiler_layout.get(spoiler_layout.size() - 1).addView(img.getImage());
 //                    ImageView image = new ImageView(context);
 //                    if (Functions.preference.theme.equals("ligth")){
 //                        image.setBackgroundResource(R.drawable.w_border);
@@ -253,8 +262,10 @@
 //
 //                        }
 //                    });
-//
-//
+
+                    HtmlText htmlText = new HtmlText(activity, is_link);
+                    spoiler_layout.get(spoiler_layout.size() - 1).addView(htmlText.getText());
+
 //                    final TextView text = new TextView(context);
 //                    final int finalI = i;
 //                    //Обработчик нажатия на название спойлера
@@ -290,11 +301,14 @@
 //                            .animateLoad(R.anim.spin_animation)
 //                            .error(R.drawable.missing_preview)
 //                            .load(tag);
-//                    //ImageLoader.getInstance().displayImage(tag.substring(3, tag.length()-1), image);
-//                    spoiler_layout.get(spoiler_layout.size()-1).addView(image);
+                    //ImageLoader.getInstance().displayImage(tag.substring(3, tag.length()-1), image);
+//                    spoiler_layout.get(spoiler_layout.size()-1).addView(img.getImage());
 //                    spoiler_layout.get(spoiler_layout.size()-1).addView(text);
-//                }else{
-//                    //Просто вставляем текстовое поле
+                } else {
+                    //Просто вставляем текстовое поле
+                    HtmlText htmlText = new HtmlText(activity, is_link);
+                    htmlText.setText(body_elements[i]);
+                    layout.addView(htmlText.getText());
 //                    final TextView text = new TextView(context);
 //                    final int finalI = i;
 //                    //Обработчик нажатия на название спойлера
@@ -326,10 +340,16 @@
 //                        text.setMovementMethod(LinkMovementMethod.getInstance());
 //                    }
 //                    layout.addView(text);
-//                }
-//
-//            }
-//        }else{
+                }
+
+            }
+        } else {
+
+            HtmlText htmlText = new HtmlText(activity, is_link);
+            htmlText.setType(TextView.BufferType.SPANNABLE);
+            htmlText.setText(body);
+            layout.addView(htmlText.getText());
+
 //            final TextView text = new TextView(context);
 //            //Обработчик нажатия на название спойлера
 //            final String finalBody = body;
@@ -360,10 +380,9 @@
 //                text.setMovementMethod(LinkMovementMethod.getInstance());
 //            }
 //            layout.addView(text);
-//        }
-//
-//
-//
-//    }
-//
-//}
+        }
+
+
+    }
+
+}
