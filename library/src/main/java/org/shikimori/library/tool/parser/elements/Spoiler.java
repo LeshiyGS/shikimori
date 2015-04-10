@@ -25,6 +25,14 @@ public class Spoiler {
         initSpoiler();
     }
 
+    public void setOpened(boolean opened){
+        if(opened && spoiler.getVisibility() != View.VISIBLE)
+            spoiler.setVisibility(View.VISIBLE);
+        else if(!opened && spoiler.getVisibility() != View.GONE)
+            spoiler.setVisibility(View.GONE);
+
+    }
+
     private void initSpoiler() {
         int padding = (int) context.getResources().getDimension(R.dimen.defaultPaddingMini);
         spoilerName.setPadding(padding, padding, padding, padding);

@@ -13,92 +13,78 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.tool.parser.ParcerTool;
 
 /**
  * Created by Владимир on 09.04.2015.
  */
-public class HtmlText extends BitmapDrawable {
-    private final ImageLoader loader;
+public class HtmlText {
+    private final ImageGetter imageGeter;
     private TextView tvText;
     private Context context;
 
-    private TextView text;
     private boolean isLink;
-    private Html.ImageGetter imgGetter;
-    protected Drawable drawable;
     private TextView.BufferType spannable;
+    private String htmltext;
 
-    public HtmlText(Context context, boolean isLink){
+    public HtmlText(Context context, boolean isLink) {
         this.context = context;
         this.isLink = isLink;
-        loader = ImageLoader.getInstance();
+        imageGeter = new ImageGetter(context);
     }
 
-    public void setText(String htmltext){
-        if(tvText == null)
+    public void setText(String htmltext) {
+        this.htmltext = htmltext;
+        if (tvText == null)
             tvText = new TextView(context);
-        if(spannable!=null)
-            text.setText(Html.fromHtml(htmltext, getImgGetter(),null),spannable);
-        else
-            text.setText(Html.fromHtml(htmltext, getImgGetter(),null));
-        if(isLink)
-            text.setMovementMethod(LinkMovementMethod.getInstance());
+
+        overSetText();
     }
 
-    public void setText(String htmltext, TextView test){
+    void overSetText(){
+        imageGeter.load(tvText, htmltext, spannable);
+        if (isLink)
+            tvText.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    public void setText(String htmltext, TextView test) {
         tvText = test;
         setText(htmltext);
     }
 
     public TextView getText() {
-        return text;
+        return tvText;
     }
 
-    Html.ImageGetter getImgGetter() {
-        imgGetter = new Html.ImageGetter() {
 
-            public Drawable getDrawable(String source) {
-                if (source.contains("missing_logo")){
-                    source = ShikiApi.HTTP_SERVER + "/assets/globals/missing_original.jpg";
-                }
-                if (!source.contains("http")){
-                    source = ShikiApi.HTTP_SERVER + source;
-                }
-
-                Bitmap img = loader.getMemoryCache().get(source);
-                if(img!=null){
-                    return new BitmapDrawable(context.getResources(),img);
-                }
-
-                loadImage(source);
-
-                return HtmlText.this;
-            }
-        };
-        return imgGetter;
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        // override the draw to facilitate refresh function later
-        if(drawable != null) {
-            drawable.draw(canvas);
-        }
-    }
-
-    public void loadImage(String source) {
-        ImageLoader.getInstance().loadImage(source, new SimpleImageLoadingListener(){
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                drawable = new BitmapDrawable(context.getResources(), loadedImage);
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                text.invalidate();
-            }
-        });
-    }
+//    @Override
+//    public void draw(Canvas canvas) {
+//
+//        // override the draw to facilitate refresh function later
+//        if (drawable != null) {
+//            drawable.draw(canvas);
+//        } else {
+//            defaultImage.draw(canvas);
+//        }
+//    }
 
     public void setType(TextView.BufferType spannable) {
         this.spannable = spannable;
     }
+
+//    public class URLDrawable extends BitmapDrawable {
+//        // the drawable that you need to set, you could set the initial drawing
+//        // with the loading image if you need to
+//        protected Drawable drawable;
+//
+//        @Override
+//        public void draw(Canvas canvas) {
+//            // override the draw to facilitate refresh function later
+//            if(drawable != null) {
+//                drawable.draw(canvas);
+//            }
+//        }
+//    }
 }

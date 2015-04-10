@@ -38,8 +38,8 @@ public class ShikiApplikation extends Application {
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(c)
                 .defaultDisplayImageOptions(getImageLoaderOptions())
-                .discCacheSize(50 * 1024 * 1024)
-                .discCacheFileCount(100)
+                .diskCacheSize(50 * 1024 * 1024)
+                .diskCacheFileCount(100)
                 .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
                 .build();
 
@@ -54,7 +54,7 @@ public class ShikiApplikation extends Application {
     public static DisplayImageOptions.Builder getImageLoaderOptionsBuilder() {
         return new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
-                .cacheOnDisc(true)
+                .cacheOnDisk(true)
                 .resetViewBeforeLoading(false)
                 .displayer(new FadeInBitmapDisplayer(400, true, true, false));
     }

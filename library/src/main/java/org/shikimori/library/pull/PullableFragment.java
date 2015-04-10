@@ -159,4 +159,10 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
         query.showStandartError(res);
         stopRefresh();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        stopRefresh();
+    }
 }

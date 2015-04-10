@@ -15,8 +15,12 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.ParcerTool;
+import org.shikimori.library.tool.parser.elements.HtmlText;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Феофилактов on 04.04.2015.
@@ -55,7 +59,11 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 
         holder.tvTitle.setText(item.title);
 //        holder.tvText.setText(item.body);
-        h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
+
+        HtmlText text = new HtmlText(getContext(), false);
+        text.setText(item.htmlBody, holder.tvText);
+
+        //h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
         // images
         ShikiImage.show(item.user.img148, holder.ivUser, true);
         if(item.linked!=null && item.linked.image!=null)
@@ -66,4 +74,5 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         holder.tvSection.setText(item.section.name);
         ProjectTool.setTypeColor(getContext(), holder.tvSection, item.linkedType);
     }
+
 }

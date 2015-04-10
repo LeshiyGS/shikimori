@@ -20,6 +20,7 @@ public class PostImage {
     private final Activity activity;
     private final String tag;
     private ImageView image;
+    private String bigImageUrl;
 
     public PostImage(Activity activity, String tag) {
         this.activity = activity;
@@ -53,9 +54,9 @@ public class PostImage {
             @Override
             public void onClick(View view) {
 
-                String imgOrigin = getImageUrl();
+                String imgOrigin = bigImageUrl == null ? getImageUrl() : bigImageUrl;
 
-                h.showMsg(activity, "click image");
+                h.showMsg(activity, "click image " + imgOrigin);
             }
         });
 
@@ -72,5 +73,9 @@ public class PostImage {
         else if (tag.contains("/person/x64/") || tag.contains("/character/x64/"))
             return url.replace("x64", "original");
         return url;
+    }
+
+    public void setBigImageUrl(String bigImageUrl) {
+        this.bigImageUrl = bigImageUrl;
     }
 }
