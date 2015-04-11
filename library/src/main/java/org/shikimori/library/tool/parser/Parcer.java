@@ -34,7 +34,7 @@ public class Parcer {
         Document json = Jsoup.parse(o);
 
         for(Element element : json.select("a[class^=c-video b-video]")){
-            //
+
             Document img_json = Jsoup.parse(element.html());
             String img_link="";
             for(Element img : img_json.select("img")){
