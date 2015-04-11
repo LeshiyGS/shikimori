@@ -4,6 +4,14 @@ import android.app.Activity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.parser.elements.HtmlText;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Spoiler;
@@ -14,6 +22,69 @@ import java.util.ArrayList;
  * Created by Владимир on 09.04.2015.
  */
 public class Parcer {
+
+    public void parceComment (String o, LinearLayout layout, final Activity activity, Boolean is_link) throws NumberFormatException, JSONException {
+
+        ArrayList<String> spoiler_names= new ArrayList<>();
+
+        int iii = 0;
+        int mmm = 0;
+        int iiii = iii;
+
+        Document json = Jsoup.parse(o);
+
+        for(Element element : json.select("a[class^=c-video b-video]")){
+            //
+            Document img_json = Jsoup.parse(element.html());
+            String img_link="";
+            for(Element img : img_json.select("img")){
+                img_link = img.attr("src");
+            }
+            element.before("[SEP]VI:" + element.attr("href")+"" + img_link + "!");
+            element.remove();
+            //element.after(" <a href="+element.attr("href")+"a>Ссылка на видео</a>");
+        }
+
+        for(Element element : json.select("img")){
+            if (!element.attr("src").contains("http")) 	element.attr("src", ShikiApi.HTTP_SERVER + element.attr("src"));
+        }
+
+        for(Element element : json.select("a")){
+            if (!element.attr("href").contains("http")) element.attr("href", ShikiApi.HTTP_SERVER + element.attr("href"));
+        }
+
+        for(Element element : json.select("div[class=after]")){
+            element.before("[SEP]SP:false:" + iii + "!");
+            element.remove();
+            iii++;
+        }
+
+        for(Element element : json.select("div[class=b-spoiler unprocessed]")){
+            spoiler_names.add(element.child(0).select("label").text());
+            element.child(0).select("label").remove();
+        }
+
+        for(Element element : json.select("div[class=before")){
+            element.after("[SEP]SP:true:" + iiii + "!");
+            element.remove();
+            iiii++;
+        }
+
+        for(Element element : json.select("del")){
+            element.remove();
+        }
+
+        for(Element element : json.select("img")){
+            if (!element.attr("src").contains("/images/user/") && !element.attr("src").contains("/images/smileys/")){
+                element.before("[SEP]CI:" + element.attr("src")+"!");
+                element.remove();
+                mmm++;
+            }
+        }
+
+        addComment(json.html(), spoiler_names, layout, activity, is_link);
+    }
+
 
     public static void addComment(String body, ArrayList<String> comments_sname, LinearLayout layout, final Activity activity, Boolean is_link) {
         ArrayList<LinearLayout> spoiler_layout = new ArrayList<>();

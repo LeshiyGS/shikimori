@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/defaultPaddingMini"
+    android:paddingRight="@dimen/defaultPaddingMini"
+    android:paddingTop="@dimen/defaultPadding4"
+    android:paddingBottom="@dimen/defaultPadding4">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_style"
+        android:gravity="top">
+
+    <ImageView
+        android:layout_width="@dimen/defaultPadding58"
+        android:layout_height="@dimen/defaultPadding58"
+        android:layout_marginRight="@dimen/defaultPaddingMini"
+        android:id="@+id/ivUser" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiText"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCommentsDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiLabel.mini" />
+
+        <TextView
+            android:id="@+id/tvCommentsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/defaultPaddingMini"
+            style="@style/altarixUiLabel.miniblack" />
+
+        </LinearLayout>
+
+    <ImageView
+        android:layout_width="@dimen/defaultPadding58"
+        android:layout_height="@dimen/paddingPosterW90"
+        android:id="@+id/ivPoster"
+        android:layout_marginLeft="@dimen/defaultPaddingMini"
+        android:scaleType="centerCrop" />
+</LinearLayout>
+</LinearLayout>
