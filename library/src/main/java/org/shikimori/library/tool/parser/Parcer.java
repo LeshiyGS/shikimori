@@ -105,7 +105,7 @@ public class Parcer {
                     sp.setOpened(false);
                     //Загрузка смайлов и авок
                     HtmlText htmlText = new HtmlText(activity, is_link);
-                    htmlText.setText(body_elements[i], sp.getContent());
+                    //htmlText.setText(body_elements[i], sp.getContent());
                     //Добавляем элементы на слой спойлера
                     spoiler_layout.add(sp.getSpoiler());
                     spoiler_layout.get(spoiler_layout.size() - 2).addView(sp.getTitle());

@@ -2,6 +2,7 @@ package org.shikimori.library.tool;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.media.ExifInterface;
@@ -33,6 +35,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.LruCache;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -313,6 +316,18 @@ public class h {
 //            return 0;
 //        }
 //    }
+
+    public static Point getScreenSize(Activity context){
+        Display display = context.getWindowManager().getDefaultDisplay();
+
+        Point screenSize = new Point();
+        if(Build.VERSION.SDK_INT >= 13){
+            display.getSize(screenSize);
+        } else {
+            screenSize.set(display.getWidth(), display.getHeight());
+        }
+        return screenSize;
+    }
 
     public static String getScreenDensyty(Context context){
         int dpi = context.getResources().getDisplayMetrics().densityDpi;
