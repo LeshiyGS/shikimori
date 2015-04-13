@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,16 +26,16 @@ public class ImageGetter {
     private final Drawable defaultImage;
     int countCals = 0;
 
-    public ImageGetter (Context context){
+    public ImageGetter(Context context) {
         defaultImage = context.getResources().getDrawable(R.drawable.missing_preview);
-        defaultImage.setBounds(0,0,300, 150);
+        defaultImage.setBounds(0, 0, 300, 150);
     }
 
-    public void load(final TextView textView, final String text){
+    public void load(final TextView textView, final String text) {
         load(textView, text, null);
     }
 
-    public void load(final TextView textView, final String text, final TextView.BufferType type){
+    public void load(final TextView textView, final String text, final TextView.BufferType type) {
         textView.setText(ParcerTool.fromHtml(text, new UILImageGetter(textView, textView.getContext()), null));
 //        textView.setText(ParcerTool.fromHtml(text, getImgGetter(textView.getContext(), defaultImage, new LoadImageDone() {
 //            @Override
@@ -64,10 +63,10 @@ public class ImageGetter {
                 }
 
                 Bitmap img = ImageLoader.getInstance().getMemoryCache().get(source);
-                if (img != null){
+                if (img != null) {
 
                     BitmapDrawable bitmap = new BitmapDrawable(context.getResources(), img);
-                    bitmap.setBounds(0,0, bitmap.getIntrinsicWidth(), bitmap.getIntrinsicHeight());
+                    bitmap.setBounds(0, 0, bitmap.getIntrinsicWidth(), bitmap.getIntrinsicHeight());
                     return bitmap;
                 }
 
@@ -82,7 +81,7 @@ public class ImageGetter {
     }
 
     static void loadImage(final Context context, String source, final LoadImageDone l, final URLDrawable b) {
-        ImageSize size = new ImageSize(200,150);
+        ImageSize size = new ImageSize(200, 150);
         ImageLoader.getInstance().loadImage(source, size, new SimpleImageLoadingListener() {
 
             @Override
@@ -92,13 +91,13 @@ public class ImageGetter {
                 BitmapDrawable drawable = new BitmapDrawable(context.getResources(), loadedImage);
                 drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
                 b.drawable = drawable;
-                if(l!=null)
+                if (l != null)
                     l.loadImageComplete();
             }
         });
     }
 
-    public interface LoadImageDone{
+    public interface LoadImageDone {
         public void loadImageComplete();
     }
 

@@ -168,6 +168,10 @@ public class Query {
         return this;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     public Query setErrorListener(OnQueryErrorListener errorListener) {
         this.errorListener = errorListener;
         return this;

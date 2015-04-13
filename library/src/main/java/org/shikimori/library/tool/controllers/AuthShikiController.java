@@ -1,6 +1,5 @@
 package org.shikimori.library.tool.controllers;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import org.shikimori.library.R;
@@ -9,7 +8,6 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.h;
 
 /**
  * Created by Феофилактов on 29.03.2015.
@@ -20,6 +18,8 @@ public class AuthShikiController {
     private String login;
     private String password;
     private Query.OnQuerySuccessListener listener;
+    Query.METHOD method = Query.METHOD.POST;
+
 
     public AuthShikiController(Query query, ShikiUser user){
         this.query = query;
@@ -35,7 +35,7 @@ public class AuthShikiController {
 
     void auth() {
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-                .setMethod(Query.METHOD.POST)
+                .setMethod(method)
                 .addParam("nickname", login)
                 .addParam("password", password)
                 .getResult(new Query.OnQuerySuccessListener() {
@@ -48,8 +48,11 @@ public class AuthShikiController {
                             user.setName(login);
                             user.initStaticParams();
                             getUserData();
+                        } else {
+                            res.setError();
+                            res.setMsg(query.getContext().getString(R.string.error_auth));
+                            listener.onQuerySuccess(res);
                         }
-
                     }
                 });
     }

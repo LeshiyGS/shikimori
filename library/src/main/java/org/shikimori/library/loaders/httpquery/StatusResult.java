@@ -103,14 +103,13 @@ public class StatusResult {
     }
 
     public String getParameter(String papam) {
-        try {
-            if (jsonObject != null && jsonObject.has(papam))
-                return jsonObject.getString(papam);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (jsonObject != null && jsonObject.has(papam)){
+            String p = jsonObject.optString(papam);
+            if(p.equalsIgnoreCase("null"))
+                return null;
+            return p;
         }
-
-        return "";
+        return null;
     }
 
     public void setHeaders(Header[] headers) {

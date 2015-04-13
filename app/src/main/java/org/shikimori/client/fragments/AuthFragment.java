@@ -57,12 +57,6 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         activity.getSupportActionBar().setSubtitle(R.string.auth);
-
-        if(ShikiApi.isDebug){
-            cetLogin.setText("LeshiyGS");
-            cetPassword.setText("339953");
-        }
-
     }
 
     @Override

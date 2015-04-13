@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/altarixUiText.TextTitle"
+        android:text="spoiler"
+        android:textColor="@color/darkBlue"
+        android:padding="@dimen/defaultPadding"
+        />
+
+    <LinearLayout
+        android:id="@+id/llSpoilerBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/defaultPadding"
+        android:background="@drawable/notify_style_spoiler"
+        android:visibility="gone"
+        android:orientation="vertical"/>
+
+</LinearLayout>
