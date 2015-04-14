@@ -28,7 +28,7 @@ public class ImageGetter {
 
     public ImageGetter(Context context) {
         defaultImage = context.getResources().getDrawable(R.drawable.missing_preview);
-        defaultImage.setBounds(0, 0, 300, 150);
+        defaultImage.setBounds(0, 0, 20, 20);
     }
 
     public void load(final TextView textView, final String text) {

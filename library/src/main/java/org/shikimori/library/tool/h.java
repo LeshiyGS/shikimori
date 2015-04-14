@@ -660,4 +660,9 @@ public class h {
         mContext.startActivity(browserIntent);
     }
 
+    public static ViewGroup.LayoutParams getDefaultParams() {
+        return new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
 }

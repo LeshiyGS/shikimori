@@ -57,8 +57,6 @@ public class Spoiler {
         spoilerName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                h.showMsg(context, "click");
-
                 if (spoilerBody.getVisibility() == View.VISIBLE) {
                     spoilerBody.setVisibility(View.GONE);
                 } else {

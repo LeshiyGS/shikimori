@@ -38,6 +38,8 @@ public class UILImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
 
+        if(!source.contains("smileys"))
+            return null;
 
         if (source.contains("missing_logo")) {
             source = ShikiApi.HTTP_SERVER + "/assets/globals/missing_original.jpg";
@@ -45,9 +47,9 @@ public class UILImageGetter implements Html.ImageGetter {
         if (!source.contains("http")) {
             source = ShikiApi.HTTP_SERVER + source;
         }
-        UrlImageDownloader urlDrawable = new UrlImageDownloader(c.getResources(), source);
+        UrlImageDownloader urlDrawable = new UrlImageDownloader();
         urlDrawable.drawable = c.getResources().getDrawable(R.drawable.missing_preview);
-//        urlDrawable.setBounds(0,0,200,150);
+        urlDrawable.setBounds(0,0,50,50);
 
 
         ImageSize size = new ImageSize(200,150);
@@ -125,6 +127,10 @@ public class UILImageGetter implements Html.ImageGetter {
          */
         public UrlImageDownloader(Resources res, Bitmap bitmap) {
             super(res, bitmap);
+        }
+
+        public UrlImageDownloader() {
+
         }
 
         @Override

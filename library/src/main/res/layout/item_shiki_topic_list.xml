@@ -80,12 +80,22 @@
                 style="@style/altarixUiText.TextTitle"
                 />
 
-            <TextView
-                android:id="@+id/tvText"
+            <!--<TextView-->
+                <!--android:id="@+id/tvText"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/defaultPaddingMini"-->
+                <!--style="@style/altarixUiLabel.miniblack" />-->
+
+            <LinearLayout
+                android:id="@+id/llBodyHtml"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
-                style="@style/altarixUiLabel.miniblack" />
+                android:orientation="vertical">
+
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

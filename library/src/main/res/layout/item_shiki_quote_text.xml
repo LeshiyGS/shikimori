@@ -3,14 +3,20 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/notify_style_quote">
+    android:background="@drawable/notify_style_quote"
+    android:paddingTop="@dimen/defaultPaddingMini"
+    android:paddingBottom="@dimen/defaultPaddingMini"
+    android:paddingLeft="@dimen/defaultPadding"
+    android:paddingRight="@dimen/defaultPadding"
+    >
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/altarixUiText"
         android:text="spoiler"
-        android:padding="@dimen/defaultPadding"
+        android:textStyle="italic"
+        android:textColor="?attr/altarixUiAttrLabelColor"
         />
 
 </FrameLayout>

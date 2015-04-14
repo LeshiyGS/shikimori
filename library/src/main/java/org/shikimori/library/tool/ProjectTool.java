@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.shikimori.library.R;
+import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -81,5 +82,14 @@ public class ProjectTool {
     public static String formatDatePost(String cteatedAt){
         return h.getStringDate("dd MMMM yyyy HH:mm",
                 h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", cteatedAt));
+    }
+
+    public static String fixUrl(String url){
+        if(url == null)
+            return url;
+
+        if(!url.startsWith("http"))
+            url = ShikiApi.HTTP_SERVER + url;
+        return url;
     }
 }

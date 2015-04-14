@@ -3,9 +3,10 @@ package org.shikimori.library.tool.parser.jsop;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,14 +19,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
-import org.jsoup.select.Elements;
 import org.shikimori.library.R;
-import org.shikimori.library.objects.one.ImageShiki;
+import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ParcerTool;
+import org.shikimori.library.tool.parser.UILImageGetter;
 import org.shikimori.library.tool.parser.elements.ImageGetter;
+import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
+import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
 
 import java.util.List;
 
@@ -49,7 +52,7 @@ public class BodyBuild {
             return null;
         viewBody.removeAllViews();
 //        long timeBefore = System.currentTimeMillis();
-        Document doc = Jsoup.parse(clearText(text));
+        Document doc = Jsoup.parse(text);
 //        Log.d("timeload", "" + ((System.currentTimeMillis() - timeBefore) / 1000));
         List<Node> elemnts = doc.body().childNodes();
         looper(elemnts, viewBody);
@@ -164,41 +167,34 @@ public class BodyBuild {
         View v = getLastView(parent);
         StringBuilder builder;
         if (v instanceof TextView) {
+            if(lastTv !=null && !lastTv.equals(v))
+                insertText();
             lastTv = ((TextView) v);
             builder = (StringBuilder) lastTv.getTag();
+            if(builder == null){
+                builder = new StringBuilder();
+                lastTv.setTag(builder);
+            }
         } else {
+            insertText();
             lastTv = new TextView(context);
             lastTv.setLayoutParams(getDefaultParams());
+            if(parent.getId() == R.id.llQuoteBody){
+                lastTv.setTypeface(null, Typeface.ITALIC);
+                lastTv.setTextColor(context.getResources().getColor(R.color.altarixUiLabelColor));
+            }
+            lastTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             builder = new StringBuilder();
             lastTv.setTag(builder);
             parent.addView(lastTv);
         }
+
         String style = elemnt.attr("style");
         if (!TextUtils.isEmpty(style)) {
-            String[] styles = style.split(";");
-            builder.append("<font ");
-            for (String s : styles) {
-                String[] params = s.split(":");
-                if (params.length < 2)
-                    continue;
-                builder.append(params[0])
-                        .append("='")
-                        .append(params[1].trim())
-                        .append("' ");
-            }
-
-            String text = elemnt.childNode(0).outerHtml();
-            builder.append(">")
-                    .append(text)
-                    .append("</font>");
+            TextHtmlUtils.getStyledText(style, builder, elemnt.childNode(0).outerHtml());
         } else {
-            String text = elemnt.outerHtml();
-            builder.append(text);
+            TextHtmlUtils.getStyledText(style, builder, elemnt.outerHtml());
         }
-    }
-
-    String clearText(String text){
-        return text.replace("\n", "");
     }
 
     void insertText() {
@@ -206,8 +202,7 @@ public class BodyBuild {
             return;
         StringBuilder builder = (StringBuilder) lastTv.getTag();
         lastTv.setText(ParcerTool.fromHtml(builder.toString(),
-                ImageGetter.getImgGetter(context,
-                        context.getResources().getDrawable(R.drawable.missing_preview), null), null));
+                new UILImageGetter(lastTv, context), null));
         lastTv = null;
     }
 
@@ -227,7 +222,7 @@ public class BodyBuild {
         // text
         Element content = elemnt.getElementsByClass("inner").get(0);
         looper(content.childNodes(), spoiler.getContent());
-        elemnt.remove();
+        //elemnt.remove();
     }
 
     /**
@@ -243,16 +238,21 @@ public class BodyBuild {
         if (view == null || !(view instanceof GridLayout))
             view = createImageGallery(parent);
 
+        ItemImageShiki item = new ItemImageShiki();
+        item.setThumb(element.attr("src"));
+
+        Element parentNode = element.parent();
+        if (parentNode.tagName().equals("a")) {
+            item.setOriginal(parentNode.attr("href"));
+            //parentNode.remove();
+        } else {
+            //element.remove();
+        }
+
+        PostImage postImg = new PostImage(context, item);
+
         final GridLayout grid = (GridLayout) view;
-
-        ImageView img = new ImageView(context);
-        img.setLayoutParams(getDefaultParams());
-        img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ImageShiki obg = new ImageShiki();
-        obg.thumb = element.attr("src");
-
-        grid.addView(img);
-
+        grid.addView(postImg.getImage());
         grid.post(new Runnable() {
             @Override
             public void run() {
@@ -267,17 +267,6 @@ public class BodyBuild {
             }
         });
 
-//        parent.addView(img);
-        Element parentNode = element.parent();
-        if (parentNode.tagName().equals("a")) {
-            obg.original = parentNode.attr("href");
-            parentNode.remove();
-        } else {
-            element.remove();
-        }
-
-        img.setTag(obg);
-        ImageLoader.getInstance().displayImage(obg.thumb, img);
     }
 
     private View getLastView(ViewGroup parent) {
@@ -303,6 +292,10 @@ public class BodyBuild {
         return false;
     }
 
+    /*************************************************************
+     * settings
+     * @return
+     *************************************************************/
     ViewGroup.LayoutParams getDefaultParams() {
         return new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

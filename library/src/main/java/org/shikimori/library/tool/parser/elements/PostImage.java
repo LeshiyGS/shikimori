@@ -1,32 +1,38 @@
 package org.shikimori.library.tool.parser.elements;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
-import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.koushikdutta.ion.Ion;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
+import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.h;
 
 /**
  * Created by Феофилактов on 09.04.2015.
  */
 public class PostImage {
-    private final Activity activity;
-    private final String tag;
+    private final Context context;
     private ImageView image;
     private String bigImageUrl;
+    private ItemImageShiki imageData;
 
-    public PostImage(Activity activity, String tag) {
-        this.activity = activity;
-        this.tag = tag;
+    public PostImage(Context activity, ItemImageShiki imageData) {
+        this.context = activity;
+        this.imageData = imageData;
         initImage();
     }
+
+//    public void setImage(ItemImageShiki imageData){
+//        this.imageData = imageData;
+//        initImage();
+//    }
 
     public ImageView getImage() {
         return image;
@@ -34,48 +40,38 @@ public class PostImage {
 
     private void initImage() {
         //Вставляем картинку
-        image = new ImageView(activity);
+        image = new ImageView(context);
         image.setBackgroundColor(Color.DKGRAY);
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        //int width = display.getWidth(); // ((display.getWidth()*20)/100)
-        int height;
-        if (tag.contains("x64")) {
-            height = ((display.getHeight() * 10) / 100);// ((display.getHeight()*30)/100)
-        } else {
-            height = ((display.getHeight() * 25) / 100);// ((display.getHeight()*30)/100)
-        }
-
-        image.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                height));
+        ViewGroup.LayoutParams params = h.getDefaultParams();
+        params.height = h.pxToDp(150, context);
+        image.setLayoutParams(params);
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         image.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InlinedApi")
             @Override
             public void onClick(View view) {
 
-                String imgOrigin = bigImageUrl == null ? getImageUrl() : bigImageUrl;
+                // TODO if simple image show big view or go to anime or manga
 
-                h.showMsg(activity, "click image " + imgOrigin);
+
+                if(imageData.getClickListener()!=null)
+                    imageData.getClickListener().onClick(view);
+
             }
         });
 
-        Ion.with(image)
-            .animateLoad(R.anim.spin_animation)
-            .error(R.drawable.missing_preview)
-            .load(tag.substring(3, tag.length() - 1));
-    }
+        if(imageData.getThumb() == null)
+            return;
 
-    String getImageUrl() {
-        String url = tag.substring(3, tag.length() - 1);
-        if (tag.contains("/images/user_image/thumbnail/"))
-            return url.replace("thumbnail", "original");
-        else if (tag.contains("/person/x64/") || tag.contains("/character/x64/"))
-            return url.replace("x64", "original");
-        return url;
-    }
+        if(imageData.getThumb().contains(".gif")){
+            Ion.with(image)
+                .animateLoad(R.anim.spin_animation)
+                .error(R.drawable.missing_preview)
+                .load(imageData.getThumb());
+        } else {
+            ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
+        }
 
-    public void setBigImageUrl(String bigImageUrl) {
-        this.bigImageUrl = bigImageUrl;
     }
 }

@@ -1,7 +1,9 @@
 package org.shikimori.library.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.elements.HtmlText;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +30,11 @@ import java.util.Map;
  */
 public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder> {
 
+    private final BodyBuild htmlBuilder;
+
     public TopicsAdapter(Context context, List list) {
         super(context, list, R.layout.item_shiki_topic_list, TopicHolder.class);
+        htmlBuilder = new BodyBuild((Activity) context);
     }
 
     @Override
@@ -44,6 +50,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         holder.tvCountComments = (TextView) v.findViewById(R.id.tvCountComments);
         holder.tvSection = (TextView) v.findViewById(R.id.tvSection);
         holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+        holder.llBodyHtml = (ViewGroup) v.findViewById(R.id.llBodyHtml);
         return holder;
     }
 
@@ -59,9 +66,13 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 
         holder.tvTitle.setText(item.title);
 //        holder.tvText.setText(item.body);
+        holder.llBodyHtml.removeAllViews();
+        holder.llBodyHtml.addView(item.parsedContent);
 
-        HtmlText text = new HtmlText(getContext(), false);
-        text.setText(item.htmlBody, holder.tvText);
+       // htmlBuilder.parce(item.htmlBody, holder.llBodyHtml);
+
+//        HtmlText text = new HtmlText(getContext(), false);
+//        text.setText(item.htmlBody, holder.tvText);
 
         //h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
         // images

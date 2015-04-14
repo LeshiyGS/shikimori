@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/notify_style_quote"
-    android:padding="@dimen/defaultPadding">
+    android:paddingLeft="@dimen/defaultPadding"
+    android:paddingRight="@dimen/defaultPadding"
+    android:paddingBottom="@dimen/defaultPadding"
+    android:paddingTop="@dimen/defaultPaddingMini"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"

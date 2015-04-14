@@ -1,5 +1,7 @@
 package org.shikimori.library.objects;
 
+import android.view.ViewGroup;
+
 import org.json.JSONObject;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
@@ -15,6 +17,7 @@ public class ItemTopicsShiki extends ItemNewsUserShiki {
     public int commentsCount;
     public Section section;
     public ItemUser user;
+    public ViewGroup parsedContent;
 
     public static ItemTopicsShiki create(JSONObject json){
         return new ItemTopicsShiki().createFromJson(json);
