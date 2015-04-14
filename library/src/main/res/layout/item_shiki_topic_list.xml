@@ -80,12 +80,17 @@
                 style="@style/altarixUiText.TextTitle"
                 />
 
-            <!--<TextView-->
-                <!--android:id="@+id/tvText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/defaultPaddingMini"-->
-                <!--style="@style/altarixUiLabel.miniblack" />-->
+            <TextView
+                android:id="@+id/tvText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shiki_item_selector"
+                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:padding="@dimen/defaultPaddingMini"
+                style="@style/altarixUiLabel"
+                android:textColor="@color/white_overlay_80"
+                android:text="@string/open_details"
+                />
 
             <LinearLayout
                 android:id="@+id/llBodyHtml"

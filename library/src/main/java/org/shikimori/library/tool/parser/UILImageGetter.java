@@ -38,8 +38,8 @@ public class UILImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
 
-        if(!source.contains("smileys"))
-            return null;
+        if(source.contains("/images/user/"))
+            source = source.replace("x16", "x48");
 
         if (source.contains("missing_logo")) {
             source = ShikiApi.HTTP_SERVER + "/assets/globals/missing_original.jpg";

@@ -21,6 +21,7 @@ public class Spoiler {
     private final LinearLayout spoilerBody;
     private final TextView spoilerName;
     private Context context;
+    boolean openned;
 
     public Spoiler(Context context){
         this.context = context;
@@ -72,22 +73,30 @@ public class Spoiler {
      */
     void openSpoiler(){
         spoilerBody.setVisibility(View.VISIBLE);
-        int viewscount = spoilerBody.getChildCount();
-        for (int i = 0; i < viewscount; i++) {
-            // находим галлерею
-            if(spoilerBody.getChildAt(i) instanceof GridLayout){
-                GridLayout grid = (GridLayout) spoilerBody.getChildAt(i);
-                int viewCount = grid.getChildCount();
-                // не более 3 на строку
-                int column = viewCount > 3 ? 3 : viewCount;
-                for (int g = 0; g < viewCount; g++) {
-                    View v = grid.getChildAt(g);
-                    GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
-                    itemParams.width = (grid.getWidth()/column) - itemParams.rightMargin - itemParams.leftMargin;
-                    v.setLayoutParams(itemParams);
+        if(openned)
+            return;
+        spoilerBody.post(new Runnable() {
+            @Override
+            public void run() {
+                openned = true;
+                int viewscount = spoilerBody.getChildCount();
+                for (int i = 0; i < viewscount; i++) {
+                    // находим галлерею
+                    if(spoilerBody.getChildAt(i) instanceof GridLayout){
+                        GridLayout grid = (GridLayout) spoilerBody.getChildAt(i);
+                        int viewCount = grid.getChildCount();
+                        // не более 3 на строку
+                        int column = viewCount > 3 ? 3 : viewCount;
+                        for (int g = 0; g < viewCount; g++) {
+                            View v = grid.getChildAt(g);
+                            GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
+                            itemParams.width = (grid.getWidth()/column) - itemParams.rightMargin - itemParams.leftMargin;
+                            v.setLayoutParams(itemParams);
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 
 

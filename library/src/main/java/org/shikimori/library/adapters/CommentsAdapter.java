@@ -9,6 +9,7 @@ import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.elements.HtmlText;
 
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,9 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, BaseHold
         Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.created_at);
         String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
         holder.tvDate.setText(sdate);
-        h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());
+        HtmlText text = new HtmlText(getContext(), false);
+        text.setText(item.html_body, holder.tvText);
+//        h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivPoster.setImageDrawable(null);

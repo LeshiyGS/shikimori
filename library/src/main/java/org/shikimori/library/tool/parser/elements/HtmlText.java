@@ -1,21 +1,8 @@
 package org.shikimori.library.tool.parser.elements;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.view.View;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.shikimori.library.R;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.tool.parser.ParcerTool;
 
 /**
  * Created by Владимир on 09.04.2015.
@@ -43,7 +30,7 @@ public class HtmlText {
         overSetText();
     }
 
-    void overSetText(){
+    void overSetText() {
         imageGeter.load(tvText, htmltext, spannable);
         if (isLink)
             tvText.setMovementMethod(LinkMovementMethod.getInstance());

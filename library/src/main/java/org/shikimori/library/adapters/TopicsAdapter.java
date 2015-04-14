@@ -2,6 +2,7 @@ package org.shikimori.library.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,6 +51,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         holder.tvCountComments = (TextView) v.findViewById(R.id.tvCountComments);
         holder.tvSection = (TextView) v.findViewById(R.id.tvSection);
         holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
+        holder.tvText = (TextView) v.findViewById(R.id.tvText);
         holder.llBodyHtml = (ViewGroup) v.findViewById(R.id.llBodyHtml);
         return holder;
     }
@@ -66,8 +68,17 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 
         holder.tvTitle.setText(item.title);
 //        holder.tvText.setText(item.body);
+
         holder.llBodyHtml.removeAllViews();
-        holder.llBodyHtml.addView(item.parsedContent);
+        if(item.parsedContent!=null){
+            h.setVisible(holder.llBodyHtml, true);
+            h.setVisibleGone(holder.tvText);
+            holder.llBodyHtml.addView(item.parsedContent);
+        } else {
+            h.setVisibleGone(holder.llBodyHtml);
+            h.setVisible(holder.tvText, true);
+        }
+
 
        // htmlBuilder.parce(item.htmlBody, holder.llBodyHtml);
 

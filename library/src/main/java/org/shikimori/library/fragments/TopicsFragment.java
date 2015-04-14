@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -25,6 +27,7 @@ import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
+import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
@@ -34,6 +37,7 @@ import java.util.List;
 public class TopicsFragment extends BaseListViewFragment {
 
     String section = "all";
+    BodyBuild bodyBuild;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -48,6 +52,7 @@ public class TopicsFragment extends BaseListViewFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showRefreshLoader();
+        bodyBuild = new BodyBuild(activity);
         loadData();
     }
 
@@ -77,7 +82,6 @@ public class TopicsFragment extends BaseListViewFragment {
 
     @Override
     public void onQuerySuccess(final StatusResult res) {
-
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
@@ -86,7 +90,9 @@ public class TopicsFragment extends BaseListViewFragment {
                         new ObjectBuilder.AdvanceCheck<ItemTopicsShiki>() {
                             @Override
                             public boolean check(ItemTopicsShiki item, int position) {
-                                buildVies(item);
+                                String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
+                                if(!type.equalsIgnoreCase(Constants.TOPIC))
+                                    buildVies(item);
                                 return false;
                             }
                         }
@@ -131,7 +137,7 @@ public class TopicsFragment extends BaseListViewFragment {
         super.onItemClick(parent, view, position, id);
         ItemTopicsShiki item = (ItemTopicsShiki) parent.getAdapter().getItem(position);
         Intent intent = new Intent(activity, ShowPageActivity.class);
-        String type = item.linkedType == null ? item.type : item.linkedType;
+        String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
         switch (type.toLowerCase()) {
             case Constants.ANIME:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
@@ -139,9 +145,37 @@ public class TopicsFragment extends BaseListViewFragment {
             case Constants.MANGA:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
                 break;
+            case Constants.TOPIC:
+                showPopupText(item.htmlBody);
+
+                return;
         }
         intent.putExtra(Constants.ITEM_ID, item.linkedId);
         activity.startActivity(intent);
+    }
+
+    void showPopupText(final String text){
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+                final TextPopup popup = new TextPopup(activity);
+                popup.showLoader();
+                bodyBuild.parceAsync(text, new BodyBuild.ParceDoneListener() {
+                    @Override
+                    public void done(ViewGroup view) {
+                        popup.hideLoader();
+                        popup.setBody(view);
+                    }
+                });
+                popup.show();
+
+//                activity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                    }
+//                });
+//            }
+//        }).start();
     }
 
     @Override

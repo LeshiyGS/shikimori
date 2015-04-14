@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Looper;
+import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.widget.GridLayout;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,12 +24,12 @@ import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.UILImageGetter;
-import org.shikimori.library.tool.parser.elements.ImageGetter;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
 import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,6 +41,7 @@ public class BodyBuild {
     private final Point screensize;
     private Context context;
     private TextView lastTv;
+    List<PostImage> images = new ArrayList<>();
 
     public BodyBuild(Activity context) {
         this.context = context;
@@ -50,6 +51,7 @@ public class BodyBuild {
     public View parce(String text, ViewGroup viewBody) {
         if (text == null)
             return null;
+        text.replace("<br><br>", "<br>");
         viewBody.removeAllViews();
 //        long timeBefore = System.currentTimeMillis();
         Document doc = Jsoup.parse(text);
@@ -58,6 +60,52 @@ public class BodyBuild {
         looper(elemnts, viewBody);
         insertText();
         return null;
+    }
+
+    public interface ParceDoneListener {
+        public void done(ViewGroup view);
+    }
+
+    public void parceAsync(final String text, final ParceDoneListener listener) {
+        if (text == null)
+            return;
+        LinearLayout view = new LinearLayout(context);
+        view.setLayoutParams(getDefaultParams());
+        view.setOrientation(LinearLayout.VERTICAL);
+        new ViewsLoader(context, text, view, listener).forceLoad();
+
+//        h.postIfOutside(new Runnable() {
+//            @Override
+//            public void run() {
+//                text.replace("<br><br>", "<br>");
+//                LinearLayout view = new LinearLayout(context);
+//                view.setOrientation(LinearLayout.VERTICAL);
+//                view.setLayoutParams(getDefaultParams());
+//
+//                Document doc = Jsoup.parse(text);
+//                List<Node> elemnts = doc.body().childNodes();
+//                looper(elemnts, view);
+//                insertText();
+//                listener.done(view);
+//            }
+//        });
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Looper.prepare();
+//                text.replace("<br><br>", "<br>");
+//                LinearLayout view = new LinearLayout(context);
+//                view.setLayoutParams(getDefaultParams());
+//
+//                Document doc = Jsoup.parse(text);
+//                List<Node> elemnts = doc.body().childNodes();
+//                looper(elemnts, view);
+//                insertText();
+//                listener.done(view);
+//                Looper.loop();
+//            }
+//        }).start();
     }
 
     void looper(List<Node> elemnts, ViewGroup parent) {
@@ -141,7 +189,7 @@ public class BodyBuild {
     private void buildBlockquote(Element elemnt, ViewGroup parent) {
         Node firstChild = elemnt.childNode(0);
         Quote quote;
-        if(firstChild instanceof TextNode){
+        if (firstChild instanceof TextNode) {
             quote = new Quote(context, true);
             looper(elemnt.childNodes(), quote.getQuote());
         } else {
@@ -167,11 +215,11 @@ public class BodyBuild {
         View v = getLastView(parent);
         StringBuilder builder;
         if (v instanceof TextView) {
-            if(lastTv !=null && !lastTv.equals(v))
+            if (lastTv != null && !lastTv.equals(v))
                 insertText();
             lastTv = ((TextView) v);
             builder = (StringBuilder) lastTv.getTag();
-            if(builder == null){
+            if (builder == null) {
                 builder = new StringBuilder();
                 lastTv.setTag(builder);
             }
@@ -179,7 +227,7 @@ public class BodyBuild {
             insertText();
             lastTv = new TextView(context);
             lastTv.setLayoutParams(getDefaultParams());
-            if(parent.getId() == R.id.llQuoteBody){
+            if (parent.getId() == R.id.llQuoteBody) {
                 lastTv.setTypeface(null, Typeface.ITALIC);
                 lastTv.setTextColor(context.getResources().getColor(R.color.altarixUiLabelColor));
             }
@@ -233,10 +281,11 @@ public class BodyBuild {
      * @param parent  **********************************************************
      */
     void addImage(Element element, ViewGroup parent) {
-        insertText();
         View view = getLastView(parent);
-        if (view == null || !(view instanceof GridLayout))
+        if (view == null || !(view instanceof GridLayout)) {
+            insertText();
             view = createImageGallery(parent);
+        }
 
         ItemImageShiki item = new ItemImageShiki();
         item.setThumb(element.attr("src"));
@@ -250,6 +299,8 @@ public class BodyBuild {
         }
 
         PostImage postImg = new PostImage(context, item);
+
+        images.add(postImg);
 
         final GridLayout grid = (GridLayout) view;
         grid.addView(postImg.getImage());
@@ -292,12 +343,54 @@ public class BodyBuild {
         return false;
     }
 
-    /*************************************************************
+    /**
+     * **********************************************************
      * settings
-     * @return
-     *************************************************************/
+     *
+     * @return ***********************************************************
+     */
     ViewGroup.LayoutParams getDefaultParams() {
         return new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    public static class ViewsLoader extends AsyncTaskLoader<ViewGroup> {
+        private final BodyBuild builder;
+        private String text;
+        private final ViewGroup viewGroup;
+        private ParceDoneListener listener;
+
+        public ViewsLoader(Context context, String text, ViewGroup viewGroup, ParceDoneListener listener) {
+            super(context);
+            this.text = text;
+            this.viewGroup = viewGroup;
+            this.listener = listener;
+            builder = new BodyBuild((Activity) context);
+        }
+
+        @Override
+        public ViewGroup loadInBackground() {
+
+            builder.parce(text, viewGroup);
+
+//            text.replace("<br><br>", "<br>");
+//
+//            Document doc = Jsoup.parse(text);
+//            List<Node> elemnts = doc.body().childNodes();
+//            looper(elemnts, viewGroup);
+//            insertText();
+            return viewGroup;
+        }
+
+        @Override
+        public void deliverResult(ViewGroup data) {
+            super.deliverResult(data);
+            for (PostImage image : builder.images) {
+                image.loadImage();
+            }
+            data.requestFocus();
+            data.invalidate();
+            listener.done(data);
+        }
     }
 }

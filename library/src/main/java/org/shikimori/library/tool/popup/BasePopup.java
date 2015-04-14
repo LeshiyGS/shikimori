@@ -36,6 +36,7 @@ public abstract class BasePopup {
     private TextView tvTitle;
     private boolean hideOnClickItem = true;
     View backView;
+    private View pbLoader;
 
     public BasePopup (Activity mContext){
         this.mContext = mContext;
@@ -86,6 +87,10 @@ public abstract class BasePopup {
         body.addView(v);
     }
 
+    public ViewGroup getBody() {
+        return body;
+    }
+
     /**
      * Get position in body
      * @param v
@@ -134,6 +139,7 @@ public abstract class BasePopup {
         view = inflater.inflate(R.layout.popup_body, null);
         body = (ViewGroup) view.findViewById(R.id.llBody);
         tvTitle = (TextView)view.findViewById(R.id.title);
+        pbLoader = view.findViewById(R.id.pbLoader);
         view.findViewById(R.id.ivClose).setOnClickListener(closeToClick);
     }
 
@@ -162,6 +168,21 @@ public abstract class BasePopup {
             }
         }
         return false;
+    }
+
+    public void showLoader(){
+        if(pbLoader.getVisibility()!=View.VISIBLE){
+            pbLoader.setVisibility(View.VISIBLE);
+            YoYo.with(Techniques.Bounce)
+                .delay(300)
+                .playOn(pbLoader);
+        }
+    }
+
+    public void hideLoader(){
+        if(pbLoader.getVisibility()!=View.GONE){
+            pbLoader.setVisibility(View.GONE);
+        }
     }
 
     /**

@@ -20,7 +20,6 @@ import org.shikimori.library.tool.h;
 public class PostImage {
     private final Context context;
     private ImageView image;
-    private String bigImageUrl;
     private ItemImageShiki imageData;
 
     public PostImage(Context activity, ItemImageShiki imageData) {
@@ -28,11 +27,6 @@ public class PostImage {
         this.imageData = imageData;
         initImage();
     }
-
-//    public void setImage(ItemImageShiki imageData){
-//        this.imageData = imageData;
-//        initImage();
-//    }
 
     public ImageView getImage() {
         return image;
@@ -73,5 +67,9 @@ public class PostImage {
             ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
         }
 
+    }
+
+    public void loadImage(){
+        ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
     }
 }

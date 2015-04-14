@@ -55,6 +55,7 @@ public class ShikiApplikation extends Application {
         return new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
+                .showImageOnFail(R.drawable.missing_preview)
                 .resetViewBeforeLoading(false)
                 .displayer(new FadeInBitmapDisplayer(400, true, true, false));
     }
