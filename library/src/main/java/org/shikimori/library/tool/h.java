@@ -55,6 +55,11 @@ import com.daimajia.androidanimations.library.fading_entrances.FadeInAnimator;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
 
+import org.jsoup.Jsoup;
+import org.shikimori.library.objects.ItemTopicsShiki;
+import org.shikimori.library.objects.abs.ObjectBuilder;
+import org.shikimori.library.tool.constpack.Constants;
+
 import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -664,5 +669,4 @@ public class h {
         return new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
-
 }

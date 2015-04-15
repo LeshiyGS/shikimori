@@ -31,6 +31,7 @@ import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -42,6 +43,7 @@ public class BodyBuild {
     private Context context;
     private TextView lastTv;
     List<PostImage> images = new ArrayList<>();
+    CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
 
     public BodyBuild(Activity context) {
         this.context = context;
@@ -56,6 +58,13 @@ public class BodyBuild {
 //        long timeBefore = System.currentTimeMillis();
         Document doc = Jsoup.parse(text);
 //        Log.d("timeload", "" + ((System.currentTimeMillis() - timeBefore) / 1000));
+        return parce(doc, viewBody);
+    }
+
+    public View parce(Document doc, ViewGroup viewBody) {
+        if (doc == null)
+            return null;
+        viewBody.removeAllViews();
         List<Node> elemnts = doc.body().childNodes();
         looper(elemnts, viewBody);
         insertText();
@@ -67,45 +76,13 @@ public class BodyBuild {
     }
 
     public void parceAsync(final String text, final ParceDoneListener listener) {
-        if (text == null)
+        new ViewsLoader(context, text, listener).forceLoad();
+    }
+
+    public void parceAsync(Document doc, final ParceDoneListener listener) {
+        if (doc == null)
             return;
-        LinearLayout view = new LinearLayout(context);
-        view.setLayoutParams(getDefaultParams());
-        view.setOrientation(LinearLayout.VERTICAL);
-        new ViewsLoader(context, text, view, listener).forceLoad();
-
-//        h.postIfOutside(new Runnable() {
-//            @Override
-//            public void run() {
-//                text.replace("<br><br>", "<br>");
-//                LinearLayout view = new LinearLayout(context);
-//                view.setOrientation(LinearLayout.VERTICAL);
-//                view.setLayoutParams(getDefaultParams());
-//
-//                Document doc = Jsoup.parse(text);
-//                List<Node> elemnts = doc.body().childNodes();
-//                looper(elemnts, view);
-//                insertText();
-//                listener.done(view);
-//            }
-//        });
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Looper.prepare();
-//                text.replace("<br><br>", "<br>");
-//                LinearLayout view = new LinearLayout(context);
-//                view.setLayoutParams(getDefaultParams());
-//
-//                Document doc = Jsoup.parse(text);
-//                List<Node> elemnts = doc.body().childNodes();
-//                looper(elemnts, view);
-//                insertText();
-//                listener.done(view);
-//                Looper.loop();
-//            }
-//        }).start();
+        new ViewsLoader(context, doc, listener).forceLoad();
     }
 
     void looper(List<Node> elemnts, ViewGroup parent) {
@@ -214,6 +191,15 @@ public class BodyBuild {
     void setSimpleText(Node elemnt, ViewGroup parent) {
         View v = getLastView(parent);
         StringBuilder builder;
+
+        String text;
+        String style = elemnt.attr("style");
+        if (!TextUtils.isEmpty(style)) {
+            text = elemnt.childNode(0).outerHtml();
+        } else {
+            text = elemnt.outerHtml();
+        }
+
         if (v instanceof TextView) {
             if (lastTv != null && !lastTv.equals(v))
                 insertText();
@@ -224,6 +210,8 @@ public class BodyBuild {
                 lastTv.setTag(builder);
             }
         } else {
+            if(text.equals("<br>"))
+                return;
             insertText();
             lastTv = new TextView(context);
             lastTv.setLayoutParams(getDefaultParams());
@@ -237,12 +225,8 @@ public class BodyBuild {
             parent.addView(lastTv);
         }
 
-        String style = elemnt.attr("style");
-        if (!TextUtils.isEmpty(style)) {
-            TextHtmlUtils.getStyledText(style, builder, elemnt.childNode(0).outerHtml());
-        } else {
-            TextHtmlUtils.getStyledText(style, builder, elemnt.outerHtml());
-        }
+        TextHtmlUtils.getStyledText(style, builder, text);
+
     }
 
     void insertText() {
@@ -301,22 +285,24 @@ public class BodyBuild {
         PostImage postImg = new PostImage(context, item);
 
         images.add(postImg);
+        if(!gallerys.contains(view))
+            gallerys.add(view);
 
         final GridLayout grid = (GridLayout) view;
         grid.addView(postImg.getImage());
-        grid.post(new Runnable() {
-            @Override
-            public void run() {
-                int viewCount = grid.getChildCount();
-                int column = viewCount > 3 ? 3 : viewCount;
-                for (int i = 0; i < viewCount; i++) {
-                    View v = grid.getChildAt(i);
-                    GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
-                    itemParams.width = (screensize.x / column) - itemParams.rightMargin - itemParams.leftMargin;
-                    v.setLayoutParams(itemParams);
-                }
-            }
-        });
+//        grid.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                int viewCount = grid.getChildCount();
+//                int column = viewCount > 3 ? 3 : viewCount;
+//                for (int i = 0; i < viewCount; i++) {
+//                    View v = grid.getChildAt(i);
+//                    GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
+//                    itemParams.width = (screensize.x / column) - itemParams.rightMargin - itemParams.leftMargin;
+//                    v.setLayoutParams(itemParams);
+//                }
+//            }
+//        });
 
     }
 
@@ -332,6 +318,7 @@ public class BodyBuild {
         GridLayout layout = new GridLayout(context);
         layout.setColumnCount(3);
         layout.setLayoutParams(getDefaultParams());
+        layout.setPadding(0, 0, 0, 30);
         parent.addView(layout);
         return layout;
     }
@@ -341,6 +328,31 @@ public class BodyBuild {
         if (url.contains("/images/user/") || url.contains("/images/smileys/"))
             return true;
         return false;
+    }
+
+    public void  loadPreparedImages(){
+
+        for (View v : gallerys){
+            final GridLayout grid = (GridLayout) v;
+            grid.post(new Runnable() {
+                @Override
+                public void run() {
+                    int viewCount = grid.getChildCount();
+                    int column = viewCount > 3 ? 3 : viewCount;
+                    for (int i = 0; i < viewCount; i++) {
+                        View v = grid.getChildAt(i);
+                        GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
+                        itemParams.width = (grid.getWidth() / column) - itemParams.rightMargin - itemParams.leftMargin;
+                        v.setLayoutParams(itemParams);
+                    }
+                }
+            });
+        }
+
+        for (PostImage image : images) {
+            image.loadImage();
+        }
+        images.clear();
     }
 
     /**
@@ -354,42 +366,46 @@ public class BodyBuild {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    public static class ViewsLoader extends AsyncTaskLoader<ViewGroup> {
-        private final BodyBuild builder;
+    static class ViewsLoader extends AsyncTaskLoader<ViewGroup> {
+        private BodyBuild builder;
         private String text;
-        private final ViewGroup viewGroup;
+        private Document doc;
         private ParceDoneListener listener;
 
-        public ViewsLoader(Context context, String text, ViewGroup viewGroup, ParceDoneListener listener) {
+        public ViewsLoader(Context context, String text, ParceDoneListener listener) {
             super(context);
             this.text = text;
-            this.viewGroup = viewGroup;
-            this.listener = listener;
             builder = new BodyBuild((Activity) context);
+            this.listener = listener;
+        }
+
+        public ViewsLoader(Context context, Document doc, ParceDoneListener listener) {
+            super(context);
+            this.doc = doc;
+            this.listener = listener;
         }
 
         @Override
         public ViewGroup loadInBackground() {
-
-            builder.parce(text, viewGroup);
-
+            LinearLayout view = new LinearLayout(getContext());
+            view.setLayoutParams(h.getDefaultParams());
+            view.setOrientation(LinearLayout.VERTICAL);
+            builder.parce(text, view);
 //            text.replace("<br><br>", "<br>");
-//
-//            Document doc = Jsoup.parse(text);
+//            if(doc==null)
+//                doc = Jsoup.parse(text);
 //            List<Node> elemnts = doc.body().childNodes();
-//            looper(elemnts, viewGroup);
+//            looper(elemnts, view);
 //            insertText();
-            return viewGroup;
+            return view;
         }
 
         @Override
         public void deliverResult(ViewGroup data) {
             super.deliverResult(data);
-            for (PostImage image : builder.images) {
-                image.loadImage();
-            }
-            data.requestFocus();
-            data.invalidate();
+            builder.loadPreparedImages();
+//            data.requestFocus();
+//            data.invalidate();
             listener.done(data);
         }
     }

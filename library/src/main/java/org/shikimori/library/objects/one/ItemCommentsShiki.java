@@ -1,18 +1,22 @@
 package org.shikimori.library.objects.one;
 
 
+import android.view.ViewGroup;
+
 import org.json.JSONObject;
+import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Creator<ItemCommentsShiki> {
+public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Creator<ItemCommentsShiki>, OnViewBuildLister {
     public String id, user_id, commentable_id, commentable_type, body, html_body, created_at, updated_at;
     public String nickname, avatar, image_x160, image_x148, last_online_at;
     public boolean offtopic, review, viewed,  can_be_edited;
     private JSONObject allData;
+    public ViewGroup parsedContent;
 
     @Override
     public String toString() {
@@ -55,5 +59,15 @@ public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Cr
         }
 
         return this;
+    }
+
+    @Override
+    public void setBuildView(ViewGroup view) {
+        parsedContent = view;
+    }
+
+    @Override
+    public String getHtml() {
+        return html_body;
     }
 }

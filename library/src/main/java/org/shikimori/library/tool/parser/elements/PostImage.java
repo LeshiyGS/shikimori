@@ -58,18 +58,16 @@ public class PostImage {
         if(imageData.getThumb() == null)
             return;
 
-        if(imageData.getThumb().contains(".gif")){
-            Ion.with(image)
-                .animateLoad(R.anim.spin_animation)
-                .error(R.drawable.missing_preview)
-                .load(imageData.getThumb());
-        } else {
-            ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
-        }
-
     }
 
     public void loadImage(){
-        ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
+        if(imageData.getThumb().contains(".gif")){
+            Ion.with(image)
+                    .animateLoad(R.anim.spin_animation)
+                    .error(R.drawable.missing_preview)
+                    .load(imageData.getThumb());
+        } else {
+            ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
+        }
     }
 }

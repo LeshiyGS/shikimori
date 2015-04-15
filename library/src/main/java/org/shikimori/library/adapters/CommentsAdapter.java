@@ -1,6 +1,7 @@
 package org.shikimori.library.adapters;
 
 import android.content.Context;
+import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -33,8 +34,11 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, BaseHold
         Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.created_at);
         String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
         holder.tvDate.setText(sdate);
-        HtmlText text = new HtmlText(getContext(), false);
-        text.setText(item.html_body, holder.tvText);
+//        HtmlText text = new HtmlText(getContext(), false);
+//        text.setText(item.html_body, holder.tvText);
+        holder.llBodyHtml.removeAllViews();
+        holder.llBodyHtml.addView(item.parsedContent);
+
 //        h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала

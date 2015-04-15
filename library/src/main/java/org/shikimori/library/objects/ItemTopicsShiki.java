@@ -3,6 +3,8 @@ package org.shikimori.library.objects;
 import android.view.ViewGroup;
 
 import org.json.JSONObject;
+import org.jsoup.nodes.Document;
+import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.objects.one.ItemUser;
@@ -11,13 +13,14 @@ import org.shikimori.library.objects.one.Section;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemTopicsShiki extends ItemNewsUserShiki {
+public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLister {
 
     public String title, type, linkedType, linkedId;
     public int commentsCount;
     public Section section;
     public ItemUser user;
     public ViewGroup parsedContent;
+    public Document doc;
 
     public static ItemTopicsShiki create(JSONObject json){
         return new ItemTopicsShiki().createFromJson(json);
@@ -40,4 +43,13 @@ public class ItemTopicsShiki extends ItemNewsUserShiki {
         return this;
     }
 
+    @Override
+    public void setBuildView(ViewGroup view) {
+        parsedContent = view;
+    }
+
+    @Override
+    public String getHtml() {
+        return htmlBody;
+    }
 }

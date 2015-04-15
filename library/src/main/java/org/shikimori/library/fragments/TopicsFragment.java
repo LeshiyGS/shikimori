@@ -14,10 +14,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
+import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -91,8 +94,10 @@ public class TopicsFragment extends BaseListViewFragment {
                             @Override
                             public boolean check(ItemTopicsShiki item, int position) {
                                 String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
-                                if(!type.equalsIgnoreCase(Constants.TOPIC))
+                                item.doc = Jsoup.parse(item.htmlBody);
+                                if(!type.equalsIgnoreCase(Constants.TOPIC)){
                                     buildVies(item);
+                                }
                                 return false;
                             }
                         }
@@ -109,19 +114,6 @@ public class TopicsFragment extends BaseListViewFragment {
         };
 
         handler.postDelayed(r, 0);
-
-
-//        stopRefresh();
-//        ObjectBuilder<ItemTopicsShiki> builder = new ObjectBuilder<>(res.getResultArray(), ItemTopicsShiki.class,
-//                new ObjectBuilder.AdvanceCheck<ItemTopicsShiki>() {
-//                    @Override
-//                    public boolean check(ItemTopicsShiki item, int position) {
-//                        buildVies(item);
-//                        return false;
-//                    }
-//                }
-//        );
-//        prepareData(builder.list, true, true);
     }
 
     private void buildVies(ItemTopicsShiki item) {
@@ -129,7 +121,7 @@ public class TopicsFragment extends BaseListViewFragment {
         body.setLayoutParams(h.getDefaultParams());
         body.setOrientation(LinearLayout.VERTICAL);
         item.parsedContent = body;
-        new BodyBuild(activity).parce(item.htmlBody, body);
+        new BodyBuild(activity).parce(item.doc, body);
     }
 
     @Override
@@ -146,7 +138,7 @@ public class TopicsFragment extends BaseListViewFragment {
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
                 break;
             case Constants.TOPIC:
-                showPopupText(item.htmlBody);
+                showPopupText(item);
 
                 return;
         }
@@ -154,28 +146,18 @@ public class TopicsFragment extends BaseListViewFragment {
         activity.startActivity(intent);
     }
 
-    void showPopupText(final String text){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-                final TextPopup popup = new TextPopup(activity);
-                popup.showLoader();
-                bodyBuild.parceAsync(text, new BodyBuild.ParceDoneListener() {
-                    @Override
-                    public void done(ViewGroup view) {
-                        popup.hideLoader();
-                        popup.setBody(view);
-                    }
-                });
-                popup.show();
-
-//                activity.runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                    }
-//                });
-//            }
-//        }).start();
+    void showPopupText(final ItemTopicsShiki item){
+        final TextPopup popup = new TextPopup(activity);
+        popup.showLoader();
+//        bodyBuild.parce(item.doc, popup.getBody());
+        bodyBuild.parceAsync(item.htmlBody, new BodyBuild.ParceDoneListener() {
+            @Override
+            public void done(ViewGroup view) {
+                popup.hideLoader();
+                popup.setBody(view);
+            }
+        });
+        popup.show();
     }
 
     @Override

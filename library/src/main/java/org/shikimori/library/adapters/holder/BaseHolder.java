@@ -1,5 +1,6 @@
 package org.shikimori.library.adapters.holder;
 
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,4 +10,5 @@ import android.widget.TextView;
 public class BaseHolder {
     public ImageView ivUser, ivPoster;
     public TextView tvName, tvText, tvDate, tvRusName, tvStatus;
+    public ViewGroup llBodyHtml;
 }

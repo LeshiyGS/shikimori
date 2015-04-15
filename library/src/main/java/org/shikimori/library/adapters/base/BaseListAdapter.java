@@ -3,6 +3,7 @@ package org.shikimori.library.adapters.base;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<
             holder.tvName = (TextView) v.findViewById(R.id.tvName);
             holder.tvRusName = (TextView) v.findViewById(R.id.tvRusName);
             holder.tvStatus = (TextView) v.findViewById(R.id.tvStatus);
+            holder.llBodyHtml = (ViewGroup) v.findViewById(R.id.llBodyHtml);
             return holder;
         } catch (Exception e) {
             e.printStackTrace();

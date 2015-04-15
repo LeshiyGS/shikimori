@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +49,8 @@ public class UILImageGetter implements Html.ImageGetter {
             source = ShikiApi.HTTP_SERVER + source;
         }
         UrlImageDownloader urlDrawable = new UrlImageDownloader();
-        urlDrawable.drawable = c.getResources().getDrawable(R.drawable.missing_preview);
-        urlDrawable.setBounds(0,0,50,50);
+//        urlDrawable.drawable = c.getResources().getDrawable(R.drawable.missing_preview);
+//        urlDrawable.setBounds(0,0,50,50);
 
 
         ImageSize size = new ImageSize(200,150);
@@ -68,28 +69,11 @@ public class UILImageGetter implements Html.ImageGetter {
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            int width = loadedImage.getWidth();
-            int height = loadedImage.getHeight();
-            int newWidth = width;
-            int newHeight = height;
-
-            if( width > container.getWidth() ) {
-                newWidth = container.getWidth();
-                newHeight = (newWidth * height) / width;
-            }
-
             Drawable result = new BitmapDrawable(c.getResources(), loadedImage);
-//            container.setHeight((container.getHeight() + result.getIntrinsicHeight()));
             result.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
             urlImageDownloader.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
             urlImageDownloader.drawable = result;
-
-            ViewGroup.LayoutParams params = container.getLayoutParams();
-            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            container.setLayoutParams(params);
-
-            container.requestLayout();
-            container.invalidate();
+            container.setText(container.getText());
         }
     }
 

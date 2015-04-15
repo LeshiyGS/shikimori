@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         style="@style/altarixUiText.TextTitle"
         android:text="spoiler"
+        android:paddingTop="@dimen/defaultPaddingMini"
+        android:paddingBottom="@dimen/defaultPaddingMini"
         android:textColor="@color/darkBlue"
         android:background="?attr/selectableItemBackground"
         />

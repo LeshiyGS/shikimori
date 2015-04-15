@@ -1,17 +1,28 @@
 package org.shikimori.library.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.AsyncTaskLoader;
+import android.text.TextUtils;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
+import org.json.JSONArray;
+import org.jsoup.Jsoup;
 import org.shikimori.library.adapters.CommentsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
+import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
+import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
 
@@ -21,6 +32,7 @@ import java.util.List;
 public class DiscusionFragment extends BaseListViewFragment implements ExtraLoadInterface {
 
     private String treadId;
+    BodyBuild bodyBuilder;
 
     public static DiscusionFragment newInstance(Bundle b) {
         DiscusionFragment frag = new DiscusionFragment();
@@ -37,6 +49,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        bodyBuilder = new BodyBuild(activity);
     }
 
     @Override
@@ -60,10 +73,24 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
-        stopRefresh();
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemCommentsShiki.class);
-        prepareData(builder.list, true, true);
+    public void onQuerySuccess(final StatusResult res) {
+        new BackGroubdLoader(activity, bodyBuilder, res.getResultArray(), ItemCommentsShiki.class){
+            @Override
+            public void deliverResult(List data) {
+                super.deliverResult(data);
+                stopRefresh();
+                bodyBuilder.loadPreparedImages();
+                prepareData(data, true, true);
+            }
+        }.forceLoad();
+    }
+
+    private void buildVies(ItemCommentsShiki item) {
+        LinearLayout body = new LinearLayout(activity);
+        body.setLayoutParams(h.getDefaultParams());
+        body.setOrientation(LinearLayout.VERTICAL);
+        item.parsedContent = body;
+        bodyBuilder.parce(item.html_body, body);
     }
 
     @Override
@@ -94,4 +121,36 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         };
         mythread.start();
     }
+
+//    public class BackGroubdLoader extends AsyncTaskLoader<List<ItemCommentsShiki>> {
+//
+//        private JSONArray array;
+//
+//        public BackGroubdLoader(Context context, JSONArray array) {
+//            super(context);
+//            this.array = array;
+//        }
+//
+//        @Override
+//        public List<ItemCommentsShiki> loadInBackground() {
+//            ObjectBuilder builder = new ObjectBuilder(array, ItemCommentsShiki.class,
+//                    new ObjectBuilder.AdvanceCheck<ItemCommentsShiki>() {
+//                        @Override
+//                        public boolean check(ItemCommentsShiki item, int position) {
+//                            buildVies(item);
+//                            return false;
+//                        }
+//                    }
+//            );
+//            return builder.list;
+//        }
+//
+//        @Override
+//        public void deliverResult(List<ItemCommentsShiki> data) {
+//            super.deliverResult(data);
+//            stopRefresh();
+//            bodyBuilder.loadPreparedImages();
+//            prepareData(data, true, true);
+//        }
+//    }
 }
