@@ -50,6 +50,19 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         bodyBuilder = new BodyBuild(activity);
+
+        initParams();
+
+        if(treadId!=null)
+            loadData();
+    }
+
+    private void initParams() {
+        Bundle b = getArguments();
+        if(b == null)
+            return;
+
+        treadId = b.getString(Constants.TREAD_ID);
     }
 
     @Override

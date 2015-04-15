@@ -15,6 +15,7 @@ public class ShowPageActivity extends PageActivity {
     public static final int ANIME_PAGE = 1;
     public static final int MANGA_PAGE = 2;
     public static final int TOPIC_PAGE = 3;
+    public static final int OFTOPIC_PAGE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class ShowPageActivity extends PageActivity {
             addPageFragment(MangaDeatailsFragment.newInstance(b), R.string.manga);
             addPageFragment(DiscusionFragment.newInstance(b), R.string.discusion);
             showPages();
+        } else if(page == OFTOPIC_PAGE){
+            loadPage(DiscusionFragment.newInstance(b));
         }
     }
 }

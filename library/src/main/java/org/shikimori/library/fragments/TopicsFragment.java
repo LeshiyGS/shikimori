@@ -138,9 +138,13 @@ public class TopicsFragment extends BaseListViewFragment {
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
                 break;
             case Constants.TOPIC:
-                showPopupText(item);
-
-                return;
+                if (item.section.permalink.equals("o")){
+                    intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
+                    intent.putExtra(Constants.TREAD_ID, item.id);
+                }else{
+                    showPopupText(item);
+                    return;
+                }
         }
         intent.putExtra(Constants.ITEM_ID, item.linkedId);
         activity.startActivity(intent);
