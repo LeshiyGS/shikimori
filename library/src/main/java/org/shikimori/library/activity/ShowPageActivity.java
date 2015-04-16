@@ -16,25 +16,26 @@ public class ShowPageActivity extends PageActivity {
     public static final int MANGA_PAGE = 2;
     public static final int TOPIC_PAGE = 3;
     public static final int OFTOPIC_PAGE = 4;
+    protected Bundle params;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        params = getIntent().getExtras();
         chosePage();
     }
 
-    private void chosePage() {
-        Bundle b = getIntent().getExtras();
+    protected void chosePage() {
         if(page == ANIME_PAGE){
-            addPageFragment(AnimeDeatailsFragment.newInstance(b), R.string.anime);
-            addPageFragment(DiscusionFragment.newInstance(b), R.string.discusion);
+            addPageFragment(AnimeDeatailsFragment.newInstance(params), R.string.anime);
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
             showPages();
         } else if(page == MANGA_PAGE){
-            addPageFragment(MangaDeatailsFragment.newInstance(b), R.string.manga);
-            addPageFragment(DiscusionFragment.newInstance(b), R.string.discusion);
+            addPageFragment(MangaDeatailsFragment.newInstance(params), R.string.manga);
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
             showPages();
         } else if(page == OFTOPIC_PAGE){
-            loadPage(DiscusionFragment.newInstance(b));
+            loadPage(DiscusionFragment.newInstance(params));
         }
     }
 }

@@ -8,6 +8,8 @@ import org.shikimori.client.DrawerTool;
 import org.shikimori.client.R;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.library.activity.ShowPageActivity;
+import org.shikimori.library.fragments.AnimeDeatailsFragment;
+import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 
 /**
@@ -27,6 +29,17 @@ public class DrawerShowPageActivity extends ShowPageActivity implements UserData
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void chosePage() {
+        if(page == TOPIC_PAGE){
+            addPageFragment(AnimeDeatailsFragment.newInstance(params), R.string.anime);
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
+            showPages();
+            return;
+        }
+        super.chosePage();
     }
 
     /**
