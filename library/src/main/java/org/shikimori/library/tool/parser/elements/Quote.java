@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
+import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.ImageController;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,22 +22,19 @@ import java.util.regex.Pattern;
 /**
  * Created by Владимир on 09.04.2015.
  */
-public class Quote {
+public class Quote extends ImageController{
     private final ViewGroup quote;
-    private ImageView ivUser;
     private LinearLayout quoteBody;
     private final TextView userName;
-    private Context context;
     private String userId;
 
     public Quote(Context context, boolean simple){
-        this.context = context;
         if(simple){
             quote = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.item_shiki_quote_text, null);
         } else {
             quote = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.item_shiki_quote_named, null);
             quoteBody = (LinearLayout) quote.findViewById(R.id.llQuoteBody);
-            ivUser = (ImageView) quote.findViewById(R.id.ivUser);
+            image = (ImageView) quote.findViewById(R.id.ivUser);
         }
         userName = (TextView) quote.findViewById(R.id.tvTitle);
     }
@@ -70,9 +69,9 @@ public class Quote {
     }
 
     public void setUserImage(String src) {
-        if(ivUser!=null){
+        if(image!=null){
             String image = src.replace("/x16/", "/x64/");
-            ImageLoader.getInstance().displayImage(image, ivUser);
+            imageData = new ItemImageShiki(image,image);
         }
     }
 }

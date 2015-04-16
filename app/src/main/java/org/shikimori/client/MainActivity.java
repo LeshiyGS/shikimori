@@ -21,6 +21,6 @@ public class MainActivity extends DrawerActivity {
     @Override
     public void initDrawer() {
         super.initDrawer();
-        mDrawerAdapter.setSelected(DrawerAdapter.DRAWER_MENU_PROFILE_ID);
+        drawerTool.setSelected(DrawerAdapter.DRAWER_MENU_PROFILE_ID);
     }
 }

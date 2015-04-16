@@ -18,16 +18,14 @@
                 android:id="@+id/ivUser"
                 android:layout_width="@dimen/defaultPaddingEnormous"
                 android:layout_height="@dimen/defaultPaddingEnormous"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
                 />
 
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/defaultPaddingEnormous"
+                android:layout_marginLeft="@dimen/paddingMapInfoLeft"
                 style="@style/altarixUiText.TextTitle"
-                android:padding="@dimen/defaultPaddingMini"
                 />
 
     </FrameLayout>

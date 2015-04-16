@@ -22,6 +22,7 @@ import org.jsoup.nodes.TextNode;
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.ImageController;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.UILImageGetter;
 import org.shikimori.library.tool.parser.elements.PostImage;
@@ -42,7 +43,7 @@ public class BodyBuild {
     private final Point screensize;
     private Context context;
     private TextView lastTv;
-    List<PostImage> images = new ArrayList<>();
+    List<ImageController> images = new ArrayList<>();
     CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
 
     public BodyBuild(Activity context) {
@@ -176,6 +177,7 @@ public class BodyBuild {
             quote.setUserName(user.attr("title"));
             quote.setUserIdFromImage(user.html());
             quote.setUserImage(user.child(0).attr("src"));
+            images.add(quote);
             title.remove();
             looper(elemnt.childNodes(), quote.getContent());
         }
@@ -290,20 +292,6 @@ public class BodyBuild {
 
         final GridLayout grid = (GridLayout) view;
         grid.addView(postImg.getImage());
-//        grid.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                int viewCount = grid.getChildCount();
-//                int column = viewCount > 3 ? 3 : viewCount;
-//                for (int i = 0; i < viewCount; i++) {
-//                    View v = grid.getChildAt(i);
-//                    GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
-//                    itemParams.width = (screensize.x / column) - itemParams.rightMargin - itemParams.leftMargin;
-//                    v.setLayoutParams(itemParams);
-//                }
-//            }
-//        });
-
     }
 
     private View getLastView(ViewGroup parent) {
@@ -332,6 +320,9 @@ public class BodyBuild {
 
     public void  loadPreparedImages(){
 
+        if(images.size() == 0)
+            return;
+
         for (View v : gallerys){
             final GridLayout grid = (GridLayout) v;
             grid.post(new Runnable() {
@@ -342,14 +333,18 @@ public class BodyBuild {
                     for (int i = 0; i < viewCount; i++) {
                         View v = grid.getChildAt(i);
                         GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
-                        itemParams.width = (grid.getWidth() / column) - itemParams.rightMargin - itemParams.leftMargin;
+
+                        int gridSize = grid.getWidth() == 0 ? screensize.x : grid.getWidth();
+                        gridSize -= grid.getPaddingLeft() - grid.getPaddingRight();
+                        gridSize -= itemParams.rightMargin - itemParams.leftMargin;
+                        itemParams.width = (gridSize / column);
                         v.setLayoutParams(itemParams);
                     }
                 }
             });
         }
 
-        for (PostImage image : images) {
+        for (ImageController image : images) {
             image.loadImage();
         }
         images.clear();
@@ -403,10 +398,10 @@ public class BodyBuild {
         @Override
         public void deliverResult(ViewGroup data) {
             super.deliverResult(data);
+            listener.done(data);
             builder.loadPreparedImages();
 //            data.requestFocus();
 //            data.invalidate();
-            listener.done(data);
         }
     }
 }

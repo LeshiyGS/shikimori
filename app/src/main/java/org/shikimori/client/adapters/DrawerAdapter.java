@@ -120,6 +120,10 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
         return selectedPos;
     }
 
+    public int getSelectedId() {
+        return selectedId;
+    }
+
     static class ViewHolder {
         TextView tvTitle,tvNotifyCount;
         ImageView icon;

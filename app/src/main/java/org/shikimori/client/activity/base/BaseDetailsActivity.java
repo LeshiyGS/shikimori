@@ -30,6 +30,6 @@ public abstract class BaseDetailsActivity extends DrawerActivity {
     @Override
     public void initDrawer() {
         super.initDrawer();
-        mDrawerAdapter.setSelected(DrawerAdapter.NON_SELECTED);
+        drawerTool.setSelected(DrawerAdapter.NON_SELECTED);
     }
 }

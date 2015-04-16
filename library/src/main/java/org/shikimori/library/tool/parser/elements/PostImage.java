@@ -13,14 +13,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.ImageController;
 
 /**
  * Created by Феофилактов on 09.04.2015.
  */
-public class PostImage {
+public class PostImage extends ImageController{
     private final Context context;
-    private ImageView image;
-    private ItemImageShiki imageData;
 
     public PostImage(Context activity, ItemImageShiki imageData) {
         this.context = activity;
@@ -57,17 +56,5 @@ public class PostImage {
 
         if(imageData.getThumb() == null)
             return;
-
-    }
-
-    public void loadImage(){
-        if(imageData.getThumb().contains(".gif")){
-            Ion.with(image)
-                    .animateLoad(R.anim.spin_animation)
-                    .error(R.drawable.missing_preview)
-                    .load(imageData.getThumb());
-        } else {
-            ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
-        }
     }
 }

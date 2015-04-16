@@ -126,7 +126,7 @@ public abstract class BasePopup {
         if(backView.getVisibility()!=View.VISIBLE)
             backView.setVisibility(View.VISIBLE);
         YoYo.with(Techniques.FadeOut)
-                .duration(600)
+                .duration(200)
                 .withListener(new AnimateBackListener(backView, false))
             .playOn(backView);
     }

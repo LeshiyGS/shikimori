@@ -1,5 +1,6 @@
 package org.shikimori.library.tool.parser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +75,14 @@ public class UILImageGetter implements Html.ImageGetter {
             result.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
             urlImageDownloader.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
             urlImageDownloader.drawable = result;
-            container.setText(container.getText());
+
+            if(c instanceof Activity)
+                ((Activity) c).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        container.setText(container.getText());
+                    }
+                });
         }
     }
 

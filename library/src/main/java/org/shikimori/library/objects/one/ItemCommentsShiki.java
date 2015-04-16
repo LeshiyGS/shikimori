@@ -53,8 +53,12 @@ public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Cr
         if(user!=null){
             nickname = user.optString("nickname");
             avatar = user.optString("avatar");
-            image_x160 = user.optString("x160");
-            image_x148 = user.optString("x148");
+            JSONObject image = user.optJSONObject("image");
+            if(image!=null){
+                image_x160 = image.optString("x160");
+                image_x148 = image.optString("x148");
+            }
+
             last_online_at = user.optString("last_online_at");
         }
 

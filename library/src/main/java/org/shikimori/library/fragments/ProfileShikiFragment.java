@@ -2,13 +2,11 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,10 +15,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.ProfileMangaAnnimeNameAdapter;
@@ -41,9 +35,7 @@ import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.ListPopup;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Владимир on 30.03.2015.
@@ -60,6 +52,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private ViewGroup llBodyProfile;
     private NotifyProfileController notifyController;
     private View aboutHtml;
+    private BodyBuild builder;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -295,6 +288,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             h.launchUrlLink(activity, userDetails.website);
         } else if (v.getId() == R.id.ivAnimeListShow){
             pop = new ListPopup(activity);
+            pop.setAnimate(Techniques.DropOut);
             pop.setOnItemClickListener(animePopupListener);
             pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
                     userDetails.fullStatuses.animes, ProjectTool.TYPE.ANIME));
@@ -303,6 +297,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             pop.show();
         } else if (v.getId() == R.id.ivMangaListShow){
             pop = new ListPopup(activity);
+            pop.setAnimate(Techniques.DropOut);
             pop.setOnItemClickListener(mangaPopupListener);
             pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
                     userDetails.fullStatuses.manga, ProjectTool.TYPE.MANGA));
@@ -342,21 +337,21 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     /**
      * Получаем список аниме или манги статусов
      */
-    List<String> getListNames(List<AnimeManga> array, ProjectTool.TYPE type){
-        List<String> list = new ArrayList<>();
-        if(array!=null){
-            for (AnimeManga animeManga : array) {
-                String name = ProjectTool.getListStatusName(activity, animeManga.name, type);
-                if(name!=null)
-                    list.add(name + " / " + animeManga.counted);
-            }
-        }
-        return list;
-    }
+//    List<String> getListNames(List<AnimeManga> array, ProjectTool.TYPE type){
+//        List<String> list = new ArrayList<>();
+//        if(array!=null){
+//            for (AnimeManga animeManga : array) {
+//                String name = ProjectTool.getListStatusName(activity, animeManga.name, type);
+//                if(name!=null)
+//                    list.add(name + " / " + animeManga.counted);
+//            }
+//        }
+//        return list;
+//    }
 
-    String getTextStatus(int resigd, int count){
-        return activity.getString(resigd) + " (" + count +")";
-    }
+//    String getTextStatus(int resigd, int count){
+//        return activity.getString(resigd) + " (" + count +")";
+//    }
 
     @Override
     public boolean onBackPressed() {
@@ -369,12 +364,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         int firstProgress, secondProgress, fullProgress, percentage1, percentage2;
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
     String text = "<center><span style=\"font-size: 20px;\"><strong>Итак, дорогие любители моэ, сегодня я расскажу вам, как сделать свой моэ-шики:</strong></span><br><a href=\"http://s27.postimg.org/n6u767kj7/Untitled.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/n6u767kj7/Untitled.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s18.postimg.org/f9qvvqtfd/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s18.postimg.org/f9qvvqtfd/image.jpg\" class=\"\" width=\"200\"></a> <br><br><span style=\"font-size: 16px;\"><strong>Для этого нам понадобится картинка с моэ-моэ-няшей, желательно в темных тонах.<br>Let's go:</strong></span><br><br><ul><li><div class=\"b-spoiler unprocessed\"><label>Открываем Google</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Открываем Google<br><a href=\"http://s27.postimg.org/wxmxiftmb/image_2.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/wxmxiftmb/image_2.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Ищем нужную няшу</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Ищем нужную няшу<br><a href=\"http://s27.postimg.org/flr6aqpir/image_3.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/flr6aqpir/image_3.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Желательно в параметрах поиска указать коричневый цвет</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Желательно в параметрах поиска указать коричневый цвет<br><a href=\"http://s27.postimg.org/4aoimdinn/image_4.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/4aoimdinn/image_4.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Скаченную картинку желательно немного затемнить в редакторе</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Скаченную картинку желательно немного затемнить в редакторе<br><a href=\"http://s27.postimg.org/vu2t6h8z7/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/vu2t6h8z7/image.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Заливаем полученную няшу на хороший фото-хостинг</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Заливаем полученную няшу на хороший фото-хостинг<br><a href=\"http://s27.postimg.org/rv5lnnkc3/image_1.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/rv5lnnkc3/image_1.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Переходим к <a href=\"https://userstyles.org/styles/110342/transparent-shiki-theme\">по ссылке к теме</a> на Stylish. Вставляем ссылку и применяем тему (для этого установится расширение для Google Chrome). Не забываем выбирать, сворачивать длинные посты (выбор по-умолчанию, как задумано на самом сайте) или показывать полностью.</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Переходим к <a href=\"https://userstyles.org/styles/110342/transparent-shiki-theme\">по ссылке к теме</a> на Stylish. Вставляем ссылку и применяем тему (для этого установится расширение для Google Chrome). Не забываем выбирать, сворачивать длинные посты (выбор по-умолчанию, как задумано на самом сайте) или показывать полностью.<br><a href=\"http://s11.postimg.org/6wlim3p4j/Untitled.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s11.postimg.org/6wlim3p4j/Untitled.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Получаем MOE-MOE-KYUN!</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Получаем MOE-MOE-KYUN!<br><a href=\"http://s15.postimg.org/g7nycs56j/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/g7nycs56j/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s27.postimg.org/em0vf1acz/Untitled_1.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/em0vf1acz/Untitled_1.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Ну или как-то так</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Ну или как-то так<br><a href=\"http://s15.postimg.org/qka8yuypn/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/qka8yuypn/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s15.postimg.org/g7nycs56j/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/g7nycs56j/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s15.postimg.org/or7cajdiz/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/or7cajdiz/image.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li></ul><br><span style=\"font-size: 16px;\"><strong>Таким образом вы покажете элите <em>полное отсутсвие вкуса</em>, но кого это волнует, когда на фоне стоит Богиня :3</strong></span><br>Может кому-то даже понравится.<br></center>";
     public void testHtml(String test){
-        final BodyBuild builder = new BodyBuild(activity);
+        builder = new BodyBuild(activity);
 //        builder.parce(test == null ? text : test, (ViewGroup) aboutHtml);
 //        builder.loadPreparedImages();
         builder.parceAsync(test == null ? text : test, new BodyBuild.ParceDoneListener() {
@@ -382,7 +379,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             public void done(ViewGroup view) {
                 ((ViewGroup) aboutHtml).removeAllViews();
                 ((ViewGroup) aboutHtml).addView(view);
-                builder.loadPreparedImages();
             }
         });
 

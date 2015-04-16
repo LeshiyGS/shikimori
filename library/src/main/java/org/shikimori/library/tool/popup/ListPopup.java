@@ -7,7 +7,13 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
+
 import org.shikimori.library.R;
+import org.shikimori.library.tool.FixPauseAnimate;
+import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -19,6 +25,8 @@ public class ListPopup extends BasePopup {
 
     private List<String> selectList;
     private BaseAdapter adapter;
+    private Techniques typeAnimate;
+
     public ListPopup(Activity mContext) {
         super(mContext);
     }
@@ -46,8 +54,28 @@ public class ListPopup extends BasePopup {
             View v = adapter.getView(i, null, null);
             v.setOnClickListener(click);
             addViewToBody(v);
+            playAnimate(v, i);
         }
         showPopup();
+    }
+
+    private void playAnimate(final View v, int position) {
+        if(typeAnimate!=null){
+            v.setVisibility(View.INVISIBLE);
+            YoYo.AnimationComposer anim =
+                    YoYo.with(typeAnimate).withListener(new BaseAnimationListener(){
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            v.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+            FixPauseAnimate.play(anim, v, 100 * position);
+        }
+    }
+
+    public void setAnimate(Techniques typeAnimate){
+        this.typeAnimate = typeAnimate;
     }
 
     private void showList() {
@@ -62,6 +90,7 @@ public class ListPopup extends BasePopup {
             text.setOnClickListener(click);
             text.setBackgroundResource(h.getAttributeResourceId(mContext, R.attr.selectableItemBackground));
             addViewToBody(text);
+            playAnimate(text, i);
         }
         showPopup();
     }

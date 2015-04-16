@@ -20,6 +20,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
+import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -27,6 +28,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
@@ -85,44 +87,33 @@ public class TopicsFragment extends BaseListViewFragment {
 
     @Override
     public void onQuerySuccess(final StatusResult res) {
-        final Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            public void run() {
 
-                final ObjectBuilder<ItemTopicsShiki> builder = new ObjectBuilder<>(res.getResultArray(), ItemTopicsShiki.class,
-                        new ObjectBuilder.AdvanceCheck<ItemTopicsShiki>() {
-                            @Override
-                            public boolean check(ItemTopicsShiki item, int position) {
-                                String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
-                                item.doc = Jsoup.parse(item.htmlBody);
-                                if(!type.equalsIgnoreCase(Constants.TOPIC)){
-                                    buildVies(item);
-                                }
-                                return false;
-                            }
-                        }
-                );
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        prepareData(builder.list, true, true);
-                        stopRefresh();
-                    }
-                });
+        new BackGroubdLoader<ItemTopicsShiki>(activity, bodyBuild, res.getResultArray(), ItemTopicsShiki.class){
+            @Override
+            public void deliverResult(List data) {
+                super.deliverResult(data);
+                stopRefresh();
+                prepareData(data, true, true);
+                bodyBuild.loadPreparedImages();
             }
-        };
 
-        handler.postDelayed(r, 0);
+            @Override
+            public boolean onAdvancesCheck(ItemTopicsShiki item, int position) {
+                String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
+                if(type.equalsIgnoreCase(Constants.TOPIC))
+                    return true;
+                return false;
+            }
+        }.forceLoad();
     }
 
-    private void buildVies(ItemTopicsShiki item) {
-        LinearLayout body = new LinearLayout(activity);
-        body.setLayoutParams(h.getDefaultParams());
-        body.setOrientation(LinearLayout.VERTICAL);
-        item.parsedContent = body;
-        new BodyBuild(activity).parce(item.doc, body);
-    }
+//    private void buildVies(ItemTopicsShiki item) {
+//        LinearLayout body = new LinearLayout(activity);
+//        body.setLayoutParams(h.getDefaultParams());
+//        body.setOrientation(LinearLayout.VERTICAL);
+//        item.parsedContent = body;
+//        new BodyBuild(activity).parce(item.doc, body);
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

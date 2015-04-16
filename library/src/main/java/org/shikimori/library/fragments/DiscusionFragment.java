@@ -53,16 +53,18 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
         initParams();
 
-        if(treadId!=null)
+        if(treadId!=null){
+            showRefreshLoader();
             loadData();
+        }
     }
 
     private void initParams() {
         Bundle b = getArguments();
         if(b == null)
             return;
-
-        treadId = b.getString(Constants.TREAD_ID);
+        if(treadId==null)
+            treadId = b.getString(Constants.TREAD_ID);
     }
 
     @Override
@@ -92,19 +94,19 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
             public void deliverResult(List data) {
                 super.deliverResult(data);
                 stopRefresh();
-                bodyBuilder.loadPreparedImages();
                 prepareData(data, true, true);
+                bodyBuilder.loadPreparedImages();
             }
         }.forceLoad();
     }
-
-    private void buildVies(ItemCommentsShiki item) {
-        LinearLayout body = new LinearLayout(activity);
-        body.setLayoutParams(h.getDefaultParams());
-        body.setOrientation(LinearLayout.VERTICAL);
-        item.parsedContent = body;
-        bodyBuilder.parce(item.html_body, body);
-    }
+//
+//    private void buildVies(ItemCommentsShiki item) {
+//        LinearLayout body = new LinearLayout(activity);
+//        body.setLayoutParams(h.getDefaultParams());
+//        body.setOrientation(LinearLayout.VERTICAL);
+//        item.parsedContent = body;
+//        bodyBuilder.parce(item.html_body, body);
+//    }
 
     @Override
     public ArrayAdapter<ItemCommentsShiki> getAdapter(List list) {

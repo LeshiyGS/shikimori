@@ -31,6 +31,8 @@ public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoad
                 new ObjectBuilder.AdvanceCheck<T>() {
                     @Override
                     public boolean check(T item, int position) {
+                        if(onAdvancesCheck(item, position))
+                            return false;
                         LinearLayout body = new LinearLayout(getContext());
                         body.setLayoutParams(h.getDefaultParams());
                         body.setOrientation(LinearLayout.VERTICAL);
@@ -46,5 +48,9 @@ public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoad
     @Override
     public void deliverResult(List<T> data) {
         super.deliverResult(data);
+    }
+
+    public boolean onAdvancesCheck(T item, int position){
+        return false;
     }
 }
