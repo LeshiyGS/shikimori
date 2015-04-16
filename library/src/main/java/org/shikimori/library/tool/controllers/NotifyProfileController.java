@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.GridView;
 
 import org.json.JSONObject;
@@ -18,6 +19,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,23 +60,44 @@ public class NotifyProfileController {
         menu.add(new Item(FRIENDS, mContext.getString(R.string.friends)));
 
         int columnCount = ((GridLayout) body).getColumnCount();
-
         for (Item item : menu) {
             CustomProfileTextView row = new CustomProfileTextView(mContext);
-            GridLayout.LayoutParams params = (GridLayout.LayoutParams) row.getLayoutParams();
-            if(params == null)
-                params = new GridLayout.LayoutParams(new ViewGroup.LayoutParams(
-                        GridLayout.LayoutParams.MATCH_PARENT,
-                        GridLayout.LayoutParams.WRAP_CONTENT));
-
-            params.width = (body.getWidth()/columnCount) - params.rightMargin - params.leftMargin;
-            row.setLayoutParams(params);
+            calculateWhidth(row, columnCount);
 //            row.setLayoutParams(new GridView.LayoutParams(200, GridView.LayoutParams.WRAP_CONTENT));
             row.setText(item.name);
             row.setTag(item.id);
             row.setOnClickListener(loadGroup);
             body.addView(row);
         }
+    }
+
+    public void recalculateWidth(){
+
+//        final ViewTreeObserver observer = body.getViewTreeObserver();
+//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//
+//            @Override
+//            public void onGlobalLayout() {
+//                int columnCount = ((GridLayout) body).getColumnCount();
+//                ((GridLayout) body).setColumnCount(columnCount);
+//                for (int i = 0; i < body.getChildCount(); i++) {
+//                    calculateWhidth(body.getChildAt(i), columnCount);
+//                }
+//                observer.removeOnGlobalLayoutListener(this);
+////                observer.removeGlobalOnLayoutListener(this);
+//            }
+//        });
+    }
+
+    void calculateWhidth(View v, int columnCount){
+        GridLayout.LayoutParams params = (GridLayout.LayoutParams) v.getLayoutParams();
+        if(params == null)
+            params = new GridLayout.LayoutParams(new ViewGroup.LayoutParams(
+                    GridLayout.LayoutParams.MATCH_PARENT,
+                    GridLayout.LayoutParams.WRAP_CONTENT));
+
+        params.width = (body.getWidth()/columnCount) - params.rightMargin - params.leftMargin;
+        v.setLayoutParams(params);
     }
 
     public void load(final Query.OnQuerySuccessListener listener){

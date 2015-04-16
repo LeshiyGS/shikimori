@@ -320,8 +320,8 @@ public class BodyBuild {
 
     public void  loadPreparedImages(){
 
-        if(images.size() == 0)
-            return;
+//        if(images.size() == 0)
+//            return;
 
         for (View v : gallerys){
             final GridLayout grid = (GridLayout) v;

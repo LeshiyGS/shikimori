@@ -5,6 +5,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
+import org.shikimori.library.interfaces.OnAdvancedCheck;
 import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.h;
@@ -17,12 +18,17 @@ public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoad
     private BodyBuild bodyBuilder;
     private JSONArray array;
     private Class<T> tClass;
+    private OnAdvancedCheck listener;
 
     public BackGroubdLoader(Context context, BodyBuild bodyBuilder, JSONArray array, Class<T> tClass) {
         super(context);
         this.bodyBuilder = bodyBuilder;
         this.array = array;
         this.tClass = tClass;
+    }
+
+    public void setAdvancedCheck(OnAdvancedCheck listener){
+        this.listener = listener;
     }
 
     @Override
@@ -51,6 +57,8 @@ public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoad
     }
 
     public boolean onAdvancesCheck(T item, int position){
+        if(listener!=null)
+            return listener.ckeck(item, position);
         return false;
     }
 }

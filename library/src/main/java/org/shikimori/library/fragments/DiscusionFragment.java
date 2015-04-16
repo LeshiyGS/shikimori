@@ -89,24 +89,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     @Override
     public void onQuerySuccess(final StatusResult res) {
-        new BackGroubdLoader(activity, bodyBuilder, res.getResultArray(), ItemCommentsShiki.class){
-            @Override
-            public void deliverResult(List data) {
-                super.deliverResult(data);
-                stopRefresh();
-                prepareData(data, true, true);
-                bodyBuilder.loadPreparedImages();
-            }
-        }.forceLoad();
+        loadAsyncBuild(bodyBuilder,  res.getResultArray(), ItemCommentsShiki.class);
     }
-//
-//    private void buildVies(ItemCommentsShiki item) {
-//        LinearLayout body = new LinearLayout(activity);
-//        body.setLayoutParams(h.getDefaultParams());
-//        body.setOrientation(LinearLayout.VERTICAL);
-//        item.parsedContent = body;
-//        bodyBuilder.parce(item.html_body, body);
-//    }
 
     @Override
     public ArrayAdapter<ItemCommentsShiki> getAdapter(List list) {
@@ -136,36 +120,4 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         };
         mythread.start();
     }
-
-//    public class BackGroubdLoader extends AsyncTaskLoader<List<ItemCommentsShiki>> {
-//
-//        private JSONArray array;
-//
-//        public BackGroubdLoader(Context context, JSONArray array) {
-//            super(context);
-//            this.array = array;
-//        }
-//
-//        @Override
-//        public List<ItemCommentsShiki> loadInBackground() {
-//            ObjectBuilder builder = new ObjectBuilder(array, ItemCommentsShiki.class,
-//                    new ObjectBuilder.AdvanceCheck<ItemCommentsShiki>() {
-//                        @Override
-//                        public boolean check(ItemCommentsShiki item, int position) {
-//                            buildVies(item);
-//                            return false;
-//                        }
-//                    }
-//            );
-//            return builder.list;
-//        }
-//
-//        @Override
-//        public void deliverResult(List<ItemCommentsShiki> data) {
-//            super.deliverResult(data);
-//            stopRefresh();
-//            bodyBuilder.loadPreparedImages();
-//            prepareData(data, true, true);
-//        }
-//    }
 }

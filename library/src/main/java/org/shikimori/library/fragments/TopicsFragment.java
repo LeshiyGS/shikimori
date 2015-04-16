@@ -17,9 +17,11 @@ import android.widget.LinearLayout;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
+import org.shikimori.library.interfaces.OnAdvancedCheck;
 import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.ShikiApi;
@@ -39,10 +41,11 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class TopicsFragment extends BaseListViewFragment {
+public class TopicsFragment extends BaseListViewFragment implements BaseActivity.OnFragmentBackListener {
 
     String section = "all";
     BodyBuild bodyBuild;
+    private TextPopup popup;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -57,10 +60,15 @@ public class TopicsFragment extends BaseListViewFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showRefreshLoader();
+        activity.setOnFragmentBackListener(this);
+        // html parser
         bodyBuild = new BodyBuild(activity);
         loadData();
     }
 
+    /**
+     * Update data, pull to refresh
+     */
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
@@ -71,7 +79,9 @@ public class TopicsFragment extends BaseListViewFragment {
         loadData();
     }
 
-    // TODO create loader list
+    /**
+     * Load data from server
+     */
     public void loadData() {
         if (query == null)
             return;
@@ -85,35 +95,23 @@ public class TopicsFragment extends BaseListViewFragment {
                 .getResult(this);
     }
 
+    /**
+     * Async build list data
+     * @param res
+     */
     @Override
     public void onQuerySuccess(final StatusResult res) {
-
-        new BackGroubdLoader<ItemTopicsShiki>(activity, bodyBuild, res.getResultArray(), ItemTopicsShiki.class){
+        loadAsyncBuild(bodyBuild, res.getResultArray(), ItemTopicsShiki.class, new OnAdvancedCheck<ItemTopicsShiki>() {
             @Override
-            public void deliverResult(List data) {
-                super.deliverResult(data);
-                stopRefresh();
-                prepareData(data, true, true);
-                bodyBuild.loadPreparedImages();
-            }
-
-            @Override
-            public boolean onAdvancesCheck(ItemTopicsShiki item, int position) {
+            public boolean ckeck(ItemTopicsShiki item, int position) {
                 String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
                 if(type.equalsIgnoreCase(Constants.TOPIC))
                     return true;
                 return false;
             }
-        }.forceLoad();
-    }
+        });
 
-//    private void buildVies(ItemTopicsShiki item) {
-//        LinearLayout body = new LinearLayout(activity);
-//        body.setLayoutParams(h.getDefaultParams());
-//        body.setOrientation(LinearLayout.VERTICAL);
-//        item.parsedContent = body;
-//        new BodyBuild(activity).parce(item.doc, body);
-//    }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -141,8 +139,12 @@ public class TopicsFragment extends BaseListViewFragment {
         activity.startActivity(intent);
     }
 
+    /**
+     * If text is too big, show popup with text and parsed him
+     * @param item
+     */
     void showPopupText(final ItemTopicsShiki item){
-        final TextPopup popup = new TextPopup(activity);
+        popup = new TextPopup(activity);
         popup.showLoader();
 //        bodyBuild.parce(item.doc, popup.getBody());
         bodyBuild.parceAsync(item.htmlBody, new BodyBuild.ParceDoneListener() {
@@ -192,5 +194,17 @@ public class TopicsFragment extends BaseListViewFragment {
             section = "all";
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Скрываем попап если он открыт
+     * @return
+     */
+    @Override
+    public boolean onBackPressed() {
+        if(popup!=null && popup.hide()){
+            return true;
+        }
+        return false;
     }
 }

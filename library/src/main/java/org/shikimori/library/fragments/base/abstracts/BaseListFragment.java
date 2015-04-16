@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,11 +18,18 @@ import android.widget.BaseAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
+import org.json.JSONArray;
 import org.shikimori.library.R;
+import org.shikimori.library.interfaces.OnAdvancedCheck;
+import org.shikimori.library.interfaces.OnViewBuildLister;
+import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
 
@@ -36,6 +44,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     protected boolean pauseOnScroll = false; // or true
     protected boolean pauseOnFling = true; // or false
     ArrayAdapter adapter;
+    private BackGroubdLoader<? extends OnViewBuildLister> backBuilder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,5 +181,32 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
             return true;
         }
         return false;
+    }
+
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends OnViewBuildLister> cl){
+        loadAsyncBuild(bodyBuild, array, cl,null);
+    }
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends OnViewBuildLister> cl, OnAdvancedCheck listener){
+        backBuilder = new BackGroubdLoader<OnViewBuildLister>(activity, bodyBuild, array, (Class<OnViewBuildLister>) cl){
+            @Override
+            public void deliverResult(List data) {
+                if(activity == null)
+                    return;
+                super.deliverResult(data);
+                stopRefresh();
+                prepareData(data, true, true);
+                bodyBuild.loadPreparedImages();
+            }
+        };
+        backBuilder.setAdvancedCheck(listener);
+        backBuilder.forceLoad();
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(backBuilder!=null)
+            backBuilder.cancelLoad();
     }
 }

@@ -1,11 +1,13 @@
 package org.shikimori.library.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -122,9 +124,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                             query, activity.getShikiUser(), llBodyProfile);
                     showRefreshLoader();
                     loadDataFromServer();
-                    activity.setOnFragmentBackListener(ProfileShikiFragment.this);
                 }
             });
+            activity.setOnFragmentBackListener(this);
     }
 
     @Override
@@ -288,7 +290,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             h.launchUrlLink(activity, userDetails.website);
         } else if (v.getId() == R.id.ivAnimeListShow){
             pop = new ListPopup(activity);
-            pop.setAnimate(Techniques.DropOut);
+            pop.setAnimate(Techniques.Pulse);
             pop.setOnItemClickListener(animePopupListener);
             pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
                     userDetails.fullStatuses.animes, ProjectTool.TYPE.ANIME));
@@ -297,7 +299,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             pop.show();
         } else if (v.getId() == R.id.ivMangaListShow){
             pop = new ListPopup(activity);
-            pop.setAnimate(Techniques.DropOut);
+            pop.setAnimate(Techniques.Pulse);
             pop.setOnItemClickListener(mangaPopupListener);
             pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
                     userDetails.fullStatuses.manga, ProjectTool.TYPE.MANGA));
@@ -353,11 +355,26 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 //        return activity.getString(resigd) + " (" + count +")";
 //    }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
     @Override
     public boolean onBackPressed() {
         if(pop!=null && pop.hide())
             return true;
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if(getView()!=null){
+                    notifyController.recalculateWidth();
+                    builder.loadPreparedImages();
+        }
     }
 
     class ProgressData{

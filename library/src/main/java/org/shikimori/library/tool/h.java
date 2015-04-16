@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -38,6 +39,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -669,4 +671,31 @@ public class h {
         return new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+
+    public enum ORIENTATION{
+        PORT, LAND
+    }
+    public static ORIENTATION getOrientation(Activity mContext){
+        final int orientation = mContext.getResources().getConfiguration().orientation;
+        final int rotation = mContext.getWindowManager().getDefaultDisplay().getOrientation();
+
+        if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_90) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                return ORIENTATION.PORT;
+            }
+            else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                return ORIENTATION.LAND;
+            }
+        }
+        else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                return ORIENTATION.PORT;
+            }
+            else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                return ORIENTATION.LAND;
+            }
+        }
+        return ORIENTATION.LAND;
+    }
+
 }
