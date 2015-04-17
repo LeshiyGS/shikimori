@@ -76,4 +76,6 @@
     <string name="discus_anime">Обсуждение аниме</string>
     <string name="discus_manga">Обсуждение манги</string>
     <string name="open_details">Открыть детали</string>
+    <string name="animegraf">Анимеграфия</string>
+    <string name="mangagraf">Мангаграфия</string>
 </resources>

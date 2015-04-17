@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/svMain"
+        android:fillViewport="true"
+        android:layout_margin="@dimen/defaultPaddingMini">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical"
+                style="@style/altarixUiText.TextTitle.shadow"
+                android:minHeight="@dimen/paddingMfcQueueTime"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/white_overlay_85"
+                android:padding="@dimen/defaultPadding"
+                android:background="@color/tool_background_70" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivPoster"
+                    android:layout_width="150dp"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop" />
+
+                <LinearLayout
+                    android:id="@+id/llInfo"
+                    android:padding="@dimen/defaultPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMenuRewiew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                style="@style/altarixUiText"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold"
+                android:padding="@dimen/defaultPadding"
+                android:background="@color/white_overlay_85" />
+
+
+            <TextView
+                android:id="@+id/tvReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/title_black_transparent"
+                android:padding="@dimen/defaultPadding" />
+
+            <TextView
+                android:id="@+id/tvAnimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiText"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold"
+                android:text="@string/animegraf"
+                android:padding="@dimen/defaultPadding"
+                android:background="@color/white_overlay_85" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pageAnime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvMangas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiText"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold"
+                android:text="@string/mangagraf"
+                android:padding="@dimen/defaultPadding"
+                android:background="@color/white_overlay_85" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pageManga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

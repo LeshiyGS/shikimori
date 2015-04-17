@@ -698,4 +698,9 @@ public class h {
         return ORIENTATION.LAND;
     }
 
+    public static <C extends View> C get(View view, int id) {
+        View childView = view.findViewById(id);
+        return (C) childView;
+    }
+
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 
 import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -25,6 +26,10 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
      */
     protected Query query;
     private String userId;
+    /**
+     * Нужно для поиска вьюшек в ней через метод find
+     */
+    private View baseView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,11 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(baseView!=null)
+            baseView = getView();
+
         initData();
+
         this.activity = (T) getActivity();
         query = ((Queryable)activity).prepareQuery(false);
 
@@ -103,4 +112,15 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         return userId;
     }
 
+    protected void setBaseView(View v){
+        baseView = v;
+    }
+
+    protected <C extends View> C find(View view, int id) {
+        return h.get(view, id);
+    }
+
+    protected <C extends View> C find(int id) {
+        return h.get(baseView, id);
+    }
 }
