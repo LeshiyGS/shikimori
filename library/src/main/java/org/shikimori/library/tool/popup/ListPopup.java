@@ -63,14 +63,16 @@ public class ListPopup extends BasePopup {
         if(typeAnimate!=null){
             v.setVisibility(View.INVISIBLE);
             YoYo.AnimationComposer anim =
-                    YoYo.with(typeAnimate).withListener(new BaseAnimationListener(){
+                    YoYo.with(typeAnimate)
+                        .duration(300)
+                        .withListener(new BaseAnimationListener(){
                         @Override
                         public void onAnimationStart(Animator animation) {
                             v.setVisibility(View.VISIBLE);
                         }
                     });
 
-            FixPauseAnimate.play(anim, v, 100 * position);
+            FixPauseAnimate.play(anim, v, 100 * position+5);
         }
     }
 

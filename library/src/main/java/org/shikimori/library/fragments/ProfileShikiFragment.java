@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -51,10 +52,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private SeekBar sbAnimeProgress, sbMangaProgress;
     private View llBody, ivWebShow;
     private ListPopup pop;
-    private ViewGroup llBodyProfile;
     private NotifyProfileController notifyController;
     private View aboutHtml;
     private BodyBuild builder;
+    private GridView gvBodyProfile;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -88,7 +89,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         tvMangaProgress = (TextView) v.findViewById(R.id.tvMangaProgress);
         sbAnimeProgress = (SeekBar) v.findViewById(R.id.sbAnimeProgress);
         sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
-        llBodyProfile = (ViewGroup) v.findViewById(R.id.llBodyProfile);
+        gvBodyProfile = (GridView) v.findViewById(R.id.gvBodyProfile);
         h.setVisible(llBody, false);
 
         v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
@@ -121,7 +122,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                 @Override
                 public void run() {
                     notifyController = new NotifyProfileController(activity,
-                            query, activity.getShikiUser(), llBodyProfile);
+                            query, activity.getShikiUser(), gvBodyProfile);
                     showRefreshLoader();
                     loadDataFromServer();
                 }
@@ -336,26 +337,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         }
     };
 
-    /**
-     * Получаем список аниме или манги статусов
-     */
-//    List<String> getListNames(List<AnimeManga> array, ProjectTool.TYPE type){
-//        List<String> list = new ArrayList<>();
-//        if(array!=null){
-//            for (AnimeManga animeManga : array) {
-//                String name = ProjectTool.getListStatusName(activity, animeManga.name, type);
-//                if(name!=null)
-//                    list.add(name + " / " + animeManga.counted);
-//            }
-//        }
-//        return list;
-//    }
-
-//    String getTextStatus(int resigd, int count){
-//        return activity.getString(resigd) + " (" + count +")";
-//    }
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -366,15 +347,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         if(pop!=null && pop.hide())
             return true;
         return false;
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if(getView()!=null){
-                    notifyController.recalculateWidth();
-                    builder.loadPreparedImages();
-        }
     }
 
     class ProgressData{

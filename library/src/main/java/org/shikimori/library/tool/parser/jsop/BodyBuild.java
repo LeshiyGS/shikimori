@@ -307,6 +307,7 @@ public class BodyBuild {
         layout.setColumnCount(3);
         layout.setLayoutParams(getDefaultParams());
         layout.setPadding(0, 0, 0, 30);
+        layout.setUseDefaultMargins(true);
         parent.addView(layout);
         return layout;
     }

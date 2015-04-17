@@ -5,12 +5,15 @@ import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.adapters.NotifyProfileAdapter;
 import org.shikimori.library.custom.CustomProfileTextView;
+import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.NewsUserFragment;
 import org.shikimori.library.fragments.NotificationsUserFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -27,7 +30,7 @@ import java.util.List;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class NotifyProfileController {
+public class NotifyProfileController implements AdapterView.OnItemClickListener {
     public static final int NEWS = 0;
     public static final int MESSAGES = 1;
     public static final int NOTIFYING = 2;
@@ -41,6 +44,7 @@ public class NotifyProfileController {
     private ShikiUser user;
     private final ViewGroup body;
     private List<Item> menu = new ArrayList<>();
+    private NotifyProfileAdapter notifyAdapter;
 
     public NotifyProfileController(BaseActivity mContext, Query query, ShikiUser user, ViewGroup body){
         this.mContext = mContext;
@@ -59,45 +63,10 @@ public class NotifyProfileController {
         menu.add(new Item(FAVORITE, mContext.getString(R.string.favorite)));
         menu.add(new Item(FRIENDS, mContext.getString(R.string.friends)));
 
-        int columnCount = ((GridLayout) body).getColumnCount();
-        for (Item item : menu) {
-            CustomProfileTextView row = new CustomProfileTextView(mContext);
-            calculateWhidth(row, columnCount);
-//            row.setLayoutParams(new GridView.LayoutParams(200, GridView.LayoutParams.WRAP_CONTENT));
-            row.setText(item.name);
-            row.setTag(item.id);
-            row.setOnClickListener(loadGroup);
-            body.addView(row);
-        }
-    }
+        notifyAdapter = new NotifyProfileAdapter(mContext, menu);
+        ((ExpandableHeightGridView)body).setAdapter(notifyAdapter);
+        ((ExpandableHeightGridView)body).setOnItemClickListener(this);
 
-    public void recalculateWidth(){
-
-//        final ViewTreeObserver observer = body.getViewTreeObserver();
-//        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//
-//            @Override
-//            public void onGlobalLayout() {
-//                int columnCount = ((GridLayout) body).getColumnCount();
-//                ((GridLayout) body).setColumnCount(columnCount);
-//                for (int i = 0; i < body.getChildCount(); i++) {
-//                    calculateWhidth(body.getChildAt(i), columnCount);
-//                }
-//                observer.removeOnGlobalLayoutListener(this);
-////                observer.removeGlobalOnLayoutListener(this);
-//            }
-//        });
-    }
-
-    void calculateWhidth(View v, int columnCount){
-        GridLayout.LayoutParams params = (GridLayout.LayoutParams) v.getLayoutParams();
-        if(params == null)
-            params = new GridLayout.LayoutParams(new ViewGroup.LayoutParams(
-                    GridLayout.LayoutParams.MATCH_PARENT,
-                    GridLayout.LayoutParams.WRAP_CONTENT));
-
-        params.width = (body.getWidth()/columnCount) - params.rightMargin - params.leftMargin;
-        v.setLayoutParams(params);
     }
 
     public void load(final Query.OnQuerySuccessListener listener){
@@ -117,16 +86,16 @@ public class NotifyProfileController {
             return;
         Notification notify = new Notification(dataFromServer);
         user.setNotification(notify);
-        for (int i = 0, size = body.getChildCount(); i < size; i++) {
-            CustomProfileTextView row = (CustomProfileTextView) body.getChildAt(i);
-            int id = (int) row.getTag();
-            if(notify.messages > 0 && id == MESSAGES)
-                row.setCount(notify.messages);
-            else if(notify.news > 0 && id == NEWS)
-                row.setCount(notify.news);
-            else if(notify.notifications > 0 && id == NOTIFYING)
-                row.setCount(notify.notifications);
+
+        for (Item item : menu) {
+            if(item.id == MESSAGES)
+                item.count = notify.messages;
+            else if(item.id == NEWS)
+                item.count =notify.news;
+            else if(item.id == NOTIFYING)
+                item.count = notify.notifications;
         }
+        notifyAdapter.notifyDataSetChanged();
     }
 
     View.OnClickListener loadGroup = new View.OnClickListener() {
@@ -140,7 +109,16 @@ public class NotifyProfileController {
         }
     };
 
-    private class Item{
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Item item = (Item) parent.getAdapter().getItem(position);
+        if(item.id == NEWS){
+            mContext.loadPage(NewsUserFragment.newInstance());
+        } else if (item.id == NOTIFYING)
+            mContext.loadPage(NotificationsUserFragment.newInstance());
+    }
+
+    public class Item{
         public String name;
         public int id, count;
         Item(int id, String name){

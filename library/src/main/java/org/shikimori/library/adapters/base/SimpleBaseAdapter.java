@@ -2,6 +2,7 @@ package org.shikimori.library.adapters.base;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,4 +45,9 @@ public abstract class SimpleBaseAdapter<T,H> extends ArrayAdapter<T> {
     public abstract void setValues(H holder, T item);
     public abstract H getViewHolder(View v);
     public void setListeners(H holder){}
+
+    public static <C extends View> C get(View view, int id) {
+        View childView = view.findViewById(id);
+        return (C) childView;
+    }
 }
