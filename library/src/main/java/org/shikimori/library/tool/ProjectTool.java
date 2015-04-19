@@ -1,12 +1,16 @@
 package org.shikimori.library.tool;
 
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
+
+import ru.altarix.ui.tool.TextStyling;
 
 /**
  * Created by Владимир on 07.04.2015.
@@ -91,5 +95,18 @@ public class ProjectTool {
         if(!url.startsWith("http"))
             url = ShikiApi.HTTP_SERVER + url;
         return url;
+    }
+
+    public static Spannable getTitleElement(String rusname, String engName){
+        return getTitleElement(rusname, engName, "66ffffff");
+    }
+    public static Spannable getTitleElement(String rusname, String engName, String color){
+        TextStyling styling = new TextStyling()
+                .addGlobalStyle(TextStyling.TextStyle.COLOR, color);
+
+        if(rusname!=null){
+            return styling.formatString(rusname, engName + "\n" + rusname);
+        } else
+            return new SpannableString(engName);
     }
 }

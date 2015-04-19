@@ -10,10 +10,11 @@ import org.shikimori.library.objects.abs.JsonParseable;
  * Created by LeshiyGS on 30.08.2014.
  */
 public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMShiki> {
-    public String id, name,russianName, nextEpisodeAt, imgOriginal, imgPreview,img_x96,img_x64, url ,episodes, episodesAired;
+    public String id, name,russianName, nextEpisodeAt, url ,episodes, episodesAired;
     public boolean ongoing, anons;
     protected JSONObject allData;
     protected HelperObj helper;
+    public ItemImage image;
 
     @Override
     public String toString() {
@@ -44,14 +45,7 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
         anons = json.optBoolean("anons");
         episodesAired = episodes;
 
-        JSONObject image = json.optJSONObject("image");
-        if(image!=null){
-            imgOriginal = getImageUrl(image.optString("original"));
-            imgPreview = getImageUrl(image.optString("preview"));
-            img_x96 = getImageUrl(image.optString("x96"));
-            img_x64 = getImageUrl(image.optString("x64"));
-        }
-
+        image = new ItemImage(json.optJSONObject("image"));
         return this;
     }
 

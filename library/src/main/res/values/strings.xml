@@ -78,4 +78,8 @@
     <string name="open_details">Открыть детали</string>
     <string name="animegraf">Анимеграфия</string>
     <string name="mangagraf">Мангаграфия</string>
+    <string name="altname">Альтернативное имя</string>
+    <string name="japanase_name">По японски</string>
+    <string name="character">Персонаж</string>
+    <string name="name">Имя</string>
 </resources>

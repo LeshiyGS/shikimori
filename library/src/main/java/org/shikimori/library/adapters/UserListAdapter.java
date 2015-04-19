@@ -36,7 +36,7 @@ public class UserListAdapter extends BaseListAdapter<ItemUserListShiki, BaseHold
                 h.setVisibleGone(holder.tvStatus);
 
             if(item.amDetails!=null)
-                ShikiImage.show(item.amDetails.imgPreview, holder.ivPoster, true);
+                ShikiImage.show(item.amDetails.image.original, holder.ivPoster, true);
             else
                 h.setVisibleGone(holder.ivPoster);
 

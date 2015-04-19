@@ -11,6 +11,7 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.h;
 
 
@@ -71,7 +72,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             getView().post(new Runnable() {
                 @Override
                 public void run() {
-                    ImageLoader.getInstance().displayImage(animeDetails.imgOriginal, ivPoster, addBlurToTitle);
+
+                    ImageLoader.getInstance().displayImage(animeDetails.image.preview, ivPoster, addBlurToTitle);
                     setStatus(animeDetails.anons, animeDetails.ongoing);
                 }
             });

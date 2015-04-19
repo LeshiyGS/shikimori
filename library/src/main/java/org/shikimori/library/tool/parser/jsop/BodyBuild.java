@@ -345,8 +345,8 @@ public class BodyBuild {
             });
         }
 
-        for (ImageController image : images) {
-            image.loadImage();
+        for (int i = 0; i < images.size(); i++) {
+            images.get(i).loadImage();
         }
         images.clear();
     }

@@ -19,5 +19,6 @@ public class Constants {
     public static final String ANIME = "anime";
     public static final String ANIMANGACOMMENT = "AniMangaComment";
     public static final String MANGA = "manga";
+    public static final String CHARACTER = "character";
     public static final String TOPIC = "topic";
 }

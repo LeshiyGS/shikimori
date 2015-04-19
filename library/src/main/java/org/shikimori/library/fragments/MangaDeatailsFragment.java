@@ -48,7 +48,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         // название аниме в карточке
         setTitleElement(details.russianName, details.name);
         // poster
-        ImageLoader.getInstance().displayImage(details.imgOriginal, ivPoster, addBlurToTitle);
+        ImageLoader.getInstance().displayImage(details.image.original, ivPoster, addBlurToTitle);
         // description
         h.setTextViewHTML(activity, tvReview, details.description_html);
         // rating

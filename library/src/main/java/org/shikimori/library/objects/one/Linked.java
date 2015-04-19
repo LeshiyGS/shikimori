@@ -27,17 +27,4 @@ public class Linked {
         episodesAired = object.optInt("episodes_aired");
 
     }
-
-    public static class ItemImage {
-        public String original, preview, x96, x64;
-        public ItemImage(JSONObject object){
-            if(object == null)
-                return;
-
-            original = HelperObj.getString(object, "original");
-            preview = HelperObj.getString(object, "preview");
-            x96 = HelperObj.getString(object, "x96");
-            x64 = HelperObj.getString(object, "x64");
-        }
-    }
 }
