@@ -281,8 +281,10 @@ public class Query {
 
     void failResult(byte[] bytes){
         StatusResult stat = new StatusResult();
+        String dataString = null;
         try {
-            JSONObject data = new JSONObject(new String(bytes));
+            dataString = new String(bytes);
+            JSONObject data = new JSONObject(dataString);
             if(data.has("error")){
                 String errorMessage = data.optString("error");
                 if(errorMessage.contains("Вам необходимо войти в систему")){
@@ -300,7 +302,7 @@ public class Query {
         }
         showError(stat);
         if(ShikiApi.isDebug)
-            Log.d(TAG, "server not response: " + new String(bytes));
+            Log.d(TAG, "server not response: " + dataString);
     }
 
     /**
@@ -364,7 +366,7 @@ public class Query {
     public void showStandartError(StatusResult res) {
         if (context == null)
             return;
-        if ((context instanceof ActionBarActivity)) {
+        if ((context instanceof Activity)) {
             try {
                 new AlertDialog.Builder(context)
                         .setMessage(res.getMsg())
@@ -383,10 +385,10 @@ public class Query {
     }
 
 
-    public Query useAutorisation(){
-        useAutorization = true;
-        return this;
-    }
+//    public Query useAutorisation(){
+//        useAutorization = true;
+//        return this;
+//    }
 
     /**
      * Нужно чтобы следующий запрос не перетер данные предыдущего

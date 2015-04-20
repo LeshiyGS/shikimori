@@ -108,7 +108,7 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
      */
     @Override
     public void onRefresh() {
-        getQuery().setErrorListener(this);
+        query.setErrorListener(this);
         onStartRefresh();
     }
 
@@ -156,8 +156,8 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
 
     @Override
     public void onQueryError(StatusResult res) {
-        query.showStandartError(res);
         stopRefresh();
+        query.showStandartError(res);
     }
 
     @Override
