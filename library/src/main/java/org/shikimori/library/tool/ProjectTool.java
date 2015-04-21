@@ -104,32 +104,6 @@ public class ProjectTool {
         return url;
     }
 
-    public static void setTextViewHTML(Context activity, TextView text, String html) {
-        CharSequence sequence = Html.fromHtml(html);
-        SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-        URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-        for (URLSpan span : urls) {
-            makeLinkClickable(activity, strBuilder, span);
-        }
-        text.setMovementMethod(LinkMovementMethod.getInstance());
-        text.setText(strBuilder);
-    }
-
-    private static void makeLinkClickable(final Context activity, SpannableStringBuilder strBuilder, final URLSpan span) {
-        int start = strBuilder.getSpanStart(span);
-        int end = strBuilder.getSpanEnd(span);
-        int flags = strBuilder.getSpanFlags(span);
-        ClickableSpan clickable = new ClickableSpan() {
-            public void onClick(View view) {
-//                Intent intent = new Intent(activity, WebViewActivity.class);
-//                intent.putExtra(WebviewFragment.URL_NAME, span.getURL());
-//                activity.startActivity(intent);
-            }
-        };
-        strBuilder.setSpan(clickable, start, end, flags);
-        strBuilder.removeSpan(span);
-    }
-
     public static Spannable getTitleElement(String rusname, String engName){
         return getTitleElement(rusname, engName, "66ffffff");
     }
