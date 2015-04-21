@@ -1,13 +1,11 @@
 package org.shikimori.library.fragments;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -31,7 +29,6 @@ import org.shikimori.library.objects.one.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.ThumbToImage;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;

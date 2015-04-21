@@ -32,6 +32,8 @@ public class RelevalCircular {
     private Enum type = TYPE.GLOBAL;
     private View targetView;
     private int progress;
+    private int customWidth;
+    private int customHeight;
 
     public static enum TYPE {
         GLOBAL,
@@ -44,6 +46,11 @@ public class RelevalCircular {
 
     public void setType(Enum type) {
         this.type = type;
+    }
+
+    public void setCustomRadius(int width, int height){
+        customWidth = width;
+        customHeight = height;
     }
 
     public void setColorBackground(int color) {
@@ -128,10 +135,6 @@ public class RelevalCircular {
 
         initPositions();
 
-        lastCentrX = (circView.getLeft() + circView.getRight()) / 2;
-        lastCentrY = (circView.getTop() + circView.getBottom()) / 2;
-
-
         startAnimation(circView, lastCentrX, lastCentrY, 0, progress, new AnimateListener(new AnimationEnd() {
             @Override
             public void end() {
@@ -160,11 +163,19 @@ public class RelevalCircular {
     }
 
     private void initPositions() {
+
+        if(customWidth > 0){
+            finalRadius = Math.max(customWidth, customHeight);
+            lastCentrX = customWidth / 2;
+            lastCentrY = customHeight / 2;
+            return;
+        }
+
         int[] targetPosition = new int[2];
         targetView.getLocationOnScreen(targetPosition);
         // get the center for the clipping circle
-        lastCentrX = (targetView.getLeft() + circView.getRight()) / 2;
-        lastCentrY = targetPosition[1] - (targetView.getTop() + targetView.getBottom());
+        lastCentrX = (circView.getLeft() + circView.getRight()) / 2;
+        lastCentrY = (circView.getTop() + circView.getBottom()) / 2;
 
         if (type == TYPE.GLOBAL) {
             // get the final radius for the clipping circle

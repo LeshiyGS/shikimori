@@ -79,6 +79,6 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
     public void onClick(View v) {
         super.onClick(v);
         if(v.getId() == R.id.ivPoster)
-            activity.getThumbToImage().zoom(ivPoster, details.imgOriginal);
+            activity.getThumbToImage().zoom(ivPoster, details.image.original);
     }
 }

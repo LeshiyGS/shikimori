@@ -12,8 +12,6 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
-import org.shikimori.library.tool.ThumbToImage;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.h;
 
 
@@ -90,6 +88,6 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     public void onClick(View v) {
         super.onClick(v);
         if(v.getId() == R.id.ivPoster)
-            activity.getThumbToImage().zoom(ivPoster, animeDetails.imgOriginal);
+            activity.getThumbToImage().zoom(ivPoster, animeDetails.image.original);
     }
 }

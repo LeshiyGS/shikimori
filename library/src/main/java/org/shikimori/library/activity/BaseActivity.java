@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,8 +20,7 @@ import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.ThumbToImage;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.imagetool.ThumbToImage;
 
 import java.util.List;
 

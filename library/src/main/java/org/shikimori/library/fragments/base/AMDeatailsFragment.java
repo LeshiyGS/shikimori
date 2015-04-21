@@ -2,7 +2,6 @@ package org.shikimori.library.fragments.base;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.Spannable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
-import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
@@ -23,7 +21,6 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.ThumbToImage;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
@@ -33,7 +30,6 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import ru.altarix.ui.CustomTextView;
-import ru.altarix.ui.tool.TextStyling;
 
 
 /**

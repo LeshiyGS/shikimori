@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
+    android:visibility="gone"
     android:gravity="center">
 
     <View
@@ -12,10 +13,11 @@
         android:background="#70000000"
         android:visibility="invisible" />
 
-    <ImageView
+    <org.shikimori.library.tool.imagetool.TouchImageView
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
     <ProgressBar
         android:id="@+id/pbLoaderExpanded"

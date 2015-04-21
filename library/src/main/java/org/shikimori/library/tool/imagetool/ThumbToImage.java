@@ -1,4 +1,4 @@
-package org.shikimori.library.tool;
+package org.shikimori.library.tool.imagetool;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,7 +31,9 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ImageShowActivity;
+import org.shikimori.library.tool.RelevalCircular;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
+import org.shikimori.library.tool.h;
 
 
 /**
@@ -44,7 +46,7 @@ public class ThumbToImage {
     boolean isLoad = false;
     private ViewGroup root;
     private View back;
-    private ImageView expandedImage;
+    private TouchImageView expandedImage;
     private ProgressBar pbLoaderExpanded;
     private Rect startBounds;
     private Rect finalBounds;
@@ -98,7 +100,9 @@ public class ThumbToImage {
 
         if (Build.VERSION.SDK_INT > 20) {
             rev.setType(RelevalCircular.TYPE.VIEW);
-            expandedImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//            expandedImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            rev.setCustomRadius(expandedImage.getRootView().getWidth(),
+                    expandedImage.getRootView().getHeight());
             rev.startProgress(expandedImage, null);
             rev.setProgress(20);
         }
@@ -273,6 +277,7 @@ public class ThumbToImage {
                 public void animateEnd() {
                     expandedImage.setImageDrawable(null);
                     h.setVisibleGone(wraper);
+                    expandedImage.backToOrigin();
                 }
             });
             return true;
@@ -305,6 +310,7 @@ public class ThumbToImage {
                 //back.setVisibility(View.GONE);
                 expandedImage.setImageDrawable(null);
                 h.setVisibleGone(wraper);
+                expandedImage.backToOrigin();
                 //expandedImageView.setVisibility(View.GONE);
                 mCurrentAnimator = null;
             }
@@ -337,7 +343,7 @@ public class ThumbToImage {
         if (decorView != null) {
             View firstChaild = decorView.getChildAt(0);
 
-            if (firstChaild instanceof RelativeLayout == false && firstChaild instanceof FrameLayout == false) {
+            if (!(firstChaild instanceof RelativeLayout) && !(firstChaild instanceof FrameLayout)) {
                 FrameLayout rootViewNew = new FrameLayout(mContext);
                 rootViewNew.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 decorView.removeView(firstChaild);
@@ -358,7 +364,7 @@ public class ThumbToImage {
                 wraper = (View) back.getParent();
             }
 
-            expandedImage = (ImageView) root.findViewById(R.id.expanded_image);
+            expandedImage = (TouchImageView) root.findViewById(R.id.expanded_image);
             pbLoaderExpanded = (ProgressBar) root.findViewById(R.id.pbLoaderExpanded);
         }
     }
