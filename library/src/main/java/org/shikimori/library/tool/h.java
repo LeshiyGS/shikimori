@@ -56,8 +56,14 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.androidanimations.library.fading_entrances.FadeInAnimator;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import org.jsoup.Jsoup;
+import org.shikimori.library.R;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
@@ -701,6 +707,34 @@ public class h {
     public static <C extends View> C get(View view, int id) {
         View childView = view.findViewById(id);
         return (C) childView;
+    }
+
+    public static ImageLoader initImageLoader(Context c) {
+        if (ImageLoader.getInstance().isInited())
+            return ImageLoader.getInstance();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(c)
+                .defaultDisplayImageOptions(getImageLoaderOptions())
+                .diskCacheSize(50 * 1024 * 1024)
+                .diskCacheFileCount(100)
+                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
+                .build();
+
+        ImageLoader.getInstance().init(config);
+        return ImageLoader.getInstance();
+    }
+
+    public static DisplayImageOptions getImageLoaderOptions() {
+        return getImageLoaderOptionsBuilder().build();
+    }
+
+    public static DisplayImageOptions.Builder getImageLoaderOptionsBuilder() {
+        return new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .showImageOnFail(R.drawable.missing_preview)
+                .resetViewBeforeLoading(false)
+                .displayer(new FadeInBitmapDisplayer(400, true, true, false));
     }
 
 }

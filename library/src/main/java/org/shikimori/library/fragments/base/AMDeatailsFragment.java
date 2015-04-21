@@ -23,6 +23,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.ThumbToImage;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
@@ -38,7 +39,7 @@ import ru.altarix.ui.tool.TextStyling;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener{
+public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener {
 
     private String itemId;
     protected ScrollView svMain;
@@ -78,6 +79,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
             return;
         showRefreshLoader();
         loadDataFromServer();
+
+        ivPoster.setOnClickListener(this);
     }
 
     @Override
@@ -148,4 +151,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         }
     };
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

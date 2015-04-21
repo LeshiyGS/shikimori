@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.h;
 
 /**
  * Created by Феофилактов on 29.03.2015.
@@ -33,30 +34,14 @@ public class ShikiApplikation extends Application {
     }
 
     public static ImageLoader initImageLoader(Context c) {
-        if (ImageLoader.getInstance().isInited())
-            return ImageLoader.getInstance();
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(c)
-                .defaultDisplayImageOptions(getImageLoaderOptions())
-                .diskCacheSize(50 * 1024 * 1024)
-                .diskCacheFileCount(100)
-                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024)) // 2 Mb
-                .build();
-
-        ImageLoader.getInstance().init(config);
-        return ImageLoader.getInstance();
+        return h.initImageLoader(c);
     }
 
     public static DisplayImageOptions getImageLoaderOptions() {
-        return getImageLoaderOptionsBuilder().build();
+        return h.getImageLoaderOptionsBuilder().build();
     }
 
     public static DisplayImageOptions.Builder getImageLoaderOptionsBuilder() {
-        return new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .showImageOnFail(R.drawable.missing_preview)
-                .resetViewBeforeLoading(false)
-                .displayer(new FadeInBitmapDisplayer(400, true, true, false));
+        return h.getImageLoaderOptionsBuilder();
     }
 }

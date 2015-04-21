@@ -21,6 +21,7 @@ import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.ThumbToImage;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
     private boolean dowbleBack;
     private ShikiUser shikiUser;
     private ViewGroup contentView;
+    private ThumbToImage thumbToImage;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -60,6 +62,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
         shikiUser = new ShikiUser(this);
 
         contentView = (ViewGroup) findViewById(R.id.content_frame);
+
+        thumbToImage = new ThumbToImage(this);
     }
 
     /*
@@ -132,6 +136,10 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
 
     @Override
     public void onBackPressed() {
+
+        if(thumbToImage.closeImage())
+            return;
+
         /**
          * Check if we can back pressed from fragment
          */
@@ -217,6 +225,10 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
 
     public ShikiUser getShikiUser() {
         return shikiUser;
+    }
+
+    public ThumbToImage getThumbToImage() {
+        return thumbToImage;
     }
 
     /**

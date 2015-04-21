@@ -6,5 +6,8 @@
         <activity
             android:name=".activity.ShowPageActivity"
             android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".activity.ImageShowActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 </manifest>

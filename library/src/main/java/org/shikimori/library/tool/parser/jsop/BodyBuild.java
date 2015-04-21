@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.os.Looper;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.widget.GridLayout;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +33,8 @@ import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
 import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
+import org.shikimori.library.tool.popup.BasePopup;
+import org.shikimori.library.tool.popup.ListPopup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +46,55 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class BodyBuild {
 
+    private UrlTextListener urlTextListener;
+    private OnClickLinkInPopup popupClick;
+    private ImageClickListener imageClickListener;
+
+    public enum CLICKABLETYPE{
+        NOT, INTEXT, POPUP
+    }
+
     private final Point screensize;
     private Context context;
     private TextView lastTv;
     List<ImageController> images = new ArrayList<>();
     CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
+    CLICKABLETYPE clicktype = CLICKABLETYPE.NOT;
 
     public BodyBuild(Activity context) {
         this.context = context;
         screensize = h.getScreenSize(context);
+    }
+
+    public void setOnImageClickListener(ImageClickListener imageClickListener){
+        this.imageClickListener = imageClickListener;
+    }
+
+    /**
+     * Если type = INTEXT то при клике на ссылку в тексте возвращаеться урл
+     * и в setUrlTextListener возвращаеться ссылка
+     * Если type = POPUP показываеться диалог со списком всех урлов
+     * и setClickLinkInPopup возвращаются данные
+     * @param type
+     */
+    public void setClickType(CLICKABLETYPE type){
+        clicktype = type;
+    }
+
+    /**
+     * urlTextListener = INTEXT
+     * @param urlTextListener
+     */
+    public void setUrlTextListener(UrlTextListener urlTextListener){
+        this.urlTextListener = urlTextListener;
+    }
+
+    /**
+     * urlTextListener = POPUP
+     * @param popupClick
+     */
+    public void setClickLinkInPopup(OnClickLinkInPopup popupClick){
+        this.popupClick = popupClick;
     }
 
     public View parce(String text, ViewGroup viewBody) {
@@ -72,20 +118,57 @@ public class BodyBuild {
         return null;
     }
 
+    /**
+     * При асинхронном парсинге
+     */
     public interface ParceDoneListener {
         public void done(ViewGroup view);
     }
 
+    /**
+     * Click в тексте
+     */
+    public interface UrlTextListener{
+        public void textLink(String url);
+    }
+
+    /**
+     * Попап лист
+     */
+    public interface OnClickLinkInPopup{
+        public void popup(BasePopup popup);
+        public void clickLink(String link);
+    }
+
+    public interface ImageClickListener{
+        public void imageClick(PostImage image);
+    }
+
     public void parceAsync(final String text, final ParceDoneListener listener) {
-        new ViewsLoader(context, text, listener).forceLoad();
+        ViewsLoader viewsLoader = new ViewsLoader(context, text, listener);
+        prepareAsyncBuilder(viewsLoader.getBuilder());
+        viewsLoader.forceLoad();
     }
 
     public void parceAsync(Document doc, final ParceDoneListener listener) {
         if (doc == null)
             return;
-        new ViewsLoader(context, doc, listener).forceLoad();
+        ViewsLoader viewsLoader = new ViewsLoader(context, doc, listener);
+        prepareAsyncBuilder(viewsLoader.getBuilder());
+        viewsLoader.forceLoad();
     }
 
+    void prepareAsyncBuilder(BodyBuild builder){
+        builder.setOnImageClickListener(imageClickListener);
+        builder.setClickLinkInPopup(popupClick);
+        builder.setClickType(clicktype);
+    }
+
+    /**
+     * Проверяет все ноды для строительства вьюх
+     * @param elemnts
+     * @param parent
+     */
     void looper(List<Node> elemnts, ViewGroup parent) {
 
 
@@ -235,9 +318,60 @@ public class BodyBuild {
         if (lastTv == null)
             return;
         StringBuilder builder = (StringBuilder) lastTv.getTag();
-        lastTv.setText(ParcerTool.fromHtml(builder.toString(),
-                new UILImageGetter(lastTv, context), null));
+        Spanned _text = ParcerTool.fromHtml(builder.toString(),
+                new UILImageGetter(lastTv, context), null);
+        SpannableStringBuilder spanBuilder = new SpannableStringBuilder(_text);
+        if(clicktype == CLICKABLETYPE.INTEXT){
+            URLSpan[] urls = _text.getSpans(0, _text.length(), URLSpan.class);
+            for (URLSpan span : urls) {
+                makeLinkClickable(spanBuilder, span);
+            }
+        } else if(clicktype == CLICKABLETYPE.POPUP){
+            List<String> listUrl = new ArrayList<>();
+            URLSpan[] urls = _text.getSpans(0, _text.length(), URLSpan.class);
+            for (URLSpan span : urls) {
+                listUrl.add(span.getURL());
+            }
+            if(listUrl.size() > 0){
+                lastTv.setTag(R.id.spanned_urls, listUrl);
+                lastTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<String> listUrl = (List<String>) v.getTag(R.id.spanned_urls);
+                        ListPopup popup = new ListPopup((Activity) context);
+                        popup.setList(listUrl);
+                        if(popupClick!= null)
+                            popupClick.popup(popup);
+                        popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                if(popupClick!= null){
+                                    String item = (String) parent.getAdapter().getItem(position);
+                                    popupClick.clickLink(item);
+                                }
+                            }
+                        });
+                        popup.show();
+                    }
+                });
+            }
+        }
+        lastTv.setText(spanBuilder);
         lastTv = null;
+    }
+
+    private void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span) {
+        int start = strBuilder.getSpanStart(span);
+        int end = strBuilder.getSpanEnd(span);
+        int flags = strBuilder.getSpanFlags(span);
+        ClickableSpan clickable = new ClickableSpan() {
+            public void onClick(View view) {
+                if(urlTextListener!=null)
+                    urlTextListener.textLink(span.getURL());
+            }
+        };
+        strBuilder.setSpan(clickable, start, end, flags);
+        strBuilder.removeSpan(span);
     }
 
     /**
@@ -284,7 +418,17 @@ public class BodyBuild {
             //element.remove();
         }
 
-        PostImage postImg = new PostImage(context, item);
+        final PostImage postImg = new PostImage(context, item);
+
+        if(imageClickListener!=null){
+            postImg.getImage().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageClickListener.imageClick(postImg);
+                }
+            });
+            postImg.getImage().setOnTouchListener(h.getImageHighlight);
+        }
 
         images.add(postImg);
         if(!gallerys.contains(view))
@@ -379,6 +523,10 @@ public class BodyBuild {
             super(context);
             this.doc = doc;
             this.listener = listener;
+        }
+
+        public BodyBuild getBuilder() {
+            return builder;
         }
 
         @Override

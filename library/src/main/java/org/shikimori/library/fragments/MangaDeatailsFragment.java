@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -72,5 +73,12 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
     @Override
     public void extraLoad(String itemId) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        if(v.getId() == R.id.ivPoster)
+            activity.getThumbToImage().zoom(ivPoster, details.imgOriginal);
     }
 }

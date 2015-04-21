@@ -43,4 +43,8 @@ public class ImageController {
             ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
         }
     }
+
+    public ItemImageShiki getImageData() {
+        return imageData;
+    }
 }

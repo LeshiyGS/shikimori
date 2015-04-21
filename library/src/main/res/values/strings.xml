@@ -78,4 +78,5 @@
     <string name="open_details">Открыть детали</string>
     <string name="animegraf">Анимеграфия</string>
     <string name="mangagraf">Мангаграфия</string>
+    <string name="cant_load_image">Не могу загрузить изображение</string>
 </resources>

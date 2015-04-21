@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -11,6 +12,7 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
+import org.shikimori.library.tool.ThumbToImage;
 import org.shikimori.library.tool.h;
 
 
@@ -20,11 +22,15 @@ import org.shikimori.library.tool.h;
 public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
     private ItemAnimeDetails animeDetails;
-
     public static AnimeDeatailsFragment newInstance(Bundle b) {
         AnimeDeatailsFragment frag = new AnimeDeatailsFragment();
         frag.setArguments(b);
         return frag;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -77,4 +83,10 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             });
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        if(v.getId() == R.id.ivPoster)
+            activity.getThumbToImage().zoom(ivPoster, animeDetails.imgOriginal);
+    }
 }

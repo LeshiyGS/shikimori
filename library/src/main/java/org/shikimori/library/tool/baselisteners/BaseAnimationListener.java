@@ -1,5 +1,6 @@
 package org.shikimori.library.tool.baselisteners;
 
+
 import com.nineoldandroids.animation.Animator;
 
 /**

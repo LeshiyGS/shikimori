@@ -1,7 +1,14 @@
 package org.shikimori.library.tool;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
@@ -91,5 +98,31 @@ public class ProjectTool {
         if(!url.startsWith("http"))
             url = ShikiApi.HTTP_SERVER + url;
         return url;
+    }
+
+    public static void setTextViewHTML(Context activity, TextView text, String html) {
+        CharSequence sequence = Html.fromHtml(html);
+        SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
+        URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
+        for (URLSpan span : urls) {
+            makeLinkClickable(activity, strBuilder, span);
+        }
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+        text.setText(strBuilder);
+    }
+
+    private static void makeLinkClickable(final Context activity, SpannableStringBuilder strBuilder, final URLSpan span) {
+        int start = strBuilder.getSpanStart(span);
+        int end = strBuilder.getSpanEnd(span);
+        int flags = strBuilder.getSpanFlags(span);
+        ClickableSpan clickable = new ClickableSpan() {
+            public void onClick(View view) {
+//                Intent intent = new Intent(activity, WebViewActivity.class);
+//                intent.putExtra(WebviewFragment.URL_NAME, span.getURL());
+//                activity.startActivity(intent);
+            }
+        };
+        strBuilder.setSpan(clickable, start, end, flags);
+        strBuilder.removeSpan(span);
     }
 }
