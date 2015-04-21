@@ -126,6 +126,9 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
             case Constants.MANGA:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
                 break;
+            case Constants.CHARACTER:
+                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CHARACTER_PAGE);
+                break;
             case Constants.TOPIC:
                 if (item.section.permalink.equals("o")){
                     intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);

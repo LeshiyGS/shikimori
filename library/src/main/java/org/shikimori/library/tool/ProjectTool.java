@@ -7,6 +7,8 @@ import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +16,8 @@ import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
+
+import ru.altarix.ui.tool.TextStyling;
 
 /**
  * Created by Владимир on 07.04.2015.
@@ -124,5 +128,18 @@ public class ProjectTool {
         };
         strBuilder.setSpan(clickable, start, end, flags);
         strBuilder.removeSpan(span);
+    }
+
+    public static Spannable getTitleElement(String rusname, String engName){
+        return getTitleElement(rusname, engName, "66ffffff");
+    }
+    public static Spannable getTitleElement(String rusname, String engName, String color){
+        TextStyling styling = new TextStyling()
+                .addGlobalStyle(TextStyling.TextStyle.COLOR, color);
+
+        if(rusname!=null){
+            return styling.formatString(rusname, engName + "\n" + rusname);
+        } else
+            return new SpannableString(engName);
     }
 }

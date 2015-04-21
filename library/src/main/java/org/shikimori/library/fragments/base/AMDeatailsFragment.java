@@ -123,14 +123,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     }
 
     protected void setTitleElement(String rusname, String engName){
-        TextStyling styling = new TextStyling()
-                .addGlobalStyle(TextStyling.TextStyle.COLOR, "66ffffff");
-
-        if(rusname!=null){
-            Spannable text = styling.formatString(rusname, engName + "\n" + rusname);
-            tvTitle.setText(text);
-        } else
-            tvTitle.setText(engName);
+        tvTitle.setText(ProjectTool.getTitleElement(rusname, engName));
     }
 
     protected String getStatus(boolean anons, boolean ongoing){

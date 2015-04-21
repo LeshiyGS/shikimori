@@ -35,7 +35,7 @@ public class CustomViewBase extends LinearLayout {
     protected TypedArray typedArray;
     protected OnClickListener clickListener;
     private int mTypeImage;
-    private ImageView ivImage;
+    protected ImageView ivImage;
     private int guVisibleLabel = INVISIBLE;
     private int mLabel;
     protected boolean mHideLabelIfEmpty;
