@@ -59,5 +59,6 @@ dependencies {
 //    compile project(":modules:easyAdapter")
     compile project(":modules:ui_tools")
     compile project(":modules:PinnedSectionAdapter")
+    compile project(":modules:PhotoView")
 //    compile project(":modules:tabunAC")
 }

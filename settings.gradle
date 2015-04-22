@@ -3,4 +3,5 @@ include ':app',
 //        ':extention',
 //        ":modules:easyAdapter",
         ":modules:ui_tools",
-        ":modules:PinnedSectionAdapter"
+        ":modules:PinnedSectionAdapter",
+        ":modules:PhotoView"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false"
-    android:visibility="gone"
+    android:visibility="invisible"
     android:gravity="center">
 
     <View
@@ -13,7 +13,7 @@
         android:background="#70000000"
         android:visibility="invisible" />
 
-    <org.shikimori.library.tool.imagetool.TouchImageView
+    <ImageView
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
