@@ -78,7 +78,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
                 @Override
                 public void run() {
 
-                    ImageLoader.getInstance().displayImage(animeDetails.image.preview, ivPoster, addBlurToTitle);
+                    ImageLoader.getInstance().displayImage(animeDetails.image.original, ivPoster, addBlurToTitle);
                     setStatus(animeDetails.anons, animeDetails.ongoing);
                 }
             });
@@ -87,7 +87,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if(v.getId() == R.id.ivPoster)
+        if(v.getId() == R.id.ivPoster && animeDetails.image!=null)
             activity.getThumbToImage().zoom(ivPoster, animeDetails.image.original);
     }
 }

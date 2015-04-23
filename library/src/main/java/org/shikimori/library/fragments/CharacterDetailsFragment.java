@@ -48,7 +48,7 @@ import ru.altarix.ui.CustomTextView;
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class CharacterDetailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener {
+public class CharacterDetailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener {
 
     TextView tvTitle;
     ImageView ivPoster;
@@ -79,6 +79,8 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         tvMangas  = find(R.id.tvMangas);
         pageAnime = find(R.id.pageAnime);
         pageManga = find(R.id.pageManga);
+
+        ivPoster.setOnClickListener(this);
         return v;
     }
 
@@ -144,7 +146,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
             }
         });
         if(item.image!=null)
-            ShikiImage.show(item.image.preview, ivPoster);
+            ShikiImage.show(item.image.original, ivPoster);
 
         showHistory(item.animes.size() != 0, tvAnimes, pageAnime);
         showHistory(item.mangas.size() != 0, tvMangas, pageManga);
@@ -153,8 +155,6 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         pageManga.setAdapter(new AniHistoryAdapter(activity, item.mangas));
         pageAnime.setOnItemClickListener(animeClick);
         pageManga.setOnItemClickListener(mangaClick);
-//        initPages(pageAnime, item.animes, ProjectTool.TYPE.ANIME);
-//        initPages(pageManga, item.mangas, ProjectTool.TYPE.MANGA);
         if(getView()!=null)
             getView().post(new Runnable() {
                 @Override
@@ -172,24 +172,6 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
      * @param items
      * @param type
      */
-//    void initPages(ExpandableHeightGridView view, List<ItemCaclendarShiki> items, final ProjectTool.TYPE type){
-//
-//
-//
-//        for (final ItemCaclendarShiki anime : items) {
-//            CustomPosterView row = new CustomPosterView(activity);
-//            row.setIcon(ProjectTool.fixUrl(anime.imgPreview));
-//            row.setText(item.name);
-//            row.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    showDetails(anime, type);
-//                }
-//            });
-//            view.addView(row);
-//        }
-//    }
 
     AdapterView.OnItemClickListener animeClick = new AdapterView.OnItemClickListener(){
 
@@ -246,5 +228,13 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         row.setLabel(label);
         row.setText(text);
         llInfo.addView(row);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.ivPoster){
+            if(item.image!=null)
+                activity.getThumbToImage().zoom(ivPoster, item.image.original);
+        }
     }
 }

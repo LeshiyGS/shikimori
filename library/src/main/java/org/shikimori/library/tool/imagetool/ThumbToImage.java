@@ -67,8 +67,11 @@ public class ThumbToImage {
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void zoom(final ImageView thumbView, String url) {
-        isLoad = false;
 
+        if(url == null)
+            return;
+
+        isLoad = false;
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             showInActivity(url);
             return;
