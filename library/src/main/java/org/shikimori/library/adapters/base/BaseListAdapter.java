@@ -54,6 +54,7 @@ public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<
             holder.tvDate = (TextView) v.findViewById(R.id.tvDate);
             holder.tvText = (TextView) v.findViewById(R.id.tvText);
             holder.tvName = (TextView) v.findViewById(R.id.tvName);
+            holder.tvType = (TextView) v.findViewById(R.id.tvType);
             holder.tvRusName = (TextView) v.findViewById(R.id.tvRusName);
             holder.tvStatus = (TextView) v.findViewById(R.id.tvStatus);
             holder.llBodyHtml = (ViewGroup) v.findViewById(R.id.llBodyHtml);

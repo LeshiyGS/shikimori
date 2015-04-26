@@ -116,4 +116,12 @@ public class ProjectTool {
         } else
             return new SpannableString(engName);
     }
+
+    public static String getTypeFromUrl(Context c, String url){
+        if(url.contains("anime"))
+            return c.getString(R.string.anime);
+        else if(url.contains("manga"))
+            return c.getString(R.string.manga);
+        return "";
+    }
 }

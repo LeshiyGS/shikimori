@@ -9,6 +9,6 @@ import android.widget.TextView;
  */
 public class BaseHolder {
     public ImageView ivUser, ivPoster;
-    public TextView tvName, tvText, tvDate, tvRusName, tvStatus;
+    public TextView tvName, tvText, tvDate, tvRusName, tvStatus, tvType;
     public ViewGroup llBodyHtml;
 }

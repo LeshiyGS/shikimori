@@ -47,12 +47,9 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
     @Override
     public TopicHolder getViewHolder(View v) {
         TopicHolder holder = super.getViewHolder(v);
-        holder.ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         holder.tvCountComments = (TextView) v.findViewById(R.id.tvCountComments);
         holder.tvSection = (TextView) v.findViewById(R.id.tvSection);
         holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        holder.tvText = (TextView) v.findViewById(R.id.tvText);
-        holder.llBodyHtml = (ViewGroup) v.findViewById(R.id.llBodyHtml);
         return holder;
     }
 

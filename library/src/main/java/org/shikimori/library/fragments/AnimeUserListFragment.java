@@ -28,7 +28,6 @@ import java.util.List;
 public class AnimeUserListFragment extends BaseListViewFragment {
 
     private String listId;
-    public static final int LIMIT = 20;
 
     public static AnimeUserListFragment newInstance(Bundle b) {
         AnimeUserListFragment frag = new AnimeUserListFragment();

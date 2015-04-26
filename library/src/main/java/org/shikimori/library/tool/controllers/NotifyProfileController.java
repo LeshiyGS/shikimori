@@ -1,28 +1,23 @@
 package org.shikimori.library.tool.controllers;
 
-import android.app.ActionBar;
-import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.GridView;
 
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.NotifyProfileAdapter;
-import org.shikimori.library.custom.CustomProfileTextView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
-import org.shikimori.library.fragments.NewsUserFragment;
-import org.shikimori.library.fragments.NotificationsUserFragment;
+import org.shikimori.library.fragments.UserHistoryFragment;
+import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +27,7 @@ import java.util.List;
  */
 public class NotifyProfileController implements AdapterView.OnItemClickListener {
     public static final int NEWS = 0;
-    public static final int MESSAGES = 1;
+    public static final int INBOX = 1;
     public static final int NOTIFYING = 2;
     public static final int HISTORY = 3;
     public static final int FORUMS = 4;
@@ -56,7 +51,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
 
     private void initList() {
         menu.add(new Item(NEWS, mContext.getString(R.string.news)));
-        menu.add(new Item(MESSAGES, mContext.getString(R.string.messages)));
+        menu.add(new Item(INBOX, mContext.getString(R.string.messages)));
         menu.add(new Item(NOTIFYING, mContext.getString(R.string.notifying)));
         menu.add(new Item(HISTORY, mContext.getString(R.string.history)));
         menu.add(new Item(FORUMS, mContext.getString(R.string.forums)));
@@ -88,7 +83,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
         user.setNotification(notify);
 
         for (Item item : menu) {
-            if(item.id == MESSAGES)
+            if(item.id == INBOX)
                 item.count = notify.messages;
             else if(item.id == NEWS)
                 item.count =notify.news;
@@ -103,9 +98,13 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
         public void onClick(View v) {
             int id = (int) v.getTag();
             if(id == NEWS){
-                mContext.loadPage(NewsUserFragment.newInstance());
+                mContext.loadPage(UserNewsFragment.newInstance(Constants.NEWS));
             } else if (id == NOTIFYING)
-                mContext.loadPage(NotificationsUserFragment.newInstance());
+                mContext.loadPage(UserNewsFragment.newInstance(Constants.NOTIFYING));
+            else if (id == INBOX)
+                mContext.loadPage(UserNewsFragment.newInstance(Constants.INBOX));
+            else if (id == HISTORY)
+                mContext.loadPage(UserHistoryFragment.newInstance());
         }
     };
 
@@ -113,9 +112,11 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Item item = (Item) parent.getAdapter().getItem(position);
         if(item.id == NEWS){
-            mContext.loadPage(NewsUserFragment.newInstance());
+            mContext.loadPage(UserNewsFragment.newInstance(Constants.NEWS));
         } else if (item.id == NOTIFYING)
-            mContext.loadPage(NotificationsUserFragment.newInstance());
+            mContext.loadPage(UserNewsFragment.newInstance(Constants.NOTIFYING));
+         else if (item.id == INBOX)
+            mContext.loadPage(UserNewsFragment.newInstance(Constants.INBOX));
     }
 
     public class Item{
