@@ -116,6 +116,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
+        llInfo.removeAllViews();
     }
 
     protected void setTitleElement(String rusname, String engName){

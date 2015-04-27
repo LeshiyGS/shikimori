@@ -10,7 +10,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shiki_list_selector">
+        android:background="@drawable/shiki_list_selector"
+        android:layout_gravity="right|bottom">
 
         <ImageView
             android:id="@+id/ivUser"
@@ -48,7 +49,7 @@
             android:layout_toEndOf="@+id/ivUser"
             android:layout_marginLeft="@dimen/defaultPaddingMini"
             android:layout_marginRight="@dimen/defaultPaddingMini"
-            >
+            android:id="@+id/linearLayout">
 
             <TextView
                 android:id="@+id/tvName"
@@ -64,21 +65,11 @@
                 style="@style/altarixUiLabel.mini" />
 
             <TextView
-                android:id="@+id/tvCountComments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_action_comments"
-                android:drawableStart="@drawable/ic_action_comments"
-                android:gravity="center_vertical"
-                android:drawablePadding="@dimen/defaultPaddingMini"
-                style="@style/altarixUiLabel.mini" />
-
-            <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/altarixUiText.TextTitle"
-                />
+                style="@style/altarixUiText"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvText"
@@ -102,5 +93,20 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvCountComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_comments"
+            android:drawableStart="@drawable/ic_action_comments"
+            android:drawablePadding="@dimen/defaultPaddingMini"
+            style="@style/altarixUiLabel.mini"
+            android:gravity="center_vertical"
+            android:layout_gravity="right|bottom"
+            android:layout_alignRight="@+id/linearLayout"
+            android:layout_alignEnd="@+id/linearLayout"
+            android:layout_below="@+id/linearLayout" />
     </RelativeLayout>
+
 </FrameLayout>

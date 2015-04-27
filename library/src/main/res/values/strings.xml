@@ -83,6 +83,8 @@
     <string name="japanase_name">По японски</string>
     <string name="character">Персонаж</string>
     <string name="name">Имя</string>
+    <string name="users">Пользователи</string>
+    <string name="favotite_topics">Избранные топики</string>
     <string name="inbox">Почта</string>
     <string name="people">Люди</string>
     <string name="mangakas">Мангаки</string>

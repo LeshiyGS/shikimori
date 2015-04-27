@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:library="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/anime_search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search"
+        library:showAsAction="ifRoom|collapseActionView"
+        library:actionViewClass="android.support.v7.widget.SearchView" />
+</menu>

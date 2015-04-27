@@ -51,6 +51,10 @@
             android:name=".activity.MangaDetailsActivity"
             android:configChanges="orientation|screenSize" >
         </activity>
+        <activity
+            android:name=".activity.DrawerShowPageActivity"
+            android:configChanges="orientation|screenSize" >
+        </activity>
     </application>
 
 </manifest>

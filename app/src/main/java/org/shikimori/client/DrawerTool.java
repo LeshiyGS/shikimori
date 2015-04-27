@@ -1,10 +1,8 @@
 package org.shikimori.client;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +15,14 @@ import org.shikimori.client.fragments.CalendarShikiFragment;
 import org.shikimori.client.fragments.MangasShikiFragment;
 import org.shikimori.client.fragments.TopicsShikiFragment;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.fragments.CommunityClubsFragment;
+import org.shikimori.library.fragments.CommunityUsersFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
+import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.tool.h;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Владимир on 16.04.2015.
@@ -30,6 +34,9 @@ public class DrawerTool {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerAdapter mDrawerAdapter;
     private int launchId =-1;
+
+
+    private List<Fragment> pageList;
 
     public DrawerTool(BaseActivity context){
         this.activity = context;
@@ -137,6 +144,15 @@ public class DrawerTool {
             frag = MangasShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_NEWS_ID) {
             frag = TopicsShikiFragment.newInstance();
+        } else if (pageId == DrawerAdapter.DRAWER_MENU_COMUNITY_ID) {
+            String[] titles = new String[]{ activity.getString(R.string.users), activity.getString(R.string.clubs)};
+            pageList = new ArrayList<>();
+            pageList.add(CommunityUsersFragment.newInstance());
+            pageList.add(CommunityClubsFragment.newInstance());
+            frag = PagerAdapterFragment.newInstance(
+                    pageList,
+                    titles
+            );
         }
 
         activity.clearBackStack();

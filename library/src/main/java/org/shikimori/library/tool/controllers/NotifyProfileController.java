@@ -1,6 +1,9 @@
 package org.shikimori.library.tool.controllers;
 
 import android.content.Intent;
+import android.app.ActionBar;
+import android.content.Intent;
+import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,6 +13,8 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NotifyProfileAdapter;
+import org.shikimori.library.activity.ShowPageActivity;
+import org.shikimori.library.custom.CustomProfileTextView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.UserHistoryFragment;
 import org.shikimori.library.fragments.UserNewsFragment;
@@ -20,6 +25,8 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.ArrayList;

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_style"
+        android:orientation="vertical"
+        android:layout_margin="4dp"
+        android:layout_gravity="center">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:id="@+id/ivImage"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        style="@style/altarixUiText.TextNormal"
+        android:textColor="@color/black_owerlay_80"
+        android:text="test"
+        android:lines="1"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tvTitleRus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textColor="@color/black_owerlay_40"
+        android:text="test"
+        android:lines="1"
+        android:linksClickable="false"
+        android:textSize="10sp"
+        android:textIsSelectable="false" />
+
+    </LinearLayout>
+</LinearLayout>
