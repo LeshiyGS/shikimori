@@ -140,6 +140,7 @@ public class ThumbToImage {
                                             h.setVisibleGone(pbLoaderExpanded);
                                         }
                                     });
+                            mAttacher.update();
                         }
                     },
                     new ImageLoadingProgressListener() {

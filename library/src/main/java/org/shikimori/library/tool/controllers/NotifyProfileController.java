@@ -93,21 +93,6 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
         notifyAdapter.notifyDataSetChanged();
     }
 
-    View.OnClickListener loadGroup = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = (int) v.getTag();
-            if(id == NEWS){
-                mContext.loadPage(UserNewsFragment.newInstance(Constants.NEWS));
-            } else if (id == NOTIFYING)
-                mContext.loadPage(UserNewsFragment.newInstance(Constants.NOTIFYING));
-            else if (id == INBOX)
-                mContext.loadPage(UserNewsFragment.newInstance(Constants.INBOX));
-            else if (id == HISTORY)
-                mContext.loadPage(UserHistoryFragment.newInstance());
-        }
-    };
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Item item = (Item) parent.getAdapter().getItem(position);
@@ -117,6 +102,8 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             mContext.loadPage(UserNewsFragment.newInstance(Constants.NOTIFYING));
          else if (item.id == INBOX)
             mContext.loadPage(UserNewsFragment.newInstance(Constants.INBOX));
+        else if (id == HISTORY)
+            mContext.loadPage(UserHistoryFragment.newInstance());
     }
 
     public class Item{

@@ -16,6 +16,8 @@ import org.shikimori.library.tool.ShikiImage;
 
 import java.util.List;
 
+import ru.altarix.ui.tool.h;
+
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
@@ -32,6 +34,8 @@ public class UserHistoryListAdapter extends BaseListAdapter<ItemUserHistory, Bas
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
 
         if (item.target != null) {
+            h.setVisible(holder.tvStatus, true);
+            h.setVisible(holder.tvType,true);
             holder.tvName.setText(item.target.name);
             ProjectTool.setStatusColor(getContext(), holder.tvStatus, item.target.anons, item.target.ongoing);
             holder.tvStatus.setText(ProjectTool.getStatus(getContext(),
@@ -40,6 +44,12 @@ public class UserHistoryListAdapter extends BaseListAdapter<ItemUserHistory, Bas
             holder.tvType.setText(ProjectTool.getTypeFromUrl(getContext(), item.target.url));
 
             ShikiImage.show(item.target.image.preview, holder.ivPoster, true);
+        } else {
+            holder.tvName.setText(null);
+            h.setVisibleGone(holder.ivPoster);
+            h.setVisibleGone(holder.tvStatus);
+            h.setVisibleGone(holder.tvType);
+
         }
     }
 }

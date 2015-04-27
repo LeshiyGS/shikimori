@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.TypedValue;
@@ -162,6 +163,7 @@ public class BodyBuild {
         builder.setOnImageClickListener(imageClickListener);
         builder.setClickLinkInPopup(popupClick);
         builder.setClickType(clicktype);
+        builder.setUrlTextListener(urlTextListener);
     }
 
     /**
@@ -326,6 +328,7 @@ public class BodyBuild {
             for (URLSpan span : urls) {
                 makeLinkClickable(spanBuilder, span);
             }
+            lastTv.setMovementMethod(LinkMovementMethod.getInstance());
         } else if(clicktype == CLICKABLETYPE.POPUP){
             List<String> listUrl = new ArrayList<>();
             URLSpan[] urls = _text.getSpans(0, _text.length(), URLSpan.class);

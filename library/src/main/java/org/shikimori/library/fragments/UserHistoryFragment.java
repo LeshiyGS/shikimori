@@ -70,7 +70,7 @@ public class UserHistoryFragment extends BaseListViewFragment {
         if (query == null)
             return;
 
-        query.init(url())
+        query.init(url(), StatusResult.TYPE.ARRAY)
             .addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("desc", "1")

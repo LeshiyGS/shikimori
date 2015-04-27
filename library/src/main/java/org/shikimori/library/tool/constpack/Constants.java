@@ -24,7 +24,7 @@ public class Constants {
     public static final String TOPIC = "topic";
 
     // users
-    public static final String NEWS = "wens";
+    public static final String NEWS = "news";
     public static final String NOTIFYING = "notifications";
     public static final String INBOX = "inbox";
 }

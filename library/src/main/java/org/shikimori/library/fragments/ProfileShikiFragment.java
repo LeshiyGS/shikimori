@@ -312,14 +312,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     AdapterView.OnItemClickListener animePopupListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             AnimeManga item = userDetails.fullStatuses.animes.get(position);
-            Bundle b = new Bundle();
-            // TODO SET DATA
-            b.putString(Constants.LIST_ID, item.id);
-            b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, item.name, ProjectTool.TYPE.ANIME));
-            b.putString(Constants.USER_ID, getUserId());
-            activity.loadPage(AnimeUserListFragment.newInstance(b));
+            goToAnimeManga(item.id, item.name, ProjectTool.TYPE.ANIME);
         }
     };
 
@@ -327,14 +321,18 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             AnimeManga item = userDetails.fullStatuses.manga.get(position);
-            Bundle b = new Bundle();
-            // TODO SET DATA
-            b.putString(Constants.LIST_ID, item.id);
-            b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, item.name, ProjectTool.TYPE.MANGA));
-            b.putString(Constants.USER_ID, getUserId());
-            activity.loadPage(AnimeUserListFragment.newInstance(b));
+            goToAnimeManga(item.id, item.name, ProjectTool.TYPE.MANGA);
         }
     };
+
+    void goToAnimeManga(String id, String name,  ProjectTool.TYPE type){
+        Bundle b = new Bundle();
+        // TODO SET DATA
+        b.putString(Constants.LIST_ID, id);
+        b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, name, type));
+        b.putString(Constants.USER_ID, getUserId());
+        activity.loadPage(AnimeUserListFragment.newInstance(b));
+    }
 
     @Override
     public void onDestroy() {
@@ -364,6 +362,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             @Override
             public void imageClick(PostImage image) {
                 activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
+            }
+        });
+
+        builder.setClickType(BodyBuild.CLICKABLETYPE.INTEXT);
+        builder.setUrlTextListener(new BodyBuild.UrlTextListener() {
+            @Override
+            public void textLink(String url) {
+                url.length();
             }
         });
 //        builder.parce(test == null ? text : test, (ViewGroup) aboutHtml);
