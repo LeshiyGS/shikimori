@@ -24,7 +24,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.ANIMES));
+        query.invalidateCache(getLoadPath());
         loadData();
     }
 
@@ -38,7 +38,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
 
     @Override
     public void loadData() {
-        query.init(ShikiApi.getUrl(getLoadPath()), StatusResult.TYPE.ARRAY)
+        query.init(getLoadPath(), StatusResult.TYPE.ARRAY)
             .addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("search", getSearchText())

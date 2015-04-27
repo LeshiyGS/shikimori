@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
+import org.shikimori.library.tool.ProjectTool;
 
 /**
  * Created by LeshiyGS on 30.08.2014.
@@ -15,6 +16,7 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
     protected JSONObject allData;
     protected HelperObj helper;
     public ItemImage image;
+    public String poster;
 
     @Override
     public String toString() {
@@ -46,6 +48,8 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
         episodesAired = episodes;
 
         image = new ItemImage(json.optJSONObject("image"));
+        // use image field instead of this
+        poster = ProjectTool.fixUrl(json.optString("image"));
         return this;
     }
 

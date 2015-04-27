@@ -29,6 +29,9 @@ public class AMAdapter extends BaseAnimeGridAdapter<AMShiki> {
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);
-        ImageLoader.getInstance().displayImage(item.image.original, holder.ivImage);
+        if(item.image == null || item.image.original == null)
+            ImageLoader.getInstance().displayImage(item.poster, holder.ivImage);
+        else
+            ImageLoader.getInstance().displayImage(item.image.original, holder.ivImage);
     }
 }

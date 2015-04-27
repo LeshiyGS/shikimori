@@ -6,7 +6,10 @@ import org.shikimori.library.R;
 import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.CharacterDetailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
+import org.shikimori.library.fragments.FavoriteFragment;
+import org.shikimori.library.fragments.InfoMediaFragment;
 import org.shikimori.library.fragments.MangaDeatailsFragment;
+import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Феофилактов on 07.04.2015.
@@ -18,6 +21,7 @@ public class ShowPageActivity extends PageActivity {
     public static final int TOPIC_PAGE = 3;
     public static final int OFTOPIC_PAGE = 4;
     public static final int CHARACTER_PAGE = 5;
+    public static final int FAVORITES_PAGE = 6;
     protected Bundle params;
 
     @Override
@@ -40,6 +44,9 @@ public class ShowPageActivity extends PageActivity {
             addPageFragment(CharacterDetailsFragment.newInstance(params), R.string.character);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
             showPages();
+        } else if(page == FAVORITES_PAGE){
+            loadPage(FavoriteFragment.newInstance());
+            setTitle(R.string.favorite);
         } else if(page == OFTOPIC_PAGE){
             loadPage(DiscusionFragment.newInstance(params));
         }

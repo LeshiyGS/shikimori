@@ -11,6 +11,10 @@ public class FragmentPageAdapter extends
         FragmentPagerAdapter {
     List<Fragment> pagesFrags;
 
+    public FragmentPageAdapter(FragmentManager fragmentManager) {
+		super(fragmentManager);
+    }
+
     public FragmentPageAdapter(FragmentManager fragmentManager, List<Fragment> pagesFrags) {
 		super(fragmentManager);
         this.pagesFrags = pagesFrags;
@@ -22,12 +26,16 @@ public class FragmentPageAdapter extends
 
     @Override
     public Fragment getItem(int position) {
-        return pagesFrags.get(position);
+        if(pagesFrags!=null)
+            return pagesFrags.get(position);
+        return null;
     }
 
     @Override
     public int getCount() {
-        return pagesFrags.size();
+        if(pagesFrags!=null)
+            return pagesFrags.size();
+        return 0;
     }
 
 }

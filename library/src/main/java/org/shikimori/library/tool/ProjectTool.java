@@ -124,4 +124,12 @@ public class ProjectTool {
             return c.getString(R.string.manga);
         return "";
     }
+
+    public static TYPE getTypeFromUrl(String url){
+        if(url.contains("anime"))
+            return TYPE.ANIME;
+        else if(url.contains("manga"))
+            return TYPE.MANGA;
+        return null;
+    }
 }

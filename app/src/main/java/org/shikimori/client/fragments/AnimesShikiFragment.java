@@ -1,21 +1,26 @@
 package org.shikimori.client.fragments;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
 import org.shikimori.client.activity.AnimeDetailsActivity;
-import org.shikimori.library.fragments.AnimesFragment;
+import org.shikimori.library.fragments.InfoMediaFragment;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Владимир on 31.03.2015.
  */
-public class AnimesShikiFragment extends AnimesFragment {
+public class AnimesShikiFragment extends InfoMediaFragment {
 
     public static AnimesShikiFragment newInstance() {
-        return new AnimesShikiFragment();
+        Bundle b = new Bundle();
+        b.putString(Constants.TYPE, Constants.ANIME);
+        AnimesShikiFragment frag = new AnimesShikiFragment();
+        frag.setArguments(b);
+        return frag;
     }
 
 

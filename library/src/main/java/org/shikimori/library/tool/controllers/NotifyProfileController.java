@@ -1,5 +1,6 @@
 package org.shikimori.library.tool.controllers;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -7,6 +8,7 @@ import android.widget.AdapterView;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NotifyProfileAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.UserHistoryFragment;
@@ -15,6 +17,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
@@ -104,6 +107,11 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             mContext.loadPage(UserNewsFragment.newInstance(Constants.INBOX));
         else if (id == HISTORY)
             mContext.loadPage(UserHistoryFragment.newInstance());
+        else if (id == FAVORITE){
+            Intent i = new Intent(mContext, ShowPageActivity.class);
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.FAVORITES_PAGE);
+            mContext.startActivity(i);
+        }
     }
 
     public class Item{

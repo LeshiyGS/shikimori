@@ -15,6 +15,7 @@ public interface ShikiPath {
     public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
     public String MESSAGES = "api/users/:id/messages";
     public String HISTORY = "api/users/:id/history";
+    public String FAVOURITES = "api/users/:id/favourites";
     public String TOPICS_ID = "api/topics/";
     public String CHARACTER_ID = "api/characters/";
     //    public String AUTH = "users/sign_in";

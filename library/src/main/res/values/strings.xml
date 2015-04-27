@@ -84,4 +84,8 @@
     <string name="character">Персонаж</string>
     <string name="name">Имя</string>
     <string name="inbox">Почта</string>
+    <string name="people">Люди</string>
+    <string name="mangakas">Мангаки</string>
+    <string name="seyu">Сейю</string>
+    <string name="producers">Продюссеры</string>
 </resources>

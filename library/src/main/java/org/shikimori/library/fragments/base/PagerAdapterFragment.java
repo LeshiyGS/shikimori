@@ -16,6 +16,8 @@ import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.interfaces.PageNextlistener;
 import org.shikimori.library.tool.h;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ru.altarix.ui.ExSlidingTabLayout;
@@ -45,17 +47,13 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     /**
      * Current page
      */
-    private String[] titles;
+    private List<String> titles;
 
     public static PagerAdapterFragment newInstance(List<Fragment> wizardPages, String ... titles){
         PagerAdapterFragment frag = new PagerAdapterFragment();
         frag.setPages(wizardPages);
-        frag.setTitles(titles);
+        frag.setTitles(new ArrayList<>(Arrays.asList(titles)));
         return frag;
-    }
-
-    private void setTitles(String[] titles) {
-        this.titles = titles;
     }
 
     @Override
@@ -63,8 +61,21 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         super.onCreate(savedInstanceState);
     }
 
-    private void setPages(List<Fragment> pages) {
+    protected void setTitles(List<String> titles) {
+        this.titles = titles;
+    }
+
+    protected void setPages(List<Fragment> pages) {
         this.pages = pages;
+    }
+
+    protected void addPage(Fragment frag, String title){
+        if(pages == null){
+            pages = new ArrayList<>();
+            titles = new ArrayList<>();
+        }
+        pages.add(frag);
+        titles.add(title);
     }
 
     @Override
@@ -78,8 +89,21 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        showPages();
+    }
 
-        pageAdapter = new FragmentPageAdapter(activity.getSupportFragmentManager(), pages);
+    protected FragmentPageAdapter getPagerAdapter(){
+        return new FragmentPageAdapter(activity.getSupportFragmentManager(), pages);
+    }
+
+    void showPages(){
+        if(titles == null || pages == null)
+            return;
+        buildPages();
+    }
+
+    protected void buildPages(){
+        pageAdapter = getPagerAdapter();
         pager.setAdapter(pageAdapter);
         int colorId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrSelectedColorTab);
         int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
@@ -90,9 +114,12 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         int clrIndicator = activity.getResources().getColor(colorIndicator);
         // set colors
         pagerStrip.setSelectedIndicatorColors(clrIndicator);
-        pagerStrip.setTextColors(clr,clrNotSelected);
-
-        pagerStrip.setTitles(titles);
+        pagerStrip.setTextColors(clr, clrNotSelected);
+        if(titles!=null){
+            String[] titlesArray = new String[titles.size()];
+            titles.toArray(titlesArray); // fill the array
+            pagerStrip.setTitles(titlesArray);
+        }
         pagerStrip.setViewPager(pager);
     }
 
