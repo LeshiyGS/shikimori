@@ -4,12 +4,11 @@ import android.content.Context;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
-import org.shikimori.library.objects.ItemClubShiki;
-import org.shikimori.library.objects.ItemUserShiki;
+import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.tool.h;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ import java.util.List;
 public class ClubCardStyleAdapter extends BaseCardGridAdapter<ItemClubShiki> {
 
     public ClubCardStyleAdapter(Context context, List<ItemClubShiki> list) {
-        super(context, list);
+        super(context, list, R.layout.item_shiki_card_grid);
     }
 
     @Override

@@ -12,6 +12,8 @@ import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.PaggingGridView2;
 import org.shikimori.library.tool.h;
 
+import java.util.List;
+
 /**
  * Created by Владимир on 31.03.2015.
  */
@@ -70,5 +72,12 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseActivity
         else
             h.setVisible(footerGridLoading, true);
         gvList.setHasMoreItems(more);
+    }
+
+    @Override
+    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+        super.prepareData(list, removeLastItem, limitOver);
+        if(page == DEFAULT_FIRST_PAGE)
+            gvList.scrollTo(0,0);
     }
 }

@@ -1,6 +1,7 @@
 package org.shikimori.library.adapters.base;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +17,10 @@ import java.util.List;
 public abstract class BaseCardGridAdapter<T> extends SimpleBaseAdapter<T, BaseCardGridAdapter.ViewHolder> {
 
     public BaseCardGridAdapter(Context context, List<T> list) {
-        super(context, list, R.layout.item_shiki_card_grid);
+        this(context, list, R.layout.item_shiki_anime_grid);
+    }
+    public BaseCardGridAdapter(Context context, List<T> list, @LayoutRes int layout) {
+        super(context, list, layout);
     }
 
     @Override

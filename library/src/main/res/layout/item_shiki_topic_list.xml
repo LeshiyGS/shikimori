@@ -2,111 +2,114 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/defaultPadding4"
     android:paddingLeft="@dimen/defaultPaddingMini"
     android:paddingRight="@dimen/defaultPaddingMini"
-    android:paddingTop="@dimen/defaultPadding4"
-    android:paddingBottom="@dimen/defaultPadding4">
+    android:paddingTop="@dimen/defaultPadding4">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shiki_list_selector"
-        android:layout_gravity="right|bottom">
+        android:layout_gravity="right|bottom"
+        android:background="@drawable/shiki_list_selector">
 
-        <ImageView
-            android:id="@+id/ivUser"
-            android:layout_width="@dimen/defaultPadding58"
-            android:layout_height="@dimen/defaultPadding58" />
-
-        <TextView
-            android:id="@+id/tvSection"
-            android:layout_width="@dimen/paddingMfcQueueTime"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            style="@style/notyfy_style_blue"
-            android:lines="1"
-            android:ellipsize="end"
-            />
-
-        <ImageView
-            android:id="@+id/ivPoster"
-            android:layout_width="@dimen/paddingMfcQueueTime"
-            android:layout_height="@dimen/paddingCommentDesc"
-            android:layout_below="@+id/tvSection"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:scaleType="centerCrop"
-            />
-
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
+            android:id="@+id/llConntent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/ivPoster"
-            android:layout_toStartOf="@+id/ivPoster"
-            android:layout_toRightOf="@+id/ivUser"
-            android:layout_toEndOf="@+id/ivUser"
-            android:layout_marginLeft="@dimen/defaultPaddingMini"
-            android:layout_marginRight="@dimen/defaultPaddingMini"
-            android:id="@+id/linearLayout">
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivUser"
+                android:layout_width="@dimen/defaultPadding58"
+                android:layout_height="@dimen/defaultPadding58" />
 
             <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvSection"
+                style="@style/notyfy_style_blue"
+                android:layout_width="@dimen/paddingMfcQueueTime"
                 android:layout_height="wrap_content"
-                style="@style/altarixUiText"
-                android:textStyle="bold" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:ellipsize="end"
+                android:lines="1" />
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/altarixUiLabel.mini" />
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/altarixUiText"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shiki_item_selector"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:padding="@dimen/defaultPaddingMini"
-                style="@style/altarixUiLabel"
-                android:textColor="@color/white_overlay_80"
-                android:text="@string/open_details"
-                />
+            <ImageView
+                android:id="@+id/ivPoster"
+                android:layout_width="@dimen/paddingMfcQueueTime"
+                android:layout_height="@dimen/paddingCommentDesc"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tvSection"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
-                android:id="@+id/llBodyHtml"
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:layout_marginLeft="@dimen/defaultPaddingMini"
+                android:layout_marginRight="@dimen/defaultPaddingMini"
+                android:layout_toEndOf="@+id/ivUser"
+                android:layout_toLeftOf="@+id/ivPoster"
+                android:layout_toRightOf="@+id/ivUser"
+                android:layout_toStartOf="@+id/ivPoster"
                 android:orientation="vertical">
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/altarixUiText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvDate"
+                    style="@style/altarixUiLabel.mini"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="@style/altarixUiText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvText"
+                    style="@style/altarixUiLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/defaultPaddingMini"
+                    android:background="@drawable/shiki_item_selector"
+                    android:padding="@dimen/defaultPaddingMini"
+                    android:text="@string/open_details"
+                    android:textColor="@color/white_overlay_80" />
+
+                <LinearLayout
+                    android:id="@+id/llBodyHtml"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/defaultPaddingMini"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvCountComments"
+            style="@style/altarixUiLabel.mini"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_action_comments"
-            android:drawableStart="@drawable/ic_action_comments"
-            android:drawablePadding="@dimen/defaultPaddingMini"
-            style="@style/altarixUiLabel.mini"
-            android:gravity="center_vertical"
+            android:layout_alignEnd="@+id/llConntent"
+            android:layout_alignRight="@+id/llConntent"
+            android:layout_below="@+id/llConntent"
             android:layout_gravity="right|bottom"
-            android:layout_alignRight="@+id/linearLayout"
-            android:layout_alignEnd="@+id/linearLayout"
-            android:layout_below="@+id/linearLayout" />
+            android:drawableLeft="@drawable/ic_action_comments"
+            android:drawablePadding="@dimen/defaultPaddingMini"
+            android:drawableStart="@drawable/ic_action_comments"
+            android:gravity="center_vertical" />
     </RelativeLayout>
 
 </FrameLayout>

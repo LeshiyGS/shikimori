@@ -46,10 +46,14 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     ArrayAdapter adapter;
     private BackGroubdLoader<? extends OnViewBuildLister> backBuilder;
 
+    protected boolean isOptionsMenu(){
+        return true;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(isOptionsMenu());
     }
 
     /**
@@ -111,9 +115,10 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(getActionBarMenu(menu, inflater), inflater);
+        activity.supportInvalidateOptionsMenu();
     }
 
-    private void inflateSearch(Menu menu) {
+    protected void inflateSearch(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.anime_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);

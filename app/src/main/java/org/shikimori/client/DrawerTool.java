@@ -35,9 +35,6 @@ public class DrawerTool {
     private DrawerAdapter mDrawerAdapter;
     private int launchId =-1;
 
-
-    private List<Fragment> pageList;
-
     public DrawerTool(BaseActivity context){
         this.activity = context;
         initDrawer();
@@ -146,7 +143,7 @@ public class DrawerTool {
             frag = TopicsShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_COMUNITY_ID) {
             String[] titles = new String[]{ activity.getString(R.string.users), activity.getString(R.string.clubs)};
-            pageList = new ArrayList<>();
+            ArrayList<Fragment> pageList = new ArrayList<>();
             pageList.add(CommunityUsersFragment.newInstance());
             pageList.add(CommunityClubsFragment.newInstance());
             frag = PagerAdapterFragment.newInstance(

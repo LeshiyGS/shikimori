@@ -364,7 +364,6 @@ public class ThumbToImage {
             } else {
                 wraper = (View) back.getParent();
             }
-
             expandedImage = (ImageView) root.findViewById(R.id.expanded_image);
             mAttacher = new PhotoViewAttacher(expandedImage);
             pbLoaderExpanded = (ProgressBar) root.findViewById(R.id.pbLoaderExpanded);

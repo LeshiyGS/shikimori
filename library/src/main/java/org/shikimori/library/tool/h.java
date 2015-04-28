@@ -27,6 +27,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -77,6 +78,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -735,6 +737,22 @@ public class h {
                 .showImageOnFail(R.drawable.missing_preview)
                 .resetViewBeforeLoading(false)
                 .displayer(new FadeInBitmapDisplayer(400, true, true, false));
+    }
+
+    public static String getTimeAgo(String date) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        df.setTimeZone(TimeZone.getDefault());
+        try {
+            Date d = df.parse(date);
+
+            long epoch = d.getTime();
+
+            return (String) DateUtils.getRelativeTimeSpanString(epoch, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return getStringDate("dd/MM/yyyy", new Date());
     }
 
 }

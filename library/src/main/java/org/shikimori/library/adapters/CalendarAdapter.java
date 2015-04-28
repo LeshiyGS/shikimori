@@ -5,7 +5,7 @@ import android.content.Context;
 import org.shikimori.library.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.shikimori.library.adapters.base.BaseAnimeGridAdapter;
+import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import org.shikimori.library.tool.h;
@@ -15,14 +15,14 @@ import java.util.List;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class CalendarAdapter extends BaseAnimeGridAdapter<ItemCaclendarShiki> {
+public class CalendarAdapter extends BaseCardGridAdapter<ItemCaclendarShiki> {
 
     public CalendarAdapter(Context context, List<ItemCaclendarShiki> list) {
         super(context, list);
     }
 
     @Override
-    public void setValues(BaseAnimeGridAdapter.ViewHolder holder, ItemCaclendarShiki item) {
+    public void setValues(BaseCardGridAdapter.ViewHolder holder, ItemCaclendarShiki item) {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
 

@@ -2,22 +2,19 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.UserCardStyleAdapter;
-import org.shikimori.library.fragments.base.abstracts.BaseCardGridViewFragment;
+import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemUserShiki;
+import org.shikimori.library.objects.one.ItemUserShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 
 import java.util.List;
@@ -26,20 +23,7 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class CommunityUsersFragment extends BaseCardGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
-
-    @Override
-    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater){
-        inflater.inflate(R.menu.community_menu, menu);
-        inflateSearch(menu);
-        return menu;
-    }
-
-    private void inflateSearch(Menu menu) {
-        MenuItem searchItem = menu.findItem(R.id.anime_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(this);
-    }
+public class CommunityUsersFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     public static CommunityUsersFragment newInstance() {
         return new CommunityUsersFragment();
@@ -51,13 +35,13 @@ public class CommunityUsersFragment extends BaseCardGridViewFragment implements 
     }
 
     protected String getLoadPath() {
-        return ShikiPath.GET_USERS_LIST;
+        return ShikiApi.getUrl(ShikiPath.GET_USERS_LIST);
     }
 
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USERS_LIST));
+        query.invalidateCache(getLoadPath());
         loadData();
     }
 
@@ -69,7 +53,7 @@ public class CommunityUsersFragment extends BaseCardGridViewFragment implements 
 
     @Override
     public void loadData() {
-        query.init(ShikiApi.getUrl(getLoadPath()), StatusResult.TYPE.ARRAY)
+        query.init(getLoadPath(), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("search", getSearchText())
@@ -87,6 +71,13 @@ public class CommunityUsersFragment extends BaseCardGridViewFragment implements 
     @Override
     public ArrayAdapter<ItemUserShiki> getAdapter(List<?> list) {
         return new UserCardStyleAdapter(activity, (List<ItemUserShiki>) list);
+    }
+
+    @Override
+    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.community_menu, menu);
+        inflateSearch(menu);
+        return menu;
     }
 
 }

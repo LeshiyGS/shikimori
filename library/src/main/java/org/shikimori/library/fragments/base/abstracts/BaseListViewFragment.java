@@ -12,6 +12,8 @@ import com.paging.listview.PagingListView;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 
+import java.util.List;
+
 /**
  * Created by Владимир on 31.03.2015.
  */
@@ -61,6 +63,13 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
         if(state!=null)
             lvList.onRestoreInstanceState(state);
         state = null;
+    }
+
+    @Override
+    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+        super.prepareData(list, removeLastItem, limitOver);
+        if(page == DEFAULT_FIRST_PAGE)
+            lvList.scrollTo(0,0);
     }
 
     /**

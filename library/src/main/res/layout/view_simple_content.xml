@@ -13,31 +13,4 @@
         android:layout_height="match_parent"/>
 
         <!-- The navigation drawer -->
-
-    <FrameLayout
-        android:id="@+id/llbackExpandedImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#70000000"
-        android:visibility="invisible"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/expanded_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ProgressBar
-            android:id="@+id/pbLoaderExpanded"
-            android:layout_width="100dp"
-            android:layout_height="4dp"
-            android:padding="1px"
-            android:background="@color/image_loader_color"
-            android:visibility="gone"
-            android:progressDrawable="@drawable/seek_background_mini"
-            style="@style/progresbarspiner"
-            android:max="100" />
-    </FrameLayout>
-    <!--android:progressDrawable="@drawable/seek_background_mini"-->
-
 </FrameLayout>
