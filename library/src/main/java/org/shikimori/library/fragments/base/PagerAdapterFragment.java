@@ -14,6 +14,7 @@ import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.FragmentPageAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.interfaces.PageNextlistener;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
@@ -56,6 +57,14 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         return frag;
     }
 
+    public static PagerAdapterFragment newInstance(String titleActionBar, List<Fragment> wizardPages, String ... titles){
+        PagerAdapterFragment frag = newInstance(wizardPages, titles);
+        Bundle b = new Bundle();
+        b.putString(Constants.ACTION_BAR_TITLE, titleActionBar);
+        frag.setArguments(b);
+        return frag;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +89,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_pager_fragment, null);
+        View v = inflater.inflate(R.layout.view_shiki_pager_fragment, container, false);
         pagerStrip = (ExSlidingTabLayout)v.findViewById(R.id.pagerStrip);
         pager = (ViewPager) v.findViewById(R.id.viewPager);
         return v;

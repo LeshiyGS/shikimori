@@ -15,6 +15,7 @@ import org.shikimori.client.fragments.CalendarShikiFragment;
 import org.shikimori.client.fragments.MangasShikiFragment;
 import org.shikimori.client.fragments.TopicsShikiFragment;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.fragments.CalendarFragment;
 import org.shikimori.library.fragments.CommunityClubsFragment;
 import org.shikimori.library.fragments.CommunityUsersFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
@@ -147,6 +148,7 @@ public class DrawerTool {
             pageList.add(CommunityUsersFragment.newInstance());
             pageList.add(CommunityClubsFragment.newInstance());
             frag = PagerAdapterFragment.newInstance(
+                    activity.getString(R.string.community),
                     pageList,
                     titles
             );

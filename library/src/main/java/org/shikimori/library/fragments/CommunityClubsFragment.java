@@ -32,10 +32,10 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
         return false;
     }
 
-    @Override
-    public int getActionBarTitle() {
-        return R.string.community;
-    }
+//    @Override
+//    public int getActionBarTitle() {
+//        return R.string.community;
+//    }
 
     protected String getLoadPath() {
         return ShikiApi.getUrl(ShikiPath.GET_CLUBS_LIST);

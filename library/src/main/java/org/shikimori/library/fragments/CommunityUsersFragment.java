@@ -29,10 +29,10 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
         return new CommunityUsersFragment();
     }
 
-    @Override
-    public int getActionBarTitle() {
-        return R.string.community;
-    }
+//    @Override
+//    public int getActionBarTitle() {
+//        return R.string.community;
+//    }
 
     protected String getLoadPath() {
         return ShikiApi.getUrl(ShikiPath.GET_USERS_LIST);
