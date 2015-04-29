@@ -37,6 +37,8 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseActivity
     PaggingGridView2.OnEndListListener endGridListener = new PaggingGridView2.OnEndListListener() {
         @Override
         public void endReach() {
+            if(adapter == null || adapter.getCount() == 0)
+                return;
             page++;
             loadData();
         }

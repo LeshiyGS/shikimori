@@ -38,6 +38,8 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
     PagingListView.Pagingable endListListener = new PagingListView.Pagingable() {
         @Override
         public void onLoadMoreItems() {
+            if(adapter == null || adapter.getCount() == 0)
+                return;
             page++;
             loadData();
         }
