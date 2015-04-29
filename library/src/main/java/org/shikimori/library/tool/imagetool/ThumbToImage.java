@@ -8,9 +8,11 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,9 @@ import org.shikimori.library.tool.RelevalCircular;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.h;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 
@@ -57,6 +62,9 @@ public class ThumbToImage {
     RelevalCircular rev;
     private View wraper;
     PhotoViewAttacher mAttacher;
+    private ViewPager viewPager;
+    private ImageView thumbView;
+    private List<Thumb> list;
 
     public ThumbToImage(Activity mContext) {
         this.mContext = mContext;
@@ -64,6 +72,59 @@ public class ThumbToImage {
         rev = new RelevalCircular(mContext);
         initRootView();
     }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public void zoom(final ImageView thumbView, int selectedPosition, List<Thumb> list){
+        this.thumbView = thumbView;
+        this.list = list;
+
+        h.setVisible(wraper, true);
+        h.setVisible(back, true);
+        YoYo.with(Techniques.FadeIn)
+                .duration(300)
+                .playOn(back);
+
+        // Construct and run the parallel animation of the four translation and
+        // scale properties (X, Y, SCALE_X, and SCALE_Y).
+        if(Build.VERSION.SDK_INT > 10){
+            expandedImage.setImageDrawable(thumbView.getDrawable());
+            initBounds();
+            animateIn(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    viewPager.setVisibility(View.VISIBLE);
+                    expandedImage.setVisibility(View.GONE);
+                }
+            });
+        } else
+            viewPager.setVisibility(View.VISIBLE);
+
+        List<View> views = new ArrayList<>();
+
+        for (Thumb thumb : list) {
+            ImageView image = new ImageView(thumbView.getContext());
+
+            image.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+            final PhotoViewAttacher atacher = new PhotoViewAttacher(image);
+            image.setImageDrawable(thumbView.getDrawable());
+            mAttacher.update();
+            iMageLoader.displayImage(thumb.origin, image, new SimpleImageLoadingListener(){
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    super.onLoadingComplete(imageUri, view, loadedImage);
+                    atacher.update();
+                }
+            });
+            views.add(image);
+        }
+        ThumbPagerAdapter adapter = new ThumbPagerAdapter(views);
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(selectedPosition);
+
+    }
+
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void zoom(final ImageView thumbView, String url) {
@@ -167,6 +228,13 @@ public class ThumbToImage {
 
         //iMageLoader.displayImage(imageResId, expandedImageView);
 
+        initBounds();
+        // Construct and run the parallel animation of the four translation and
+        // scale properties (X, Y, SCALE_X, and SCALE_Y).
+        animateIn(null);
+    }
+
+    void initBounds(){
         // Calculate the starting and ending bounds for the zoomed-in image.
         // This step involves lots of math. Yay, math.
         startBounds = new Rect();
@@ -219,14 +287,10 @@ public class ThumbToImage {
         // is the center of the view).
         expandedImage.setPivotX(0f);
         expandedImage.setPivotY(0f);
-
-        // Construct and run the parallel animation of the four translation and
-        // scale properties (X, Y, SCALE_X, and SCALE_Y).
-        animateIn();
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    void animateIn() {
+    void animateIn(final AnimatorListenerAdapter listener) {
         AnimatorSet set = new AnimatorSet();
         set
                 .play(ObjectAnimator.ofFloat(expandedImage, View.X,
@@ -247,8 +311,8 @@ public class ThumbToImage {
                 h.setVisible(pbLoaderExpanded, true);
                 YoYo.with(Techniques.SlideInDown)
                         .playOn(pbLoaderExpanded);
-//                if (pbLoader != null)
-//                    h.startAnimation(pbLoader, R.anim.ug_fadein);
+                if(listener!= null)
+                    listener.onAnimationEnd(animation);
             }
 
             @Override
@@ -261,10 +325,27 @@ public class ThumbToImage {
         mCurrentAnimator = set;
     }
 
+    void clearViewPager(){
+    }
+
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public boolean closeImage() {
         if (wraper.getVisibility() != View.VISIBLE)
             return false;
+
+        viewPager.setVisibility(View.GONE);
+        if(Build.VERSION.SDK_INT < 11){
+            wraper.setVisibility(View.GONE);
+            viewPager.setAdapter(null);
+            return true;
+        }
+
+        boolean isViewPagerOpen = viewPager.getChildCount() > 0;
+
+        if(isViewPagerOpen){
+            ImageView img = (ImageView) viewPager.getChildAt(viewPager.getCurrentItem());
+            expandedImage.setImageDrawable(img.getDrawable());
+        }
 
         YoYo.with(Techniques.FadeOut)
             .duration(200)
@@ -277,13 +358,16 @@ public class ThumbToImage {
             })
             .playOn(back);
         h.setVisibleGone(pbLoaderExpanded);
+        h.setVisible(expandedImage, true);
 
-        if (Build.VERSION.SDK_INT > 20) {
+
+        if (!isViewPagerOpen && Build.VERSION.SDK_INT > 20) {
             rev.closeReleval(new RelevalCircular.OnCircleEndAnimation() {
                 @Override
                 public void animateEnd() {
                     expandedImage.setImageDrawable(null);
                     h.setVisible(wraper, false);
+                    viewPager.setAdapter(null);
 //                    mAttacher.cleanup();
                 }
             });
@@ -316,6 +400,7 @@ public class ThumbToImage {
                 //thumbView.setAlpha(1f);
                 //back.setVisibility(View.GONE);
                 expandedImage.setImageDrawable(null);
+                viewPager.setAdapter(null);
                 h.setVisible(wraper, false);
 //                mAttacher.cleanup();
                 //expandedImageView.setVisibility(View.GONE);
@@ -367,6 +452,33 @@ public class ThumbToImage {
             expandedImage = (ImageView) root.findViewById(R.id.expanded_image);
             mAttacher = new PhotoViewAttacher(expandedImage);
             pbLoaderExpanded = (ProgressBar) root.findViewById(R.id.pbLoaderExpanded);
+            viewPager = (ViewPager) root.findViewById(R.id.viewPager);
+        }
+    }
+
+    public static class Thumb{
+        String thumb;
+        String origin;
+        public Thumb(String thumb, String origin){
+            this.thumb = thumb;
+            this.origin = origin;
+        }
+        public Thumb(){}
+
+        public String getOrigin() {
+            return origin;
+        }
+
+        public void setOrigin(String origin) {
+            this.origin = origin;
+        }
+
+        public String getThumb() {
+            return thumb;
+        }
+
+        public void setThumb(String thumb) {
+            this.thumb = thumb;
         }
     }
 }

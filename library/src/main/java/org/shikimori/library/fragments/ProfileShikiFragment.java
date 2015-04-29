@@ -33,10 +33,12 @@ import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.imagetool.ThumbToImage;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.ListPopup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -361,6 +363,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         builder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override
             public void imageClick(PostImage image) {
+
+                List<ThumbToImage.Thumb> list = new ArrayList<ThumbToImage.Thumb>();
+                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+
+//                activity.getThumbToImage().zoom(image.getImage(), 2, list);
                 activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
             }
         });

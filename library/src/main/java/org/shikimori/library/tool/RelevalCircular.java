@@ -202,7 +202,8 @@ public class RelevalCircular {
                         l.animateEnd();
                 }
             }));
-        }
+        } else if(l!=null)
+                l.animateEnd();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
