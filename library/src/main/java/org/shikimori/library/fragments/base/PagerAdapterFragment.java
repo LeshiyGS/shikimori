@@ -105,7 +105,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         return new FragmentPageAdapter(activity.getSupportFragmentManager(), pages);
     }
 
-    void showPages(){
+    protected void showPages(){
         if(titles == null || pages == null)
             return;
         buildPages();

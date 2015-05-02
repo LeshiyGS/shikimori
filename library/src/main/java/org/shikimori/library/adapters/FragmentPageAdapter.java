@@ -3,12 +3,13 @@ package org.shikimori.library.adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentPageAdapter extends
-        FragmentPagerAdapter {
+        FragmentStatePagerAdapter {
     List<Fragment> pagesFrags;
 
     public FragmentPageAdapter(FragmentManager fragmentManager) {

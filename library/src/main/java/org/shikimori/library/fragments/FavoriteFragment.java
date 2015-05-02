@@ -21,10 +21,7 @@ import java.util.List;
 /**
  * Created by Владимир on 27.04.2015.
  */
-public class FavoriteFragment extends PagerAdapterFragment implements Query.OnQuerySuccessListener {
-
-    List<List<AMShiki>> pages = new ArrayList<>();
-    String[] titles;
+public class FavoriteFragment extends PagerAdapterFragment {
 
     public static FavoriteFragment newInstance() {
         return new FavoriteFragment();
@@ -41,64 +38,39 @@ public class FavoriteFragment extends PagerAdapterFragment implements Query.OnQu
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        loadData();
+
+        addPage(FavoriteListFragment.newInstance(0),  activity.getString(R.string.anime));
+        addPage(FavoriteListFragment.newInstance(1),  activity.getString(R.string.manga));
+        addPage(FavoriteListFragment.newInstance(2),  activity.getString(R.string.chapters));
+        addPage(FavoriteListFragment.newInstance(3),  activity.getString(R.string.people));
+        addPage(FavoriteListFragment.newInstance(4),  activity.getString(R.string.mangakas));
+        addPage(FavoriteListFragment.newInstance(5),  activity.getString(R.string.seyu));
+        addPage(FavoriteListFragment.newInstance(6),  activity.getString(R.string.producers));
+
+        showPages();
+
     }
 
-    private void loadData() {
-        activity.getLoaderController().show();
-        query.init(ShikiApi.getUrl(ShikiPath.FAVOURITES, getUserId()))
-            .setCache(true, Query.DAY)
-            .getResult(this);
-    }
+//
+//    @Override
+//    protected FragmentPageAdapter getPagerAdapter() {
+//        return new FragmentPageAdapter(activity.getSupportFragmentManager()){
+//
+//            @Override
+//            public Fragment getItem(int position) {
+//                return FavoriteListFragment.newInstance(pages.get(position));
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return titles.length;
+//            }
+//
+//            @Override
+//            public CharSequence getPageTitle(int position) {
+//                return titles[position];
+//            }
+//        };
+//    }
 
-    @Override
-    protected FragmentPageAdapter getPagerAdapter() {
-        return new FragmentPageAdapter(activity.getSupportFragmentManager()){
-
-            @Override
-            public Fragment getItem(int position) {
-                return FavoriteListFragment.newInstance(pages.get(position));
-            }
-
-            @Override
-            public int getCount() {
-                return titles.length;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return titles[position];
-            }
-        };
-    }
-
-    @Override
-    public void onQuerySuccess(StatusResult res) {
-        if(activity == null)
-            return;
-        activity.getLoaderController().hide();
-        JSONObject data = res.getResultObject();
-        if(data == null)
-            return;
-
-        titles = new String[]{
-            activity.getString(R.string.anime),
-            activity.getString(R.string.manga),
-            activity.getString(R.string.characters),
-            activity.getString(R.string.people),
-            activity.getString(R.string.mangakas),
-            activity.getString(R.string.seyu),
-            activity.getString(R.string.producers),
-        };
-
-        ObjectBuilder<AMShiki> builder = new ObjectBuilder<>(data.optJSONArray("animes"), AMShiki.class);
-        pages.add(builder.getDataList());
-        pages.add(builder.getList(data.optJSONArray("mangas"), AMShiki.class));
-        pages.add(builder.getList(data.optJSONArray("characters"), AMShiki.class));
-        pages.add(builder.getList(data.optJSONArray("people"), AMShiki.class));
-        pages.add(builder.getList(data.optJSONArray("mangakas"), AMShiki.class));
-        pages.add(builder.getList(data.optJSONArray("seyu"), AMShiki.class));
-        pages.add(builder.getList(data.optJSONArray("producers"), AMShiki.class));
-        buildPages();
-    }
 }

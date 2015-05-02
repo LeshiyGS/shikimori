@@ -209,6 +209,12 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adapter = null;
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if(backBuilder!=null)
