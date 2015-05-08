@@ -1,5 +1,6 @@
 package org.shikimori.library.adapters.holder;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -8,4 +9,5 @@ import android.widget.TextView;
  */
 public class MessageHolder extends BaseHolder{
     public ImageView ivPoster;
+    public View tvRead;
 }

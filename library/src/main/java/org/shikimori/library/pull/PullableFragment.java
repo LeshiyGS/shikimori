@@ -69,6 +69,8 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
         if (swipeLayout != null && color!=0){
             swipeLayout.setColorSchemeResources(color);
         }
+
+        query.setSwipeLoader(swipeLayout);
     }
 
     public SwipeRefreshLayout getPullToRefreshLayout() {

@@ -131,7 +131,9 @@ public class UserNewsFragment extends BaseListViewFragment {
 
     @Override
     public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        return new NewsUserAdapter(activity, list);
+        NewsUserAdapter adptr = new NewsUserAdapter(activity, query, list);
+        adptr.setType(type);
+        return adptr;
     }
 
     @Override

@@ -9,9 +9,10 @@ import org.shikimori.library.objects.abs.JsonParseable;
  */
 public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Creator<ItemNewsUserShiki> {
 
-    public String id, kind, read, body, htmlBody, createdAt;
+    public String id, kind, body, htmlBody, createdAt;
     public Linked linked;
     public ItemUser from, to;
+    public boolean read;
 
     public static ItemNewsUserShiki create(JSONObject json){
         return new ItemNewsUserShiki().createFromJson(json);
@@ -24,7 +25,7 @@ public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Cr
 
         id = HelperObj.getString(json, "id");
         kind = HelperObj.getString(json, "kind");
-        read = HelperObj.getString(json, "read");
+        read = json.optBoolean("read");
         body = HelperObj.getString(json, "body");
         htmlBody = HelperObj.getString(json, "html_body");
         createdAt = HelperObj.getString(json, "created_at");

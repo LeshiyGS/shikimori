@@ -13,6 +13,7 @@ public interface ShikiPath {
     public String MANGAS_ID = "api/mangas/";
     public String TOPICS = "api/topics";
     public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
+    public String READ_MESSAGE = "messages/mark_read";
     public String MESSAGES = "api/users/:id/messages";
     public String HISTORY = "api/users/:id/history";
     public String FAVOURITES = "api/users/:id/favourites";

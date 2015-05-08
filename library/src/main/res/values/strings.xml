@@ -96,4 +96,5 @@
     <string name="set_message">Заполните сообщение</string>
     <string name="answer">Цитировать</string>
     <string name="delete">Удалить</string>
+    <string name="newtext">Новое</string>
 </resources>

@@ -17,6 +17,19 @@
             android:layout_width="@dimen/defaultPadding58"
             android:layout_height="@dimen/defaultPadding58" />
 
+        <TextView
+            android:id="@+id/tvRead"
+            android:layout_width="@dimen/defaultPadding58"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="none"
+            android:layout_below="@+id/ivUser"
+            android:layout_marginTop="@dimen/defaultPaddingMini"
+            android:text="@string/newtext"
+            style="@style/notyfy_style_blue"
+            android:visibility="gone"
+            />
+
         <ImageView
             android:id="@+id/ivPoster"
             android:layout_width="@dimen/defaultPadding58"

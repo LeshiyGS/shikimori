@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserLister;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -53,6 +55,7 @@ public class Query {
     private long timeCache = HALFHOUR; // 30 минут
     private DbCache dbCache;
     private boolean useAutorization;
+    private SwipeRefreshLayout loaderSwipe;
 
     public enum METHOD {
         GET, POST, DELETE
@@ -153,6 +156,10 @@ public class Query {
 
     public Query setLoader(LoaderController loaderView) {
         this.loaderController = loaderView;
+        return this;
+    }
+    public Query setSwipeLoader(SwipeRefreshLayout loaderSwipe) {
+        this.loaderSwipe = loaderSwipe;
         return this;
     }
 
@@ -288,6 +295,7 @@ public class Query {
         StatusResult stat = new StatusResult();
         String dataString = null;
         try {
+
             dataString = new String(bytes);
             JSONObject data = new JSONObject(dataString);
             if (data.has("error")) {
@@ -343,6 +351,8 @@ public class Query {
             pd.dismiss();
         if (loaderController != null)
             loaderController.hide();
+        if(loaderSwipe!=null)
+            loaderSwipe.setRefreshing(false);
     }
 
     boolean showError(StatusResult res) {

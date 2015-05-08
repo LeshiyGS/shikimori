@@ -81,7 +81,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
     @Override
     public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        return new NewsUserAdapter(activity, list);
+        return new NewsUserAdapter(activity, query, list);
     }
 
     /**
