@@ -9,13 +9,20 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import ru.altarix.ui.tool.TextStyling;
 

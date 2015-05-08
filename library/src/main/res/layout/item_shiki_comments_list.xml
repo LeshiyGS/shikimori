@@ -2,57 +2,84 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/defaultPadding4"
     android:paddingLeft="@dimen/defaultPaddingMini"
     android:paddingRight="@dimen/defaultPaddingMini"
-    android:paddingTop="@dimen/defaultPadding4"
-    android:paddingBottom="@dimen/defaultPadding4">
+    android:paddingTop="@dimen/defaultPadding4">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/shiki_list_selector">
+        android:background="@drawable/shiki_list_selector"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/ivPoster"
             android:layout_width="@dimen/defaultPadding58"
             android:layout_height="@dimen/defaultPadding58" />
 
-        <LinearLayout
-            android:orientation="vertical"
+        <RelativeLayout
+            android:id="@+id/wrapName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/defaultPaddingMini">
+            android:layout_marginLeft="@dimen/defaultPadding"
+            android:layout_marginStart="@dimen/defaultPadding"
+            android:layout_toEndOf="@+id/ivPoster"
+            android:layout_toRightOf="@+id/ivPoster">
 
             <TextView
                 android:id="@+id/tvName"
+                style="@style/altarixUiText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/icSettings"
+                android:layout_toStartOf="@+id/icSettings"
+                android:text="test"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/icSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/altarixUiText"
-                android:textStyle="bold" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_menu_moreoverflow" />
 
             <TextView
                 android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
+                style="@style/altarixUiLabel.mini"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/altarixUiLabel.mini" />
+                android:layout_below="@+id/tvName"
+                android:text="test" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/defaultPadding"
+            android:layout_marginStart="@dimen/defaultPadding"
+            android:layout_toEndOf="@+id/ivPoster"
+            android:layout_toRightOf="@+id/ivPoster"
+            android:layout_below="@+id/wrapName"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvText"
+                style="@style/altarixUiLabel.miniblack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                style="@style/altarixUiLabel.miniblack" />
+                 />
 
             <LinearLayout
                 android:id="@+id/llBodyHtml"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-
-            </LinearLayout>
+                android:orientation="vertical" />
 
         </LinearLayout>
-    </LinearLayout>
+
+    </RelativeLayout>
 </FrameLayout>

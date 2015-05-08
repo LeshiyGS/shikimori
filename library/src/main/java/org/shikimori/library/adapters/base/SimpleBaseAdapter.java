@@ -37,12 +37,12 @@ public abstract class SimpleBaseAdapter<T,H> extends ArrayAdapter<T> {
         }
 
         T item = getItem(position);
-        setValues(viewHolder, item);
+        setValues(viewHolder, item, position);
 
         return v;
     }
 
-    public abstract void setValues(H holder, T item);
+    public abstract void setValues(H holder, T item, int position);
     public abstract H getViewHolder(View v);
     public void setListeners(H holder){}
 

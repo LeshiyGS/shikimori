@@ -41,7 +41,7 @@ public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<
     }
 
     @Override
-    public void setValues(H holder, T item) {
+    public void setValues(H holder, T item, int position) {
 
     }
 

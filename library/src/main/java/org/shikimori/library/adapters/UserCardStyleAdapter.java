@@ -28,7 +28,7 @@ public class UserCardStyleAdapter extends BaseCardGridAdapter<ItemUserShiki> {
     }
 
     @Override
-    public void setValues(ViewHolder holder, ItemUserShiki item) {
+    public void setValues(ViewHolder holder, ItemUserShiki item, int position) {
         holder.tvTitle.setText(item.nickname);
         long time = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.last_online_at).getTime();
         long curTime = System.currentTimeMillis() - Query.FIVE_MIN;

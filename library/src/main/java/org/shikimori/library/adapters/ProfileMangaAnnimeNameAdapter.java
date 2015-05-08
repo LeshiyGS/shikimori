@@ -40,7 +40,7 @@ public class ProfileMangaAnnimeNameAdapter extends SimpleBaseAdapter<AnimeManga,
     }
 
     @Override
-    public void setValues(AnimeMangaNamesHolder holder, AnimeManga item) {
+    public void setValues(AnimeMangaNamesHolder holder, AnimeManga item, int position) {
         holder.tvCount.setText(String.valueOf(item.counted));
         holder.tvName.setText(ProjectTool.getListStatusName(
                 getContext(), item.name, type));

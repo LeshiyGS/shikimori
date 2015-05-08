@@ -21,15 +21,23 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
     private PagingListView lvList;
     private Parcelable state;
 
+    protected int getLayoutId(){
+        return R.layout.view_shiki_list;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_list, null);
+        View v = inflater.inflate(getLayoutId(), null);
         lvList = (PagingListView) v.findViewById(R.id.lvList);
         lvList.setHasMoreItems(true);
         lvList.setOnItemClickListener(this);
         lvList.setPagingableListener(endListListener);
         lvList.setOnScrollListener(pauseImageLoading);
         return v;
+    }
+
+    public PagingListView getListView(){
+        return lvList;
     }
 
     /**
@@ -69,9 +77,13 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
 
     @Override
     protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+        state = lvList.onSaveInstanceState();
         super.prepareData(list, removeLastItem, limitOver);
         if(page == DEFAULT_FIRST_PAGE)
             lvList.scrollTo(0,0);
+        else
+            lvList.onRestoreInstanceState(state);
+        state = null;
     }
 
     /**

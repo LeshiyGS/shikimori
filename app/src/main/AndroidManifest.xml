@@ -45,14 +45,18 @@
         </activity>
         <activity
             android:name=".activity.AnimeDetailsActivity"
-            android:configChanges="orientation|screenSize" >
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            >
         </activity>
         <activity
             android:name=".activity.MangaDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" >
         </activity>
         <activity
             android:name=".activity.DrawerShowPageActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" >
         </activity>
     </application>

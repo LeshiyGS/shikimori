@@ -5,9 +5,11 @@
     <application android:allowBackup="true">
         <activity
             android:name=".activity.ShowPageActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".activity.ImageShowActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" />
     </application>
 </manifest>

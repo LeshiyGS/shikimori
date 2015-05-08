@@ -755,4 +755,11 @@ public class h {
         return getStringDate("dd/MM/yyyy", new Date());
     }
 
+    public static void insertTextEditText(EditText et, String text){
+        int start = Math.max(et.getSelectionStart(), 0);
+        int end = Math.max(et.getSelectionEnd(), 0);
+        et.getText().replace(Math.min(start, end), Math.max(start, end),
+                text, 0, text.length());
+    }
+
 }

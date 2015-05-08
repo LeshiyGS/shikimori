@@ -6,9 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,14 +17,10 @@ import com.loopj.android.http.ResponseHandlerInterface;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.shikimori.library.BuildConfig;
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.interfaces.LogouUserLister;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -60,9 +54,10 @@ public class Query {
     private DbCache dbCache;
     private boolean useAutorization;
 
-    public enum METHOD{
-        GET, POST
+    public enum METHOD {
+        GET, POST, DELETE
     }
+
     // cancell all request
     public void onStop() {
         client.cancelAllRequests(true);
@@ -93,6 +88,7 @@ public class Query {
 
     /**
      * Call before make request
+     *
      * @param prefix
      * @return
      */
@@ -106,7 +102,7 @@ public class Query {
         client.removeAllHeaders();
         // add user token
 
-        if(ShikiUser.getToken()!=null){
+        if (ShikiUser.getToken() != null) {
             addHeader("X-User-Nickname", ShikiUser.USER_NAME);
             addHeader("X-User-Api-Access-Token", ShikiUser.getToken());
         }
@@ -117,26 +113,28 @@ public class Query {
 
     /**
      * Call before make request
+     *
      * @param prefix
      * @param type
      * @return
      */
-    public Query init(String prefix, StatusResult.TYPE type){
+    public Query init(String prefix, StatusResult.TYPE type) {
         init(prefix);
         this.type = type;
         return this;
     }
 
-    public Query setMethod(METHOD method){
+    public Query setMethod(METHOD method) {
         this.method = method;
         return this;
     }
 
-    public Query setCache(boolean cache){
+    public Query setCache(boolean cache) {
         this.cache = cache;
         return this;
     }
-    public Query setCache(boolean cache, long time){
+
+    public Query setCache(boolean cache, long time) {
         this.cache = cache;
         this.timeCache = time;
         return this;
@@ -177,13 +175,13 @@ public class Query {
         return this;
     }
 
-    private boolean getCache(OnQuerySuccessListener successListener){
-        if(cache){
+    private boolean getCache(OnQuerySuccessListener successListener) {
+        if (cache) {
             Cursor cur = getDbCache().getData(prefix + params.toString());
-            if(cur.moveToFirst()){
+            if (cur.moveToFirst()) {
                 String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
-                data = data.replace("__|__","'");
-                if(ShikiApi.isDebug)
+                data = data.replace("__|__", "'");
+                if (ShikiApi.isDebug)
                     Log.d(TAG, "cache: " + data);
                 StatusResult res = new StatusResult(data, type);
                 res.setSuccess();
@@ -198,10 +196,10 @@ public class Query {
     }
 
     public void getResult(final OnQuerySuccessListener successListener) {
-        if(ShikiApi.isDebug){
+        if (ShikiApi.isDebug) {
             String p = params.toString();
-            if(method == METHOD.GET){
-                Log.d(TAG, "request: " +prefix + "?"+p);
+            if (method == METHOD.GET) {
+                Log.d(TAG, "request: " + prefix + "?" + p);
             } else {
                 Log.d(TAG, "request: " + prefix);
                 Log.d(TAG, "params: " + p);
@@ -220,26 +218,33 @@ public class Query {
         requestToServer(successListener);
     }
 
-    private void requestToServer(final OnQuerySuccessListener successListener){
-        if(method == METHOD.POST)
+    private void requestToServer(final OnQuerySuccessListener successListener) {
+        if (method == METHOD.POST)
             client.post(prefix, params, getSuccessListener(successListener));
         else if (method == METHOD.GET)
             client.get(prefix, params, getSuccessListener(successListener));
+        else if (method == METHOD.DELETE){
+            String _paramStr = params.toString();
+            if(_paramStr.length() > 0)
+                _paramStr = "?" + _paramStr;
+            client.delete(prefix + _paramStr, getSuccessListener(successListener));
+        }
     }
 
-    RequestData getRequestData(){
+    RequestData getRequestData() {
         RequestData reqData = new RequestData();
         reqData.cache = cache;
         reqData.method = method;
         reqData.timeCache = timeCache;
         reqData.type = type;
-        reqData.requestRow = prefix+params.toString();
+        reqData.requestRow = prefix + params.toString();
         return reqData;
     }
 
     public AsyncHttpResponseHandler getSuccessListener(final OnQuerySuccessListener successListener) {
         return new AsyncHttpResponseHandler() {
             RequestData reqData;
+
             @Override
             public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
                 super.onPreProcessResponse(instance, response);
@@ -248,14 +253,14 @@ public class Query {
 
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                if (context == null){
-                    if(ShikiApi.isDebug)
+                if (context == null) {
+                    if (ShikiApi.isDebug)
                         Log.d(TAG, "response success but context is null (no ui return)");
                     return;
                 }
                 String data = new String(bytes);
 
-                if(ShikiApi.isDebug)
+                if (ShikiApi.isDebug)
                     Log.d(TAG, "response: " + data);
 
                 StatusResult res = new StatusResult(data, reqData.type);
@@ -279,16 +284,16 @@ public class Query {
         };
     }
 
-    void failResult(byte[] bytes){
+    void failResult(byte[] bytes) {
         StatusResult stat = new StatusResult();
         String dataString = null;
         try {
             dataString = new String(bytes);
             JSONObject data = new JSONObject(dataString);
-            if(data.has("error")){
+            if (data.has("error")) {
                 String errorMessage = data.optString("error");
-                if(errorMessage.contains("Вам необходимо войти в систему")){
-                    if ((context instanceof LogouUserLister)){
+                if (errorMessage.contains("Вам необходимо войти в систему")) {
+                    if ((context instanceof LogouUserLister)) {
                         ((LogouUserLister) context).logoutTrigger();
                         return;
                     }
@@ -301,32 +306,34 @@ public class Query {
             e.printStackTrace();
         }
         showError(stat);
-        if(ShikiApi.isDebug)
+        if (ShikiApi.isDebug)
             Log.d(TAG, "server not response: " + dataString);
     }
 
     /**
      * Remove cache by url like (http://shikimori/api/calendar)
+     *
      * @param prefix
      * @return
      */
-    public Query invalidateCache(String prefix){
+    public Query invalidateCache(String prefix) {
         getDbCache().invalidateCache(prefix);
         return this;
     }
-    public Query invalidateCache(String prefix, ContentValues cv){
+
+    public Query invalidateCache(String prefix, ContentValues cv) {
         getDbCache().invalidateCache(prefix, cv);
         return this;
     }
 
-    private DbCache getDbCache(){
-        if(dbCache == null)
+    private DbCache getDbCache() {
+        if (dbCache == null)
             dbCache = new DbCache(context);
         return dbCache;
     }
 
     private void saveCache(RequestData reqData) {
-        if(reqData.cache){
+        if (reqData.cache) {
             getDbCache().setData(reqData.requestRow, reqData.requestData, reqData.timeCache);
         }
     }
@@ -361,6 +368,7 @@ public class Query {
 
     /**
      * Show standart error dialog
+     *
      * @param res
      */
     public void showStandartError(StatusResult res) {
@@ -393,7 +401,7 @@ public class Query {
     /**
      * Нужно чтобы следующий запрос не перетер данные предыдущего
      */
-    static class RequestData{
+    static class RequestData {
         public METHOD method;
         public boolean cache;
         public long timeCache;

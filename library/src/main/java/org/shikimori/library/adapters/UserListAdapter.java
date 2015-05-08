@@ -25,7 +25,7 @@ public class UserListAdapter extends BaseListAdapter<ItemUserListShiki, BaseHold
     }
 
     @Override
-    public void setValues(BaseHolder holder, ItemUserListShiki item) {
+    public void setValues(BaseHolder holder, ItemUserListShiki item, int position) {
         if(item.amDetails!=null){
             holder.tvName.setText(item.amDetails.name);
             holder.tvRusName.setText(item.amDetails.russianName);

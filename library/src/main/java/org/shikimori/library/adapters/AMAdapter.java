@@ -20,7 +20,7 @@ public class AMAdapter extends BaseCardGridAdapter<AMShiki> {
     }
 
     @Override
-    public void setValues(BaseCardGridAdapter.ViewHolder holder, AMShiki item) {
+    public void setValues(ViewHolder holder, AMShiki item, int position) {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
 
@@ -28,9 +28,10 @@ public class AMAdapter extends BaseCardGridAdapter<AMShiki> {
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);
-        if(item.image == null || item.image.original == null)
+        if (item.image == null || item.image.original == null)
             ImageLoader.getInstance().displayImage(item.poster, holder.ivImage);
         else
             ImageLoader.getInstance().displayImage(item.image.original, holder.ivImage);
     }
+
 }

@@ -92,4 +92,8 @@
     <string name="producers">Продюссеры</string>
     <string name="online">онлайн</string>
     <string name="was">был(а):</string>
+    <string name="message">Сообщение</string>
+    <string name="set_message">Заполните сообщение</string>
+    <string name="answer">Цитировать</string>
+    <string name="delete">Удалить</string>
 </resources>

@@ -21,7 +21,7 @@ public class ClubCardStyleAdapter extends BaseCardGridAdapter<ItemClubShiki> {
     }
 
     @Override
-    public void setValues(ViewHolder holder, ItemClubShiki item) {
+    public void setValues(ViewHolder holder, ItemClubShiki item, int position) {
         holder.tvTitle.setText(item.name);
         h.setVisibleGone(holder.tvTitleRus);
         h.setVisibleGone(holder.tvEpisode);

@@ -39,7 +39,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     }
 
     @Override
-    public void setValues(MessageHolder holder, ItemNewsUserShiki item) {
+    public void setValues(MessageHolder holder, ItemNewsUserShiki item, int position) {
         if(item.from!=null)
             holder.tvName.setText(item.from.nickname);
 

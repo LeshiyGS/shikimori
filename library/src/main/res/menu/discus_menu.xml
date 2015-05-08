@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:library="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/icAnswer"
+        android:title="@string/answer"
+        library:showAsAction="always" />
+    <item android:id="@+id/icDelete"
+        android:title="@string/delete"
+        library:showAsAction="always" />
+</menu>

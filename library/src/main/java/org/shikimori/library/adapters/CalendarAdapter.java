@@ -22,7 +22,7 @@ public class CalendarAdapter extends BaseCardGridAdapter<ItemCaclendarShiki> {
     }
 
     @Override
-    public void setValues(BaseCardGridAdapter.ViewHolder holder, ItemCaclendarShiki item) {
+    public void setValues(BaseCardGridAdapter.ViewHolder holder, ItemCaclendarShiki item, int position) {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
 

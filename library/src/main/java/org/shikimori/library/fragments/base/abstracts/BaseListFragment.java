@@ -31,6 +31,7 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +46,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     protected boolean pauseOnFling = true; // or false
     ArrayAdapter adapter;
     private BackGroubdLoader<? extends OnViewBuildLister> backBuilder;
+    List<Object> allList = new ArrayList<>();
 
     protected boolean isOptionsMenu(){
         return true;
@@ -160,16 +162,25 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         } else
             hasMoreItems(false);
 
+        if(page == DEFAULT_FIRST_PAGE)
+            allList.clear();
+
+        for (int i = 0; i < list.size(); i++)
+            allList.add(list.get(i));
+
         if (adapter == null) {
-            adapter = getAdapter(list);
+            adapter = getAdapter(allList);
             setAdapter(adapter);
         } else {
-            if (page == DEFAULT_FIRST_PAGE)
-                adapter.clear();
+            adapter.notifyDataSetInvalidated();
+        }
+    }
 
-            for (int i = 0; i < list.size(); i++) {
-                adapter.add(list.get(i));
-            }
+    protected void removeItem(int position){
+        if (allList != null){
+            allList.remove(position);
+            adapter = getAdapter(allList);
+            setAdapter(adapter);
         }
     }
 

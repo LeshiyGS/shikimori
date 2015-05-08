@@ -28,7 +28,7 @@ public class UserHistoryListAdapter extends BaseListAdapter<ItemUserHistory, Bas
     }
 
     @Override
-    public void setValues(BaseHolder holder, ItemUserHistory item) {
+    public void setValues(BaseHolder holder, ItemUserHistory item, int position) {
 
         holder.tvText.setText(item.description);
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));

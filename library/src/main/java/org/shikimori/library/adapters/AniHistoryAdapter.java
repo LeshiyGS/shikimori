@@ -19,7 +19,7 @@ public class AniHistoryAdapter extends BaseCardGridAdapter<AMShiki> {
     }
 
     @Override
-    public void setValues(ViewHolder holder, AMShiki item) {
+    public void setValues(ViewHolder holder, AMShiki item, int position) {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
         h.setVisibleGone(holder.tvEpisode);

@@ -51,7 +51,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
     }
 
     @Override
-    public void setValues(TopicHolder holder, ItemTopicsShiki item) {
+    public void setValues(TopicHolder holder, ItemTopicsShiki item, int position) {
         if(item.user!=null)
             holder.tvName.setText(item.user.nickname);
         // count comments

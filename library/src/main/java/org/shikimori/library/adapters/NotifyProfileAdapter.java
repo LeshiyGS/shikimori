@@ -23,7 +23,7 @@ public class NotifyProfileAdapter extends SimpleBaseAdapter<NotifyProfileControl
     }
 
     @Override
-    public void setValues(ViewHolder holder, NotifyProfileController.Item item) {
+    public void setValues(ViewHolder holder, NotifyProfileController.Item item, int position) {
         if(item.count > 0){
             h.setVisible(holder.tvCount, true);
         } else {

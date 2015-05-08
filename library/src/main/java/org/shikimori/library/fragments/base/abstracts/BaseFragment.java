@@ -30,10 +30,12 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
      * Нужно для поиска вьюшек в ней через метод find
      */
     private View baseView;
+    private Bundle params;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        params = getArguments();
     }
 
     public int getActionBarTitle(){
@@ -45,9 +47,8 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
      * @return
      */
     public String getActionBarTitleString(){
-        Bundle b = getArguments();
-        if(b!=null)
-            return b.getString(Constants.ACTION_BAR_TITLE);
+        if(params!=null)
+            return params.getString(Constants.ACTION_BAR_TITLE);
         return null;
     }
 
@@ -100,13 +101,13 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
 
 
     private void initData() {
-        Bundle b = getArguments();
-        if(b != null)
-            userId = b.getString(Constants.USER_ID);
+        if(params != null)
+            userId = params.getString(Constants.USER_ID);
 
         if(userId == null)
-            userId    = ShikiUser.USER_ID;
+            userId = ShikiUser.USER_ID;
     }
+
 
     public String getUserId(){
         return userId;
@@ -122,5 +123,11 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
 
     protected <C extends View> C find(int id) {
         return h.get(baseView, id);
+    }
+
+    protected <C extends Object> C getParam(String name){
+        if(params!=null)
+            return (C) params.get(name);
+        return null;
     }
 }
