@@ -172,7 +172,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
             adapter = getAdapter(allList);
             setAdapter(adapter);
         } else {
-            adapter.notifyDataSetInvalidated();
+            adapter.notifyDataSetChanged();
         }
     }
 

@@ -2,10 +2,7 @@ package org.shikimori.library.adapters;
 
 import android.content.Context;
 import android.view.View;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.nineoldandroids.animation.Animator;
+import android.view.animation.Animation;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseListAdapter;
@@ -17,7 +14,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
+import org.shikimori.library.tool.baselisteners.BaseAnimationListenerAndroid;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -85,15 +82,12 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
                         }
                     });
             item.read = true;
-            YoYo.with(Techniques.FadeOut)
-                    .duration(300)
-                    .withListener(new BaseAnimationListener() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            h.setVisibleGone(v);
-                        }
-                    }).playOn(v);
+            h.startAnimation(v, R.anim.abc_fade_out, new BaseAnimationListenerAndroid() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    h.setVisibleGone(v);
+                }
+            });
         }
     }
 

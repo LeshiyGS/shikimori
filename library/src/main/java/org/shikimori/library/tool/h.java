@@ -1,7 +1,5 @@
 package org.shikimori.library.tool;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,31 +9,24 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.MetricAffectingSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.LruCache;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
@@ -43,16 +34,16 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import com.nineoldandroids.animation.Animator;
+
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.androidanimations.library.fading_entrances.FadeInAnimator;
 import com.nineoldandroids.animation.Animator;
@@ -63,11 +54,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import org.jsoup.Jsoup;
 import org.shikimori.library.R;
-import org.shikimori.library.objects.ItemTopicsShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.tool.constpack.Constants;
 
 import java.io.File;
 import java.security.MessageDigest;
@@ -89,15 +76,16 @@ public class h {
 
     public static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
     public static Handler loop = new Handler(); //fixme это пиздец. Тут должна быть отложенная инициализация как минимум.
+
     public static void showMsg(Context context, int msg) {
-        if(context == null)
+        if (context == null)
             return;
 
         showMsg(context, context.getString(msg));
     }
 
     public static void showMsg(Context context, String msg) {
-        if(context == null)
+        if (context == null)
             return;
         Toast m = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         m.setGravity(Gravity.TOP, 0, 60);
@@ -105,7 +93,7 @@ public class h {
     }
 
     public static void setVisible(View v, boolean visible) {
-        if(v==null)
+        if (v == null)
             return;
         if (visible) {
             if (v.getVisibility() != View.VISIBLE)
@@ -117,11 +105,11 @@ public class h {
     }
 
     public static void setVisibleGone(View v) {
-        if (v!= null && v.getVisibility() != View.GONE)
+        if (v != null && v.getVisibility() != View.GONE)
             v.setVisibility(View.GONE);
     }
 
-    public static int pxToDp(int px,  Context contex) {
+    public static int pxToDp(int px, Context contex) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 px, contex.getResources().getDisplayMetrics());
     }
@@ -133,17 +121,16 @@ public class h {
     }
 
     /**
-     *
      * @param format
      * @return current formated date
      */
-    public static String getStringDate(String format){
+    public static String getStringDate(String format) {
         return getStringDate(format, Calendar.getInstance().getTime());
     }
 
-    public static String getStringDate(String format, Date date){
+    public static String getStringDate(String format, Date date) {
         SimpleDateFormat _format = new SimpleDateFormat(format);
-        return  _format.format(date);
+        return _format.format(date);
     }
 
     /**
@@ -154,11 +141,11 @@ public class h {
         return getDuration((int) duration_seconds);
     }
 
-    public static Date getDateFromString(String format, String date){
-        if(date!=null && format!=null){
+    public static Date getDateFromString(String format, String date) {
+        if (date != null && format != null) {
             SimpleDateFormat _format = new SimpleDateFormat(format);
             try {
-                return  _format.parse(date);
+                return _format.parse(date);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -166,21 +153,21 @@ public class h {
         return new Date();
     }
 
-    public static Animation startAnimation(View v, int anim){
+    public static Animation startAnimation(View v, int anim) {
         return startAnimation(v, anim, null);
     }
 
-    public static Animation startAnimation(View v, int anim, Animation.AnimationListener l){
+    public static Animation startAnimation(View v, int anim, Animation.AnimationListener l) {
         v.clearAnimation();
         Animation animation = AnimationUtils.loadAnimation(v.getContext(), anim);
-        if(l!=null)
+        if (l != null)
             animation.setAnimationListener(l);
         v.startAnimation(animation);
         return animation;
     }
 
     public static void visibility(final View view,
-                                        final boolean visibility, int animation) {
+                                  final boolean visibility, int animation) {
         if (view == null)
             return;
 
@@ -213,13 +200,12 @@ public class h {
 
         v.getLayoutParams().height = 0;
         v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
                 v.getLayoutParams().height = interpolatedTime == 1
                         ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int)(targtetHeight * interpolatedTime);
+                        : (int) (targtetHeight * interpolatedTime);
                 v.requestLayout();
             }
 
@@ -230,21 +216,20 @@ public class h {
         };
 
         // 1dp/ms
-        a.setDuration((int)(targtetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (targtetHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
     public static void collapse(final View v) {
         final int initialHeight = v.getMeasuredHeight();
 
-        Animation a = new Animation()
-        {
+        Animation a = new Animation() {
             @Override
             protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
+                if (interpolatedTime == 1) {
                     v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                } else {
+                    v.getLayoutParams().height = initialHeight - (int) (initialHeight * interpolatedTime);
                     v.requestLayout();
                 }
             }
@@ -256,7 +241,7 @@ public class h {
         };
 
         // 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
@@ -277,7 +262,7 @@ public class h {
                 }
             } else if (v instanceof TextView) {
                 ((TextView) v).setTypeface(typeFace);
-            } else if (v instanceof EditText){
+            } else if (v instanceof EditText) {
                 ((EditText) v).setTypeface(typeFace);
             }
         } catch (Exception e) {
@@ -291,11 +276,11 @@ public class h {
     public static String getDuration(int secconds) {
         StringBuffer buf = new StringBuffer();
         int millis = secconds * 1000;
-        int hours = millis / (1000*60*60);
-        int minutes = ( millis % (1000*60*60) ) / (1000*60);
-        int seconds = ( ( millis % (1000*60*60) ) % (1000*60) ) / 1000;
+        int hours = millis / (1000 * 60 * 60);
+        int minutes = (millis % (1000 * 60 * 60)) / (1000 * 60);
+        int seconds = ((millis % (1000 * 60 * 60)) % (1000 * 60)) / 1000;
 
-        if(hours > 0){
+        if (hours > 0) {
             buf.append(String.format("%02d", hours))
                     .append(":");
         }
@@ -332,11 +317,11 @@ public class h {
 //        }
 //    }
 
-    public static Point getScreenSize(Activity context){
+    public static Point getScreenSize(Activity context) {
         Display display = context.getWindowManager().getDefaultDisplay();
 
         Point screenSize = new Point();
-        if(Build.VERSION.SDK_INT >= 13){
+        if (Build.VERSION.SDK_INT >= 13) {
             display.getSize(screenSize);
         } else {
             screenSize.set(display.getWidth(), display.getHeight());
@@ -344,9 +329,9 @@ public class h {
         return screenSize;
     }
 
-    public static String getScreenDensyty(Context context){
+    public static String getScreenDensyty(Context context) {
         int dpi = context.getResources().getDisplayMetrics().densityDpi;
-        if(dpi <= DisplayMetrics.DENSITY_MEDIUM)
+        if (dpi <= DisplayMetrics.DENSITY_MEDIUM)
             return "mdpi";
         else if (dpi == DisplayMetrics.DENSITY_HIGH)
             return "hdpi";
@@ -375,13 +360,14 @@ public class h {
     }
 
     public static boolean hideKeyboard(Context context, View hostView) {
-        if(hostView==null || hostView.getWindowToken() == null)
+        if (hostView == null || hostView.getWindowToken() == null)
             return true;
         return ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(hostView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
     public static boolean showKeyboard(Context mContext, EditText etText) {
-        if(etText==null || etText.getWindowToken() == null)
+        if (etText == null || etText.getWindowToken() == null)
             return true;
         etText.requestFocus();
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -435,7 +421,7 @@ public class h {
         }
     }
 
-    public static int getCameraPhotoOrientation(String imagePath){
+    public static int getCameraPhotoOrientation(String imagePath) {
         int rotate = 0;
         try {
             //context.getContentResolver().notifyChange(imageUri, null);
@@ -483,12 +469,12 @@ public class h {
     }
 
     public static String getText(String text, String defText) {
-        if(TextUtils.isEmpty(text) || text.equals("null"))
+        if (TextUtils.isEmpty(text) || text.equals("null"))
             return defText;
         return text;
     }
 
-    public static void setLanguage(Context c, String lang){
+    public static void setLanguage(Context c, String lang) {
         Resources res = c.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();
@@ -496,10 +482,10 @@ public class h {
         res.updateConfiguration(conf, dm);
     }
 
-    public static int getAttributeResourceId(Context context, int attr){
+    public static int getAttributeResourceId(Context context, int attr) {
         try {
             TypedValue typedValue = new TypedValue();
-            int[] resIdAttr = new int[] { attr };
+            int[] resIdAttr = new int[]{attr};
             TypedArray a = context.obtainStyledAttributes(typedValue.data, resIdAttr);
             int resId = a.getResourceId(0, 0);
             a.recycle();
@@ -509,8 +495,8 @@ public class h {
             return 0;
         }
     }
-	
-	/**
+
+    /**
      * Recolor text according to the tags.
      * <p/>
      * E.g "Something red is after that:&#F00; red" will be processed and word red will be wrapped into red ColorSpan.
@@ -644,17 +630,17 @@ public class h {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if(v == null)
+            if (v == null)
                 return false;
             try {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
-                        YoYo.with(new FadeInAnimator(){
+                        YoYo.with(new FadeInAnimator() {
                             public void prepare(View target) {
                                 this.getAnimatorAgent().playTogether(new Animator[]{ObjectAnimator.ofFloat(target, "alpha", new float[]{0.5F, 1.0F})});
                             }
                         }).duration(200)
-                          .playOn(v);
+                                .playOn(v);
                         break;
                     }
                 }
@@ -666,8 +652,8 @@ public class h {
     };
 
 
-    public static void launchUrlLink(Context mContext, String url){
-        if(url == null)
+    public static void launchUrlLink(Context mContext, String url) {
+        if (url == null)
             return;
         if (!url.startsWith("http://") && !url.startsWith("https://"))
             url = "http://" + url;
@@ -680,26 +666,24 @@ public class h {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
-    public enum ORIENTATION{
+    public enum ORIENTATION {
         PORT, LAND
     }
-    public static ORIENTATION getOrientation(Activity mContext){
+
+    public static ORIENTATION getOrientation(Activity mContext) {
         final int orientation = mContext.getResources().getConfiguration().orientation;
         final int rotation = mContext.getWindowManager().getDefaultDisplay().getOrientation();
 
         if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_90) {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 return ORIENTATION.PORT;
-            }
-            else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 return ORIENTATION.LAND;
             }
-        }
-        else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
+        } else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 return ORIENTATION.PORT;
-            }
-            else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 return ORIENTATION.LAND;
             }
         }
@@ -755,7 +739,7 @@ public class h {
         return getStringDate("dd/MM/yyyy", new Date());
     }
 
-    public static void insertTextEditText(EditText et, String text){
+    public static void insertTextEditText(EditText et, String text) {
         int start = Math.max(et.getSelectionStart(), 0);
         int end = Math.max(et.getSelectionEnd(), 0);
         et.getText().replace(Math.min(start, end), Math.max(start, end),
