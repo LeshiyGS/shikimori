@@ -1,7 +1,9 @@
 package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +14,22 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
+import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
@@ -33,10 +39,12 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseListViewFragment {
+public class UserNewsFragment extends BaseListViewFragment implements BaseActivity.OnFragmentBackListener {
 
     private String type;
     private int title;
+    private TextPopup popup;
+    private BodyBuild bodyBuild;
 
     public static UserNewsFragment newInstance(String type) {
         Bundle b = new Bundle();
@@ -67,13 +75,13 @@ public class UserNewsFragment extends BaseListViewFragment {
         Bundle b = getArguments();
         type = b.getString(Constants.TYPE);
         switch (type) {
-            case "inbox":
+            case Constants.INBOX:
                 title = R.string.inbox;
                 break;
-            case "news":
+            case Constants.NEWS:
                 title = R.string.news;
                 break;
-            case "notifications":
+            case Constants.NOTIFYING:
                 title = R.string.notifying;
                 break;
         }
@@ -90,6 +98,8 @@ public class UserNewsFragment extends BaseListViewFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        activity.setOnFragmentBackListener(this);
+        bodyBuild = new BodyBuild(activity);
         showRefreshLoader();
         loadData();
     }
@@ -144,8 +154,47 @@ public class UserNewsFragment extends BaseListViewFragment {
         if(adp == null)
             return;
 
+        ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
+        if(type.equals(Constants.INBOX)){
+            // TODO start chat with user
+        } else if (type.equals(Constants.NEWS)){
+            Intent intent = ProjectTool.getSimpleIntentDetails(activity, item.linked.type);
+            if(intent!=null){
+                intent.putExtra(Constants.ITEM_ID, item.linked.id);
+                activity.startActivity(intent);
+                return;
+            }
 
-        ItemNewsUserShiki obj = (ItemNewsUserShiki) adp.getItem(position);
-        // TODO start chat with user
+            if(item.kind.toLowerCase().equals(Constants.SITENEWS)){
+                showPopupText(item.htmlBody);
+                return;
+            }
+        }
+    }
+
+    void showPopupText(String html){
+        popup = new TextPopup(activity);
+        popup.showLoader();
+//        bodyBuild.parce(item.doc, popup.getBody());
+        bodyBuild.parceAsync(html, new BodyBuild.ParceDoneListener() {
+            @Override
+            public void done(ViewGroup view) {
+                popup.hideLoader();
+                popup.setBody(view);
+            }
+        });
+        popup.show();
+    }
+
+    /**
+     * Скрываем попап если он открыт
+     * @return
+     */
+    @Override
+    public boolean onBackPressed() {
+        if(popup!=null && popup.hide()){
+            return true;
+        }
+        return false;
     }
 }

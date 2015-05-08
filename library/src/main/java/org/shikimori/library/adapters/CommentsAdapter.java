@@ -78,10 +78,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
     private void initDescription(final ItemCommentsShiki item, final ViewGroup llBodyHtml) {
         // Если уже распарсили то берем высоту вьюхи иначе прыгать начинает
         if(item.parsedContent != null){
-//            ViewGroup.LayoutParams params = llBodyHtml.getLayoutParams();
-//            params.height = item.parsedContent.getHeight();
             llBodyHtml.setMinimumHeight(item.parsedContent.getHeight());
-//            llBodyHtml.setLayoutParams(params);
         } else
             llBodyHtml.setMinimumHeight(0);
 

@@ -24,6 +24,7 @@ public class Constants {
     public static final String FAVOURITES = "favourites";
     public static final String CHARACTER = "character";
     public static final String TOPIC = "topic";
+    public static final String SITENEWS = "sitenews";
 
     // users
     public static final String NEWS = "news";

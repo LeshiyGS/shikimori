@@ -149,6 +149,9 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
 
     protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
 
+        if (activity == null)
+            return;
+
         int size = list.size();
         // повышать на +1 или нет
         int limit = limitOver ? (LIMIT+1) : LIMIT;

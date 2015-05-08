@@ -1,6 +1,7 @@
 package org.shikimori.library.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.animation.Animation;
 
@@ -15,6 +16,7 @@ import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListenerAndroid;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -53,7 +55,14 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             holder.tvName.setText(item.from.nickname);
 
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
-        h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
+
+        if(item.kind.toLowerCase().equals(Constants.SITENEWS)){
+            holder.tvText.setTypeface(null, Typeface.ITALIC);
+            holder.tvText.setText(R.string.open_details);
+        } else {
+            holder.tvText.setTypeface(null, Typeface.NORMAL);
+            h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
+        }
 
         ShikiImage.show(item.from.img148, holder.ivUser, true);
         if (item.linked != null && item.linked.image != null)

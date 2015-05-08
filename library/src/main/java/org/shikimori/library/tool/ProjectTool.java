@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
@@ -17,9 +18,11 @@ import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
+import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
@@ -138,5 +141,25 @@ public class ProjectTool {
         else if(url.contains("manga"))
             return TYPE.MANGA;
         return null;
+    }
+
+    public static Intent getSimpleIntentDetails(Context context, String type){
+        int page = -1;
+        switch (type.toLowerCase()) {
+            case Constants.ANIME:
+                page = ShowPageActivity.ANIME_PAGE; break;
+            case Constants.MANGA:
+                page = ShowPageActivity.MANGA_PAGE; break;
+            case Constants.CHARACTER:
+                page = ShowPageActivity.CHARACTER_PAGE; break;
+        }
+
+        if(page > -1){
+            Intent intent = new Intent(context, ShowPageActivity.class);
+            intent.putExtra(Constants.PAGE_FRAGMENT, page);
+            return intent;
+        }
+        return null;
+
     }
 }

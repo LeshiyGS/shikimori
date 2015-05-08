@@ -31,6 +31,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
@@ -105,7 +106,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
             @Override
             public boolean ckeck(ItemTopicsShiki item, int position) {
                 String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
-                if(type.equalsIgnoreCase(Constants.TOPIC))
+                if (type.equalsIgnoreCase(Constants.TOPIC))
                     return true;
                 return false;
             }
@@ -117,18 +118,17 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         super.onItemClick(parent, view, position, id);
         ItemTopicsShiki item = (ItemTopicsShiki) parent.getAdapter().getItem(position);
-        Intent intent = new Intent(activity, ShowPageActivity.class);
+
         String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
+        Intent intent = ProjectTool.getSimpleIntentDetails(activity, type);
+        if(intent!=null){
+            intent.putExtra(Constants.ITEM_ID, item.linkedId);
+            activity.startActivity(intent);
+            return;
+        }
+
+        intent = new Intent(activity, ShowPageActivity.class);
         switch (type.toLowerCase()) {
-            case Constants.ANIME:
-                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-                break;
-            case Constants.MANGA:
-                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
-                break;
-            case Constants.CHARACTER:
-                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CHARACTER_PAGE);
-                break;
             case Constants.TOPIC:
                 if (item.section.permalink.equals("o")){
                     intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
