@@ -3,6 +3,8 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +51,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private ImageView avatar;
     private TextView tvUserName;
     private UserDetails userDetails;
-    private TextView tvMiniDetails,tvAnimeProgress,tvMangaProgress, tvLastOnline;
+    private TextView tvMiniDetails, tvAnimeProgress, tvMangaProgress, tvLastOnline;
     private SeekBar sbAnimeProgress, sbMangaProgress;
     private View llBody, ivWebShow;
     private ListPopup pop;
@@ -57,6 +59,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private View aboutHtml;
     private BodyBuild builder;
     private GridView gvBodyProfile;
+    private Menu actionMenu;
 
     public static ProfileShikiFragment newInstance() {
         return new ProfileShikiFragment();
@@ -69,6 +72,35 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         ProfileShikiFragment frag = new ProfileShikiFragment();
         frag.setArguments(b);
         return frag;
+    }
+
+    public static ProfileShikiFragment newInstance(Bundle b) {
+        ProfileShikiFragment frag = new ProfileShikiFragment();
+        frag.setArguments(b);
+        return frag;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.user_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+        actionMenu = menu;
+        checkUserMenu();
+    }
+
+    void checkUserMenu() {
+        if (activity != null) {
+            if (actionMenu != null) {
+                if (getUserId().equals(activity.getShikiUser().getId()))
+                    actionMenu.setGroupVisible(R.id.userGroup, false);
+            }
+        }
     }
 
     @Override
@@ -118,17 +150,23 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // load unread messages
-        if(getView()!=null)
-            getView().post(new Runnable() {
-                @Override
-                public void run() {
-                    notifyController = new NotifyProfileController(activity,
-                            query, activity.getShikiUser(), gvBodyProfile);
-                    showRefreshLoader();
-                    loadDataFromServer();
-                }
-            });
-            activity.setOnFragmentBackListener(this);
+        if (getView() != null)
+            if (getUserId().equals(activity.getShikiUser().getId())) {
+                checkUserMenu();
+                getView().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadDataFromServer();
+                        notifyController = new NotifyProfileController(activity,
+                                query, activity.getShikiUser(), gvBodyProfile);
+                    }
+                });
+            } else {
+                h.setVisibleGone(gvBodyProfile);
+                loadDataFromServer();
+            }
+        showRefreshLoader();
+        activity.setOnFragmentBackListener(this);
     }
 
     @Override
@@ -137,45 +175,45 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         loadDataFromServer();
     }
 
-    void loadDataFromServer(){
-        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS)+getUserId())
-             .setCache(true, Query.HOUR)
-             .getResult(this);
+    void loadDataFromServer() {
+        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId())
+                .setCache(true, Query.HOUR)
+                .getResult(this);
 
     }
 
     @Override
     public void onQuerySuccess(StatusResult res) {
 
-        if(activity == null)
+        if (activity == null)
             return;
 
         h.setVisible(llBody, true);
         YoYo.with(Techniques.FadeIn)
-            .playOn(llBody);
+                .playOn(llBody);
 
         stopRefresh();
         userDetails = UserDetails.create(res.getResultObject());
 
         fillUi();
-        if(activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id))
+        if (activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id))
             activity.getShikiUser().setData(res.getResultObject());
 
         testHtml(userDetails.aboutHtml);
     }
 
-    void updateUserUI(){
-        if(getUserId()!=null && getUserId().equalsIgnoreCase(ShikiUser.USER_ID)){
-            if(activity instanceof UserDataChangeListener)
+    void updateUserUI() {
+        if (getUserId() != null && getUserId().equalsIgnoreCase(ShikiUser.USER_ID)) {
+            if (activity instanceof UserDataChangeListener)
                 ((UserDataChangeListener) activity).updateUserUI();
         }
     }
 
     private void fillUi() {
-        if(userDetails == null || userDetails.id == null)
+        if (userDetails == null || userDetails.id == null)
             return;
 
-        if(userDetails.avatar!=null)
+        if (userDetails.avatar != null)
             ImageLoader.getInstance().displayImage(userDetails.avatar, avatar);
         tvUserName.setText(userDetails.nickname);
 
@@ -193,20 +231,20 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     private void buildProfile() {
-        if(getUserId().equals(ShikiUser.USER_ID)){
-            notifyController.load(new Query.OnQuerySuccessListener() {
-                @Override
-                public void onQuerySuccess(StatusResult res) {
-                    updateUserUI();
-                }
-            });
-
+        if (getUserId().equals(ShikiUser.USER_ID)) {
+            if(notifyController!=null)
+                notifyController.load(new Query.OnQuerySuccessListener() {
+                    @Override
+                    public void onQuerySuccess(StatusResult res) {
+                        updateUserUI();
+                    }
+                });
         }
     }
 
     private void setProgress() {
         ProgressData progress;
-        if(userDetails.fullStatuses!=null){
+        if (userDetails.fullStatuses != null) {
             // set anime progress
             progress = getProgress(userDetails.fullStatuses.animes);
             sbAnimeProgress.setProgress(progress.percentage1);
@@ -232,7 +270,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
      * Показываем иконку web странички
      */
     private void setWebSite() {
-        if(!TextUtils.isEmpty(userDetails.website))
+        if (!TextUtils.isEmpty(userDetails.website))
             h.setVisible(ivWebShow, true);
         else
             h.setVisibleGone(ivWebShow);
@@ -241,21 +279,25 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     private void setSexYearLocation() {
         StringBuilder str = new StringBuilder();
         // пол
-        if(!TextUtils.isEmpty(userDetails.sex)){
-            switch (userDetails.sex){
-                case "male": str.append(activity.getString(R.string.male)); break;
-                case "female": str.append(activity.getString(R.string.female)); break;
+        if (!TextUtils.isEmpty(userDetails.sex)) {
+            switch (userDetails.sex) {
+                case "male":
+                    str.append(activity.getString(R.string.male));
+                    break;
+                case "female":
+                    str.append(activity.getString(R.string.female));
+                    break;
             }
         }
         // сколько лет
-        if(str.length() > 0 && !TextUtils.isEmpty(userDetails.fullYears)){
+        if (str.length() > 0 && !TextUtils.isEmpty(userDetails.fullYears)) {
             str.append(" / ")
-               .append(activity.getString(R.string.years))
-               .append(" ")
-               .append(userDetails.fullYears);
+                    .append(activity.getString(R.string.years))
+                    .append(" ")
+                    .append(userDetails.fullYears);
         }
         // где живем
-        if(!TextUtils.isEmpty(userDetails.location))
+        if (!TextUtils.isEmpty(userDetails.location))
             str.append("\n").append(userDetails.location);
 
         tvMiniDetails.setText(str.toString());
@@ -264,14 +306,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     /**
      * Расчет прочитанного из аниме и манги
      * progress 1 = просмотренно
-       progress 2 = запланированно + смотрю + просмотренно + отложено
-       max size = запланированно + смотрю + просмотренно + отложено + брошено
+     * progress 2 = запланированно + смотрю + просмотренно + отложено
+     * max size = запланированно + смотрю + просмотренно + отложено + брошено
      */
     private ProgressData getProgress(List<AnimeManga> list) {
         ProgressData progr = new ProgressData();
         for (AnimeManga animeManga : list) {
             progr.fullProgress += animeManga.counted;
-            if(AnimeStatuses.COMPLETED.equals(animeManga.name))
+            if (AnimeStatuses.COMPLETED.equals(animeManga.name))
                 progr.firstProgress += animeManga.counted;
             if (!AnimeStatuses.DROPPED.equals(animeManga.name)
                     && !AnimeStatuses.REWATCHING.equals(animeManga.name))
@@ -288,9 +330,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.ivWebShow){
+        if (v.getId() == R.id.ivWebShow) {
             h.launchUrlLink(activity, userDetails.website);
-        } else if (v.getId() == R.id.ivAnimeListShow){
+        } else if (v.getId() == R.id.ivAnimeListShow) {
             pop = new ListPopup(activity);
             pop.setAnimate(Techniques.Pulse);
             pop.setOnItemClickListener(animePopupListener);
@@ -299,7 +341,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 //            pop.setList(getListNames(userDetails.fullStatuses.animes, anime));
             pop.setTitle(R.string.lists_anime);
             pop.show();
-        } else if (v.getId() == R.id.ivMangaListShow){
+        } else if (v.getId() == R.id.ivMangaListShow) {
             pop = new ListPopup(activity);
             pop.setAnimate(Techniques.Pulse);
             pop.setOnItemClickListener(mangaPopupListener);
@@ -327,7 +369,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         }
     };
 
-    void goToAnimeManga(String id, String name,  ProjectTool.TYPE type){
+    void goToAnimeManga(String id, String name, ProjectTool.TYPE type) {
         Bundle b = new Bundle();
         // TODO SET DATA
         b.putString(Constants.LIST_ID, id);
@@ -341,14 +383,15 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         super.onDestroy();
 
     }
+
     @Override
     public boolean onBackPressed() {
-        if(pop!=null && pop.hide())
+        if (pop != null && pop.hide())
             return true;
         return false;
     }
 
-    class ProgressData{
+    class ProgressData {
         int firstProgress, secondProgress, fullProgress, percentage1, percentage2;
     }
 
@@ -358,7 +401,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     String text = "<center><span style=\"font-size: 20px;\"><strong>Итак, дорогие любители моэ, сегодня я расскажу вам, как сделать свой моэ-шики:</strong></span><br><a href=\"http://s27.postimg.org/n6u767kj7/Untitled.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/n6u767kj7/Untitled.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s18.postimg.org/f9qvvqtfd/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s18.postimg.org/f9qvvqtfd/image.jpg\" class=\"\" width=\"200\"></a> <br><br><span style=\"font-size: 16px;\"><strong>Для этого нам понадобится картинка с моэ-моэ-няшей, желательно в темных тонах.<br>Let's go:</strong></span><br><br><ul><li><div class=\"b-spoiler unprocessed\"><label>Открываем Google</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Открываем Google<br><a href=\"http://s27.postimg.org/wxmxiftmb/image_2.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/wxmxiftmb/image_2.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Ищем нужную няшу</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Ищем нужную няшу<br><a href=\"http://s27.postimg.org/flr6aqpir/image_3.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/flr6aqpir/image_3.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Желательно в параметрах поиска указать коричневый цвет</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Желательно в параметрах поиска указать коричневый цвет<br><a href=\"http://s27.postimg.org/4aoimdinn/image_4.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/4aoimdinn/image_4.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Скаченную картинку желательно немного затемнить в редакторе</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Скаченную картинку желательно немного затемнить в редакторе<br><a href=\"http://s27.postimg.org/vu2t6h8z7/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/vu2t6h8z7/image.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Заливаем полученную няшу на хороший фото-хостинг</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Заливаем полученную няшу на хороший фото-хостинг<br><a href=\"http://s27.postimg.org/rv5lnnkc3/image_1.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/rv5lnnkc3/image_1.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Переходим к <a href=\"https://userstyles.org/styles/110342/transparent-shiki-theme\">по ссылке к теме</a> на Stylish. Вставляем ссылку и применяем тему (для этого установится расширение для Google Chrome). Не забываем выбирать, сворачивать длинные посты (выбор по-умолчанию, как задумано на самом сайте) или показывать полностью.</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Переходим к <a href=\"https://userstyles.org/styles/110342/transparent-shiki-theme\">по ссылке к теме</a> на Stylish. Вставляем ссылку и применяем тему (для этого установится расширение для Google Chrome). Не забываем выбирать, сворачивать длинные посты (выбор по-умолчанию, как задумано на самом сайте) или показывать полностью.<br><a href=\"http://s11.postimg.org/6wlim3p4j/Untitled.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s11.postimg.org/6wlim3p4j/Untitled.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Получаем MOE-MOE-KYUN!</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Получаем MOE-MOE-KYUN!<br><a href=\"http://s15.postimg.org/g7nycs56j/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/g7nycs56j/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s27.postimg.org/em0vf1acz/Untitled_1.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/em0vf1acz/Untitled_1.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Ну или как-то так</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Ну или как-то так<br><a href=\"http://s15.postimg.org/qka8yuypn/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/qka8yuypn/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s15.postimg.org/g7nycs56j/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/g7nycs56j/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s15.postimg.org/or7cajdiz/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/or7cajdiz/image.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li></ul><br><span style=\"font-size: 16px;\"><strong>Таким образом вы покажете элите <em>полное отсутсвие вкуса</em>, но кого это волнует, когда на фоне стоит Богиня :3</strong></span><br>Может кому-то даже понравится.<br></center>";
-    public void testHtml(String test){
+
+    public void testHtml(String test) {
         builder = new BodyBuild(activity);
         builder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override

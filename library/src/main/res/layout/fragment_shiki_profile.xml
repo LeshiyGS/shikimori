@@ -180,6 +180,8 @@
             android:layout_marginRight="@dimen/defaultPaddingMini"
             android:numColumns="auto_fit" />
 
+
+
         <LinearLayout
             android:id="@+id/aboutHtml"
             android:orientation="vertical"

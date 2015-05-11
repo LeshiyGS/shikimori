@@ -9,6 +9,7 @@ import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.FavoriteFragment;
 import org.shikimori.library.fragments.InfoMediaFragment;
 import org.shikimori.library.fragments.MangaDeatailsFragment;
+import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**
@@ -22,6 +23,7 @@ public class ShowPageActivity extends PageActivity {
     public static final int OFTOPIC_PAGE = 4;
     public static final int CHARACTER_PAGE = 5;
     public static final int FAVORITES_PAGE = 6;
+    public static final int USER_PROFILE = 7;
     protected Bundle params;
 
     @Override
@@ -49,6 +51,8 @@ public class ShowPageActivity extends PageActivity {
             setTitle(R.string.favorite);
         } else if(page == OFTOPIC_PAGE){
             loadPage(DiscusionFragment.newInstance(params));
+        } else if(page == USER_PROFILE){
+            loadPage(ProfileShikiFragment.newInstance(params));
         }
     }
 }
