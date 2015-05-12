@@ -1,5 +1,6 @@
 package org.shikimori.library.fragments;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 
 import org.shikimori.library.R;
+import org.shikimori.library.adapters.ChatAdapter;
+import org.shikimori.library.adapters.CommentsAdapter;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -17,10 +20,13 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.SendMessageController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -34,10 +40,17 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     private EditText etMessage;
     private View ivSend;
     private String toUserId;
+    private SendMessageController messageController;
+    private ChatAdapter adptr;
 
     @Override
     protected int getLayoutId() {
         return R.layout.view_shiki_list_comment;
+    }
+
+    @Override
+    protected boolean isOptionsMenu() {
+        return false;
     }
 
     public static ChatFragment newInstance(String toUserId) {
@@ -65,11 +78,15 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         toUserId = getParam(Constants.TO_USER_ID);
+        messageController = new SendMessageController(activity, activity.getLoaderController(),
+                query, etMessage);
+        loadData();
     }
 
     @Override
     public void loadData() {
-
+        // TODO кастыль пока не будет апи
+        prepareData(new ArrayList<ItemNewsUserShiki>(), true, true);
     }
 
     @Override
@@ -81,7 +98,9 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
     @Override
     public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        return new NewsUserAdapter(activity, query, list);
+        adptr = new ChatAdapter(activity, list);
+        adptr.setOnSettingsListener(this);
+        return adptr;
     }
 
     /**
@@ -119,6 +138,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
                     @Override
                     public void onQuerySuccess(StatusResult res) {
                         onStartRefresh();
+
                         etMessage.setEnabled(true);
                         etMessage.setText("");
                     }
@@ -130,9 +150,44 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
      * цитировать сообщение пользователя
      * @param v
      */
-    private void answerMessage(View v) {
-        int position = (int) v.getTag();
-        ListAdapter adp = getListView().getAdapter();
+    private void answerMessage(final View v) {
+
+        final int position = (int) v.getTag();
+        final ItemNewsUserShiki obj = adptr.getItem(position);
+        messageController.showPopup(v, new SendMessageController.MessageData<ItemNewsUserShiki>() {
+
+            @Override
+            public void removeItem() {
+                ChatFragment.this.removeItem(position);
+                clearData();
+            }
+
+            @Override
+            public String getMessageId() {
+                return obj.id;
+            }
+
+            @Override
+            public String getNickName() {
+                return obj.from.nickname;
+            }
+
+            @Override
+            public View getParent() {
+                return (View) v.getParent().getParent();
+            }
+
+            @Override
+            public boolean isOwner() {
+                return getUserId().equals(obj.from.id);
+            }
+        });
+    }
+
+    void clearData() {
+//        ContentValues cv = new ContentValues();
+//        cv.put("commentable_id", treadId);
+//        query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
     }
 
     @Override

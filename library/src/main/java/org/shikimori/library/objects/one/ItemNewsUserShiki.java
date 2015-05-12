@@ -1,5 +1,7 @@
 package org.shikimori.library.objects.one;
 
+import android.view.ViewGroup;
+
 import org.json.JSONObject;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
@@ -13,6 +15,7 @@ public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Cr
     public Linked linked;
     public ItemUser from, to;
     public boolean read;
+    public ViewGroup parsedContent;
 
     public static ItemNewsUserShiki create(JSONObject json){
         return new ItemNewsUserShiki().createFromJson(json);
