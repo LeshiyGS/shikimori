@@ -16,6 +16,7 @@ import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.adapters.holder.SettingsHolder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.elements.HtmlText;
@@ -106,10 +107,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
         // this is user
         if(v.getId() == R.id.ivPoster){
             ItemCommentsShiki item = getItem((int) v.getTag());
-            Intent intent = new Intent(getContext(), ShowPageActivity.class);
-            intent.putExtra(Constants.USER_ID, item.user_id);
-            intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
-            getContext().startActivity(intent);
+            ProjectTool.goToUser(getContext(), item.user_id);
         }
     }
 }

@@ -162,21 +162,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         // load unread messages
         showRefreshLoader();
         activity.setOnFragmentBackListener(this);
-        if (getView() != null)
-            if (getUserId().equals(ShikiUser.USER_ID)) {
-                checkUserMenu();
-//                getView().post(new Runnable() {
-//                    @Override
-//                    public void run() {
-                        loadDataFromServer();
-                        notifyController = new NotifyProfileController(activity,
-                                query, activity.getShikiUser(), gvBodyProfile);
-//                    }
-//                });
-            } else {
-                h.setVisibleGone(gvBodyProfile);
-                loadDataFromServer();
-            }
+        if (getUserId().equals(ShikiUser.USER_ID)) {
+            checkUserMenu();
+            notifyController = new NotifyProfileController(activity,
+                    query, activity.getShikiUser(), gvBodyProfile);
+        } else {
+            h.setVisibleGone(gvBodyProfile);
+        }
+        loadDataFromServer();
     }
 
     @Override
@@ -210,6 +203,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             activity.getShikiUser().setData(res.getResultObject());
 
         testHtml(userDetails.aboutHtml);
+
+        buildProfile();
     }
 
     void updateUserUI() {
@@ -239,13 +234,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     private void buildProfile() {
-        if (notifyController != null)
+        if (notifyController != null){
             notifyController.load(new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {
                     updateUserUI();
                 }
             });
+        }
     }
 
     private void setProgress() {
@@ -399,13 +395,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     class ProgressData {
         int firstProgress, secondProgress, fullProgress, percentage1, percentage2;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // profile data
-        buildProfile();
     }
 
     String text = "<center><span style=\"font-size: 20px;\"><strong>Итак, дорогие любители моэ, сегодня я расскажу вам, как сделать свой моэ-шики:</strong></span><br><a href=\"http://s27.postimg.org/n6u767kj7/Untitled.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/n6u767kj7/Untitled.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s18.postimg.org/f9qvvqtfd/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s18.postimg.org/f9qvvqtfd/image.jpg\" class=\"\" width=\"200\"></a> <br><br><span style=\"font-size: 16px;\"><strong>Для этого нам понадобится картинка с моэ-моэ-няшей, желательно в темных тонах.<br>Let's go:</strong></span><br><br><ul><li><div class=\"b-spoiler unprocessed\"><label>Открываем Google</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Открываем Google<br><a href=\"http://s27.postimg.org/wxmxiftmb/image_2.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/wxmxiftmb/image_2.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Ищем нужную няшу</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Ищем нужную няшу<br><a href=\"http://s27.postimg.org/flr6aqpir/image_3.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/flr6aqpir/image_3.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Желательно в параметрах поиска указать коричневый цвет</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Желательно в параметрах поиска указать коричневый цвет<br><a href=\"http://s27.postimg.org/4aoimdinn/image_4.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/4aoimdinn/image_4.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Скаченную картинку желательно немного затемнить в редакторе</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Скаченную картинку желательно немного затемнить в редакторе<br><a href=\"http://s27.postimg.org/vu2t6h8z7/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/vu2t6h8z7/image.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Заливаем полученную няшу на хороший фото-хостинг</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Заливаем полученную няшу на хороший фото-хостинг<br><a href=\"http://s27.postimg.org/rv5lnnkc3/image_1.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/rv5lnnkc3/image_1.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Переходим к <a href=\"https://userstyles.org/styles/110342/transparent-shiki-theme\">по ссылке к теме</a> на Stylish. Вставляем ссылку и применяем тему (для этого установится расширение для Google Chrome). Не забываем выбирать, сворачивать длинные посты (выбор по-умолчанию, как задумано на самом сайте) или показывать полностью.</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Переходим к <a href=\"https://userstyles.org/styles/110342/transparent-shiki-theme\">по ссылке к теме</a> на Stylish. Вставляем ссылку и применяем тему (для этого установится расширение для Google Chrome). Не забываем выбирать, сворачивать длинные посты (выбор по-умолчанию, как задумано на самом сайте) или показывать полностью.<br><a href=\"http://s11.postimg.org/6wlim3p4j/Untitled.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s11.postimg.org/6wlim3p4j/Untitled.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Получаем MOE-MOE-KYUN!</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Получаем MOE-MOE-KYUN!<br><a href=\"http://s15.postimg.org/g7nycs56j/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/g7nycs56j/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s27.postimg.org/em0vf1acz/Untitled_1.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s27.postimg.org/em0vf1acz/Untitled_1.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li><li><div class=\"b-spoiler unprocessed\"><label>Ну или как-то так</label><div class=\"content\"><div class=\"before\"></div><div class=\"inner\">Ну или как-то так<br><a href=\"http://s15.postimg.org/qka8yuypn/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/qka8yuypn/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s15.postimg.org/g7nycs56j/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/g7nycs56j/image.jpg\" class=\"\" width=\"200\"></a> <a href=\"http://s15.postimg.org/or7cajdiz/image.jpg\" rel=\"745539841\" class=\"b-image unprocessed\"><img src=\"http://s15.postimg.org/or7cajdiz/image.jpg\" class=\"\" width=\"200\"></a><br></div><div class=\"after\"></div></div></div><br></li></ul><br><span style=\"font-size: 16px;\"><strong>Таким образом вы покажете элите <em>полное отсутсвие вкуса</em>, но кого это волнует, когда на фоне стоит Богиня :3</strong></span><br>Может кому-то даже понравится.<br></center>";

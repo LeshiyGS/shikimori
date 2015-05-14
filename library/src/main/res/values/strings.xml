@@ -99,4 +99,6 @@
     <string name="newtext">Новое</string>
     <string name="send_message">Отправить сообщение</string>
     <string name="add_friend">Добавить в друзья</string>
+    <string name="elk_checked">%d отмечено</string>
+    <string name="elk_mark_all">выбрать/снять все</string>
 </resources>

@@ -222,6 +222,10 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
 
     }
 
+    public List<Object> getAllList(){
+        return allList;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

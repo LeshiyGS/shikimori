@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 
+import org.json.JSONArray;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
@@ -27,11 +29,14 @@ import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.actionmode.ActionDescription;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -39,7 +44,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseListViewFragment implements BaseActivity.OnFragmentBackListener {
+public class UserNewsFragment extends BaseListViewFragment implements BaseActivity.OnFragmentBackListener, AdapterView.OnItemLongClickListener {
 
     private String type;
     private int title;
@@ -100,6 +105,8 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
         super.onActivityCreated(savedInstanceState);
         activity.setOnFragmentBackListener(this);
         bodyBuild = new BodyBuild(activity);
+        if(type.equals(Constants.INBOX))
+            getListView().setOnItemLongClickListener(this);
         showRefreshLoader();
         loadData();
     }
@@ -156,7 +163,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
 
         ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
         if(type.equals(Constants.INBOX)){
-            // TODO start chat with user
+            activity.loadPage(ChatFragment.newInstance(item.from.id), true, false);
         } else if (type.equals(Constants.NEWS)){
             Intent intent = ProjectTool.getSimpleIntentDetails(activity, item.linked.type);
             if(intent!=null){
@@ -196,5 +203,27 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        ActionDescription confirmDeleteAction = new ActionDescription() {
+
+            @Override
+            public void act(int[] selectedItems) {
+                List<Object> lists = getAllList();
+                CopyOnWriteArrayList<String> ids = new CopyOnWriteArrayList<>();
+                for (int i = 0; i < selectedItems.length; i++) {
+                    ItemNewsUserShiki obj = (ItemNewsUserShiki) lists.get(selectedItems[i]);
+                    ids.add(obj.id);
+                }
+                if(ids.size() > 0){
+                    String strIds = TextUtils.join(",", ids);
+                    // TODO delete collections messages
+                }
+            }
+        };
+        showDeleteFromListInterface(confirmDeleteAction);
+        return true;
     }
 }

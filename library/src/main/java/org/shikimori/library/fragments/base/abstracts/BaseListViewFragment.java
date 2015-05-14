@@ -11,6 +11,9 @@ import com.paging.listview.PagingListView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.tool.actionmode.ActionDescription;
+import org.shikimori.library.tool.actionmode.ActionSelectCallBack;
+import org.shikimori.library.tool.actionmode.DestroyActionCallback;
 
 import java.util.List;
 
@@ -97,6 +100,19 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showDeleteFromListInterface(ActionDescription confirmDeleteAction){
+        confirmDeleteAction.setTitle(R.string.delete);
+        confirmDeleteAction.setId(R.id.menu_delete);
+        confirmDeleteAction.setOrder(1);
+        confirmDeleteAction.setIconId(R.drawable.ic_action_delete);
+        activity.startSupportActionMode(new ActionSelectCallBack(activity, getListView(), getListView().getAdapter(),
+                new DestroyActionCallback.DestroyAction() {
+                    @Override
+                    public void destroyActionMode() {
+                    }
+                }, confirmDeleteAction));
     }
 
 }

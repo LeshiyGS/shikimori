@@ -39,6 +39,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         super.setListeners(holder);
         holder.ivPoster.setOnTouchListener(h.getImageHighlight);
         holder.tvRead.setOnClickListener(this);
+        holder.ivUser.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +65,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
         }
 
+        holder.ivUser.setTag(item);
         ShikiImage.show(item.from.img148, holder.ivUser, true);
         if (item.linked != null && item.linked.image != null)
             ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
@@ -97,6 +99,11 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
                     h.setVisibleGone(v);
                 }
             });
+        } else if (v.getId() == R.id.ivUser){
+            if(type.equals(Constants.INBOX)){
+                ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();
+                ProjectTool.goToUser(getContext(), item.from.id);
+            }
         }
     }
 
@@ -106,11 +113,11 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
 
     String getMessageIds(String id) {
         switch (type) {
-            case "inbox":
+            case Constants.INBOX:
                 return id;
-            case "news":
+            case Constants.NEWS:
                 return "message-" + id;
-            case "notifications":
+            case Constants.NOTIFYING:
                 return id;
         }
         return id;

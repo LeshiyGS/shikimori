@@ -98,12 +98,16 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
     }
 
     public void loadPage(final Fragment _frag, final boolean backstack){
+        loadPage(_frag, backstack, true);
+    }
+
+    public void loadPage(final Fragment _frag, final boolean backstack, boolean removeViews){
         if(_frag == null)
             return;
         // clear fragment back pressed
         fragmentBackListener = null;
 
-        if(contentView!=null)
+        if(contentView!=null && removeViews)
             contentView.removeAllViews();
        // new Handler().post(new Runnable() {
        //     public void run() {

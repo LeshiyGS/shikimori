@@ -2,4 +2,5 @@
 <resources>
     <item type="id" name="back_popup_view" />
     <item type="id" name="spanned_urls" />
+    <item name="menu_delete" type="id">menu_delete</item>
 </resources>
