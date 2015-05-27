@@ -86,19 +86,22 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             final ItemNewsUserShiki item = getItem(position);
             query.init(ShikiApi.getUrl(ShikiPath.READ_MESSAGE))
                     .setMethod(Query.METHOD.POST)
+                    .addParam("is_read", item.read ? 0 : 1)
                     .addParam("ids", getMessageIds(item.id))
                     .getResult(new Query.OnQuerySuccessListener() {
                         @Override
                         public void onQuerySuccess(StatusResult res) {
                         }
                     });
-            item.read = true;
-            h.startAnimation(v, R.anim.abc_fade_out, new BaseAnimationListenerAndroid() {
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    h.setVisibleGone(v);
-                }
-            });
+            item.read = !item.read;
+            ProjectTool.setReadOpasity(v, item.read);
+
+//            h.startAnimation(v, R.anim.abc_fade_out, new BaseAnimationListenerAndroid() {
+//                @Override
+//                public void onAnimationEnd(Animation animation) {
+//                    h.setVisibleGone(v);
+//                }
+//            });
         } else if (v.getId() == R.id.ivUser){
             if(type.equals(Constants.INBOX)){
                 ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();

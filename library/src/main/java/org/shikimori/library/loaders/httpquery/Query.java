@@ -211,7 +211,8 @@ public class Query {
                 Log.d(TAG, "request: " + prefix);
                 Log.d(TAG, "params: " + p);
             }
-            Log.d(TAG, "token: " + ShikiUser.TOKEN);
+            Log.d(TAG, "X-User-Nickname: " + ShikiUser.USER_NAME);
+            Log.d(TAG, "X-User-Api-Access-Token: " + ShikiUser.getToken());
         }
         if (getCache(successListener))
             return;

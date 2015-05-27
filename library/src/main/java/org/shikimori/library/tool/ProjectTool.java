@@ -16,9 +16,15 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.BaseViewAnimator;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
+import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
+import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
@@ -168,5 +174,12 @@ public class ProjectTool {
         intent.putExtra(Constants.USER_ID, userId);
         intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
         context.startActivity(intent);
+    }
+
+    public static void setReadOpasity(View v, boolean read) {
+        BaseViewAnimator animator = read ?
+                new OpacityOutAnimator() : new OpacityInAnimator();
+        YoYo.with(animator)
+            .playOn(v);
     }
 }

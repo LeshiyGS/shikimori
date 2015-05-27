@@ -1,6 +1,5 @@
 package org.shikimori.library.fragments;
 
-import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -8,25 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.ChatAdapter;
-import org.shikimori.library.adapters.CommentsAdapter;
-import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.SendMessageController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -39,9 +32,10 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
     private EditText etMessage;
     private View ivSend;
-    private String toUserId;
+    private String toUserNickname;
     private SendMessageController messageController;
     private ChatAdapter adptr;
+    private String toUserId;
 
     @Override
     protected int getLayoutId() {
@@ -49,12 +43,18 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     }
 
     @Override
+    public int getWrapperId() {
+        return R.id.swipeLayout;
+    }
+
+    @Override
     protected boolean isOptionsMenu() {
         return false;
     }
 
-    public static ChatFragment newInstance(String toUserId) {
+    public static ChatFragment newInstance(String toUserNickName, String toUserId) {
         Bundle b = new Bundle();
+        b.putString(Constants.USER_NICKNAME, toUserNickName);
         b.putString(Constants.TO_USER_ID, toUserId);
 
         ChatFragment frag = new ChatFragment();
@@ -77,16 +77,29 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
-        messageController = new SendMessageController(activity, activity.getLoaderController(),
-                query, etMessage);
+        messageController = new SendMessageController(activity, query, etMessage);
         loadData();
+    }
+
+    String getUrlPath(){
+        return ShikiApi.getUrl(ShikiPath.DIALOGS_ID, toUserNickname);
     }
 
     @Override
     public void loadData() {
-        // TODO кастыль пока не будет апи
-        prepareData(new ArrayList<ItemNewsUserShiki>(), true, true);
+        query.init(getUrlPath(), StatusResult.TYPE.ARRAY)
+                .addParam("limit", LIMIT)
+                .addParam("page", page)
+                .getResult(this);
+    }
+
+    @Override
+    public void onStartRefresh() {
+        super.onStartRefresh();
+        clearData();
+        loadData();
     }
 
     @Override
@@ -117,12 +130,12 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
             return;
         }
 
-        if (toUserId == null)
+        if (toUserNickname == null)
             return;
 
         showRefreshLoader();
         etMessage.setEnabled(false);
-        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS))
+        query.init(ShikiApi.getUrl(ShikiPath.MESSAGESPRIVATE))
                 .setMethod(Query.METHOD.POST)
                 .addParam("message[kind]", "Private")
                 .addParam("message[from_id]", getUserId())
@@ -138,7 +151,6 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
                     @Override
                     public void onQuerySuccess(StatusResult res) {
                         onStartRefresh();
-
                         etMessage.setEnabled(true);
                         etMessage.setText("");
                     }
@@ -148,6 +160,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     /**
      * Менюшка у сообщения
      * цитировать сообщение пользователя
+     *
      * @param v
      */
     private void answerMessage(final View v) {
@@ -185,16 +198,14 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     }
 
     void clearData() {
-//        ContentValues cv = new ContentValues();
-//        cv.put("commentable_id", treadId);
-//        query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
+        query.invalidateCache(getUrlPath());
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivSend) {
             sendMessageToServer();
-        } else if (v.getId() == R.id.icSettings){
+        } else if (v.getId() == R.id.icSettings) {
             answerMessage(v);
         }
     }

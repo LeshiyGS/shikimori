@@ -44,6 +44,9 @@ import org.shikimori.library.tool.popup.ListPopup;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 /**
  * Created by Владимир on 30.03.2015.
  */
@@ -98,7 +101,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.ic_send_message) {
-            activity.loadPage(ChatFragment.newInstance(getUserId()));
+            if(userDetails == null){
+                Crouton.makeText(activity, R.string.wait_load_user_data, Style.ALERT);
+                return true;            }
+            activity.loadPage(ChatFragment.newInstance(userDetails.nickname, getUserId()));
             return true;
         }
         return false;

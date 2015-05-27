@@ -30,9 +30,9 @@ public class SendMessageController {
     private EditText editText;
     private MessageData data;
 
-    public SendMessageController(Context context, LoaderController loader, Query query, EditText editText) {
+    public SendMessageController(Context context, Query query, EditText editText) {
         this.context = context;
-        this.loader = loader;
+        this.loader = query.getLoader();
         this.query = query;
         this.editText = editText;
     }
