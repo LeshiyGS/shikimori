@@ -180,6 +180,7 @@ public class ProjectTool {
         BaseViewAnimator animator = read ?
                 new OpacityOutAnimator() : new OpacityInAnimator();
         YoYo.with(animator)
+            .duration(300)
             .playOn(v);
     }
 }

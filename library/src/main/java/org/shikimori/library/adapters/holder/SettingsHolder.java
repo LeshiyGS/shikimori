@@ -6,5 +6,5 @@ import android.view.View;
  * Created by Владимир on 06.04.2015.
  */
 public class SettingsHolder extends BaseHolder {
-    public View ivSettings;
+    public View ivSettings, tvRead;
 }

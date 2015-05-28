@@ -73,10 +73,8 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             h.setVisibleGone(holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        if (item.read)
-            h.setVisibleGone(holder.tvRead);
-        else
-            h.setVisible(holder.tvRead, true);
+        h.setVisible(holder.tvRead, true);
+        ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 
     @Override

@@ -5,3 +5,7 @@ include ':app',
         ":modules:ui_tools",
         ":modules:PinnedSectionAdapter",
         ":modules:PhotoView"
+//        ":myPaggingListView"
+
+
+//project(':myPaggingListView').projectDir = new File(settingsDir, '../example/PagingListView/PagingListViewProject/PagingListView')

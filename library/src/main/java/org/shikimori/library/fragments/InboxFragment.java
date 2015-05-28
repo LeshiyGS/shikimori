@@ -82,7 +82,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public ArrayAdapter<ItemDialogs> getAdapter(List list) {
-        adptr = new InboxAdapter(activity, list);
+        adptr = new InboxAdapter(activity, query, list);
         adptr.setOnSettingsListener(this);
         return adptr;
     }
@@ -94,7 +94,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ItemDialogs item = (ItemDialogs) parent.getAdapter().getItem(position);
-        activity.loadPage(ChatFragment.newInstance(item.message.from.nickname, item.message.from.id));
+        activity.loadPage(ChatFragment.newInstance(item.user.nickname, item.user.id));
     }
 
     @Override

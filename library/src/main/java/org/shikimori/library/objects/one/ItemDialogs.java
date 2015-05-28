@@ -20,7 +20,7 @@ public class ItemDialogs extends JsonParseable implements JsonParseable.Creator<
         if(json == null)
             return this;
 
-        user = new ItemUser(json.optJSONObject("user"));
+        user = new ItemUser(json.optJSONObject("target_user"));
         message = ItemNewsUserShiki.create(json.optJSONObject("message"));
         return this;
     }

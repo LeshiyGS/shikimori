@@ -1,6 +1,7 @@
 package org.shikimori.library.adapters;
 
 import android.content.Context;
+import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 

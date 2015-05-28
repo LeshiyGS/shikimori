@@ -1,5 +1,7 @@
 package org.shikimori.library.loaders.httpquery;
 
+import android.text.TextUtils;
+
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +40,7 @@ public class StatusResult {
     }
 
     public StatusResult(String data, TYPE type){
-        if (data == null)
+        if (TextUtils.isEmpty(data))
             return;
         bodyText = data;
         try {
