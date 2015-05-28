@@ -206,6 +206,8 @@ public class BodyBuild {
             return true;
         if (html.contains("b-spoiler"))
             return false;
+        if (html.contains("b-quote"))
+            return false;
         if (html.contains("blockquote"))
             return false;
         if (html.contains("img") && !checkAvaOrSmiles(html))
@@ -218,6 +220,9 @@ public class BodyBuild {
             case "div":
                 if (elemnt.hasClass("b-spoiler")) {
                     createSpoiler(elemnt, parent);
+                    break;
+                } else if (elemnt.hasClass("b-quote")) {
+                    buildBlockquote(elemnt, parent);
                     break;
                 }
             case "ul":

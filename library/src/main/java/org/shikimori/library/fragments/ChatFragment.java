@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,8 +172,13 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
             @Override
             public void removeItem() {
+                Parcelable state = null;
+                if(page == DEFAULT_FIRST_PAGE)
+                    state = getListView().onSaveInstanceState();
                 ChatFragment.this.removeItem(position);
                 clearData();
+                if(state!=null)
+                    getListView().onRestoreInstanceState(state);
             }
 
             @Override

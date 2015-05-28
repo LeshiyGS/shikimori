@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -131,8 +132,10 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
                                         super.onAnimationEnd(animation);
+                                        Parcelable state = getListView().onSaveInstanceState();
                                         InboxFragment.this.removeItem(dialogposition);
                                         clearData();
+                                        getListView().onRestoreInstanceState(state);
                                     }
                                 })
                                 .duration(300)
