@@ -120,7 +120,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     private void deleteDialod(final int dialogposition, final View parent) {
         ItemDialogs item = adptr.getItem(dialogposition);
         activity.getLoaderController().show();
-        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS) + "/" + item.message.from.nickname)
+        query.init(ShikiApi.getUrl(ShikiPath.DIALOGS) + "/" + item.message.from.nickname)
                 .setMethod(Query.METHOD.DELETE)
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override

@@ -266,8 +266,7 @@ public class Query {
                         Log.d(TAG, "response success but context is null (no ui return)");
                     return;
                 }
-                String data = new String(bytes);
-
+                String data = bytes == null ? null : new String(bytes);
                 if (ShikiApi.isDebug)
                     Log.d(TAG, "response: " + data);
 
@@ -279,7 +278,8 @@ public class Query {
                     return;
 
                 reqData.requestData = data;
-                saveCache(reqData);
+                if(data != null)
+                    saveCache(reqData);
 
                 if (successListener != null)
                     successListener.onQuerySuccess(res);

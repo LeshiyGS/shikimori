@@ -210,6 +210,11 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
             public boolean isOwner() {
                 return getUserId().equals(obj.user_id);
             }
+
+            @Override
+            public String deleteUrl() {
+                return null;
+            }
         });
     }
 

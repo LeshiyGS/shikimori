@@ -192,7 +192,12 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
             @Override
             public boolean isOwner() {
-                return getUserId().equals(obj.from.id);
+                return true;
+            }
+
+            @Override
+            public String deleteUrl() {
+                return ShikiPath.MESSAGESPRIVATE;
             }
         });
     }

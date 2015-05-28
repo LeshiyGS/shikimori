@@ -49,7 +49,8 @@ public class SendMessageController {
 
     protected void deleteMessage() {
         loader.show();
-        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS) + "/" + data.getMessageId())
+        query.init(ShikiApi.getUrl(data.deleteUrl() == null ?
+                ShikiPath.COMMENTS : data.deleteUrl()) + "/" + data.getMessageId())
                 .setMethod(Query.METHOD.DELETE)
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override
@@ -105,5 +106,7 @@ public class SendMessageController {
         public View getParent();
 
         public boolean isOwner();
+
+        public String deleteUrl();
     }
 }
