@@ -22,6 +22,7 @@ import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
@@ -34,12 +35,10 @@ import java.util.List;
 public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> implements View.OnClickListener {
 
     private final BodyBuild bodyBuilder;
-    private final Query query;
     private View.OnClickListener clickListener;
 
-    public InboxAdapter(Context context, Query query, List<ItemDialogs> list) {
+    public InboxAdapter(Context context, List<ItemDialogs> list) {
         super(context, list, R.layout.item_shiki_comments_list, SettingsHolder.class);
-        this.query = query;
         bodyBuilder = new BodyBuild((Activity) context);
     }
 
@@ -122,17 +121,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> i
             intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
             getContext().startActivity(intent);
         } else if (v.getId() == R.id.tvRead) {
-            query.init(ShikiApi.getUrl(ShikiPath.READ_MESSAGE))
-                    .setMethod(Query.METHOD.POST)
-                    .addParam("is_read", item.message.read ? 0 : 1)
-                    .addParam("ids", item.message.id)
-                    .getResult(new Query.OnQuerySuccessListener() {
-                        @Override
-                        public void onQuerySuccess(StatusResult res) {
-                        }
-                    });
-            item.message.read = !item.message.read;
-            ProjectTool.setReadOpasity(v, item.message.read);
+            item.message.read = ReadMessageController.getInstance().setRead(v, item.message.read, item.message.id);
         }
     }
 }

@@ -21,6 +21,7 @@ import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController.MessageData;
+import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -77,7 +78,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        bodyBuilder = new BodyBuild(activity);
+        initBodyBuilder();
         messageController = new SendMessageController(activity, query, etMessage);
 
         initParams();
@@ -86,6 +87,16 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
             showRefreshLoader();
             loadData();
         }
+    }
+
+    private void initBodyBuilder() {
+        bodyBuilder = new BodyBuild(activity);
+        bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
+            @Override
+            public void imageClick(PostImage image) {
+                activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
+            }
+        });
     }
 
     private void initParams() {
@@ -134,7 +145,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     @Override
     public ArrayAdapter<ItemCommentsShiki> getAdapter(List list) {
-        adaptr = new CommentsAdapter(activity, list);
+        adaptr = new CommentsAdapter(activity, bodyBuilder, list);
         adaptr.setOnSettingsListener(this);
         return adaptr;
     }

@@ -14,9 +14,15 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
+import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
@@ -46,12 +52,15 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         if(clickListener!=null)
             holder.ivSettings.setOnClickListener(clickListener);
         holder.ivPoster.setOnClickListener(this);
+        holder.tvRead.setOnClickListener(this);
     }
 
     @Override
     public SettingsHolder getViewHolder(View v) {
         SettingsHolder hol = super.getViewHolder(v);
         hol.ivSettings = get(v, R.id.icSettings);
+        hol.tvRead = get(v, R.id.tvRead);
+        h.setVisible(hol.tvRead, true);
         return hol;
     }
 
@@ -77,6 +86,9 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         holder.ivPoster.setImageDrawable(null);
         holder.ivPoster.setTag(position);
         ImageLoader.getInstance().displayImage(item.from.img148, holder.ivPoster);
+
+        holder.tvRead.setTag(position);
+        ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 
     private void initDescription(final ItemNewsUserShiki item, final ViewGroup llBodyHtml) {
@@ -103,12 +115,14 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
     @Override
     public void onClick(View v) {
         // this is user
+        ItemNewsUserShiki item = getItem((int) v.getTag());
         if(v.getId() == R.id.ivPoster){
-            ItemNewsUserShiki item = getItem((int) v.getTag());
             Intent intent = new Intent(getContext(), ShowPageActivity.class);
             intent.putExtra(Constants.USER_ID, item.from.id);
             intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
             getContext().startActivity(intent);
+        } else if (v.getId() == R.id.tvRead) {
+            item.read = ReadMessageController.getInstance().setRead(v, item.read, item.id);
         }
     }
 }

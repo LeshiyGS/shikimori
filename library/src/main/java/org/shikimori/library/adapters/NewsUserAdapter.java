@@ -17,6 +17,7 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListenerAndroid;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -26,12 +27,10 @@ import java.util.List;
  */
 public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageHolder> implements View.OnClickListener {
 
-    private final Query query;
     private String type;
 
     public NewsUserAdapter(Context context, Query query, List list) {
         super(context, list, R.layout.item_shiki_message_list, MessageHolder.class);
-        this.query = query;
     }
 
     @Override
@@ -82,24 +81,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         if (v.getId() == R.id.tvRead) {
             int position = (int) v.getTag();
             final ItemNewsUserShiki item = getItem(position);
-            query.init(ShikiApi.getUrl(ShikiPath.READ_MESSAGE))
-                    .setMethod(Query.METHOD.POST)
-                    .addParam("is_read", item.read ? 0 : 1)
-                    .addParam("ids", getMessageIds(item.id))
-                    .getResult(new Query.OnQuerySuccessListener() {
-                        @Override
-                        public void onQuerySuccess(StatusResult res) {
-                        }
-                    });
-            item.read = !item.read;
-            ProjectTool.setReadOpasity(v, item.read);
-
-//            h.startAnimation(v, R.anim.abc_fade_out, new BaseAnimationListenerAndroid() {
-//                @Override
-//                public void onAnimationEnd(Animation animation) {
-//                    h.setVisibleGone(v);
-//                }
-//            });
+            item.read = ReadMessageController.getInstance().setRead(v, item.read, item.id);
         } else if (v.getId() == R.id.ivUser){
             if(type.equals(Constants.INBOX)){
                 ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();

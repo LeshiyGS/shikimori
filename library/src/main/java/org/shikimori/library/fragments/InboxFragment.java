@@ -28,6 +28,7 @@ import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
@@ -55,6 +56,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ReadMessageController.newInstance(query);
         showRefreshLoader();
         loadData();
     }
@@ -83,7 +85,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public ArrayAdapter<ItemDialogs> getAdapter(List list) {
-        adptr = new InboxAdapter(activity, query, list);
+        adptr = new InboxAdapter(activity, list);
         adptr.setOnSettingsListener(this);
         return adptr;
     }

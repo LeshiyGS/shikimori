@@ -33,9 +33,9 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
     private final BodyBuild bodyBuilder;
     private View.OnClickListener clickListener;
 
-    public CommentsAdapter(Context context, List<ItemCommentsShiki> list) {
+    public CommentsAdapter(Context context, BodyBuild bodyBuilder, List<ItemCommentsShiki> list) {
         super(context, list, R.layout.item_shiki_comments_list, SettingsHolder.class);
-        bodyBuilder = new BodyBuild((Activity) context);
+        this.bodyBuilder = bodyBuilder;
     }
 
     String formatDate(long date, String format) {

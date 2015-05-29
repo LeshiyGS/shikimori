@@ -31,6 +31,7 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.actionmode.ActionDescription;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
@@ -103,6 +104,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ReadMessageController.newInstance(query);
         activity.setOnFragmentBackListener(this);
         bodyBuild = new BodyBuild(activity);
         if(type.equals(Constants.INBOX))
