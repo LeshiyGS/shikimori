@@ -14,11 +14,11 @@ import java.util.List;
 public class UserDetails extends JsonParseable implements JsonParseable.Creator<UserDetails> {
 
     public String id, nickname, avatar, lastOnlineAt, name, sex, fullYears, lastOnline,
-            website, location, about, aboutHtml, inFriends;
+            website, location, about, aboutHtml;
     public List<String> commonInfo;
     public Statuses statuses;
     public Statuses fullStatuses;
-    public boolean banned, showComments, hasAnime, hasManga;
+    public boolean banned, showComments, hasAnime, hasManga, inFriends;
 
     public static UserDetails create(JSONObject json) {
         return new UserDetails().createFromJson(json);
@@ -44,7 +44,7 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
         location = helper.addString("location");
         about = helper.addString("about");
         aboutHtml = helper.addString("about_html");
-        inFriends = helper.addString("in_friends");
+        inFriends = json.optBoolean("in_friends");
         banned = json.optBoolean("banned");
         showComments = json.optBoolean("show_comments");
         hasAnime = json.optBoolean("has_anime?");

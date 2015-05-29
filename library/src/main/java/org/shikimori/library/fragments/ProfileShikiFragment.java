@@ -100,23 +100,60 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.ic_send_message) {
-            if(userDetails == null){
-                Crouton.makeText(activity, R.string.wait_load_user_data, Style.ALERT);
-                return true;            }
-            activity.loadPage(ChatFragment.newInstance(userDetails.nickname, getUserId()));
+        if(userDetails == null){
+            Crouton.makeText(activity, R.string.wait_load_user_data, Style.ALERT).show();
             return true;
         }
+        if (item.getItemId() == R.id.ic_send_message) {
+            activity.loadPage(ChatFragment.newInstance(userDetails.nickname, getUserId()));
+            return true;
+        } else if (item.getItemId() == R.id.ic_add_friend){
+            userDetails.inFriends = !userDetails.inFriends;
+            checkUserFriend();
+            sendFriendToServer(userDetails.inFriends);
+            invalidateData();
+        }
         return false;
+    }
+
+    private void sendFriendToServer(boolean inFriends) {
+
+        query.init(ShikiApi.getUrl(ShikiPath.SET_FRIEND, getUserId()))
+             .setMethod(inFriends ? Query.METHOD.POST : Query.METHOD.DELETE)
+              .getResult(new Query.OnQuerySuccessListener() {
+                  @Override
+                  public void onQuerySuccess(StatusResult res) {
+                      Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
+                  }
+              });
+    }
+
+    void checkUserFriend(){
+        getView().post(new Runnable() {
+            @Override
+            public void run() {
+                if(actionMenu!=null && !isSelfProfile()){
+                    MenuItem item = actionMenu.findItem(R.id.ic_add_friend);
+                    if(!userDetails.inFriends){
+                        item.setIcon(R.drawable.ic_action_favorite_white);
+                    } else
+                        item.setIcon(R.drawable.ic_action_favorite_blue);
+                }
+            }
+        });
     }
 
     void checkUserMenu() {
         if (activity != null) {
             if (actionMenu != null) {
-                if (getUserId().equals(activity.getShikiUser().getId()))
+                if (isSelfProfile())
                     actionMenu.setGroupVisible(R.id.userGroup, false);
             }
         }
+    }
+
+    boolean isSelfProfile(){
+        return getUserId().equals(activity.getShikiUser().getId());
     }
 
     @Override
@@ -180,8 +217,12 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public void onStartRefresh() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId());
+        invalidateData();
         loadDataFromServer();
+    }
+
+    void invalidateData(){
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId());
     }
 
     void loadDataFromServer() {
@@ -211,6 +252,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         testHtml(userDetails.aboutHtml);
 
         buildProfile();
+
+        checkUserFriend();
     }
 
     void updateUserUI() {

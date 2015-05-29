@@ -20,6 +20,7 @@ public interface ShikiPath {
     public String DIALOGS = "api/dialogs";
     public String DIALOGS_ID = "api/dialogs/:id";
     public String FAVOURITES = "api/users/:id/favourites";
+    public String SET_FRIEND = "api/friends/:id";
     public String TOPICS_ID = "api/topics/";
     public String CHARACTER_ID = "api/characters/";
     //    public String AUTH = "users/sign_in";
