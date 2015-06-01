@@ -154,8 +154,8 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     private void initData(){
         add(new Item(DRAWER_MENU_PROFILE_ID, R.string.user_name, R.mipmap.ic_no_avatar));
 //        add(new Item(DRAWER_MENU_PROFILE_ID, R.string.profile, R.drawable.ic_drawer_profile));
-        add(new Item(DRAWER_MENU_ANIME_ID, R.string.anime, R.drawable.ic_drawer_news));
-        add(new Item(DRAWER_MENU_MANGA_ID, R.string.manga, R.drawable.ic_drawer_news));
+        add(new Item(DRAWER_MENU_ANIME_ID, R.string.anime, R.drawable.ic_drawer_anime));
+        add(new Item(DRAWER_MENU_MANGA_ID, R.string.manga, R.drawable.ic_drawer_manga));
         add(new Item(DRAWER_MENU_CALENDAR_ID, R.string.calendar, R.drawable.ic_drawer_calendar));
         add(new Item(DRAWER_MENU_NEWS_ID, R.string.newsanddiscus, R.drawable.ic_drawer_news));
         add(new Item(DRAWER_MENU_COMUNITY_ID, R.string.community, R.drawable.ic_drawer_comunity));

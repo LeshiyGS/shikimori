@@ -102,4 +102,5 @@
     <string name="elk_checked">%d отмечено</string>
     <string name="elk_mark_all">выбрать/снять все</string>
     <string name="wait_load_user_data">Подождите пока загрузиться данные</string>
+    <string name="ignore">Игнорированть</string>
 </resources>

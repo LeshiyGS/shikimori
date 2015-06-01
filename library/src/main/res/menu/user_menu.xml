@@ -10,5 +10,9 @@
             android:title="@string/send_message"
             android:icon="@drawable/ic_action_message_white"
             library:showAsAction="always" />
+        <item android:id="@+id/ic_ignore"
+            android:title="@string/ignore"
+            android:icon="@drawable/ic_action_bell_on"
+            library:showAsAction="always" />
     </group>
 </menu>
