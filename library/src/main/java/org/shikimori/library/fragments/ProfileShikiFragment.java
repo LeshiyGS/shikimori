@@ -1,5 +1,7 @@
 package org.shikimori.library.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -112,13 +114,36 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             checkUserFriend();
             sendFriendToServer(userDetails.inFriends);
             invalidateData();
+            return true;
         } else if (item.getItemId() == R.id.ic_ignore){
-            userDetails.showComments = !userDetails.showComments;
-            checkUserFriend();
-            sendIgnoreToServer(userDetails.showComments);
-            invalidateData();
+            if(userDetails.showComments){
+                new AlertDialog.Builder(activity)
+                    .setTitle(R.string.disable_user_messages)
+                    .setMessage(R.string.disable_user_messages_text)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ignoreUser();
+                        }
+                    }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+            } else {
+                ignoreUser();
+            }
+            return true;
         }
         return false;
+    }
+
+    void ignoreUser(){
+        userDetails.showComments = !userDetails.showComments;
+        checkUserFriend();
+        sendIgnoreToServer(userDetails.showComments);
+        invalidateData();
     }
 
     private void sendFriendToServer(boolean inFriends) {
@@ -136,12 +161,12 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
         query.init(ShikiApi.getUrl(ShikiPath.SET_IGNORES, getUserId()))
              .setMethod(!showComments ? Query.METHOD.POST : Query.METHOD.DELETE)
-             .getResult(new Query.OnQuerySuccessListener() {
-                  @Override
-                  public void onQuerySuccess(StatusResult res) {
-                      Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
-                }
-              });
+                .getResult(new Query.OnQuerySuccessListener() {
+                    @Override
+                    public void onQuerySuccess(StatusResult res) {
+                        Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
+                    }
+                });
     }
 
     void checkUserFriend(){
