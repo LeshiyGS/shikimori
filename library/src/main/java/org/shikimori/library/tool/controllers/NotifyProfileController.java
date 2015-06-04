@@ -11,6 +11,7 @@ import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NotifyProfileAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.fragments.CommunityUsersFragment;
 import org.shikimori.library.fragments.InboxFragment;
 import org.shikimori.library.fragments.UserHistoryFragment;
 import org.shikimori.library.fragments.UserNewsFragment;
@@ -111,6 +112,9 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             Intent i = new Intent(mContext, ShowPageActivity.class);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.FAVORITES_PAGE);
             mContext.startActivity(i);
+        }
+        else if (id == FRIENDS) {
+            mContext.loadPage(CommunityUsersFragment.newInstance(true));
         }
     }
 

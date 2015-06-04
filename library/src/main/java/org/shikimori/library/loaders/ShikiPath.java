@@ -16,6 +16,7 @@ public interface ShikiPath {
     public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
     public String READ_MESSAGE = "/api/messages/mark_read";
     public String MESSAGES = "api/users/:id/messages";
+    public String FRIENDS = "api/users/:id/friends";
     public String HISTORY = "api/users/:id/history";
     public String DIALOGS = "api/dialogs";
     public String DIALOGS_ID = "api/dialogs/:id";

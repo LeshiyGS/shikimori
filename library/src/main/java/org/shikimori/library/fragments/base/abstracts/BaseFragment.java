@@ -39,6 +39,8 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
     }
 
     public int getActionBarTitle(){
+        if(params!=null)
+           return params.getInt(Constants.ACTION_BAR_TITLE);
         return 0;
     }
 
@@ -70,9 +72,10 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         ActionBar actionBar = activity.getSupportActionBar();
         if(actionBar!=null){
             String title;
+            int titleInt;
             // set int title
-            if(getActionBarTitle()!=0)
-                actionBar.setTitle(getActionBarTitle());
+            if((titleInt = getActionBarTitle())!=0)
+                actionBar.setTitle(titleInt);
             // set String title
             else if ((title = getActionBarTitleString())!=null)
                 actionBar.setTitle(title);

@@ -7,28 +7,27 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.objects.one.ItemUserShiki;
+import org.shikimori.library.objects.one.ItemUser;
 import org.shikimori.library.tool.h;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class UserCardStyleAdapter extends BaseCardGridAdapter<ItemUserShiki> {
+public class UserCardStyleAdapter extends BaseCardGridAdapter<ItemUser> {
 
     private final int online;
     private final int notOnline;
 
-    public UserCardStyleAdapter(Context context, List<ItemUserShiki> list) {
+    public UserCardStyleAdapter(Context context, List<ItemUser> list) {
         super(context, list, R.layout.item_shiki_card_grid);
         online = context.getResources().getColor(R.color.greenColor);
         notOnline = context.getResources().getColor(R.color.altarixUiLabelColor);
     }
 
     @Override
-    public void setValues(ViewHolder holder, ItemUserShiki item, int position) {
+    public void setValues(ViewHolder holder, ItemUser item, int position) {
         holder.tvTitle.setText(item.nickname);
         long time = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.last_online_at).getTime();
         long curTime = System.currentTimeMillis() - Query.FIVE_MIN;
@@ -45,6 +44,6 @@ public class UserCardStyleAdapter extends BaseCardGridAdapter<ItemUserShiki> {
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);
-        ImageLoader.getInstance().displayImage(item.img_x160, holder.ivImage);
+        ImageLoader.getInstance().displayImage(item.img148, holder.ivImage);
     }
 }

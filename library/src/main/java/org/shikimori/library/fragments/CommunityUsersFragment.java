@@ -18,7 +18,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.one.ItemUserShiki;
+import org.shikimori.library.objects.one.ItemUser;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -30,8 +30,21 @@ import java.util.List;
  */
 public class CommunityUsersFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
+    private static String FRIENDLIST = "FRIENDLIST";
+
+    boolean friendList;
+
     public static CommunityUsersFragment newInstance() {
         return new CommunityUsersFragment();
+    }
+
+    public static CommunityUsersFragment newInstance(boolean friendList) {
+        Bundle b = new Bundle();
+        b.putBoolean(FRIENDLIST, friendList);
+        b.putInt(Constants.ACTION_BAR_TITLE, R.string.friends);
+        CommunityUsersFragment frag = new CommunityUsersFragment();
+        frag.setArguments(b);
+        return frag;
     }
 
 //    @Override
@@ -40,6 +53,8 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 //    }
 
     protected String getLoadPath() {
+        if(friendList)
+            return ShikiApi.getUrl(ShikiPath.FRIENDS, getUserId());
         return ShikiApi.getUrl(ShikiPath.GET_USERS_LIST);
     }
 
@@ -53,6 +68,7 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        friendList = getParam(FRIENDLIST);
         StartFirstLoad();
     }
 
@@ -69,13 +85,13 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemUserShiki.class);
+        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemUser.class);
         prepareData(builder.list, true, true);
     }
 
     @Override
-    public ArrayAdapter<ItemUserShiki> getAdapter(List<?> list) {
-        return new UserCardStyleAdapter(activity, (List<ItemUserShiki>) list);
+    public ArrayAdapter<ItemUser> getAdapter(List<?> list) {
+        return new UserCardStyleAdapter(activity, (List<ItemUser>) list);
     }
 
     @Override
@@ -94,7 +110,7 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
         if(position < 0 || position >= adp.getCount())
             return;
 
-        ItemUserShiki item = (ItemUserShiki)adp.getItem(position);
+        ItemUser item = (ItemUser)adp.getItem(position);
 
         Intent intent = new Intent(activity, ShowPageActivity.class);
         intent.putExtra(Constants.USER_ID, item.id);
