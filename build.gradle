@@ -16,5 +16,11 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
+        ivy {
+            url "../modules_aar"
+            layout 'pattern' , {
+                artifact '[artifact].aar'
+            }
+        }
     }
 }

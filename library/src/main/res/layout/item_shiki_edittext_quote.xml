@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/notify_style_quote"
+    android:orientation="horizontal">
+
+
+    <!--<ImageView-->
+        <!--android:id="@+id/ivUser"-->
+        <!--android:layout_width="@dimen/defaultPaddingEnormous"-->
+        <!--android:layout_height="@dimen/defaultPaddingEnormous" />-->
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/altarixUiText.TextTitle"
+        android:textSize="@dimen/guTextSizeBig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

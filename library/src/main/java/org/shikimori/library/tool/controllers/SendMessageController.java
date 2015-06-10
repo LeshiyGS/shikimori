@@ -1,6 +1,9 @@
 package org.shikimori.library.tool.controllers;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -8,6 +11,7 @@ import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.jmpergar.awesometext.AwesomeTextHandler;
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
@@ -17,14 +21,20 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
+import org.shikimori.library.tool.edittext.PostSpanRenderer;
+import org.shikimori.library.tool.edittext.QuoteEditText;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Феофилактов on 07.05.2015.
  */
 public class SendMessageController {
     private final Context context;
+    private final QuoteEditText quoteTool;
     private LoaderController loader;
     private final Query query;
     private EditText editText;
@@ -35,15 +45,18 @@ public class SendMessageController {
         this.loader = query.getLoader();
         this.query = query;
         this.editText = editText;
+
+        quoteTool = new QuoteEditText(editText);
     }
 
     protected void answer(String id, String nickname) {
         StringBuilder str = new StringBuilder("[message=");
         str.append(id).append("]")
                 .append(nickname)
-                .append("[/message]");
+                .append("[/message] ");
 
         h.insertTextEditText(editText, str.toString());
+        quoteTool.setText(editText.getText().toString());
         h.showKeyboard(context, editText);
     }
 
