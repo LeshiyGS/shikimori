@@ -33,7 +33,7 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
     public AMShiki createFromJson(JSONObject json) {
         allData = json;
         if (json == null)
-            return null;
+            return this;
         helper = new HelperObj(json);
         id = helper.addString("id");
         name = helper.addString("name");

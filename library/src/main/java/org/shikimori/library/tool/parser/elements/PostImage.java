@@ -27,10 +27,6 @@ public class PostImage extends ImageController{
         initImage();
     }
 
-    public ImageView getImage() {
-        return image;
-    }
-
     private void initImage() {
         //Вставляем картинку
         image = new ImageView(context);

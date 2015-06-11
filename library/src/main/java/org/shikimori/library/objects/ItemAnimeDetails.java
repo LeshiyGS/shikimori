@@ -19,7 +19,8 @@ public class ItemAnimeDetails extends AMDetails {
     @Override
     public ItemAnimeDetails createFromJson(JSONObject json) {
         super.createFromJson(json);
-        studios = getList(json.optJSONArray("studios"), "name");
+        if(json != null)
+            studios = getList(json.optJSONArray("studios"), "name");
         return this;
     }
 

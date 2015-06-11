@@ -2,6 +2,7 @@ package org.shikimori.library.tool.parser.jsop;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.support.v4.content.AsyncTaskLoader;
@@ -25,11 +26,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.shikimori.library.R;
+import org.shikimori.library.activity.ShowPageActivity;
+import org.shikimori.library.adapters.AniHistoryAdapter;
+import org.shikimori.library.adapters.AniPostGaleryAdapter;
+import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.objects.one.AMShiki;
+import org.shikimori.library.objects.one.ItemImage;
 import org.shikimori.library.objects.one.ItemImageShiki;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ImageController;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.UILImageGetter;
+import org.shikimori.library.tool.parser.elements.PostAnime;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
@@ -210,6 +219,8 @@ public class BodyBuild {
             return false;
         if (html.contains("blockquote"))
             return false;
+        if (html.contains("c-anime"))
+            return false;
         if (html.contains("img") && !checkAvaOrSmiles(html))
             return false;
         return true;
@@ -227,6 +238,9 @@ public class BodyBuild {
                 }
             case "ul":
                 looper(elemnt.childNodes(), parent);
+                break;
+            case "article":
+                buildViewAni(elemnt, parent);
                 break;
             case "img":
                 addImage(elemnt, parent);
@@ -273,6 +287,67 @@ public class BodyBuild {
         }
         elemnt.remove();
         parent.addView(quote.getQuote());
+    }
+    /**
+     * **********************************************************
+     * Work simple Anime and Manga preview
+     * **********************************************************
+     */
+    private void buildViewAni(Element elemnt, ViewGroup parent) {
+
+        Element imageSrc = elemnt.select("img").first();
+//        String title = imageSrc.attr("title");
+//        String prevImg = imageSrc.attr("src");
+//        String originImg = imageSrc.attr("srcset");
+//        String id = elemnt.id();
+
+        AMShiki item = AMShiki.create(null);
+        item.image = new ItemImage(null);
+        item.image.preview = imageSrc.attr("src");
+        item.image.original = imageSrc.attr("srcset");
+        item.name = imageSrc.attr("title");
+        item.id = elemnt.id();
+
+        ExpandableHeightGridView exGrid;
+        View view = getLastView(parent);
+        if (view == null || !(view instanceof ExpandableHeightGridView)) {
+            insertText();
+            exGrid = createPosterGallery(parent);
+            exGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    AMShiki obj = (AMShiki) parent.getAdapter().getItem(position);
+                    Intent i = new Intent(context, ShowPageActivity.class);
+                    i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+                    i.putExtra(Constants.ITEM_ID, obj.id);
+                    context.startActivity(i);
+                }
+            });
+        } else {
+            exGrid = (ExpandableHeightGridView) view;
+        }
+
+        if(exGrid.getAdapter() == null)
+            exGrid.setAdapter(new AniPostGaleryAdapter(context, new ArrayList<AMShiki>()));
+
+        ((AniPostGaleryAdapter)exGrid.getAdapter()).add(item);
+
+//        ItemImageShiki imageData = new ItemImageShiki(prevImg, originImg);
+//        imageData.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(context, ShowPageActivity.class);
+//                i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+//                i.putExtra(Constants.ITEM_ID, id);
+//                context.startActivity(i);
+//            }
+//        });
+//
+//        PostAnime postAnime = new PostAnime(context, imageData);
+//        postAnime.setTitle(title);
+//        images.add(postAnime);
+//     //   elemnt.remove();
+//        parent.addView(postAnime.getView());
     }
 
     /**
@@ -460,6 +535,16 @@ public class BodyBuild {
         layout.setLayoutParams(getDefaultParams());
         layout.setPadding(0, 0, 0, 30);
         layout.setUseDefaultMargins(true);
+        parent.addView(layout);
+        return layout;
+    }
+
+    private ExpandableHeightGridView createPosterGallery(ViewGroup parent) {
+        ExpandableHeightGridView layout = new ExpandableHeightGridView(context);
+        layout.setNumColumns(ExpandableHeightGridView.AUTO_FIT);
+        layout.setStretchMode(ExpandableHeightGridView.STRETCH_COLUMN_WIDTH);
+        layout.setLayoutParams(getDefaultParams());
+        layout.setPadding(0, 0, 0, 30);
         parent.addView(layout);
         return layout;
     }

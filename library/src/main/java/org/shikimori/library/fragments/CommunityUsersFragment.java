@@ -68,7 +68,7 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        friendList = getParam(FRIENDLIST);
+        friendList = getParamBoolean(FRIENDLIST);
         StartFirstLoad();
     }
 

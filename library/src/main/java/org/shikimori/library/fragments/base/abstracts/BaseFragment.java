@@ -133,4 +133,10 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
             return (C) params.get(name);
         return null;
     }
+
+    protected boolean getParamBoolean(String name){
+        if(params!=null)
+            return params.getBoolean(name);
+        return false;
+    }
 }
