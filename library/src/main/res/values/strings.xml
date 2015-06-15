@@ -105,4 +105,8 @@
     <string name="ignore">Игнорированть</string>
     <string name="disable_user_messages">Игнорировать пользователя</string>
     <string name="disable_user_messages_text">Включив игнор, вы так же удалите всю существующую переписку с пользователем</string>
+    <string name="new_notify">Уведомления: %1$d</string>
+    <string name="new_messages">Сообщения: %1$d</string>
+    <string name="new_news">Новости: %1$d</string>
+    <string name="incomming_messages">Новые сообщения</string>
 </resources>

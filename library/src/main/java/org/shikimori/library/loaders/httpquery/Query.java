@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.ResponseHandlerInterface;
+import com.loopj.android.http.SyncHttpClient;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
@@ -22,7 +23,6 @@ import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserLister;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -39,6 +39,7 @@ public class Query {
     private static final String TAG = "httpquery";
 
     static AsyncHttpClient client;
+    AsyncHttpClient clientSync;
     RequestParams params;
     private Context context;
     private OnQueryErrorListener errorListener;
@@ -63,7 +64,10 @@ public class Query {
 
     // cancell all request
     public void onStop() {
-        client.cancelAllRequests(true);
+        if(client!=null)
+            client.cancelAllRequests(true);
+        if(clientSync!=null)
+            clientSync.cancelAllRequests(true);
     }
 
     public LoaderController getLoader() {
@@ -71,7 +75,10 @@ public class Query {
     }
 
     public Query addHeader(String key, String header) {
-        client.addHeader(key, header);
+        if(client!=null)
+            client.addHeader(key, header);
+        if(clientSync!=null)
+            clientSync.addHeader(key, header);
         return this;
     }
 
@@ -83,10 +90,24 @@ public class Query {
         public void onQuerySuccess(StatusResult res);
     }
 
-    public Query(Context context) {
+    private void initConstructor(Context context){
         this.context = context;
         if (client == null)
             client = new AsyncHttpClient();
+    }
+
+    public Query(Context context) {
+        initConstructor(context);
+    }
+
+    public Query(Context context, Boolean async) {
+        if(async) {
+            initConstructor(context);
+            return;
+        }
+        this.context = context;
+        if (clientSync == null)
+            clientSync = new SyncHttpClient();
     }
 
     /**
@@ -102,7 +123,10 @@ public class Query {
         this.method = METHOD.GET;
         // type return content
         this.type = StatusResult.TYPE.OBJECT;
-        client.removeAllHeaders();
+        if(client!=null)
+            client.removeAllHeaders();
+        if(clientSync!=null)
+            clientSync.removeAllHeaders();
         // add user token
 
         if (ShikiUser.getToken() != null) {
@@ -218,7 +242,9 @@ public class Query {
             return;
 
         if (!h.getConnection(context)) {
-            h.showMsg(context, R.string.error_connection);
+            StatusResult res = new StatusResult();
+            res.setMsg(context.getString(R.string.error_connection));
+            showError(res);
             hideLoaders();
             return;
         }
@@ -227,15 +253,16 @@ public class Query {
     }
 
     private void requestToServer(final OnQuerySuccessListener successListener) {
+        AsyncHttpClient tempClient = clientSync != null ? clientSync : client;
         if (method == METHOD.POST)
-            client.post(prefix, params, getSuccessListener(successListener));
+            tempClient.post(prefix, params, getSuccessListener(successListener));
         else if (method == METHOD.GET)
-            client.get(prefix, params, getSuccessListener(successListener));
+            tempClient.get(prefix, params, getSuccessListener(successListener));
         else if (method == METHOD.DELETE){
             String _paramStr = params.toString();
             if(_paramStr.length() > 0)
                 _paramStr = "?" + _paramStr;
-            client.delete(prefix + _paramStr, getSuccessListener(successListener));
+            tempClient.delete(prefix + _paramStr, getSuccessListener(successListener));
         }
     }
 
