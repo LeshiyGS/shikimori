@@ -24,6 +24,7 @@ public class PushHelper {
         b.putString(PushHelperReceiver.ACTION, action);
         b.putString(PushHelperReceiver.MSG_TITLE, title);
         b.putString(PushHelperReceiver.MSG_BODY, message);
+        b.putString(PushHelperReceiver.MSG_BODY, message);
         broadcastIntent.putExtras(b);
         context.sendBroadcast(broadcastIntent);
     }

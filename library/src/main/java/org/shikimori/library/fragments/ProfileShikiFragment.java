@@ -244,7 +244,12 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     @Override
     public int pullableViewId() {
-        return R.id.bodyScroll;
+        return 0;
+    }
+
+    @Override
+    public int getWrapperId() {
+        return R.id.swipeLayout;
     }
 
     @Override

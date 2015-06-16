@@ -10,6 +10,7 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.shikimori.client.R;
 import org.shikimori.client.ShikiApplikation;
+import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -90,11 +91,11 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
 
         Notification userNotify = user.getNotification();
         StringBuilder str = new StringBuilder();
-        if(userNotify.notifications < notify.notifications)
+        if(userNotify.notifications < notify.notifications && PreferenceHelper.getNotifyNotify(this))
             appendString(str, R.string.new_notify, notify.notifications);
-        if(userNotify.news < notify.news)
+        if(userNotify.news < notify.news && PreferenceHelper.getNotifyNews(this))
             appendString(str, R.string.new_news, notify.news);
-        if (userNotify.messages < notify.messages)
+        if (userNotify.messages < notify.messages && PreferenceHelper.getNotifyMessage(this))
             appendString(str, R.string.new_messages, notify.messages);
 
         if(str.length() > 0){

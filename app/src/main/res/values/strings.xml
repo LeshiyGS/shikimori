@@ -8,5 +8,10 @@
     <string name="success_auth">Тест текст, авторизация успешна</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="shiki_site">Shikimori.org</string>
+    <string name="notify_message_desc">Уведомление о новых сообщениях</string>
+    <string name="notify_news_desc">Уведомлять о новостях</string>
+    <string name="notify_desc">Дзынькает о новых уведомлениях</string>
+    <string name="sound">Звук</string>
+    <string name="notify_sound_desc">Звуковое сопровождение уведомлений</string>
 
 </resources>

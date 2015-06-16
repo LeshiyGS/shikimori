@@ -107,8 +107,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
         // clear fragment back pressed
         fragmentBackListener = null;
 
-        if(contentView!=null && removeViews)
-            contentView.removeAllViews();
+//        if(contentView!=null && removeViews)
+//            contentView.removeAllViews();
        // new Handler().post(new Runnable() {
        //     public void run() {
                 FragmentTransaction fr = fManager.beginTransaction();

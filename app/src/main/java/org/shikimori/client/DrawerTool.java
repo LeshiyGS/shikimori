@@ -1,5 +1,7 @@
 package org.shikimori.client;
 
+import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,10 +11,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.shikimori.client.activity.PreferencesShikiActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.client.fragments.AnimesShikiFragment;
 import org.shikimori.client.fragments.CalendarShikiFragment;
 import org.shikimori.client.fragments.MangasShikiFragment;
+import org.shikimori.client.fragments.PreferenceShikiPragment;
 import org.shikimori.client.fragments.TopicsShikiFragment;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.fragments.CalendarFragment;
@@ -142,6 +146,16 @@ public class DrawerTool {
             frag = MangasShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_NEWS_ID) {
             frag = TopicsShikiFragment.newInstance();
+        } else if (pageId == DrawerAdapter.DRAWER_MENU_SETTINGS_ID) {
+            if (Build.VERSION.SDK_INT > 10) {
+                activity.removeCurrentFragment();
+                activity.getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, PreferenceShikiPragment.newInstance())
+                        .commit();
+            }else
+                activity.startActivity(new Intent(activity, PreferencesShikiActivity.class));
+            return;
         } else if (pageId == DrawerAdapter.DRAWER_MENU_COMUNITY_ID) {
             String[] titles = new String[]{ activity.getString(R.string.users), activity.getString(R.string.clubs)};
             ArrayList<Fragment> pageList = new ArrayList<>();

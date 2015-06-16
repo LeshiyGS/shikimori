@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="pref_settings_data_group"
+        android:title="@string/notifying">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notify_message"
+            android:summary="@string/notify_message_desc"
+            android:title="@string/incomming_messages" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notify_news"
+            android:summary="@string/notify_news_desc"
+            android:title="@string/news" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notify_notify"
+            android:summary="@string/notify_desc"
+            android:title="@string/notifying" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notify_sound"
+            android:summary="@string/notify_sound_desc"
+            android:title="@string/sound" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

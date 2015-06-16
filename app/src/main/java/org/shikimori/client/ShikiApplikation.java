@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -62,6 +63,11 @@ public class ShikiApplikation extends Application {
             public Intent getNotifyIntent() {
                 Intent newIntent = new Intent(ShikiApplikation.this, MainActivity.class);
                 return newIntent;
+            }
+
+            @Override
+            public boolean isSound() {
+                return PreferenceHelper.getNotifySound(getApplicationContext());
             }
         };
     }

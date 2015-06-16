@@ -1,197 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bodyScroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:paddingTop="@dimen/defaultPadding"
-    android:paddingBottom="@dimen/defaultPadding">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/llBody"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <ScrollView
+            android:id="@+id/bodyScroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/defaultPadding"
-            android:paddingRight="@dimen/defaultPaddingMini"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/ava"
-                android:scaleType="centerCrop"
-                android:layout_width="80dp"
-                android:layout_height="80dp" />
-
-            <ru.altarix.ui.CustomIconButton
-                android:id="@+id/ivWebShow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:uiIcon="@drawable/ic_shiki_web"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true" />
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/llBody"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/ava"
-                android:layout_toEndOf="@+id/ivWebShow"
-                android:layout_marginStart="@dimen/defaultPadding"
-                android:layout_marginLeft="@dimen/defaultPadding">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/defaultPadding"
+                android:paddingTop="@dimen/defaultPadding">
 
-                <TextView
-                    android:id="@+id/tvUserName"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/altarixUiText.TextTitle" />
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/defaultPadding"
+                    android:paddingRight="@dimen/defaultPaddingMini">
 
-                <TextView
-                    android:id="@+id/tvLastOnline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/altarixUiLabel.mini"
-                    android:textColor="@color/greenColor" />
+                    <ImageView
+                        android:id="@+id/ava"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:scaleType="centerCrop" />
 
-                <TextView
-                    android:id="@+id/tvMiniDetails"
-                    android:layout_width="wrap_content"
+                    <ru.altarix.ui.CustomIconButton
+                        android:id="@+id/ivWebShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/defaultPaddingMini"
+                        android:clickable="true"
+                        custom:uiIcon="@drawable/ic_shiki_web" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/defaultPadding"
+                        android:layout_marginStart="@dimen/defaultPadding"
+                        android:layout_toEndOf="@+id/ivWebShow"
+                        android:layout_toRightOf="@+id/ava"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvUserName"
+                            style="@style/altarixUiText.TextTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tvLastOnline"
+                            style="@style/altarixUiLabel.mini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/greenColor" />
+
+                        <TextView
+                            android:id="@+id/tvMiniDetails"
+                            style="@style/altarixUiLabel.mini"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/altarixUiLabel.mini" />
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/defaultPadding"
+                    android:paddingRight="@dimen/defaultPaddingMini">
+
+                    <TextView
+                        android:id="@+id/logoAnime"
+                        style="@style/altarixUiLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anime" />
+
+                    <ru.altarix.ui.CustomIconButton
+                        android:id="@+id/ivAnimeListShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/defaultPaddingMini"
+                        android:layout_marginTop="@dimen/defaultPaddingMini"
+                        android:clickable="true"
+                        custom:uiIcon="@drawable/ic_action_list" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_below="@+id/logoAnime"
+                        android:layout_toLeftOf="@+id/ivAnimeListShow"
+                        android:layout_toStartOf="@+id/ivAnimeListShow">
+
+                        <SeekBar
+                            android:id="@+id/sbAnimeProgress"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:max="100"
+                            android:padding="0dp"
+                            android:progressDrawable="@drawable/progress_shiki_background"
+                            android:thumb="@null" />
+
+                        <TextView
+                            android:id="@+id/tvAnimeProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/black_owerlay_40" />
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/defaultPadding"
+                    android:paddingRight="@dimen/defaultPaddingMini">
+
+                    <TextView
+                        android:id="@+id/logoManga"
+                        style="@style/altarixUiLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/manga" />
+
+                    <ru.altarix.ui.CustomIconButton
+                        android:id="@+id/ivMangaListShow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginLeft="@dimen/defaultPaddingMini"
+                        android:layout_marginTop="@dimen/defaultPaddingMini"
+                        android:clickable="true"
+                        custom:uiIcon="@drawable/ic_action_list" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_below="@+id/logoManga"
+                        android:layout_toLeftOf="@+id/ivMangaListShow"
+                        android:layout_toStartOf="@+id/ivMangaListShow">
+
+                        <SeekBar
+                            android:id="@+id/sbMangaProgress"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:max="100"
+                            android:padding="0dp"
+                            android:progressDrawable="@drawable/progress_shiki_background_pink"
+                            android:thumb="@null" />
+
+                        <TextView
+                            android:id="@+id/tvMangaProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/black_owerlay_40" />
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+                <org.shikimori.library.custom.ExpandableHeightGridView
+                    android:id="@+id/gvBodyProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/defaultPaddingMini"
+                    android:layout_marginRight="@dimen/defaultPaddingMini"
+                    android:numColumns="auto_fit"
+                    android:stretchMode="columnWidth" />
+
+
+                <LinearLayout
+                    android:id="@+id/aboutHtml"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/defaultPadding">
+
+                </LinearLayout>
+
             </LinearLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/defaultPadding"
-            android:paddingRight="@dimen/defaultPaddingMini"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/logoAnime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/altarixUiLabel"
-                android:text="@string/anime" />
-
-            <ru.altarix.ui.CustomIconButton
-                android:id="@+id/ivAnimeListShow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:uiIcon="@drawable/ic_action_list"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="@dimen/defaultPaddingMini"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:clickable="true" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_below="@+id/logoAnime"
-                android:layout_toStartOf="@+id/ivAnimeListShow"
-                android:layout_toLeftOf="@+id/ivAnimeListShow">
-
-                <SeekBar
-                    android:id="@+id/sbAnimeProgress"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:padding="0dp"
-                    android:max="100"
-                    android:progressDrawable="@drawable/progress_shiki_background"
-                    android:thumb="@null" />
-
-                <TextView
-                    android:id="@+id/tvAnimeProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black_owerlay_40" />
-
-            </FrameLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/defaultPadding"
-            android:paddingRight="@dimen/defaultPaddingMini">
-
-            <TextView
-                android:id="@+id/logoManga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/altarixUiLabel"
-                android:text="@string/manga" />
-
-            <ru.altarix.ui.CustomIconButton
-                android:id="@+id/ivMangaListShow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                custom:uiIcon="@drawable/ic_action_list"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/defaultPaddingMini"
-                android:layout_marginLeft="@dimen/defaultPaddingMini"
-                android:clickable="true" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_below="@+id/logoManga"
-                android:layout_toLeftOf="@+id/ivMangaListShow"
-                android:layout_toStartOf="@+id/ivMangaListShow">
-
-                <SeekBar
-                    android:id="@+id/sbMangaProgress"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:padding="0dp"
-                    android:max="100"
-                    android:progressDrawable="@drawable/progress_shiki_background_pink"
-                    android:thumb="@null" />
-
-                <TextView
-                    android:id="@+id/tvMangaProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black_owerlay_40" />
-
-            </FrameLayout>
-        </RelativeLayout>
-
-        <org.shikimori.library.custom.ExpandableHeightGridView
-            android:id="@+id/gvBodyProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchMode="columnWidth"
-            android:layout_marginLeft="@dimen/defaultPaddingMini"
-            android:layout_marginRight="@dimen/defaultPaddingMini"
-            android:numColumns="auto_fit" />
-
-
-
-        <LinearLayout
-            android:id="@+id/aboutHtml"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/defaultPadding"
-            >
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>
