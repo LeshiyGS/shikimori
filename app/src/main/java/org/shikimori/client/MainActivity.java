@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
+import org.shikimori.library.tool.push.PushHelper;
 
 
 /**

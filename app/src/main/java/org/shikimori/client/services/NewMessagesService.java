@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import org.json.JSONObject;
 import org.shikimori.client.R;
@@ -22,6 +23,7 @@ import org.shikimori.library.tool.push.PushHelper;
  * Created by Владимир on 15.06.2015.
  */
 public class NewMessagesService extends Service implements Query.OnQuerySuccessListener, Query.OnQueryErrorListener {
+    public static final String TAG = "serviceshiki";
     private ShikiUser user;
     private Query query;
     Handler timerHandler = new Handler();
@@ -31,6 +33,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
         public void run() {
             getMessages();
             timerHandler.postDelayed(this, Query.FIVE_MIN * 2);
+//            timerHandler.postDelayed(this, 10000);
         }
     };
 
@@ -40,11 +43,18 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate NewMessagesService");
         query = new Query(this)
                 .init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
                 .setErrorListener(this);
         timerHandler.postDelayed(timerRunnable, 0);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand NewMessagesService");
         return START_STICKY;
     }
 
@@ -52,6 +62,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     public void onDestroy() {
         super.onDestroy();
         timerHandler.removeCallbacks(timerRunnable);
+        Log.d(TAG, "onDestroy NewMessagesService");
     }
 
     protected void getMessages() {
@@ -74,6 +85,8 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     private void showNotification(Notification notify) {
+
+        Log.d(TAG, "onStartCommand NewMessagesService");
 
         Notification userNotify = user.getNotification();
         StringBuilder str = new StringBuilder();

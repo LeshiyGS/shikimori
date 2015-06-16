@@ -3,6 +3,7 @@ package org.shikimori.client;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -38,6 +39,8 @@ public class ShikiApplikation extends Application {
         initImageLoader(getApplicationContext());
 
         PushHelperReceiver.addAction(NEW_MESSAGES, getRequestPushAction());
+
+        runService();
     }
 
     public static ImageLoader initImageLoader(Context c) {
@@ -61,5 +64,11 @@ public class ShikiApplikation extends Application {
                 return newIntent;
             }
         };
+    }
+
+    private void runService() {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(getPackageName()+".LAUNCH_FROM_APP");
+        sendBroadcast(broadcastIntent);
     }
 }

@@ -15,9 +15,24 @@ public class OnBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
-        if (intent!=null && "android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
+        Log.d("receiveshiki", intent!=null ? intent.getAction() : "none");
+        if (intent!=null && checkRunService(context, intent.getAction())) {
             context.startService(new Intent(context, NewMessagesService.class));
             Log.v(this.getClass().getName(), "Service started while device boot completed.");
+        } else
+            Log.v(this.getClass().getName(), "Service not started");
+    }
+
+    boolean checkRunService(Context context, String action){
+        String self = context.getPackageName()+".LAUNCH_FROM_APP";
+        if(self.equals(action))
+            return true;
+        switch (action){
+            case "android.intent.action.BOOT_COMPLETED":
+            case "android.intent.action.PACKAGE_INSTALL":
+            case "android.intent.action.PACKAGE_ADDED":
+                return true;
+            default: return false;
         }
     }
 }
