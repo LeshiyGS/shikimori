@@ -83,7 +83,7 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
         state = lvList.onSaveInstanceState();
         super.prepareData(list, removeLastItem, limitOver);
         if(page == DEFAULT_FIRST_PAGE)
-            lvList.scrollTo(0,0);
+            lvList.setSelectionAfterHeaderView();
         else
             lvList.onRestoreInstanceState(state);
         state = null;

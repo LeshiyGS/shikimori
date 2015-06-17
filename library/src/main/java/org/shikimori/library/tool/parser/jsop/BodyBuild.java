@@ -70,6 +70,7 @@ public class BodyBuild {
     List<ImageController> images = new ArrayList<>();
     CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
     CLICKABLETYPE clicktype = CLICKABLETYPE.NOT;
+    // check reach maxLenth
 
     public BodyBuild(Activity context) {
         this.context = context;
@@ -108,13 +109,17 @@ public class BodyBuild {
     }
 
     public View parce(String text, ViewGroup viewBody) {
+        return parce(text, viewBody, 0);
+    }
+
+    public View parce(String text, ViewGroup viewBody, int maxLenght) {
         if (text == null)
             return null;
         text.replace("<br><br>", "<br>");
+        if(maxLenght > 0 && text.length() > maxLenght)
+            text = text.substring(0, maxLenght) + "...";
         viewBody.removeAllViews();
-//        long timeBefore = System.currentTimeMillis();
         Document doc = Jsoup.parse(text);
-//        Log.d("timeload", "" + ((System.currentTimeMillis() - timeBefore) / 1000));
         return parce(doc, viewBody);
     }
 
@@ -155,7 +160,12 @@ public class BodyBuild {
     }
 
     public void parceAsync(final String text, final ParceDoneListener listener) {
+        parceAsync(text, 0, listener);
+    }
+
+    public void parceAsync(final String text, int maxLenght, final ParceDoneListener listener) {
         ViewsLoader viewsLoader = new ViewsLoader(context, text, listener);
+        viewsLoader.setmaxLenght(maxLenght);
         prepareAsyncBuilder(viewsLoader.getBuilder());
         viewsLoader.forceLoad();
     }
@@ -604,6 +614,7 @@ public class BodyBuild {
         private String text;
         private Document doc;
         private ParceDoneListener listener;
+        private int maxLenght;
 
         public ViewsLoader(Context context, String text, ParceDoneListener listener) {
             super(context);
@@ -627,13 +638,7 @@ public class BodyBuild {
             LinearLayout view = new LinearLayout(getContext());
             view.setLayoutParams(h.getDefaultParams());
             view.setOrientation(LinearLayout.VERTICAL);
-            builder.parce(text, view);
-//            text.replace("<br><br>", "<br>");
-//            if(doc==null)
-//                doc = Jsoup.parse(text);
-//            List<Node> elemnts = doc.body().childNodes();
-//            looper(elemnts, view);
-//            insertText();
+            builder.parce(text, view, maxLenght);
             return view;
         }
 
@@ -642,8 +647,10 @@ public class BodyBuild {
             super.deliverResult(data);
             listener.done(data);
             builder.loadPreparedImages();
-//            data.requestFocus();
-//            data.invalidate();
+        }
+
+        public void setmaxLenght(int maxLenght) {
+            this.maxLenght = maxLenght;
         }
     }
 }

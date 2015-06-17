@@ -16,13 +16,19 @@ import java.util.List;
 public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoader<List<T>> {
 
     private BodyBuild bodyBuilder;
+    private int maxLenght;
     private JSONArray array;
     private Class<T> tClass;
     private OnAdvancedCheck listener;
 
     public BackGroubdLoader(Context context, BodyBuild bodyBuilder, JSONArray array, Class<T> tClass) {
+        this(context, bodyBuilder, 0, array, tClass);
+    }
+
+    public BackGroubdLoader(Context context, BodyBuild bodyBuilder, int maxLenght, JSONArray array, Class<T> tClass) {
         super(context);
         this.bodyBuilder = bodyBuilder;
+        this.maxLenght = maxLenght;
         this.array = array;
         this.tClass = tClass;
     }
@@ -43,7 +49,7 @@ public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoad
                         body.setLayoutParams(h.getDefaultParams());
                         body.setOrientation(LinearLayout.VERTICAL);
                         item.setBuildView(body);
-                        bodyBuilder.parce(item.getHtml(), body);
+                        bodyBuilder.parce(item.getHtml(), body, maxLenght);
                         return false;
                     }
                 }

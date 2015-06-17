@@ -3,20 +3,16 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.ChatAdapter;
 import org.shikimori.library.adapters.InboxAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -25,17 +21,11 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemDialogs;
-import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
-import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
-import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import java.util.List;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by Феофилактов on 06.05.2015.
@@ -63,7 +53,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public void loadData() {
-        query.init(ShikiApi.getUrl(ShikiPath.DIALOGS),StatusResult.TYPE.ARRAY)
+        query.init(ShikiApi.getUrl(ShikiPath.DIALOGS), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .getResult(this);

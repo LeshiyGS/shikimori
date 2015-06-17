@@ -104,8 +104,16 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
                     ShikiApplikation.NEW_MESSAGES,
                     getString(R.string.incomming_messages),
                     str.toString());
+        }
+
+        // change data
+        if(userNotify.notifications != notify.notifications ||
+                userNotify.news != notify.news ||
+                userNotify.messages != notify.messages){
+            query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
             user.setNotification(notify);
         }
+
     }
 
     void appendString(StringBuilder str, int mss, int count){

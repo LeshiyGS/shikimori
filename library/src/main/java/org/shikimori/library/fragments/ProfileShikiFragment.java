@@ -276,6 +276,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     void invalidateData(){
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId());
+        if(notifyController!=null){
+            activity.getShikiUser().clearNotification();
+            query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
+        }
     }
 
     void loadDataFromServer() {
@@ -335,8 +339,16 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(notifyController!=null)
+            notifyController.updateLocalData(activity.getShikiUser().getNotification());
+    }
+
     private void buildProfile() {
         if (notifyController != null){
+            notifyController.updateLocalData(activity.getShikiUser().getNotification());
             notifyController.load(new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {

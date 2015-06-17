@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    compile 'com.github.nicolasjafelle:paginglistview:1.1'
+//    compile 'com.github.nicolasjafelle:paginglistview:1.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
 //    compile 'com.jmpergar:AwesomeText:1.0.1'
 //    compile project(":modules:easyAdapter")

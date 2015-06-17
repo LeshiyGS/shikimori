@@ -85,7 +85,10 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             return;
         Notification notify = new Notification(dataFromServer);
         user.setNotification(notify);
+        updateLocalData(notify);
+    }
 
+    public void updateLocalData(Notification notify){
         for (Item item : menu) {
             if (item.id == INBOX)
                 item.count = notify.messages;

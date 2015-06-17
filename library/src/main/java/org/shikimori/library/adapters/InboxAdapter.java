@@ -21,6 +21,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
+import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
@@ -86,8 +87,12 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> i
         ImageLoader.getInstance().displayImage(item.message.from.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        h.setVisible(holder.tvRead, true);
-        ProjectTool.setReadOpasity(holder.tvRead, item.message.read);
+        if(ShikiUser.USER_ID.equals(item.message.from.id))
+            h.setVisible(holder.tvRead, false);
+        else{
+            h.setVisible(holder.tvRead, true);
+            ProjectTool.setReadOpasity(holder.tvRead, item.message.read);
+        }
     }
 
     private void initDescription(final ItemDialogs item, final ViewGroup llBodyHtml) {

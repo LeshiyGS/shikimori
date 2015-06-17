@@ -69,6 +69,10 @@ public class ShikiUser {
         prefs.edit().putString(NOTIFICATION, notification.json.toString()).apply();
     }
 
+    public void clearNotification(){
+        prefs.edit().putString(NOTIFICATION, null).apply();
+    }
+
     public Notification getNotification(){
         try {
             String n = prefs.getString(NOTIFICATION, null);

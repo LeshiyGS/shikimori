@@ -102,16 +102,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
      */
     @Override
     public void onQuerySuccess(final StatusResult res) {
-        loadAsyncBuild(bodyBuild, res.getResultArray(), ItemTopicsShiki.class, new OnAdvancedCheck<ItemTopicsShiki>() {
-            @Override
-            public boolean ckeck(ItemTopicsShiki item, int position) {
-                String type = TextUtils.isEmpty(item.linkedType) ? item.type : item.linkedType;
-                if (type.equalsIgnoreCase(Constants.TOPIC))
-                    return true;
-                return false;
-            }
-        });
-
+        loadAsyncBuild(bodyBuild, res.getResultArray(), 300, ItemTopicsShiki.class);
     }
 
     @Override

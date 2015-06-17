@@ -21,6 +21,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
+import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
@@ -60,7 +61,6 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         SettingsHolder hol = super.getViewHolder(v);
         hol.ivSettings = get(v, R.id.icSettings);
         hol.tvRead = get(v, R.id.tvRead);
-        h.setVisible(hol.tvRead, true);
         return hol;
     }
 
@@ -88,6 +88,10 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         ImageLoader.getInstance().displayImage(item.from.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
+        if(ShikiUser.USER_ID.equals(item.from.id))
+            h.setVisible(holder.tvRead, false);
+        else
+            h.setVisible(holder.tvRead, true);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 
