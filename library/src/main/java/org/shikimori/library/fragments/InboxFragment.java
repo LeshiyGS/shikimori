@@ -21,8 +21,10 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemDialogs;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.controllers.ReadMessageController;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import java.util.List;
@@ -33,6 +35,7 @@ import java.util.List;
 public class InboxFragment extends BaseListViewFragment implements View.OnClickListener {
 
     private InboxAdapter adptr;
+    private BodyBuild bodyBuilder;
 
     @Override
     protected boolean isOptionsMenu() {
@@ -48,6 +51,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
         super.onActivityCreated(savedInstanceState);
         ReadMessageController.newInstance(query);
         showRefreshLoader();
+        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.NOT);
         loadData();
     }
 
@@ -68,9 +72,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        stopRefresh();
-        ObjectBuilder<ItemDialogs> builder = new ObjectBuilder<>(res.getResultArray(), ItemDialogs.class);
-        prepareData(builder.list, true, true);
+        loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemDialogs.class);
     }
 
     @Override

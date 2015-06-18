@@ -211,6 +211,8 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     }
 
     public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght,  Class<? extends OnViewBuildLister> cl, OnAdvancedCheck listener){
+        if(activity == null)
+            return;
         backBuilder = new BackGroubdLoader<OnViewBuildLister>(activity, bodyBuild, maxLenght, array,  (Class<OnViewBuildLister>) cl){
             @Override
             public void deliverResult(List data) {

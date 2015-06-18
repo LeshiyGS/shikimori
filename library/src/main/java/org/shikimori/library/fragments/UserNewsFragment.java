@@ -17,6 +17,7 @@ import android.widget.ListAdapter;
 import org.json.JSONArray;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -143,9 +144,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        stopRefresh();
-        ObjectBuilder<ItemNewsUserShiki> builder = new ObjectBuilder<>(res.getResultArray(), ItemNewsUserShiki.class);
-        prepareData(builder.list, true, true);
+        loadAsyncBuild(bodyBuild, res.getResultArray(), 300, ItemNewsUserShiki.class);
     }
 
     @Override
@@ -175,7 +174,11 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
             }
 
             if(item.kind.toLowerCase().equals(Constants.SITENEWS)){
-                showPopupText(item.htmlBody);
+                intent = new Intent(activity, ShowPageActivity.class);
+                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
+                intent.putExtra(Constants.TREAD_ID, item.linked.id);
+                activity.startActivity(intent);
+
                 return;
             }
         }

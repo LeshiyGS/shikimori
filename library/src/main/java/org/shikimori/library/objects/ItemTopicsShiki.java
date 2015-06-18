@@ -19,6 +19,7 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
     public int commentsCount;
     public Section section;
     public ItemUser user;
+    public String jsonObject;
     public ViewGroup parsedContent;
     public Document doc;
 
@@ -31,6 +32,7 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
         if(json == null)
             return this;
         super.createFromJson(json);
+        jsonObject = json.toString();
         commentsCount = json.optInt("comments_count");
         section = new Section(json.optJSONObject("section"));
         user = new ItemUser(json.optJSONObject("user"));

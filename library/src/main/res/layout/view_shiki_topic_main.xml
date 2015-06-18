@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/defaultPadding4"
-    android:paddingLeft="@dimen/defaultPaddingMini"
-    android:paddingRight="@dimen/defaultPaddingMini"
-    android:paddingTop="@dimen/defaultPadding4">
-
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
     <RelativeLayout
+        android:id="@+id/llRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shiki_list_selector">
+        android:padding="@dimen/defaultPadding"
+        >
 
         <RelativeLayout
             android:id="@+id/llConntent"
@@ -73,17 +71,6 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvText"
-                    style="@style/altarixUiLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/defaultPaddingMini"
-                    android:background="@drawable/shiki_item_selector"
-                    android:padding="@dimen/defaultPaddingMini"
-                    android:text="@string/open_details"
-                    android:textColor="@color/white_overlay_80" />
-
                 <LinearLayout
                     android:id="@+id/llBodyHtml"
                     android:layout_width="match_parent"
@@ -111,4 +98,4 @@
             android:gravity="center_vertical" />
     </RelativeLayout>
 
-</FrameLayout>
+</ScrollView>

@@ -259,7 +259,7 @@ public class BodyBuild {
                 buildBlockquote(elemnt, parent);
                 break;
             case "a":
-                if (elemnt.child(0).tagName().equals("img")) {
+                if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
                     addImage(elemnt.child(0), parent);
                 } else
                     setSimpleText(elemnt, parent);

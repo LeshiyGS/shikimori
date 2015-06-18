@@ -18,6 +18,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController.MessageData;
@@ -90,13 +91,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     private void initBodyBuilder() {
-        bodyBuilder = new BodyBuild(activity);
-        bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
-            @Override
-            public void imageClick(PostImage image) {
-                activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
-            }
-        });
+        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
     }
 
     private void initParams() {
@@ -136,11 +131,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     @Override
     public void onQuerySuccess(final StatusResult res) {
-        stopRefresh();
-        ObjectBuilder<ItemCommentsShiki> builder =
-                new ObjectBuilder<>(res.getResultArray(), ItemCommentsShiki.class);
-
-        prepareData(builder.getDataList(), true, true);
+        loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemCommentsShiki.class);
     }
 
     @Override

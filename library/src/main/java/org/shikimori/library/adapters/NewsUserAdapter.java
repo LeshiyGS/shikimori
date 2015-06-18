@@ -3,6 +3,7 @@ package org.shikimori.library.adapters;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import org.shikimori.library.R;
@@ -56,13 +57,12 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
 
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
 
-        if(item.kind.toLowerCase().equals(Constants.SITENEWS)){
-            holder.tvText.setTypeface(null, Typeface.ITALIC);
-            holder.tvText.setText(R.string.open_details);
-        } else {
-            holder.tvText.setTypeface(null, Typeface.NORMAL);
-            h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
-        }
+        holder.llBodyHtml.removeAllViews();
+//        initDescription(item, holder.llBodyHtml);
+        if (item.parsedContent.getParent() != null)
+            ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
+
+        holder.llBodyHtml.addView(item.parsedContent);
 
         holder.ivUser.setTag(item);
         ShikiImage.show(item.from.img148, holder.ivUser, true);

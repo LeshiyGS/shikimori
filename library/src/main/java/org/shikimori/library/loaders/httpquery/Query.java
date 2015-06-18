@@ -226,6 +226,16 @@ public class Query {
         return false;
     }
 
+    public void getResultObject(OnQuerySuccessListener successListener){
+        type = StatusResult.TYPE.OBJECT;
+        getResult(successListener);
+    }
+
+    public void getResultArray(OnQuerySuccessListener successListener){
+        type = StatusResult.TYPE.ARRAY;
+        getResult(successListener);
+    }
+
     public void getResult(final OnQuerySuccessListener successListener) {
         if (ShikiApi.isDebug) {
             String p = params.toString();
@@ -277,46 +287,47 @@ public class Query {
     }
 
     public AsyncHttpResponseHandler getSuccessListener(final OnQuerySuccessListener successListener) {
-        return new AsyncHttpResponseHandler() {
-            RequestData reqData;
-
-            @Override
-            public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
-                super.onPreProcessResponse(instance, response);
-                reqData = getRequestData();
-            }
-
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                if (context == null) {
-                    if (ShikiApi.isDebug)
-                        Log.d(TAG, "response success but context is null (no ui return)");
-                    return;
-                }
-                String data = bytes == null ? null : new String(bytes);
-                if (ShikiApi.isDebug)
-                    Log.d(TAG, "response: " + data);
-
-                StatusResult res = new StatusResult(data, reqData.type);
-                res.setHeaders(headers);
-                // TODO Сделать обработчик ошибок от shikimori
-                res.setSuccess();
-                if (showError(res))
-                    return;
-
-                reqData.requestData = data;
-                if(data != null)
-                    saveCache(reqData);
-
-                if (successListener != null)
-                    successListener.onQuerySuccess(res);
-            }
-
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                failResult(bytes);
-            }
-        };
+        return new MyAsyncHandler(getRequestData(), successListener);
+//        return new AsyncHttpResponseHandler() {
+//            RequestData reqData;
+//
+//            @Override
+//            public void onPreProcessResponse(ResponseHandlerInterface instance, HttpResponse response) {
+//                super.onPreProcessResponse(instance, response);
+//                reqData = getRequestData();
+//            }
+//
+//            @Override
+//            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+//                if (context == null) {
+//                    if (ShikiApi.isDebug)
+//                        Log.d(TAG, "response success but context is null (no ui return)");
+//                    return;
+//                }
+//                String data = bytes == null ? null : new String(bytes);
+//                if (ShikiApi.isDebug)
+//                    Log.d(TAG, "response: " + data);
+//
+//                StatusResult res = new StatusResult(data, reqData.type);
+//                res.setHeaders(headers);
+//                // TODO Сделать обработчик ошибок от shikimori
+//                res.setSuccess();
+//                if (showError(res))
+//                    return;
+//
+//                reqData.requestData = data;
+//                if(data != null)
+//                    saveCache(reqData);
+//
+//                if (successListener != null)
+//                    successListener.onQuerySuccess(res);
+//            }
+//
+//            @Override
+//            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+//                failResult(bytes);
+//            }
+//        };
     }
 
     void failResult(byte[] bytes) {
@@ -446,5 +457,47 @@ public class Query {
         public StatusResult.TYPE type;
         public String requestRow;
         public String requestData;
+    }
+
+    class MyAsyncHandler extends AsyncHttpResponseHandler{
+
+        private RequestData reqData;
+        private OnQuerySuccessListener successListener;
+
+        public MyAsyncHandler(RequestData reqData, OnQuerySuccessListener successListener){
+            this.reqData = reqData;
+            this.successListener = successListener;
+        }
+
+        @Override
+        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+            if (context == null) {
+                if (ShikiApi.isDebug)
+                    Log.d(TAG, "response success but context is null (no ui return)");
+                return;
+            }
+            String data = bytes == null ? null : new String(bytes);
+            if (ShikiApi.isDebug)
+                Log.d(TAG, "response: " + data);
+
+            StatusResult res = new StatusResult(data, reqData.type);
+            res.setHeaders(headers);
+            // TODO Сделать обработчик ошибок от shikimori
+            res.setSuccess();
+            if (showError(res))
+                return;
+
+            reqData.requestData = data;
+            if(data != null)
+                saveCache(reqData);
+
+            if (successListener != null)
+                successListener.onQuerySuccess(res);
+        }
+
+        @Override
+        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+            failResult(bytes);
+        }
     }
 }

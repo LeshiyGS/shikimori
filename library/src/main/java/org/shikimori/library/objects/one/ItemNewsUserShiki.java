@@ -3,13 +3,14 @@ package org.shikimori.library.objects.one;
 import android.view.ViewGroup;
 
 import org.json.JSONObject;
+import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.objects.abs.HelperObj;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Creator<ItemNewsUserShiki> {
+public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Creator<ItemNewsUserShiki>, OnViewBuildLister {
 
     public String id, kind, body, htmlBody, createdAt;
     public Linked linked;
@@ -39,4 +40,13 @@ public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Cr
         return this;
     }
 
+    @Override
+    public void setBuildView(ViewGroup view) {
+        parsedContent = view;
+    }
+
+    @Override
+    public String getHtml() {
+        return htmlBody;
+    }
 }

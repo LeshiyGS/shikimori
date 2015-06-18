@@ -58,7 +58,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
     ExpandableHeightGridView pageAnime, pageManga;
     private String itemId;
     private ItemCharacter item;
-    private BodyBuild builder;
+    private BodyBuild bodyBuilder;
 
     public static CharacterDetailsFragment newInstance(Bundle b) {
         CharacterDetailsFragment frag = new CharacterDetailsFragment();
@@ -89,7 +89,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         super.onActivityCreated(savedInstanceState);
         initArgiments();
         showRefreshLoader();
-        builder = new BodyBuild(activity);
+        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         loadData();
     }
 
@@ -135,14 +135,14 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         if(!TextUtils.isEmpty(item.japanese))
             addInfo(R.string.japanase_name, item.japanese);
 
-        builder.parceAsync(item.descriptionHtml, new BodyBuild.ParceDoneListener() {
+        bodyBuilder.parceAsync(item.descriptionHtml, new BodyBuild.ParceDoneListener() {
             @Override
             public void done(ViewGroup view) {
                 if (activity == null || getView() == null)
                     return;
                 tvReview.removeAllViews();
                 tvReview.addView(view);
-                builder.loadPreparedImages();
+                bodyBuilder.loadPreparedImages();
             }
         });
         if(item.image!=null)

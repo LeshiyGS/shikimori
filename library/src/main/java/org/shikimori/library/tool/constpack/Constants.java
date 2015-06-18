@@ -16,6 +16,7 @@ public class Constants {
     public static final String ITEM_NAME = "anime_name";
     public static final String TYPE = "type";
     public static final String PAGE_FRAGMENT = "page_fragment";
+    public static final String ITEM_OBJECT = "item_object";
     public static final String PAGE_EXTRA_LOAD = "page_extra_load";
 
     // type topic type
@@ -25,6 +26,7 @@ public class Constants {
     public static final String FAVOURITES = "favourites";
     public static final String CHARACTER = "character";
     public static final String TOPIC = "topic";
+    public static final String REVIEW = "review";
     public static final String SITENEWS = "sitenews";
 
     // users

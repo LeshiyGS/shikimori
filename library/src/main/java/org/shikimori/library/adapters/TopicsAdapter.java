@@ -1,8 +1,6 @@
 package org.shikimori.library.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,32 +8,22 @@ import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseListAdapter;
-import org.shikimori.library.adapters.holder.MessageHolder;
 import org.shikimori.library.adapters.holder.TopicHolder;
 import org.shikimori.library.objects.ItemTopicsShiki;
-import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.parser.ParcerTool;
-import org.shikimori.library.tool.parser.elements.HtmlText;
-import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Феофилактов on 04.04.2015.
  */
 public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder> {
 
-    private final BodyBuild htmlBuilder;
 
     public TopicsAdapter(Context context, List list) {
         super(context, list, R.layout.item_shiki_topic_list, TopicHolder.class);
-        htmlBuilder = new BodyBuild((Activity) context);
     }
 
     @Override
@@ -52,7 +40,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 
     @Override
     public void setValues(TopicHolder holder, ItemTopicsShiki item, int position) {
-        if(item.user!=null)
+        if (item.user != null)
             holder.tvName.setText(item.user.nickname);
         // count comments
         holder.tvCountComments.setText(String.valueOf(item.commentsCount));
@@ -64,7 +52,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 //        holder.tvText.setText(item.body);
 
         holder.llBodyHtml.removeAllViews();
-        if(item.parsedContent!=null){
+        if (item.parsedContent != null) {
             h.setVisible(holder.llBodyHtml, true);
             h.setVisibleGone(holder.tvText);
             holder.llBodyHtml.addView(item.parsedContent);
@@ -74,7 +62,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         }
 
 
-       // htmlBuilder.parce(item.htmlBody, holder.llBodyHtml);
+        // htmlBuilder.parce(item.htmlBody, holder.llBodyHtml);
 
 //        HtmlText text = new HtmlText(getContext(), false);
 //        text.setText(item.htmlBody, holder.tvText);
@@ -82,7 +70,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         //h.setTextViewHTML(getContext(), holder.tvText, item.htmlBody);
         // images
         ShikiImage.show(item.user.img148, holder.ivUser, true);
-        if(item.linked!=null && item.linked.image!=null)
+        if (item.linked != null && item.linked.image != null)
             ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
         else
             h.setVisibleGone(holder.ivPoster);

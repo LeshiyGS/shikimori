@@ -67,6 +67,8 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     protected void getMessages() {
+        if(!isNotifyEnable())
+            return;
         user = new ShikiUser(this);
         if(!h.getConnection(this) || ShikiUser.USER_ID == null)
             return;
@@ -83,6 +85,11 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
             return;
         Notification notify = new Notification(dataFromServer);
         showNotification(notify);
+    }
+
+    boolean isNotifyEnable(){
+        return (PreferenceHelper.getNotifyNotify(this) && PreferenceHelper.getNotifyNews(this)
+                && PreferenceHelper.getNotifyMessage(this));
     }
 
     private void showNotification(Notification notify) {

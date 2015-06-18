@@ -1,12 +1,15 @@
 package org.shikimori.library.objects.one;
 
+import android.view.ViewGroup;
+
 import org.json.JSONObject;
+import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.objects.abs.JsonParseable;
 
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemDialogs extends JsonParseable implements JsonParseable.Creator<ItemDialogs> {
+public class ItemDialogs extends JsonParseable implements JsonParseable.Creator<ItemDialogs>, OnViewBuildLister {
 
     public ItemUser user;
     public ItemNewsUserShiki message;
@@ -25,4 +28,13 @@ public class ItemDialogs extends JsonParseable implements JsonParseable.Creator<
         return this;
     }
 
+    @Override
+    public void setBuildView(ViewGroup view) {
+        message.parsedContent = view;
+    }
+
+    @Override
+    public String getHtml() {
+        return message.htmlBody;
+    }
 }

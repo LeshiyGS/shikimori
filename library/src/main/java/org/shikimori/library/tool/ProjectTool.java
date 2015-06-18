@@ -31,6 +31,8 @@ import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.parser.elements.PostImage;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import ru.altarix.ui.tool.TextStyling;
@@ -169,6 +171,12 @@ public class ProjectTool {
 
     }
 
+    public static void ShowSimplePage(Context context, String type, String itemId){
+        Intent i = getSimpleIntentDetails(context, type);
+        i.putExtra(Constants.ITEM_ID, itemId);
+        context.startActivity(i);
+    }
+
     public static void goToUser(Context context, String userId){
         Intent intent = new Intent(context, ShowPageActivity.class);
         intent.putExtra(Constants.USER_ID, userId);
@@ -182,5 +190,24 @@ public class ProjectTool {
         YoYo.with(animator)
             .duration(300)
             .playOn(v);
+    }
+
+    public static BodyBuild getBodyPuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
+        BodyBuild bodyBuilder = new BodyBuild(activity);
+        bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
+            @Override
+            public void imageClick(PostImage image) {
+                activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
+            }
+        });
+        bodyBuilder.setClickType(type);
+        bodyBuilder.setUrlTextListener(new BodyBuild.UrlTextListener() {
+            @Override
+            public void textLink(String url) {
+                LinkHelper.goToUrl(activity, url);
+            }
+        });
+
+        return bodyBuilder;
     }
 }

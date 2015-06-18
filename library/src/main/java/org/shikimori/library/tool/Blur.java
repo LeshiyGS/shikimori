@@ -50,6 +50,8 @@ public class Blur {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private static void blur(Context context, Bitmap bkg, View view) {
+        if(bkg==null)
+            return;
         long startMs = System.currentTimeMillis();
         float scaleFactor = 8;
         float radius = 2;

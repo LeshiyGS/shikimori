@@ -85,8 +85,6 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
 
     @Override
     public void onDetach() {
-        if(query!=null)
-            query.onStop();
         super.onDetach();
         activity = null;
     }
@@ -95,6 +93,8 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
     public void onDestroyView() {
         if(activity!=null)
             h.hideKeyboard(activity, activity.getWindow().getDecorView());
+        if(query!=null)
+            query.onStop();
         super.onDestroyView();
     }
 

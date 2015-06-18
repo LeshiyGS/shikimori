@@ -10,6 +10,7 @@ import org.shikimori.library.fragments.FavoriteFragment;
 import org.shikimori.library.fragments.InfoMediaFragment;
 import org.shikimori.library.fragments.MangaDeatailsFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
+import org.shikimori.library.fragments.TopicMainCommentFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**
@@ -50,7 +51,9 @@ public class ShowPageActivity extends PageActivity {
             loadPage(FavoriteFragment.newInstance());
             setTitle(R.string.favorite);
         } else if(page == OFTOPIC_PAGE){
-            loadPage(DiscusionFragment.newInstance(params));
+            addPageFragment(TopicMainCommentFragment.newInstance(params), "^-^");
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
+            showPages();
         } else if(page == USER_PROFILE){
             loadPage(ProfileShikiFragment.newInstance(params));
         }

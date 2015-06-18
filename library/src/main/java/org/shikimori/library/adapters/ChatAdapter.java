@@ -1,31 +1,22 @@
 package org.shikimori.library.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.Date;
 import java.util.List;
@@ -35,12 +26,10 @@ import java.util.List;
  */
 public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHolder> implements View.OnClickListener {
 
-    private final BodyBuild bodyBuilder;
     private View.OnClickListener clickListener;
 
     public ChatAdapter(Context context, List<ItemNewsUserShiki> list) {
         super(context, list, R.layout.item_shiki_comments_list, SettingsHolder.class);
-        bodyBuilder = new BodyBuild((Activity) context);
     }
 
     String formatDate(long date, String format) {
@@ -50,7 +39,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
     @Override
     public void setListeners(SettingsHolder holder) {
         super.setListeners(holder);
-        if(clickListener!=null)
+        if (clickListener != null)
             holder.ivSettings.setOnClickListener(clickListener);
         holder.ivPoster.setOnClickListener(this);
         holder.tvRead.setOnClickListener(this);
@@ -64,7 +53,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         return hol;
     }
 
-    public void setOnSettingsListener(View.OnClickListener clickListener){
+    public void setOnSettingsListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -77,7 +66,8 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
 //        HtmlText text = new HtmlText(getContext(), false);
 //        text.setText(item.html_body, holder.tvText);
         holder.llBodyHtml.removeAllViews();
-        initDescription(item, holder.llBodyHtml);
+        if (item.parsedContent.getParent() != null)
+            ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
 
         holder.ivSettings.setTag(position);
 //        h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());
@@ -88,39 +78,18 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         ImageLoader.getInstance().displayImage(item.from.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        if(ShikiUser.USER_ID.equals(item.from.id))
+        if (ShikiUser.USER_ID.equals(item.from.id))
             h.setVisible(holder.tvRead, false);
         else
             h.setVisible(holder.tvRead, true);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 
-    private void initDescription(final ItemNewsUserShiki item, final ViewGroup llBodyHtml) {
-        // Если уже распарсили то берем высоту вьюхи иначе прыгать начинает
-        if(item.parsedContent != null){
-            llBodyHtml.setMinimumHeight(item.parsedContent.getHeight());
-        } else
-            llBodyHtml.setMinimumHeight(0);
-
-        // Парсим ассинхронно каждую, так как при парсинге всех, после прокрутки списка вылетает
-        bodyBuilder.parceAsync(item.htmlBody, new BodyBuild.ParceDoneListener() {
-            @Override
-            public void done(ViewGroup view) {
-                item.parsedContent = view;
-                llBodyHtml.addView(item.parsedContent);
-                YoYo.with(Techniques.FadeIn)
-                    .duration(300)
-                        .playOn(item.parsedContent);
-                bodyBuilder.loadPreparedImages();
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
         // this is user
         ItemNewsUserShiki item = getItem((int) v.getTag());
-        if(v.getId() == R.id.ivPoster){
+        if (v.getId() == R.id.ivPoster) {
             Intent intent = new Intent(getContext(), ShowPageActivity.class);
             intent.putExtra(Constants.USER_ID, item.from.id);
             intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
