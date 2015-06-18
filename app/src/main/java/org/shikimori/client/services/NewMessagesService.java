@@ -63,6 +63,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     public void onDestroy() {
         super.onDestroy();
         timerHandler.removeCallbacks(timerRunnable);
+        user = null;
         Log.d(TAG, "onDestroy NewMessagesService");
     }
 
@@ -77,6 +78,8 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+        if(user == null)
+            return;
         load(res.getResultObject());
     }
 
