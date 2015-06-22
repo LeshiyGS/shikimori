@@ -15,14 +15,15 @@ public class PushHelperShiki extends PushHelper {
     }
 
     public void sendNewMessages(int message){
-        sendBroadCast(ShikiApplikation.NEW_MESSAGES, "", String.format(context.getString(R.string.new_messages), message));
+        sendBroadCast(ShikiApplikation.NEW_MESSAGES, context.getString(R.string.new_title), String.format(context.getString(R.string.new_messages), message));
     }
 
     public void sendNewNews(int message){
-        sendBroadCast(ShikiApplikation.NEW_NEWS, "", String.format(context.getString(R.string.new_news),message));
+        String messe = String.format(context.getString(R.string.new_news), message);
+        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.new_title), messe);
     }
 
     public void sendNewNotify(int message){
-        sendBroadCast(ShikiApplikation.NEW_NEWS, "", String.format(context.getString(R.string.new_notify),message));
+        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.new_title), String.format(context.getString(R.string.new_notify),message));
     }
 }

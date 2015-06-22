@@ -100,7 +100,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
         if (userNotify.notifications < notify.notifications && PreferenceHelper.getNotifyNotify(this))
             phelp.sendNewNotify(notify.notifications);
         if (userNotify.news < notify.news && PreferenceHelper.getNotifyNews(this))
-            phelp.sendNewNews(notify.notifications);
+            phelp.sendNewNews(notify.news);
         if (userNotify.messages < notify.messages && PreferenceHelper.getNotifyMessage(this))
             phelp.sendNewMessages(notify.messages);
 

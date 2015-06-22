@@ -13,5 +13,6 @@
     <string name="notify_desc">Дзынькает о новых уведомлениях</string>
     <string name="sound">Звук</string>
     <string name="notify_sound_desc">Звуковое сопровождение уведомлений</string>
+    <string name="new_title">Письмишко</string>
 
 </resources>
