@@ -68,6 +68,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         holder.llBodyHtml.removeAllViews();
         if (item.parsedContent.getParent() != null)
             ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
+        holder.llBodyHtml.addView(item.parsedContent);
 
         holder.ivSettings.setTag(position);
 //        h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());

@@ -9,7 +9,7 @@ import android.os.Bundle;
  */
 public class PushHelper {
     private static String RECEIVE_ID;
-    private Context context;
+    protected Context context;
 
     public PushHelper(Context context){
         this.context = context;

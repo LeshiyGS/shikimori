@@ -18,9 +18,11 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     private SendMessageController messageController;
     private ChatAdapter adptr;
     private String toUserId;
+    private BodyBuild bodyBuilder;
 
     @Override
     protected int getLayoutId() {
@@ -83,6 +86,8 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
         toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
         messageController = new SendMessageController(activity, query, etMessage);
+        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        showRefreshLoader();
         loadData();
     }
 
@@ -107,9 +112,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        stopRefresh();
-        ObjectBuilder<ItemNewsUserShiki> builder = new ObjectBuilder<>(res.getResultArray(), ItemNewsUserShiki.class);
-        prepareData(builder.list, true, true);
+        loadAsyncBuild(bodyBuilder, res.getResultArray(),ItemNewsUserShiki.class);
     }
 
     @Override

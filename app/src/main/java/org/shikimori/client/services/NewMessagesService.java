@@ -1,6 +1,5 @@
 package org.shikimori.client.services;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -8,9 +7,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import org.json.JSONObject;
-import org.shikimori.client.R;
-import org.shikimori.client.ShikiApplikation;
 import org.shikimori.client.tool.PreferenceHelper;
+import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -18,7 +16,6 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.push.PushHelper;
 
 /**
  * Created by Владимир on 15.06.2015.
@@ -33,7 +30,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
         @Override
         public void run() {
             getMessages();
-            timerHandler.postDelayed(this, Query.FIVE_MIN * 2);
+            timerHandler.postDelayed(this, Query.FIVE_MIN);
 //            timerHandler.postDelayed(this, 10000);
         }
     };
@@ -68,17 +65,17 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     protected void getMessages() {
-        if(!isNotifyEnable())
+        if (!isNotifyEnable())
             return;
         user = new ShikiUser(this);
-        if(!h.getConnection(this) || ShikiUser.USER_ID == null)
+        if (!h.getConnection(this) || ShikiUser.USER_ID == null)
             return;
         query.getResult(this);
     }
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        if(user == null)
+        if (user == null)
             return;
         load(res.getResultObject());
     }
@@ -90,7 +87,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
         showNotification(notify);
     }
 
-    boolean isNotifyEnable(){
+    boolean isNotifyEnable() {
         return (PreferenceHelper.getNotifyNotify(this) && PreferenceHelper.getNotifyNews(this)
                 && PreferenceHelper.getNotifyMessage(this));
     }
@@ -98,38 +95,23 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     private void showNotification(Notification notify) {
 
         Log.d(TAG, "onStartCommand NewMessagesService");
-
+        PushHelperShiki phelp = new PushHelperShiki(this);
         Notification userNotify = user.getNotification();
-        StringBuilder str = new StringBuilder();
-        if(userNotify.notifications < notify.notifications && PreferenceHelper.getNotifyNotify(this))
-            appendString(str, R.string.new_notify, notify.notifications);
-        if(userNotify.news < notify.news && PreferenceHelper.getNotifyNews(this))
-            appendString(str, R.string.new_news, notify.news);
+        if (userNotify.notifications < notify.notifications && PreferenceHelper.getNotifyNotify(this))
+            phelp.sendNewNotify(notify.notifications);
+        if (userNotify.news < notify.news && PreferenceHelper.getNotifyNews(this))
+            phelp.sendNewNews(notify.notifications);
         if (userNotify.messages < notify.messages && PreferenceHelper.getNotifyMessage(this))
-            appendString(str, R.string.new_messages, notify.messages);
-
-        if(str.length() > 0){
-            PushHelper pushHelper = new PushHelper(this);
-            pushHelper.sendBroadCast(
-                    ShikiApplikation.NEW_MESSAGES,
-                    getString(R.string.incomming_messages),
-                    str.toString());
-        }
+            phelp.sendNewMessages(notify.messages);
 
         // change data
-        if(userNotify.notifications != notify.notifications ||
+        if (userNotify.notifications != notify.notifications ||
                 userNotify.news != notify.news ||
-                userNotify.messages != notify.messages){
+                userNotify.messages != notify.messages) {
             query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
             user.setNotification(notify);
         }
 
-    }
-
-    void appendString(StringBuilder str, int mss, int count){
-        if(str.length() > 0)
-            str.append("/");
-        str.append(String.format(getString(mss), count));
     }
 
     @Override

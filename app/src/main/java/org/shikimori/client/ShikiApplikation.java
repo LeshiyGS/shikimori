@@ -3,19 +3,14 @@ package org.shikimori.client;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.push.PushHelper;
 import org.shikimori.library.tool.push.PushHelperReceiver;
 
 /**
@@ -24,6 +19,8 @@ import org.shikimori.library.tool.push.PushHelperReceiver;
 public class ShikiApplikation extends Application {
 
     public static final String NEW_MESSAGES = "new_messages";
+    public static final String NEW_NEWS = "new_news";
+    public static final String NEW_NOTIFY = "new_notify";
 
     @Override
     public void onCreate() {
@@ -39,7 +36,9 @@ public class ShikiApplikation extends Application {
         ShikiApi.setIsDebug(BuildConfig.DEBUG);
         initImageLoader(getApplicationContext());
 
-        PushHelperReceiver.addAction(NEW_MESSAGES, getRequestPushAction());
+        PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(3));
+        PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(4));
+        PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(5));
 
         runService();
     }
@@ -56,8 +55,13 @@ public class ShikiApplikation extends Application {
         return h.getImageLoaderOptionsBuilder();
     }
 
-    public PushHelperReceiver.PushAction getRequestPushAction() {
+    public PushHelperReceiver.PushAction getMessgesPushAction(final int id) {
         return new PushHelperReceiver.PushActionSimple() {
+
+            @Override
+            public int getNotifyId() {
+                return super.getNotifyId()+id;
+            }
 
             @Override
             public Intent getNotifyIntent() {

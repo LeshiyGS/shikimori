@@ -98,7 +98,6 @@ public class PushHelperReceiver extends BroadcastReceiver {
 
         NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(action.getNotifyId(), builder.build());
-
     }
 
     public static class PushActionSimple implements PushAction {
