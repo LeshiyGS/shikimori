@@ -29,14 +29,14 @@ public class UserCardStyleAdapter extends BaseCardGridAdapter<ItemUser> {
     @Override
     public void setValues(ViewHolder holder, ItemUser item, int position) {
         holder.tvTitle.setText(item.nickname);
-        long time = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.last_online_at).getTime();
+        long time = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.lastOnlineAt).getTime();
         long curTime = System.currentTimeMillis() - Query.FIVE_MIN;
         if(time > curTime){
             holder.tvTitleRus.setText(R.string.online);
             holder.tvTitleRus.setTextColor(online);
         }
         else{
-            holder.tvTitleRus.setText(h.getTimeAgo(item.last_online_at));
+            holder.tvTitleRus.setText(h.getTimeAgo(item.lastOnlineAt));
             holder.tvTitleRus.setTextColor(notOnline);
         }
 

@@ -21,6 +21,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.ProfileMangaAnnimeNameAdapter;
@@ -107,7 +108,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             return true;
         }
         if (item.getItemId() == R.id.ic_send_message) {
-            activity.loadPage(ChatFragment.newInstance(userDetails.nickname, getUserId()));
+            activity.loadPage(ChatFragment.newInstance(userDetails.user.nickname, getUserId()));
             return true;
         } else if (item.getItemId() == R.id.ic_add_friend){
             userDetails.inFriends = !userDetails.inFriends;
@@ -182,7 +183,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                         } else
                             item.setIcon(R.drawable.ic_action_favorite_blue);
 
-                        if(!userDetails.showComments){
+                        if(userDetails.isIgnored){
                             item_ignore.setIcon(R.drawable.ic_action_bell_off);
                         } else
                             item_ignore.setIcon(R.drawable.ic_action_bell_on);
@@ -302,9 +303,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         stopRefresh();
         userDetails = UserDetails.create(res.getResultObject());
 
-        fillUi();
-        if (activity.getShikiUser().getId().equalsIgnoreCase(userDetails.id))
-            activity.getShikiUser().setData(res.getResultObject());
+        fillUi(res.getResultObject());
 
         testHtml(userDetails.aboutHtml);
 
@@ -320,13 +319,16 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         }
     }
 
-    private void fillUi() {
-        if (userDetails == null || userDetails.id == null)
+    private void fillUi(JSONObject resultObject) {
+        if (userDetails == null || userDetails.user == null)
             return;
 
-        if (userDetails.avatar != null)
-            ImageLoader.getInstance().displayImage(userDetails.avatar, avatar);
-        tvUserName.setText(userDetails.nickname);
+        if (activity.getShikiUser().getId().equalsIgnoreCase(userDetails.user.id))
+            activity.getShikiUser().setData(resultObject);
+
+        if (userDetails.user.img148 != null)
+            ImageLoader.getInstance().displayImage(userDetails.user.img148, avatar);
+        tvUserName.setText(userDetails.user.nickname);
 
         setSexYearLocation();
 
@@ -449,24 +451,21 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         if (v.getId() == R.id.ivWebShow) {
             h.launchUrlLink(activity, userDetails.website);
         } else if (v.getId() == R.id.ivAnimeListShow) {
-            pop = new ListPopup(activity);
-            pop.setAnimate(Techniques.Pulse);
-            pop.setOnItemClickListener(animePopupListener);
-            pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
-                    userDetails.fullStatuses.animes, ProjectTool.TYPE.ANIME));
-//            pop.setList(getListNames(userDetails.fullStatuses.animes, anime));
-            pop.setTitle(R.string.lists_anime);
-            pop.show();
+            showPopup(animePopupListener, ProjectTool.TYPE.ANIME, R.string.lists_anime);
         } else if (v.getId() == R.id.ivMangaListShow) {
-            pop = new ListPopup(activity);
-            pop.setAnimate(Techniques.Pulse);
-            pop.setOnItemClickListener(mangaPopupListener);
-            pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
-                    userDetails.fullStatuses.manga, ProjectTool.TYPE.MANGA));
-//            pop.setList(getListNames(userDetails.fullStatuses.manga, manga));
-            pop.setTitle(R.string.lists_manga);
-            pop.show();
+            showPopup(mangaPopupListener, ProjectTool.TYPE.MANGA, R.string.lists_manga);
         }
+    }
+
+    protected void showPopup(AdapterView.OnItemClickListener listener, ProjectTool.TYPE type, int title){
+        pop = new ListPopup(activity);
+        pop.setAnimate(Techniques.Pulse);
+        pop.setOnItemClickListener(listener);
+        pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
+                type == ProjectTool.TYPE.MANGA ? userDetails.fullStatuses.manga :
+                        userDetails.fullStatuses.animes, type));
+        pop.setTitle(title);
+        pop.show();
     }
 
     AdapterView.OnItemClickListener animePopupListener = new AdapterView.OnItemClickListener() {

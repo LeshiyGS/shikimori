@@ -13,12 +13,13 @@ import java.util.List;
  */
 public class UserDetails extends JsonParseable implements JsonParseable.Creator<UserDetails> {
 
-    public String id, nickname, avatar, lastOnlineAt, name, sex, fullYears, lastOnline,
+    public String name, sex, fullYears, lastOnline,
             website, location, about, aboutHtml;
+    public ItemUser user;
     public List<String> commonInfo;
     public Statuses statuses;
     public Statuses fullStatuses;
-    public boolean banned, showComments, hasAnime, hasManga, inFriends;
+    public boolean banned, isIgnored, showComments, hasAnime, hasManga, inFriends;
 
     public static UserDetails create(JSONObject json) {
         return new UserDetails().createFromJson(json);
@@ -30,12 +31,9 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
             return this;
 
         HelperObj helper = new HelperObj(json);
-        id = helper.addString("id");
-        nickname = helper.addString("nickname");
-        avatar = helper.addString("avatar");
-        if(avatar!=null)
-            avatar = avatar.replace("x48", "x80");
-        lastOnlineAt = helper.addString("last_online_at");
+        user = new ItemUser(json);
+        if(user.avatar!=null)
+            user.avatar = user.avatar.replace("x48", "x80");
         name = helper.addString("name");
         sex = helper.addString("sex");
         fullYears = helper.addString("full_years");
@@ -46,7 +44,9 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
         aboutHtml = helper.addString("about_html");
         inFriends = json.optBoolean("in_friends");
         banned = json.optBoolean("banned");
+        banned = json.optBoolean("banned");
         showComments = json.optBoolean("show_comments");
+        isIgnored = json.optBoolean("is_ignored");
         hasAnime = json.optBoolean("has_anime?");
         hasManga = json.optBoolean("has_manga?");
 
