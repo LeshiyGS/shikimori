@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
@@ -39,10 +40,11 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
 
     private String itemId;
     protected ScrollView svMain;
-    protected TextView tvTitle, tvScore, tvReview,tvStatus;
+    protected TextView tvTitle, tvScore, tvReview,tvStatus, tvMenuStudios;
     protected ImageView ivPoster;
     protected RatingBar rbTitle;
     protected ViewGroup llInfo;
+    protected ExpandableHeightGridView llStudios;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
         tvStatus = (TextView) v.findViewById(R.id.tvStatus);
+        tvMenuStudios = (TextView) v.findViewById(R.id.tvMenuStudios);
+        llStudios = (ExpandableHeightGridView) v.findViewById(R.id.llStudios);
 
         ivPoster.setOnTouchListener(h.getImageHighlight);
         return v;

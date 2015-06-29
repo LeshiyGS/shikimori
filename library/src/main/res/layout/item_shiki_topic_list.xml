@@ -75,14 +75,12 @@
 
                 <TextView
                     android:id="@+id/tvText"
-                    style="@style/altarixUiLabel"
+                    style="@style/altarixUiText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textStyle="italic"
                     android:layout_marginTop="@dimen/defaultPaddingMini"
-                    android:background="@drawable/shiki_item_selector"
-                    android:padding="@dimen/defaultPaddingMini"
-                    android:text="@string/open_details"
-                    android:textColor="@color/white_overlay_80" />
+                    android:text="@string/open_details" />
 
                 <LinearLayout
                     android:id="@+id/llBodyHtml"

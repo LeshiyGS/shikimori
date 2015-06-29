@@ -1,8 +1,11 @@
 package org.shikimori.library.objects;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.abstracts.AMDetails;
+import org.shikimori.library.objects.one.Studio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +13,7 @@ import java.util.List;
  */
 public class ItemAnimeDetails extends AMDetails {
 
-    public List<String> studios;
+    public List<Studio> studios;
 
     public static ItemAnimeDetails create(JSONObject json) {
         return new ItemAnimeDetails().createFromJson(json);
@@ -19,8 +22,15 @@ public class ItemAnimeDetails extends AMDetails {
     @Override
     public ItemAnimeDetails createFromJson(JSONObject json) {
         super.createFromJson(json);
-        if(json != null)
-            studios = getList(json.optJSONArray("studios"), "name");
+        JSONArray arrayStudios = json.optJSONArray("studios");
+        studios = new ArrayList<>();
+        if(arrayStudios!=null){
+            for (int i = 0; i < arrayStudios.length(); i++) {
+                JSONObject item = arrayStudios.optJSONObject(i);
+                if(item.optBoolean("real"))
+                    studios.add(new Studio(item));
+            }
+        }
         return this;
     }
 

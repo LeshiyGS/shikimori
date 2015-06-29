@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.abs.HelperObj;
+import org.shikimori.library.objects.one.Studio;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ public class AMDetails extends AMShiki {
             world_art_id, myanimelist_id, ani_db_id, user_rate;
     public Boolean favoured;
     public List<String>  english, japanese, synonyms, genres;
-
 
     public static AMDetails create(JSONObject json) {
         return new AMDetails().createFromJson(json);

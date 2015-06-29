@@ -3,10 +3,12 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
+import org.shikimori.library.adapters.StudiosAdapter;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
@@ -67,7 +69,9 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
         addInfo(R.string.title_rating, animeDetails.rating);
         addInfo(R.string.title_genres, TextUtils.join(", ", animeDetails.genres));
-        addInfo(R.string.title_publishers, TextUtils.join(", ", animeDetails.studios));
+        //addInfo(R.string.title_publishers, TextUtils.join(", ", animeDetails.studios));
+
+        setStudios();
 
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(animeDetails.thread_id);
@@ -82,6 +86,23 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
                     setStatus(animeDetails.anons, animeDetails.ongoing);
                 }
             });
+    }
+
+    private void setStudios() {
+        if(animeDetails.studios.size() > 0){
+            h.setVisible(tvMenuStudios, true);
+            h.setVisible(llStudios, true);
+            llStudios.setAdapter(new StudiosAdapter(activity, animeDetails.studios));
+            llStudios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    h.showMsg(activity, "test");
+                }
+            });
+        } else {
+            h.setVisibleGone(tvMenuStudios);
+            h.setVisibleGone(llStudios);
+        }
     }
 
     @Override
