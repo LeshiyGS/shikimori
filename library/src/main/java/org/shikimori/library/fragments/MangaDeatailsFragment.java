@@ -62,12 +62,24 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         addInfo(R.string.chapters, details.chapters);
         addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
         addInfo(R.string.title_publishers, TextUtils.join(", ", details.publishers));
+
+        // hide studio block
+        h.setVisibleGone(tvMenuStudios);
+        h.setVisibleGone(llStudios);
+        // чего хотят пользователи
+        buildStateWanted(details.ratesStatusesStats);
         // status color and animation
         setStatus(details.anons, details.ongoing);
         // load comments
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
 
+        getView().post(new Runnable() {
+            @Override
+            public void run() {
+                svMain.scrollTo(0,0);
+            }
+        });
     }
 
     @Override

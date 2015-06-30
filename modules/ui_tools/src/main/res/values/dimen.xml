@@ -6,6 +6,7 @@
     <dimen name="guTextSizeNormal">16sp</dimen>
     <dimen name="guTextSizeSmall">14sp</dimen>
     <dimen name="guTextSizeMini">13sp</dimen>
+    <dimen name="guTextSize12">12sp</dimen>
     <dimen name="guTextSizeBig">32sp</dimen>
     <dimen name="guTextSizeMegaBig">48sp</dimen>
 
@@ -21,12 +22,11 @@
     <dimen name="defaultPaddingBig">24dp</dimen>
     <dimen name="defaultPaddingEnormous">32dp</dimen>
     <dimen name="defaultPaddingLarge">48dp</dimen>
-    <dimen name="defaultPadding58">58dp</dimen>
+    <dimen name="defaultPadding56">56dp</dimen>
     <dimen name="negativeTop">-10dp</dimen>
     <dimen name="paddingMapInfoLeft">40dp</dimen>
     <dimen name="paddingMfcQueueTime">76dp</dimen>
     <dimen name="paddingCommentDesc">103dp</dimen>
-    <dimen name="paddingPosterW">80dp</dimen>
-    <dimen name="paddingPosterW90">90dp</dimen>
-    <dimen name="paddingPosterH">115dp</dimen>
+
+    <dimen name="devider_height">1dp</dimen>
 </resources>

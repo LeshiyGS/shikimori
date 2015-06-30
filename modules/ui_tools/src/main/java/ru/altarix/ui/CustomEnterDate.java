@@ -23,10 +23,7 @@ import ru.altarix.ui.tool.h;
 /**
  * Created by Владимир on 26.06.2014.
  */
-public class CustomEnterDate extends CustomViewBase implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-    private TextView tvLabel;
-    private TextView tvText;
-    private String mText;
+public class CustomEnterDate extends CustomTextViewUnderLine implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private Calendar calendar = Calendar.getInstance();
     private DatePickerDialog mDateDialog;
     private DatePickerDialog.OnDateSetListener l;
@@ -43,38 +40,26 @@ public class CustomEnterDate extends CustomViewBase implements View.OnClickListe
 
     public CustomEnterDate(Context context) {
         super(context);
-        init(null);
     }
 
     public CustomEnterDate(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs);
     }
 
-    // TODO set min date and max date
+    @Override
     protected void init(AttributeSet attrs) {
-        super.init(attrs, R.layout.altarix_ui_custom_date);
-        try {
-            if(typedArray!=null){
-                typedArray.recycle();
-            }
-        } finally {
-        }
+        super.init(attrs);
 
         dateFormatDayOfMonth = new SimpleDateFormat("dd MMMM yyyy");
         timeFormat = new SimpleDateFormat("HH:mm");
-//
-        if(mText == null)
-            mText = "";
 
-        tvText = (TextView)this.findViewById(R.id.tvText);
-        tvText.setText(mText);
-        tvText.setClickable(false);
-        if(Build.VERSION.SDK_INT < 21)
-            this.setOnClickListener(this);
-        else
-            getChildAt(0).setOnClickListener(this);
-        h.setFont(mContext, this);
+        getChildAt(0).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimeDialog();
+            }
+        });
+
     }
 
     public void setDateFormat(String format){
@@ -140,8 +125,7 @@ public class CustomEnterDate extends CustomViewBase implements View.OnClickListe
         return calendar;
     }
 
-    @Override
-    public void onClick(View v) {
+    public void showTimeDialog() {
         if(isTime){
             mTimeDialog = new TimePickerDialog(mContext, this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
             mDateDialog.show();

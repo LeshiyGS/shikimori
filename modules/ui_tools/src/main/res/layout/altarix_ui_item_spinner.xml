@@ -7,6 +7,5 @@
         android:id="@+id/tvName"
         style="@style/altarixUiText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/defaultPaddingMini" />
+        android:layout_height="wrap_content" />
 </FrameLayout>

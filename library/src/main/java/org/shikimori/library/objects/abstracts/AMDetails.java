@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.abs.HelperObj;
+import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.Studio;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class AMDetails extends AMShiki {
             world_art_id, myanimelist_id, ani_db_id, user_rate;
     public Boolean favoured;
     public List<String>  english, japanese, synonyms, genres;
+    public List<RatesStatusesStats> ratesStatusesStats;
 
     public static AMDetails create(JSONObject json) {
         return new AMDetails().createFromJson(json);
@@ -46,6 +48,23 @@ public class AMDetails extends AMShiki {
         favoured = json.optBoolean("favoured");
 
         genres  = getList(json.optJSONArray("genres"), "russian");
+        JSONArray array = json.optJSONArray("rates_statuses_stats");
+        ratesStatusesStats = new ArrayList<>();
+        int fullStateProgress = 0;
+        if(array!=null){
+            for (int i = 0; i < array.length(); i++) {
+                RatesStatusesStats item = new RatesStatusesStats(array.optJSONObject(i));
+                ratesStatusesStats.add(item);
+                fullStateProgress += item.value;
+            }
+        }
+
+        if(fullStateProgress!=0){
+            for (RatesStatusesStats ratesStatusesStat : ratesStatusesStats) {
+                ratesStatusesStat.procents = ratesStatusesStat.value * 100 / fullStateProgress;
+            }
+        }
+
 
         return this;
     }

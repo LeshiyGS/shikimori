@@ -38,6 +38,7 @@
     <string name="title_rating">Рейтинг</string>
     <string name="title_genres">Жанры</string>
     <string name="title_studios">Студии</string>
+    <string name="title_studio">Студия</string>
     <string name="incoming">Вышло</string>
     <string name="anons">Анонс</string>
     <string name="ongoing">Онгоинг</string>
@@ -109,4 +110,5 @@
     <string name="new_messages">Сообщения: %1$d</string>
     <string name="new_news">Новости: %1$d</string>
     <string name="incomming_messages">Новые сообщения</string>
+    <string name="wanted_title">В списках у людей</string>
 </resources>

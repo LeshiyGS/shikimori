@@ -9,10 +9,11 @@ allprojects {
         compile('de.keyboardsurfer.android.widget:crouton:1.8.5@aar') {
             exclude group: 'com.google.android', module: 'support-v4'
         }
-        compile 'com.android.support:support-v4:22.0.+'
-        compile 'com.android.support:appcompat-v7:22.0.+'
+        compile 'com.android.support:appcompat-v7:22.2.0'
+        compile 'com.android.support:design:22.2.0'
+        compile 'com.android.support:support-annotations:22.2.0'
+        compile 'com.android.support:support-v4:22.2.0'
         compile 'com.android.support:gridlayout-v7:22.0.+'
-        compile 'com.android.support:support-annotations:22.0.+'
         compile 'com.google.android.gms:play-services-base:6.5.87'
         compile 'com.nineoldandroids:library:2.4.0'
         compile 'com.daimajia.easing:library:1.0.1@aar'

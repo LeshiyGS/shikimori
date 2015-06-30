@@ -81,7 +81,7 @@
 
             <TextView
                 android:id="@+id/tvText"
-                style="@style/altarixUiLabel.miniblack"
+                style="@style/altarixUiLabel.mini"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                  />

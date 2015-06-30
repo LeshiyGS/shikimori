@@ -47,7 +47,7 @@ public class CustomSpinner extends CustomViewBase {
 
         if (mArray > 0) {
             CustomArrayAdapter<String> spinnerAdapter = new CustomArrayAdapter<>(mContext, R.layout.altarix_ui_item_spinner, getResources().getStringArray(mArray));
-            spinnerAdapter.setDropDownViewResource(R.layout.altarix_ui_item_spinner);
+            spinnerAdapter.setDropDownViewResource(R.layout.altarix_ui_item_spinner_padding);
             sSpinner.setAdapter(spinnerAdapter);
             sSpinner.setSelection(mPosition);
         }
@@ -76,7 +76,7 @@ public class CustomSpinner extends CustomViewBase {
 
     public <T> void setList(List<T> list){
         CustomArrayAdapter<T> spinnerAdapter = new CustomArrayAdapter<>(mContext, R.layout.altarix_ui_item_spinner, R.id.tvName, list);
-        spinnerAdapter.setDropDownViewResource(R.layout.altarix_ui_item_spinner);
+        spinnerAdapter.setDropDownViewResource(R.layout.altarix_ui_item_spinner_padding);
         sSpinner.setAdapter(spinnerAdapter);
         sSpinner.setSelection(mPosition);
     }
@@ -84,7 +84,7 @@ public class CustomSpinner extends CustomViewBase {
     @SafeVarargs
     public final <T> void setList(T... list){
         CustomArrayAdapter<T> spinnerAdapter = new CustomArrayAdapter<>(mContext, R.layout.altarix_ui_item_spinner, R.id.tvName, list);
-        spinnerAdapter.setDropDownViewResource(R.layout.altarix_ui_item_spinner);
+        spinnerAdapter.setDropDownViewResource(R.layout.altarix_ui_item_spinner_padding);
         sSpinner.setAdapter(spinnerAdapter);
         sSpinner.setSelection(mPosition);
     }

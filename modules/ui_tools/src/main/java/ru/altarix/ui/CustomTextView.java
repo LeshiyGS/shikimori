@@ -14,7 +14,7 @@ import ru.altarix.ui.tool.h;
  * Created by Владимир on 26.06.2014.
  */
 public class CustomTextView extends CustomClickableBase {
-    private TextView tvText;
+    protected TextView tvText;
 
     public CustomTextView(Context context) {
         this(context, null);
@@ -31,9 +31,13 @@ public class CustomTextView extends CustomClickableBase {
         init(attrs);
     }
 
+    protected int getLayoutId(){
+        return R.layout.altarix_ui_custom_text_view;
+    }
+
     protected void init(AttributeSet attrs) {
-        super.init(attrs, R.layout.altarix_ui_custom_text_view);
         if (isInEditMode()) return;
+        super.init(attrs, getLayoutId());
 
         if(typedArray!=null){
             try {
@@ -66,5 +70,17 @@ public class CustomTextView extends CustomClickableBase {
 
     public TextView getTextView(){
         return tvText;
+    }
+
+    @Override
+    public void setLabel(int label) {
+        super.setLabel(label);
+        h.setVisible(tvLabel, true);
+    }
+
+    @Override
+    public void setHint(String hint) {
+        super.setHint(hint);
+        h.setVisible(tvLabel, true);
     }
 }

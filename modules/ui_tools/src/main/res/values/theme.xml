@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AltarixUiTeme" parent="Theme.AppCompat.Light.DarkActionBar" >
+    <style name="AltarixUiBaseTeme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <!--стиль edittext-->
+        <!--<item name="android:editTextStyle">@style/altarixUiEditTextStyle</item>-->
+    </style>
+
+
+    <style name="AltarixUiTeme" parent="AltarixUiBaseTeme" >
         <!--стиль текста-->
         <!--<item name="altarixUiAttrEditTextBackgroundStyle">@style/altarixUiEditTextStyle</item>-->
-        <!--стиль edittext-->
-        <item name="altarixUiAttrEditTextStyle">@style/altarixUiEditTextStyle</item>
+        <item name="colorAccent">@color/dialog_divider_color</item>
+        <!-- Цвет подсветки нажатия -->
+        <item name="colorControlHighlight">?attr/colorAccent</item>
         <!--цвет текста-->
         <item name="altarixUiAttrTextColor">@color/altarixUiTextColor</item>
+        <!--цвет hint-->
+        <item name="altarixUiAttrHintColor">@color/altarixUiHintColor</item>
+        <!--цвет текста ошибки-->
+        <item name="altarixUiAttrErrorStyle">?attr/altarixUiAttrErrorStyle</item>
         <!--стиль нажатия на элемент в нажатом сосотоянии-->
         <item name="altarixUiAttrBackgroundPressedStyle">@style/altarixUiBackgroundPressedStyle</item>
         <!--цвет выделения нажатия на элемент-->
-        <item name="altarixUiAttrPressedColor">@color/altarixUiPressedColor</item>
+        <item name="altarixUiAttrPressedColor">?attr/colorAccent</item>
         <!--стиль выделения фона при нажатии на элемент-->
         <item name="altarixUiAttrSelectorSimpleStyle">@style/altarixUiSelectorSimpleStyle</item>
         <!-- Стиль табов-->
@@ -27,9 +38,7 @@
         <!-- Цвет фона сружочка когда нажимаешь на иконку-->
         <item name="altarixUiAttrLabelColor">@color/altarixUiLabelColor</item>
         <!-- style label-->
-        <item name="altarixUiAttrLabelStyle">@style/altarixUiLabel.small</item>
-        <!-- style label-->
-        <item name="altarixUiAttrLabelEditTextStyle">@style/altarixUiLabelEditTextStyle</item>
+        <item name="altarixUiAttrLabelStyle">@style/altarixUiLabel</item>
         <!-- style label title-->
         <item name="altarixUiAttrLabelTitleStyle">@style/altarixUiText.TextTitle</item>
         <!-- style date-->
@@ -39,7 +48,16 @@
         <!-- divider color-->
         <item name="altarixUiAttrDividerColor">@color/dialog_divider_color</item>
 
-        <item name="altarixUiAttrSelectedColorTab">@color/dialog_divider_color</item>
+        <item name="colorControlNormal">@color/altarixUiNormalControl</item>
+        <!-- style button-->
+        <item name="android:buttonStyle">@style/altarixUiButton</item>
+
     </style>
+
+    <style name="altarixUiButtonTheme" parent="AltarixUiTeme">
+        <item name="colorButtonNormal">?attr/colorAccent</item>
+        <item name="colorControlHighlight">?attr/colorPrimaryDark</item>
+    </style>
+
 
 </resources>

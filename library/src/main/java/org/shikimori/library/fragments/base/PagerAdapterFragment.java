@@ -114,7 +114,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     protected void buildPages(){
         pageAdapter = getPagerAdapter();
         pager.setAdapter(pageAdapter);
-        int colorId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrSelectedColorTab);
+        int colorId = h.getAttributeResourceId(activity, R.attr.colorAccent);
         int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
         int colorIndicator = h.getAttributeResourceId(activity, R.attr.altarixUiAttrDividerColor);
         // цвет теста табов

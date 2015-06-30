@@ -27,37 +27,42 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ru.altarix.ui.tool.h;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import ru.altarix.ui.tool.h;
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
  * <p>
  * To use the component, simply add it to your view hierarchy. Then in your
  * {@link android.app.Activity} or {@link android.support.v4.app.Fragment} call
- * {@link #setViewPager(android.support.v4.view.ViewPager)} providing it the ViewPager this layout is being used for.
+ * {@link #setViewPager(ViewPager)} providing it the ViewPager this layout is being used for.
  * <p>
  * The colors can be customized in two ways. The first and simplest is to provide an array of colors
  * via {@link #setSelectedIndicatorColors(int...)}. The
- * alternative is via the {@link ExSlidingTabLayout.TabColorizer} interface which provides you complete control over
+ * alternative is via the {@link TabColorizer} interface which provides you complete control over
  * which color is used for any individual position.
  * <p>
  * The views used as tabs can be customized by calling {@link #setCustomTabView(int, int)},
  * providing the layout ID of your custom layout.
  */
 public class ExSlidingTabLayout extends HorizontalScrollView {
-    private String[] titles;
-    private boolean centreText = false;
+    private boolean centreText = true;
+    private BaseAdapter titleAdapter;
     private int selectedColor;
     private int defaultColor;
+    private String[] titles;
 
     /**
      * Allows complete control over the colors drawn in the tab layout. Set with
-     * {@link #setCustomTabColorizer(ExSlidingTabLayout.TabColorizer)}.
+     * {@link #setCustomTabColorizer(TabColorizer)}.
      */
     public interface TabColorizer {
 
@@ -104,11 +109,10 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
 
         mTabStrip = new SlidingTabStrip(context);
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-
         // color indicator
-        int colorId = h.getAttributeResourceId(context, R.attr.altarixUiAttrTabBackgroundColor);
-        if(colorId!=0)
-            setSelectedIndicatorColors(context.getResources().getColor(colorId));
+        int clolorId = h.getAttributeResourceId(context, R.attr.altarixUiAttrPressedColor);
+        if(clolorId!=0)
+            setSelectedIndicatorColors(context.getResources().getColor(clolorId));
     }
 
     /**
@@ -134,6 +138,25 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
+     * Sets color of text in tabs
+     * @param color text color
+     */
+    public void setTextColor(int color){
+        try{
+            for(int i=0; i < mTabStrip.getChildCount(); i++){
+                TextView tv = (TextView) mTabStrip.getChildAt(i);
+                tv.setTextColor(color);
+            }
+        }catch(ClassCastException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setTextColors(int selectedColor, int defaultColor){
+        this.selectedColor = selectedColor;
+        this.defaultColor = defaultColor;
+    }
+    /**
      * Sets the colors to be used for indicating the selected tab. These colors are treated as a
      * circular array. Providing one color will mean that all tabs are indicated with the same color.
      */
@@ -141,12 +164,16 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
         mTabStrip.setSelectedIndicatorColors(colors);
     }
 
+    public void setIndicatorIcon(int icon){
+        mTabStrip.setIndicatorDrawable(icon);
+    }
+
     /**
-     * Set the {@link android.support.v4.view.ViewPager.OnPageChangeListener}. When using  you are
-     * required to set any {@link android.support.v4.view.ViewPager.OnPageChangeListener} through this method. This is so
+     * Set the {@link ViewPager.OnPageChangeListener}. When using  you are
+     * required to set any {@link ViewPager.OnPageChangeListener} through this method. This is so
      * that the layout can update it's scroll position correctly.
      *
-     * @see android.support.v4.view.ViewPager#setOnPageChangeListener(android.support.v4.view.ViewPager.OnPageChangeListener)
+     * @see ViewPager#setOnPageChangeListener(ViewPager.OnPageChangeListener)
      */
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mViewPagerPageChangeListener = listener;
@@ -163,9 +190,8 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
         mTabViewTextViewId = textViewId;
     }
 
-    public void setTextColors(int selectedColor, int defaultColor){
-        this.selectedColor = selectedColor;
-        this.defaultColor = defaultColor;
+    public void setTitleAdapter(BaseAdapter titleAdapter){
+        this.titleAdapter = titleAdapter;
     }
 
     public View getTabView(int position){
@@ -176,10 +202,66 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
         this.titles = titles;
     }
 
+    public void setTitle(BaseAdapter titleAdapter){
+        setTitleAdapter(titleAdapter);
+
+        if(mViewPager==null) {
+            mViewPager = new ViewPager(getContext());
+        }
+        PagerAdapter adapter = mViewPager.getAdapter();
+        if (adapter==null)
+            adapter = new TitleAdapterPagerAdapter(titleAdapter);
+
+        ((TitleAdapterPagerAdapter)adapter).setTitles(titleAdapter);
+        mViewPager.setAdapter(adapter);
+        setViewPager(mViewPager);
+    }
+
     public void setTitleAdapter(String ... titles){
         this.titles = titles;
         mViewPager = new ViewPager(getContext());
         mViewPager.setAdapter(new TitlePagerAdapter());
+        setViewPager(mViewPager);
+    }
+
+    /** использовать для простого отображения заголовков*/
+    public <T> void setTitles(T... titles){
+        if(mViewPager==null) {
+            mViewPager = new ViewPager(getContext());
+        }
+
+        PagerAdapter adapter = mViewPager.getAdapter();
+        List<T> list = new ArrayList<>();
+        if(titles != null)
+            Collections.addAll(list, titles);
+        if (adapter==null || adapter.getClass()!=TitlePagerAdapter.class)
+            adapter = new TitlePagerAdapter<T>(list);
+        else
+            ((TitlePagerAdapter)adapter).setTitles(list);
+
+        mViewPager.setAdapter(adapter);
+        setViewPager(mViewPager);
+    }
+
+    public void setCurrentItem(int position, boolean smoothScroll){
+        if(mViewPager!=null)
+            mViewPager.setCurrentItem(position, smoothScroll);
+    }
+
+    /** использовать для простого отображения заголовков*/
+    public <T> void addTitles(T... titles){
+        if(mViewPager==null) {
+            mViewPager = new ViewPager(getContext());
+        }
+        PagerAdapter adapter = mViewPager.getAdapter();
+        List<T> list = new ArrayList<>();
+        Collections.addAll(list, titles);
+        if (adapter==null || adapter.getClass()!=TitlePagerAdapter.class) {
+            adapter = new TitlePagerAdapter<T>(list);
+            mViewPager.setAdapter(adapter);
+        } else
+            ((TitlePagerAdapter)adapter).addTitles(list);
+
         setViewPager(mViewPager);
     }
 
@@ -241,12 +323,16 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
                 tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);
             }
 
+            if(titleAdapter!=null)
+                tabView = titleAdapter.getView(i, null, null);
+
             if (tabView == null) {
                 tabView = createDefaultTabView(getContext());
             }
 
             if (tabTitleView == null && TextView.class.isInstance(tabView)) {
                 tabTitleView = (TextView) tabView;
+                tabTitleView.setText(adapter.getPageTitle(i));
             }
 
             if (mDistributeEvenly) {
@@ -267,13 +353,10 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
                 tabView.setSelected(true);
                 if(tabView instanceof TextView && selectedColor!=0)
                     ((TextView) tabView).setTextColor(selectedColor);
+                if(mViewPagerPageChangeListener!=null)
+                    mViewPagerPageChangeListener.onPageSelected(i);
             }
         }
-    }
-
-    public void setCurrentItem(int position, boolean smoothScroll){
-        if(mViewPager!=null)
-            mViewPager.setCurrentItem(position, smoothScroll);
     }
 
     public void setContentDescription(int i, String desc) {
@@ -379,7 +462,7 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
             if(v != view && !setViewTextColor(view, defaultColor)){
                 if (view instanceof ViewGroup) {
                     View viewText = ((ViewGroup) view).getChildAt(0);
-                        setViewTextColor(viewText, defaultColor);
+                    setViewTextColor(viewText, defaultColor);
                 }
             }
         }
@@ -401,21 +484,68 @@ public class ExSlidingTabLayout extends HorizontalScrollView {
         return false;
     }
 
-    class TitlePagerAdapter extends PagerAdapter {
+    class TitlePagerAdapter<T> extends PagerAdapter {
+        private List<T> titles;
+
+        TitlePagerAdapter(){
+            titles = new ArrayList<>();
+        }
+
+        TitlePagerAdapter(List<T> titles){
+            this.titles = titles;
+        }
+
+
+        public void setTitles(List<T>  titles){
+            this.titles = titles;
+        }
+
+        public void addTitles(List<T>  titles){
+            this.titles.addAll(titles);
+        }
 
         @Override
         public int getCount() {
-            return titles.length;
+            return titles.size();
         }
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
             return false;
         }
+
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return titles.get(position).toString();
         }
     }
+
+    class TitleAdapterPagerAdapter extends PagerAdapter {
+        private BaseAdapter titles;
+
+        TitleAdapterPagerAdapter(BaseAdapter titles){
+            this.titles = titles;
+        }
+
+        @Override
+        public int getCount() {
+            return titles.getCount();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return false;
+        }
+
+        public View getPageView(int position) {
+            return titles.getView(position, null, null);
+        }
+
+        public void setTitles(BaseAdapter title) {
+            this.titles = title;
+        }
+    }
+
+
 
 }

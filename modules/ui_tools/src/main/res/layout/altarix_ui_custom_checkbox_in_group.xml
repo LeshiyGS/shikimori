@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <View
         android:id="@+id/backViewPressed"
@@ -16,27 +17,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/defaultPadding"
-        android:paddingTop="@dimen/defaultPadding">
+        android:minHeight="@dimen/defaultPaddingLarge"
+        android:paddingLeft="@dimen/defaultPadding4"
+        android:paddingStart="@dimen/defaultPadding4"
+        android:gravity="center_vertical">
 
-        <TextView
+        <android.support.v7.widget.AppCompatCheckedTextView
             android:id="@+id/tvText"
             style="?attr/altarixUiAttrTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/defaultPaddingMini"
-            android:layout_weight=".9"
-            android:text="test" />
+            android:gravity="center_vertical"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>
 
-        <ImageView
-            android:id="@+id/ivImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/defaultPaddingMini"
-            android:layout_marginTop="@dimen/defaultPadding6"
-            android:src="@drawable/altarix_ui_checkbox"
-            android:visibility="gone"
-            />
     </LinearLayout>
 
 </FrameLayout>

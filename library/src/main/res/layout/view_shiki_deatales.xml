@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:gravity="center_vertical"
-                    style="@style/altarixUiText.TextTitle.shadow"
+                    style="@style/altarixUiText.TextTitle"
                     android:minHeight="@dimen/paddingMfcQueueTime"
                     android:layout_alignParentBottom="true"
                     android:textColor="@color/white_overlay_85"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvMenuStudios"
-                android:text="@string/title_studios"
+                android:text="@string/title_studio"
                 style="@style/altarixUiText"
                 android:textColor="@color/title_black_transparent"
                 android:textStyle="bold"
@@ -114,6 +114,28 @@
                 android:padding="@dimen/defaultPadding" />
 
             <TextView
+                android:id="@+id/tvMenuWanted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/altarixUiText"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold"
+                android:text="@string/wanted_title"
+                android:padding="@dimen/defaultPadding"
+                android:background="@color/white_overlay_85" />
+
+
+            <LinearLayout
+                android:id="@+id/llWanted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            </LinearLayout>
+
+
+            <TextView
                 android:id="@+id/tvMenuScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -131,6 +153,7 @@
                 android:layout_gravity="center"
                 android:focusable="false"
                 android:numStars="5"
+                style="?android:attr/ratingBarStyle"
                 android:layout_margin="10dp"
                 android:isIndicator="true"
                 android:stepSize="0.01" />

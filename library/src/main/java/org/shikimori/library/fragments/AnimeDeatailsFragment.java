@@ -2,8 +2,11 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -14,7 +17,11 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
+import org.shikimori.library.objects.one.RatesStatusesStats;
+import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.tool.h;
+
+import java.util.List;
 
 
 /**
@@ -71,7 +78,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         addInfo(R.string.title_genres, TextUtils.join(", ", animeDetails.genres));
         //addInfo(R.string.title_publishers, TextUtils.join(", ", animeDetails.studios));
 
-        setStudios();
+        setStudios(R.string.title_studio, animeDetails.studios);
+        buildStateWanted(animeDetails.ratesStatusesStats);
 
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(animeDetails.thread_id);
@@ -84,15 +92,27 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
                     ImageLoader.getInstance().displayImage(animeDetails.image.original, ivPoster, addBlurToTitle);
                     setStatus(animeDetails.anons, animeDetails.ongoing);
+                    svMain.scrollTo(0,0);
                 }
             });
     }
 
-    private void setStudios() {
-        if(animeDetails.studios.size() > 0){
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        if(v.getId() == R.id.ivPoster && animeDetails.image!=null)
+            activity.getThumbToImage().zoom(ivPoster, animeDetails.image.original);
+    }
+
+    /**
+     * Set studios
+     */
+    protected void setStudios(int title, List<Studio> studions) {
+        if(studions.size() > 0){
+            tvMenuStudios.setText(title);
             h.setVisible(tvMenuStudios, true);
             h.setVisible(llStudios, true);
-            llStudios.setAdapter(new StudiosAdapter(activity, animeDetails.studios));
+            llStudios.setAdapter(new StudiosAdapter(activity, studions));
             llStudios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -103,12 +123,5 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             h.setVisibleGone(tvMenuStudios);
             h.setVisibleGone(llStudios);
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        if(v.getId() == R.id.ivPoster && animeDetails.image!=null)
-            activity.getThumbToImage().zoom(ivPoster, animeDetails.image.original);
     }
 }
