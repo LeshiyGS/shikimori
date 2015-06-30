@@ -23,7 +23,7 @@
             android:id="@+id/cetLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            custom:uiLabel="@string/login"
+            android:hint="@string/login"
             />
 
         <ru.altarix.ui.CustomEditText
@@ -31,17 +31,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            custom:uiLabel="@string/password"
+            android:hint="@string/password"
             />
 
-        <TextView
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/tvLoginButton"
-            android:layout_marginTop="@dimen/defaultPadding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/button"
-            android:text="@string/enter"
-            />
+            android:theme="@style/UiButtonTheme"
+            android:text="@string/enter"/>
+
     </LinearLayout>
 
 </ScrollView>

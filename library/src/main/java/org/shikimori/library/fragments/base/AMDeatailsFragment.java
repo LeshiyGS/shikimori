@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -17,10 +19,13 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.adapters.StudiosAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.one.RatesStatusesStats;
+import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
@@ -29,6 +34,8 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
+
+import java.util.List;
 
 import ru.altarix.ui.CustomTextView;
 
@@ -43,7 +50,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     protected TextView tvTitle, tvScore, tvReview,tvStatus, tvMenuStudios;
     protected ImageView ivPoster;
     protected RatingBar rbTitle;
-    protected ViewGroup llInfo;
+    protected ViewGroup llInfo, llWanted;
     protected ExpandableHeightGridView llStudios;
 
     @Override
@@ -59,6 +66,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         tvStatus = (TextView) v.findViewById(R.id.tvStatus);
         tvMenuStudios = (TextView) v.findViewById(R.id.tvMenuStudios);
         llStudios = (ExpandableHeightGridView) v.findViewById(R.id.llStudios);
+        llWanted = (ViewGroup) v.findViewById(R.id.llWanted);
 
         ivPoster.setOnTouchListener(h.getImageHighlight);
         return v;
@@ -129,6 +137,23 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
 
     protected String getStatus(boolean anons, boolean ongoing){
         return ProjectTool.getStatus(activity, anons, ongoing);
+    }
+
+    /**
+     * Set wanted from people
+     */
+    protected void buildStateWanted(List<RatesStatusesStats> ratesStatusesStats) {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        if(ratesStatusesStats!=null){
+            for (RatesStatusesStats ratesStatusesStat : ratesStatusesStats) {
+                View v = inflater.inflate(R.layout.item_shiki_progress, null);
+                SeekBar sbProgress = h.get(v, R.id.sbProgress);
+                TextView tvProgress = h.get(v, R.id.tvProgress);
+                sbProgress.setProgress(ratesStatusesStat.procents);
+                tvProgress.setText(ratesStatusesStat.name + " / "+ratesStatusesStat.value);
+                llWanted.addView(v);
+            }
+        }
     }
 
     protected void addInfo(int label,  String text) {

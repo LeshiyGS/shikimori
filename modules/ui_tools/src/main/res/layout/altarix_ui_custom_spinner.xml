@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lbase"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/lbase"
+    android:minHeight="@dimen/defaultPaddingLarge"
     >
 
     <ImageView
@@ -11,27 +11,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/defaultPaddingMini"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_toRightOf="@+id/ivImage"
+        android:layout_toEndOf="@+id/ivImage">
 
         <TextView
             android:id="@+id/tvLabel"
             style="?attr/altarixUiAttrLabelStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/defaultPadding4"
+            />
 
         <ru.altarix.ui.CustomSpinnerClickItem
             android:id="@+id/sSpinner"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            android:layout_marginTop="@dimen/negativeTop"
-            android:layout_below="@id/tvLabel"/>
+            android:paddingTop="0dp"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

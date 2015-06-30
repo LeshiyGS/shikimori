@@ -18,12 +18,13 @@
         </attr>
         <attr name="uiDefaultPosition" format="integer" />
         <attr name="uiArray" format="reference" />
+        <attr name="uiLayoutCheckBoxInGroup" format="reference" />
     </declare-styleable>
 
     <!-- Style custom view-->
     <attr name="altarixUiAttrTextColor" format="reference|color" />
+    <attr name="altarixUiAttrHintColor" format="reference|color" />
     <!--<attr name="altarixUiAttrEditTextBackgroundStyle" format="reference" />-->
-    <attr name="altarixUiAttrEditTextStyle" format="reference" />
     <attr name="altarixUiAttrBackgroundPressedStyle" format="reference" />
     <attr name="altarixUiAttrPressedColor" format="reference|color" />
     <attr name="altarixUiAttrTabBackgroundColor" format="reference|color" />
@@ -34,11 +35,10 @@
     <attr name="altarixUiAttrCirclePressedStyle" format="reference" />
     <attr name="altarixUiAttrLabelColor" format="reference|color" />
     <attr name="altarixUiAttrLabelStyle" format="reference" />
-    <attr name="altarixUiAttrLabelEditTextStyle" format="reference" />
     <attr name="altarixUiAttrLabelTitleStyle" format="reference" />
     <attr name="altarixUiAttrDateStyle" format="reference" />
     <attr name="altarixUiAttrDividerColor" format="reference|color" />
     <attr name="altarixUiAttrTextStyle" format="reference" />
-    <attr name="altarixUiAttrSelectedColorTab" format="reference|color" />
+    <attr name="altarixUiAttrErrorStyle" format="reference" />
 
 </resources>

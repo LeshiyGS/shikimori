@@ -14,6 +14,8 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ru.altarix.ui.R;
+
 /**
  * Created by Феофилактов on 05.12.2014.
  */
@@ -33,7 +35,7 @@ public class h {
                     View child = vg.getChildAt(i);
                     setFont(context, child);
                 }
-            } else if (v instanceof TextView) {
+            } else if (v instanceof TextView && v.getId()!= R.id.tvLabel) {
                 ((TextView) v).setTypeface(typeFace);
             } else if (v instanceof EditText){
                 ((EditText) v).setTypeface(typeFace);

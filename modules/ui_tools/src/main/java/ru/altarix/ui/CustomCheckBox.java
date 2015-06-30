@@ -1,6 +1,7 @@
 package ru.altarix.ui;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatCheckedTextView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,9 +16,8 @@ import ru.altarix.ui.tool.h;
  * Created by Владимир on 26.06.2014.
  */
 public class CustomCheckBox extends CustomClickableBase {
-    private TextView tvText;
+    private AppCompatCheckedTextView tvText;
     private boolean mChecked;
-    private ImageView cbImage;
     private boolean isChecked;
 
     public CustomCheckBox(Context context) {
@@ -46,14 +46,8 @@ public class CustomCheckBox extends CustomClickableBase {
             }
         }
 //
-        if(mText == null)
-            mText = "";
-
-        tvText = (TextView)this.findViewById(R.id.tvText);
-        cbImage = (ImageView)this.findViewById(R.id.ivImage);
-
+        tvText = (AppCompatCheckedTextView)this.findViewById(R.id.tvText);
         tvText.setText(mText);
-
         setChecked(mChecked);
 
         h.setFont(mContext, this);
@@ -78,10 +72,7 @@ public class CustomCheckBox extends CustomClickableBase {
             return;
 
         isChecked = checked;
-        if(checked){
-            cbImage.setVisibility(VISIBLE);
-        } else
-            cbImage.setVisibility(INVISIBLE);
+        tvText.setChecked(checked);
     }
 
     public TextView getTextView(){

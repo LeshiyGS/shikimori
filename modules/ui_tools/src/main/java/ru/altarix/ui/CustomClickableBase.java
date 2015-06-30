@@ -1,13 +1,19 @@
 package ru.altarix.ui;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import ru.altarix.ui.tool.h;
 
 /**
  * Created by Владимир on 07.10.2014.
@@ -48,6 +54,22 @@ public class CustomClickableBase extends CustomViewBase implements View.OnClickL
         if(back!=null && rlContainerBackAnimated!=null){
             if(mSelectedImage!=0)
                 back.setBackgroundResource(mSelectedImage);
+
+            Resources mRes = getContext().getResources();
+            Drawable drawable = mRes.getDrawable(R.drawable.altarix_ui_tint_selector);
+
+            // Wrap the drawable so that future tinting calls work
+            // on pre-v21 devices. Always use the returned drawable.
+            drawable = DrawableCompat.wrap(drawable);
+
+            // We can now set a tint
+            int colorAccent = h.getAttributeResourceId(getContext(), R.attr.colorAccent);
+            DrawableCompat.setTint(drawable, mRes.getColor(colorAccent));
+            DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_OVER);
+            if(Build.VERSION.SDK_INT < 16)
+                rlContainerBackAnimated.setBackgroundDrawable(drawable);
+            else
+                rlContainerBackAnimated.setBackground(drawable);
         }
 
         if(back !=null)
