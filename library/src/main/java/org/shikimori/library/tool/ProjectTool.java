@@ -43,7 +43,7 @@ import ru.altarix.ui.tool.TextStyling;
 public class ProjectTool {
 
     public enum TYPE{
-        ANIME, MANGA, OFFTOP
+        ANIME, MANGA, OFFTOP, CHARACTER
     }
 
     public static String getStatus(Context context, boolean anons, boolean ongoing){
@@ -140,6 +140,8 @@ public class ProjectTool {
             return c.getString(R.string.anime);
         else if(url.contains("manga"))
             return c.getString(R.string.manga);
+        else if(url.contains("characters"))
+            return c.getString(R.string.character);
         return "";
     }
 
@@ -148,6 +150,8 @@ public class ProjectTool {
             return TYPE.ANIME;
         else if(url.contains("manga"))
             return TYPE.MANGA;
+        else if(url.contains("characters"))
+            return TYPE.CHARACTER;
         return null;
     }
 

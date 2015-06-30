@@ -1,11 +1,15 @@
 package org.shikimori.library.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.ClubCardStyleAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -14,6 +18,9 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.objects.abs.ObjectBuilder;
+import org.shikimori.library.objects.one.ItemUser;
+import org.shikimori.library.tool.ProjectTool;
+import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
 
@@ -73,6 +80,23 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
     @Override
     public ArrayAdapter<ItemClubShiki> getAdapter(List<?> list) {
         return new ClubCardStyleAdapter(activity, (List<ItemClubShiki>) list);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+
+        Adapter adp = parent.getAdapter();
+
+        if(position < 0 || position >= adp.getCount())
+            return;
+
+
+        ItemClubShiki item = (ItemClubShiki)adp.getItem(position);
+        Intent i = new Intent(activity, ShowPageActivity.class);
+        i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+        i.putExtra(Constants.ITEM_ID, item.id);
+        activity.startActivity(i);
     }
 
 }

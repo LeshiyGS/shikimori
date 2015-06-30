@@ -5,6 +5,7 @@ import android.os.Bundle;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.CharacterDetailsFragment;
+import org.shikimori.library.fragments.ClubDetailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.FavoriteFragment;
 import org.shikimori.library.fragments.InfoMediaFragment;
@@ -25,6 +26,7 @@ public class ShowPageActivity extends PageActivity {
     public static final int CHARACTER_PAGE = 5;
     public static final int FAVORITES_PAGE = 6;
     public static final int USER_PROFILE = 7;
+    public static final int CLUB_PAGE = 8;
     protected Bundle params;
 
     @Override
@@ -56,6 +58,10 @@ public class ShowPageActivity extends PageActivity {
             showPages();
         } else if(page == USER_PROFILE){
             loadPage(ProfileShikiFragment.newInstance(params));
+        } else if(page == CLUB_PAGE){
+            addPageFragment(ClubDetailsFragment.newInstance(params), R.string.description);
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
+            showPages();
         }
     }
 }

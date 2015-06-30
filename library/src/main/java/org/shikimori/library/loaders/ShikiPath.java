@@ -25,6 +25,7 @@ public interface ShikiPath {
     public String SET_IGNORES = "api/ignores/:id";
     public String TOPICS_ID = "api/topics/";
     public String CHARACTER_ID = "api/characters/";
+    public String CLUB_ID = "api/clubs/";
     //    public String AUTH = "users/sign_in";
 //    public String AUTH = "api/sessions";
     public String AUTH = "api/access_token";

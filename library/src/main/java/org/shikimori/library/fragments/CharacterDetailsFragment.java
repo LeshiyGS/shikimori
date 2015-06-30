@@ -125,6 +125,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
+        llInfo.removeAllViews();
         item = ItemCharacter.create(res.getResultObject());
 
 //        tvTitle.setText(ProjectTool.getTitleElement(item.russian, item.name, "#d9000000"));
