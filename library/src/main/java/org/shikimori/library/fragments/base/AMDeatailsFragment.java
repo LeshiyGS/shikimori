@@ -146,6 +146,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
             for (RatesStatusesStats ratesStatusesStat : ratesStatusesStats) {
                 View v = inflater.inflate(R.layout.item_shiki_progress, null);
                 SeekBar sbProgress = h.get(v, R.id.sbProgress);
+                sbProgress.setEnabled(false);
                 TextView tvProgress = h.get(v, R.id.tvProgress);
                 sbProgress.setProgress(ratesStatusesStat.procents);
                 tvProgress.setText(ratesStatusesStat.name + " / "+ratesStatusesStat.value);

@@ -34,4 +34,7 @@
     <dimen name="paddingPosterW115">115dp</dimen>
     <dimen name="paddingPosterH">115dp</dimen>
     <dimen name="paddingPosterH80">80dp</dimen>
+
+    <dimen name="margin5">5dp</dimen>
+    <dimen name="margin10">10dp</dimen>
 </resources>

@@ -8,5 +8,6 @@
         library:actionViewClass="android.support.v7.widget.SearchView" />
     <item android:id="@+id/menu_animes_filter"
         android:title="@string/filter"
+        android:icon="@drawable/ic_action_filter"
         library:showAsAction="always"/>
 </menu>

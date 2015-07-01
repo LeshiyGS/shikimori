@@ -45,7 +45,14 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
 
         ongoing = json.optBoolean("ongoing");
         anons = json.optBoolean("anons");
-        episodesAired = episodes;
+
+
+        if (episodes!=null) {
+            //приводим нули в нужный вид
+            if (episodes.equals("0")) episodes = "?";
+            //если тайтл вышел и кол-во вышедших серий ноль серий ноль
+            if (!anons && !ongoing) episodesAired = episodes;
+        }
 
         image = new ItemImage(json.optJSONObject("image"));
         // use image field instead of this

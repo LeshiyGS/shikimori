@@ -18,7 +18,7 @@
             android:layout_width="@dimen/paddingPosterH80"
             android:layout_height="@dimen/paddingPosterW115"
             android:scaleType="centerCrop"
-            android:layout_below="@+id/tvStatus" />
+            android:layout_alignParentTop="true" />
 
 
         <TextView
@@ -32,12 +32,11 @@
             android:textColor="@color/white_overlay_60"
             android:ellipsize="end"
             android:lines="1"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/ivPoster"
-            android:layout_alignEnd="@+id/ivPoster"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_alignLeft="@+id/tvRusName"
+            android:layout_alignStart="@+id/tvRusName"
+            android:layout_above="@+id/tvRusName"
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/tvName"
@@ -48,10 +47,13 @@
             android:ellipsize="end"
             android:text="name"
             android:lines="1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="false"
+            android:layout_toRightOf="@+id/tvStatus"
+            android:layout_toEndOf="@+id/tvStatus"
             android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/tvRusName"
-            android:layout_alignStart="@+id/tvRusName"
-            android:gravity="top" />
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical" />
 
         <TextView
             android:id="@+id/tvRusName"
@@ -68,14 +70,14 @@
 
         <TextView
             android:id="@+id/tvText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvRusName"
-            android:layout_marginLeft="@dimen/defaultPadding"
-            android:layout_toRightOf="@+id/ivPoster"
-            android:layout_toEndOf="@+id/ivPoster"
             style="@style/altarixUiText"
-            />
+            android:layout_below="@+id/tvStatus"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@+id/tvRusName"
+            android:layout_alignStart="@+id/tvRusName" />
 
     </RelativeLayout>
 </FrameLayout>
