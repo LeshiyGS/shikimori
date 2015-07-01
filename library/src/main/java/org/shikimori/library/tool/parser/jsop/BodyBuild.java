@@ -25,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
+import org.jsoup.select.Elements;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.AniHistoryAdapter;
@@ -286,13 +287,16 @@ public class BodyBuild {
             looper(elemnt.childNodes(), quote.getQuote());
         } else {
             Element title = (Element) firstChild;
-            Element user = title.select("a").get(0);
+            Elements a = title.select("a");
             quote = new Quote(context, false);
-            quote.setUserName(user.attr("title"));
-            quote.setUserIdFromImage(user.html());
-            quote.setUserImage(user.child(0).attr("src"));
-            images.add(quote);
-            title.remove();
+            if(a.size() > 0){
+                Element user = title.select("a").get(0);
+                quote.setUserName(user.attr("title"));
+                quote.setUserIdFromImage(user.html());
+                quote.setUserImage(user.child(0).attr("src"));
+                images.add(quote);
+                title.remove();
+            }
             looper(elemnt.childNodes(), quote.getContent());
         }
         elemnt.remove();
@@ -399,6 +403,8 @@ public class BodyBuild {
             lastTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             builder = new StringBuilder();
             lastTv.setTag(builder);
+            if(lastTv.getParent()!=null)
+                ((ViewGroup)lastTv.getParent()).removeView(lastTv);
             parent.addView(lastTv);
         }
 
@@ -410,6 +416,9 @@ public class BodyBuild {
         if (lastTv == null)
             return;
         StringBuilder builder = (StringBuilder) lastTv.getTag();
+        if(builder == null)
+            builder = new StringBuilder();
+
         Spanned _text = ParcerTool.fromHtml(builder.toString(),
                 new UILImageGetter(lastTv, context), null);
         SpannableStringBuilder spanBuilder = new SpannableStringBuilder(_text);
@@ -418,7 +427,8 @@ public class BodyBuild {
             for (URLSpan span : urls) {
                 makeLinkClickable(spanBuilder, span);
             }
-            lastTv.setMovementMethod(LinkMovementMethod.getInstance());
+            if(lastTv!=null && urls.length > 0)
+                lastTv.setMovementMethod(LinkMovementMethod.getInstance());
         } else if(clicktype == CLICKABLETYPE.POPUP){
             List<String> listUrl = new ArrayList<>();
             URLSpan[] urls = _text.getSpans(0, _text.length(), URLSpan.class);
@@ -449,7 +459,8 @@ public class BodyBuild {
                 });
             }
         }
-        lastTv.setText(spanBuilder);
+        if(lastTv!=null)
+            lastTv.setText(spanBuilder);
         lastTv = null;
     }
 

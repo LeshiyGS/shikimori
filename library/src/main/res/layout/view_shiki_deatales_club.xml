@@ -24,7 +24,8 @@
                     android:id="@+id/ivPoster"
                     android:layout_width="fill_parent"
                     android:layout_height="200dp"
-                    android:scaleType="centerCrop" />
+                    android:background="@color/gray_black"
+                    android:scaleType="fitCenter" />
 
             </LinearLayout>
 
@@ -40,12 +41,16 @@
                 android:background="@color/white_overlay_85" />
 
 
+            <include
+                android:id="@+id/iLoader"
+                layout="@layout/loading_view"/>
             <LinearLayout
-                android:id="@+id/tvReview"
+                android:id="@+id/llReview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/defaultPadding" />
+
 
         </LinearLayout>
     </ScrollView>

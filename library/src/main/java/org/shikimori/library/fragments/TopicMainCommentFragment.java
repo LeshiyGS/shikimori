@@ -18,11 +18,9 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
-import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 /**
@@ -81,7 +79,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseActivity> impleme
     void buildView(final ItemTopicsShiki item){
         if(item.user == null)
             return;
-        BodyBuild bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        BodyBuild bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         bodyBuilder.parceAsync(item.htmlBody, new BodyBuild.ParceDoneListener() {
             @Override
             public void done(ViewGroup view) {

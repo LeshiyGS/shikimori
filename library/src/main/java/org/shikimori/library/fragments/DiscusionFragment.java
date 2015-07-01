@@ -16,13 +16,11 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController.MessageData;
-import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -91,7 +89,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     private void initBodyBuilder() {
-        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
     }
 
     private void initParams() {

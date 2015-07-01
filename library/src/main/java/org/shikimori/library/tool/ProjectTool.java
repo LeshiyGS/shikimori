@@ -196,7 +196,7 @@ public class ProjectTool {
             .playOn(v);
     }
 
-    public static BodyBuild getBodyPuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
+    public static BodyBuild getBodyBuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
         BodyBuild bodyBuilder = new BodyBuild(activity);
         bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override

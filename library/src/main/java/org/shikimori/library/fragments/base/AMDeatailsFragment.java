@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -19,13 +18,11 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.adapters.StudiosAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.RatesStatusesStats;
-import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
@@ -60,7 +57,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         tvTitle = (TextView) v.findViewById(R.id.tvTitle);
         llInfo = (ViewGroup) v.findViewById(R.id.llInfo);
         tvScore = (TextView) v.findViewById(R.id.tvMenuScore);
-        tvReview = (TextView) v.findViewById(R.id.tvReview);
+        tvReview = (TextView) v.findViewById(R.id.llReview);
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
         rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
         tvStatus = (TextView) v.findViewById(R.id.tvStatus);
@@ -143,6 +140,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
      * Set wanted from people
      */
     protected void buildStateWanted(List<RatesStatusesStats> ratesStatusesStats) {
+        llWanted.removeAllViews();
         LayoutInflater inflater = activity.getLayoutInflater();
         if(ratesStatusesStats!=null){
             for (RatesStatusesStats ratesStatusesStat : ratesStatusesStats) {

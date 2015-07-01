@@ -19,7 +19,6 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
@@ -51,7 +50,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
         super.onActivityCreated(savedInstanceState);
         ReadMessageController.newInstance(query);
         showRefreshLoader();
-        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.NOT);
+        bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.NOT);
         loadData();
     }
 

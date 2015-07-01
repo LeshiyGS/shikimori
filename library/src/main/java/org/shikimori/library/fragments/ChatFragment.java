@@ -16,7 +16,6 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -86,7 +85,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
         toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
         messageController = new SendMessageController(activity, query, etMessage);
-        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         showRefreshLoader();
         loadData();
     }

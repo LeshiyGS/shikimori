@@ -151,7 +151,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(activity == null || activity.isFinishing())
+        if(activity == null || activity.isFinishing() || pages == null)
             return;
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction fr = manager.beginTransaction();
