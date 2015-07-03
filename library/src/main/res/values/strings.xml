@@ -113,4 +113,6 @@
     <string name="wanted_title">В списках у людей</string>
     <string name="topic">Топик</string>
     <string name="topics">Топики</string>
+    <string name="wait_load_data">Подождите ответа от сервера</string>
+    <string name="edit">Редактировать</string>
 </resources>

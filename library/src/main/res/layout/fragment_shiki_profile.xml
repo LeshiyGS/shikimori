@@ -97,7 +97,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/defaultPaddingMini"
-                        android:layout_marginTop="@dimen/defaultPaddingMini"
+                        android:layout_marginTop="@dimen/defaultPadding4"
                         android:clickable="true"
                         custom:uiIcon="@drawable/ic_action_list" />
 
@@ -148,7 +148,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/defaultPaddingMini"
-                        android:layout_marginTop="@dimen/defaultPaddingMini"
+                        android:layout_marginTop="@dimen/defaultPadding4"
                         android:clickable="true"
                         custom:uiIcon="@drawable/ic_action_list" />
 
