@@ -60,6 +60,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
         if (animeDetails.id == null)
             return;
+
+        activity.setTitle(animeDetails.name);
         // название аниме в карточке
         setTitleElement(animeDetails.russianName, animeDetails.name);
         // description

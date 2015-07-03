@@ -111,6 +111,12 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             mContext.loadPage(InboxFragment.newInstance());
         else if (id == HISTORY)
             mContext.loadPage(UserHistoryFragment.newInstance());
+        else if (id == FORUMS){
+            Intent i = new Intent(mContext, ShowPageActivity.class);
+            i.putExtra(Constants.USER_ID, user.getId());
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.FORUMS_PAGE);
+            mContext.startActivity(i);
+        }
         else if (id == FAVORITE) {
             Intent i = new Intent(mContext, ShowPageActivity.class);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.FAVORITES_PAGE);
