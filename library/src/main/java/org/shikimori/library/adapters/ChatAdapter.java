@@ -11,6 +11,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -98,5 +99,14 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         } else if (v.getId() == R.id.tvRead) {
             item.read = ReadMessageController.getInstance().setRead(v, item.read, item.id);
         }
+    }
+
+    public ItemNewsUserShiki getItemById(String id){
+        for (int i = 0; i < getCount(); i++) {
+            ItemNewsUserShiki item = getItem(i);
+            if(item.id.equals(id))
+                return item;
+        }
+        return null;
     }
 }

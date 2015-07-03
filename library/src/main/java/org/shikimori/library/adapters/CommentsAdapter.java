@@ -10,6 +10,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
+import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
@@ -24,7 +25,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
 
     private View.OnClickListener clickListener;
 
-    public CommentsAdapter(Context context, BodyBuild bodyBuilder, List<ItemCommentsShiki> list) {
+    public CommentsAdapter(Context context, List<ItemCommentsShiki> list) {
         super(context, list, R.layout.item_shiki_comments_list, SettingsHolder.class);
     }
 
@@ -79,5 +80,14 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
             ItemCommentsShiki item = getItem((int) v.getTag());
             ProjectTool.goToUser(getContext(), item.user_id);
         }
+    }
+
+    public ItemCommentsShiki getItemById(String id){
+        for (int i = 0; i < getCount(); i++) {
+            ItemCommentsShiki item = getItem(i);
+            if(item.id.equals(id))
+                return item;
+        }
+        return null;
     }
 }

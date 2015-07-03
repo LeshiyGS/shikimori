@@ -111,4 +111,6 @@
     <string name="new_news">Новости: %1$d</string>
     <string name="incomming_messages">Новые сообщения</string>
     <string name="wanted_title">В списках у людей</string>
+    <string name="edit">Редактировать</string>
+    <string name="wait_load_data">Подождите ответа от сервера</string>
 </resources>

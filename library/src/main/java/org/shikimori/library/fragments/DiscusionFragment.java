@@ -2,11 +2,13 @@ package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.CommentsAdapter;
@@ -19,8 +21,10 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ApiMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController.MessageData;
+import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -39,6 +43,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     View ivSend;
     private SendMessageController messageController;
     private CommentsAdapter adaptr;
+    private ApiMessageController apiController;
 
     @Override
     protected int getLayoutId() {
@@ -78,6 +83,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initBodyBuilder();
+        apiController = new ApiMessageController(query);
+        apiController.setErrorListener(this);
         messageController = new SendMessageController(activity, query, etMessage);
 
         initParams();
@@ -93,11 +100,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     private void initParams() {
-        Bundle b = getArguments();
-        if (b == null)
-            return;
         if (treadId == null)
-            treadId = b.getString(Constants.TREAD_ID);
+            treadId = getParam(Constants.TREAD_ID);
     }
 
     @Override
@@ -111,6 +115,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         ContentValues cv = new ContentValues();
         cv.put("commentable_id", treadId);
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
+        messageController.clearUpdateId();
     }
 
     // TODO create loader list
@@ -134,7 +139,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     @Override
     public ArrayAdapter<ItemCommentsShiki> getAdapter(List list) {
-        adaptr = new CommentsAdapter(activity, bodyBuilder, list);
+        adaptr = new CommentsAdapter(activity, list);
         adaptr.setOnSettingsListener(this);
         return adaptr;
     }
@@ -167,7 +172,14 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     @Override
     public void onClick(final View v) {
         if (v.getId() == R.id.ivSend) {
-            sendMessageToServer();
+            if(!etMessage.isEnabled()){
+                Crouton.makeText(activity, R.string.wait_load_data, Style.ALERT).show();
+                return;
+            }
+            if(messageController.getUpdateId()!=null)
+                updateMessage();
+            else
+                sendMessageToServer();
         } else if (v.getId() == R.id.icSettings) {
             answerMessage(v);
         }
@@ -215,41 +227,75 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
             public String deleteUrl() {
                 return null;
             }
+
+            @Override
+            public String getMessagetext() {
+                return obj.body;
+            }
         });
     }
 
     void sendMessageToServer() {
-        String text = etMessage.getText().toString().trim();
-        if (text.length() == 0) {
-            Crouton.showText(activity, R.string.set_message, Style.ALERT);
+        String text = errorEmpty();
+        if (text == null)
             return;
-        }
 
         if (treadId == null)
             return;
 
         showRefreshLoader();
         etMessage.setEnabled(false);
-        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS))
-                .setMethod(Query.METHOD.POST)
-                .addParam("comment[commentable_id]", treadId)
-                .addParam("comment[commentable_type]", "Entry")
-                .addParam("comment[user_id]", getUserId())
-                .addParam("comment[body]", text)
-                .setErrorListener(new Query.OnQueryErrorListener() {
-                    @Override
-                    public void onQueryError(StatusResult res) {
-                        etMessage.setEnabled(true);
-                    }
-                })
-                .getResult(new Query.OnQuerySuccessListener() {
-                    @Override
-                    public void onQuerySuccess(StatusResult res) {
-                        onStartRefresh();
-                        etMessage.setEnabled(true);
-                        etMessage.setText("");
-                    }
-                });
+
+        apiController.init().sendComment(treadId, getUserId(), text, new Query.OnQuerySuccessListener() {
+            @Override
+            public void onQuerySuccess(StatusResult res) {
+                onStartRefresh();
+                etMessage.setEnabled(true);
+                etMessage.setText("");
+                h.hideKeyboard(activity, etMessage);
+            }
+        });
     }
 
+    private void updateMessage() {
+        String text = errorEmpty();
+        if (text == null)
+            return;
+
+        apiController.updateComment(messageController.getUpdateId(), text, new Query.OnQuerySuccessListener() {
+            @Override
+            public void onQuerySuccess(StatusResult res) {
+                clearData();
+                h.hideKeyboard(activity, etMessage);
+                etMessage.setText("");
+                ItemCommentsShiki item = new ItemCommentsShiki().createFromJson(res.getResultObject());
+                // парсим заного сообщение и отображаем
+                if (!TextUtils.isEmpty(item.getHtml())) {
+                    ItemCommentsShiki inList = adaptr.getItemById(item.id);
+                    if (inList != null) {
+                        inList.html_body = item.html_body;
+                        inList.parsedContent = new LinearLayout(activity);
+                        inList.parsedContent.setLayoutParams(h.getDefaultParams());
+                        bodyBuilder.parce(inList.html_body, inList.parsedContent);
+                        adaptr.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+
+    private String errorEmpty() {
+        String text = etMessage.getText().toString().trim();
+        if (text.length() == 0) {
+            Crouton.showText(activity, R.string.set_message, Style.ALERT);
+            return null;
+        }
+        return text;
+    }
+
+    @Override
+    public void onQueryError(StatusResult res) {
+        super.onQueryError(res);
+        etMessage.setEnabled(true);
+    }
 }

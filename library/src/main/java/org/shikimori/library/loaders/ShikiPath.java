@@ -7,7 +7,9 @@ public interface ShikiPath {
     public String ID = ":id";
     public String CALENDAR = "api/calendar";
     public String COMMENTS = "api/comments";
+    public String COMMENTS_ID = "api/comments/:id";
     public String MESSAGESPRIVATE = "api/messages";
+    public String MESSAGESPRIVATE_ID = "api/messages/:id";
     public String ANIMES = "api/animes";
     public String ANIMES_ID = "api/animes/";
     public String MANGAS = "api/mangas";
