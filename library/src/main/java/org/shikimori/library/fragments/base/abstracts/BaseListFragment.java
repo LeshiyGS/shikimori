@@ -44,7 +44,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     protected String search = "";
     protected boolean pauseOnScroll = false; // or true
     protected boolean pauseOnFling = true; // or false
-    ArrayAdapter adapter;
+    BaseAdapter adapter;
     private BackGroubdLoader<? extends OnViewBuildLister> backBuilder;
     List<Object> allList = new ArrayList<>();
 
@@ -145,7 +145,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         return false;
     }
 
-    public abstract ArrayAdapter<?> getAdapter(List<?> list);
+    public abstract BaseAdapter getAdapter(List<?> list);
 
     protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
 
