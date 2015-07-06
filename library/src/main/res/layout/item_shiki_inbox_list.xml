@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/defaultPadding4"
+    android:paddingLeft="@dimen/defaultPaddingMini"
+    android:paddingRight="@dimen/defaultPaddingMini"
+    android:paddingTop="@dimen/defaultPadding4">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shiki_list_selector"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivPoster"
+            android:layout_width="@dimen/defaultPadding58"
+            android:layout_height="@dimen/defaultPadding58" />
+
+        <TextView
+            android:id="@+id/tvRead"
+            android:layout_width="@dimen/defaultPadding58"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="none"
+            android:layout_below="@+id/ivPoster"
+            android:layout_marginTop="@dimen/defaultPaddingMini"
+            android:text="@string/newtext"
+            style="@style/notyfy_style_blue"
+            android:visibility="gone"
+            />
+
+        <RelativeLayout
+            android:id="@+id/wrapName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/defaultPadding"
+            android:layout_marginStart="@dimen/defaultPadding"
+            android:layout_toEndOf="@+id/ivPoster"
+            android:layout_toRightOf="@+id/ivPoster">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/altarixUiText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/icSettings"
+                android:layout_toStartOf="@+id/icSettings"
+                android:text="test"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/icSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="?attr/selectableItemBackground"
+                android:src="@drawable/ic_menu_moreoverflow" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                style="@style/altarixUiLabel.mini"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvName"
+                android:text="test" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/defaultPadding"
+            android:layout_marginStart="@dimen/defaultPadding"
+            android:layout_toEndOf="@+id/ivPoster"
+            android:layout_toRightOf="@+id/ivPoster"
+            android:layout_below="@+id/wrapName"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/llFromUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/defaultPaddingMini">
+
+                <ImageView
+                    android:id="@+id/ivFromUser"
+                    android:layout_width="@dimen/defaultPaddingEnormous"
+                    android:layout_height="@dimen/defaultPaddingEnormous" />
+
+                <TextView
+                    android:id="@+id/tvFromUser"
+                    style="@style/altarixUiLabel.mini"
+                    android:layout_marginLeft="@dimen/defaultPaddingEnormous"
+                    android:paddingLeft="@dimen/defaultPaddingMini"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llBodyHtml"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</FrameLayout>

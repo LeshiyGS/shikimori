@@ -1,9 +1,14 @@
 package org.shikimori.client.services;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -64,6 +69,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
         super.onDestroy();
         timerHandler.removeCallbacks(timerRunnable);
         user = null;
+        onTaskRemoved(null);
         Log.d(TAG, "onDestroy NewMessagesService");
     }
 
@@ -123,5 +129,21 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     @Override
     public void onQueryError(StatusResult res) {
 
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        // TODO Auto-generated method stub
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            Log.d(TAG, "onTaskRemoved NewMessagesService");
+            Intent restartService = new Intent(getApplicationContext(),
+                    this.getClass());
+            restartService.setPackage(getPackageName());
+            PendingIntent restartServicePI = PendingIntent.getService(
+                    getApplicationContext(), 1, restartService,
+                    PendingIntent.FLAG_ONE_SHOT);
+            AlarmManager alarmService = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            alarmService.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() +10000, restartServicePI);
+        }
     }
 }

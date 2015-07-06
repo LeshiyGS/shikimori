@@ -10,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
+import org.shikimori.library.adapters.holder.InboxHolder;
 import org.shikimori.library.adapters.holder.SettingsHolder;
 import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.tool.ProjectTool;
@@ -24,12 +25,12 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> implements View.OnClickListener {
+public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> implements View.OnClickListener {
 
     private View.OnClickListener clickListener;
 
     public InboxAdapter(Context context, List<ItemDialogs> list) {
-        super(context, list, R.layout.item_shiki_comments_list, SettingsHolder.class);
+        super(context, list, R.layout.item_shiki_inbox_list, InboxHolder.class);
     }
 
     String formatDate(long date, String format) {
@@ -37,7 +38,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> i
     }
 
     @Override
-    public void setListeners(SettingsHolder holder) {
+    public void setListeners(InboxHolder holder) {
         super.setListeners(holder);
         if (clickListener != null)
             holder.ivSettings.setOnClickListener(clickListener);
@@ -46,10 +47,13 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> i
     }
 
     @Override
-    public SettingsHolder getViewHolder(View v) {
-        SettingsHolder hol = super.getViewHolder(v);
+    public InboxHolder getViewHolder(View v) {
+        InboxHolder hol = super.getViewHolder(v);
         hol.ivSettings = get(v, R.id.icSettings);
         hol.tvRead = get(v, R.id.tvRead);
+        hol.llFromUserName = get(v, R.id.llFromUserName);
+        hol.ivFromUser = get(v, R.id.ivFromUser);
+        hol.tvFromUser = get(v, R.id.tvFromUser);
         return hol;
     }
 
@@ -58,8 +62,17 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> i
     }
 
     @Override
-    public void setValues(SettingsHolder holder, ItemDialogs item, int position) {
-        holder.tvName.setText(item.message.from.nickname);
+    public void setValues(InboxHolder holder, ItemDialogs item, int position) {
+
+        if(!item.message.from.id.equals(item.user.id)){
+            h.setVisible(holder.llFromUserName, true);
+            holder.tvFromUser.setText(item.message.from.nickname);
+            ImageLoader.getInstance().displayImage(item.message.from.img148, holder.ivFromUser);
+        } else {
+            h.setVisibleGone(holder.llFromUserName);
+        }
+
+        holder.tvName.setText(item.user.nickname);
         Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.message.createdAt);
         String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
         holder.tvDate.setText(sdate);
@@ -75,7 +88,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, SettingsHolder> i
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivPoster.setImageDrawable(null);
         holder.ivPoster.setTag(position);
-        ImageLoader.getInstance().displayImage(item.message.from.img148, holder.ivPoster);
+        ImageLoader.getInstance().displayImage(item.user.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
         if (ShikiUser.USER_ID.equals(item.message.from.id))
