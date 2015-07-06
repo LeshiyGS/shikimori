@@ -37,13 +37,17 @@
                 style="?attr/altarixUiAttrLabelStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/defaultPadding4"
+                android:layout_marginRight="@dimen/defaultPadding4"
                 android:text="sdsd" />
 
-            <TextView
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tvText"
                 style="?attr/altarixUiAttrTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/defaultPadding4"
+                android:layout_marginLeft="@dimen/defaultPadding4"
                 android:text="test2" />
         </LinearLayout>
 

@@ -2,8 +2,10 @@ package org.shikimori.library.tool;
 
 import android.widget.ImageView;
 
+import com.koushikdutta.ion.Ion;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 
 /**
@@ -18,7 +20,10 @@ public class ShikiImage {
         if(!url.startsWith("http"))
             url = ShikiApi.HTTP_SERVER + url;
 
-        ImageLoader.getInstance().displayImage(url,imageView);
+        if(url.contains(".gif"))
+            Ion.with(imageView).placeholder(R.drawable.ic_loading).load(url);
+        else
+            ImageLoader.getInstance().displayImage(url, imageView);
         return true;
     }
     public static boolean show(String url, ImageView imageView, boolean hideIfEnpty){

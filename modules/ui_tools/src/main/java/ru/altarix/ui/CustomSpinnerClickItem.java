@@ -1,6 +1,7 @@
 package ru.altarix.ui;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Spinner;
@@ -8,7 +9,7 @@ import android.widget.Spinner;
 /**
  * Created by Владимир on 04.08.2014.
  */
-public class CustomSpinnerClickItem extends Spinner{
+public class CustomSpinnerClickItem extends AppCompatSpinner{
     int prevPosition = -1;
     public CustomSpinnerClickItem(Context context) {
         super(context);

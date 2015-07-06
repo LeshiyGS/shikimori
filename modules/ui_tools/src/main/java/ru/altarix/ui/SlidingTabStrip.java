@@ -18,9 +18,12 @@ package ru.altarix.ui;
 
 import android.R;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -46,6 +49,8 @@ class SlidingTabStrip extends LinearLayout {
 
     private ExSlidingTabLayout.TabColorizer mCustomTabColorizer;
     private final SimpleTabColorizer mDefaultTabColorizer;
+    private Drawable icon;
+    private Bitmap bitmap;
 
     SlidingTabStrip(Context context) {
         this(context, null);
@@ -78,6 +83,12 @@ class SlidingTabStrip extends LinearLayout {
     void setCustomTabColorizer(ExSlidingTabLayout.TabColorizer customTabColorizer) {
         mCustomTabColorizer = customTabColorizer;
         invalidate();
+    }
+
+    void setIndicatorDrawable(int icon){
+       // this.icon = getResources().getDrawable(icon);
+        bitmap = BitmapFactory.decodeResource(getResources(), icon);
+        //this.icon.setBounds(0, 0, this.icon.getIntrinsicWidth(), this.icon.getIntrinsicHeight());
     }
 
     void setSelectedIndicatorColors(int... colors) {
@@ -122,10 +133,15 @@ class SlidingTabStrip extends LinearLayout {
                         (1.0f - mSelectionOffset) * right);
             }
 
-            mSelectedIndicatorPaint.setColor(color);
+            if(bitmap!=null){
+//                icon.draw(canvas);
+                canvas.drawBitmap(bitmap, left + ((right-left)/2 - (bitmap.getWidth()/2)), height - bitmap.getHeight(), mSelectedIndicatorPaint);
+            } else {
+                mSelectedIndicatorPaint.setColor(color);
+                canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
+                        height, mSelectedIndicatorPaint);
+            }
 
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
-                    height, mSelectedIndicatorPaint);
         }
 
         // Thin underline along the entire bottom edge

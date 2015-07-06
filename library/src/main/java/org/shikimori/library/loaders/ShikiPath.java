@@ -7,7 +7,9 @@ public interface ShikiPath {
     public String ID = ":id";
     public String CALENDAR = "api/calendar";
     public String COMMENTS = "api/comments";
+    public String COMMENTS_ID = "api/comments/:id";
     public String MESSAGESPRIVATE = "api/messages";
+    public String MESSAGESPRIVATE_ID = "api/messages/:id";
     public String ANIMES = "api/animes";
     public String ANIMES_ID = "api/animes/";
     public String MANGAS = "api/mangas";
@@ -25,6 +27,7 @@ public interface ShikiPath {
     public String SET_IGNORES = "api/ignores/:id";
     public String TOPICS_ID = "api/topics/";
     public String CHARACTER_ID = "api/characters/";
+    public String CLUB_ID = "api/clubs/:id";
     //    public String AUTH = "users/sign_in";
 //    public String AUTH = "api/sessions";
     public String AUTH = "api/access_token";
@@ -32,6 +35,8 @@ public interface ShikiPath {
     public String GET_USER_DATA = "api/users/whoami";
     public String GET_USER_DETAILS = "api/users/";
     public String GET_USER_ANIME_LIST = "api/users/:id/anime_rates";
+    public String GET_USER_MANGA_LIST = "api/users/:id/manga_rates";
     public String GET_USERS_LIST = "api/users";
     public String GET_CLUBS_LIST = "api/clubs";
+    public String GET_USER_CLUBS_LIST = "/api/users/:id/clubs";
 }

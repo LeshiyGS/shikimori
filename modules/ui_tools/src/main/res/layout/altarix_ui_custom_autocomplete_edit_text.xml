@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/defaultPaddingMini"
-        android:visibility="gone"
         android:layout_centerVertical="true"
-        />
+        android:layout_marginRight="@dimen/defaultPaddingMini"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tvLabel"
@@ -20,26 +18,35 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/ivImage" />
 
-    <AutoCompleteTextView
-        android:id="@+id/acText"
+
+    <android.support.v7.widget.AppCompatAutoCompleteTextView
+        android:id="@+id/etText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_below="@+id/tvLabel"
+        android:inputType="text"
+        android:paddingTop="0dp"
+        android:textColor="?attr/altarixUiAttrTextColor"
+        android:textColorHint="?attr/altarixUiAttrHintColor"
+        android:layout_below="@id/tvLabel"
         android:layout_toRightOf="@+id/ivImage"
-        android:paddingLeft="@dimen/defaultPaddingMini"
-        android:paddingRight="@dimen/defaultPaddingMini"
-        style="?attr/altarixUiAttrEditTextStyle"
-        /> <!--layout_marginTop в этом контроле не указываем! т.к. исчезает вьюха на Android 4.1.x-->
+        android:singleLine="true" />
+
+    <!--<AutoCompleteTextView-->
+    <!--android:id="@+id/acText"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:singleLine="true"-->
+    <!--android:layout_below="@+id/tvLabel"-->
+    <!--android:layout_toRightOf="@+id/ivImage"-->
+    <!--/> &lt;!&ndash;layout_marginTop в этом контроле не указываем! т.к. исчезает вьюха на Android 4.1.x&ndash;&gt;-->
 
     <ProgressBar
         android:id="@+id/pbLoader"
+        style="@style/progresbar"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        style="@style/progresbar"
-        android:visibility="gone"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/defaultPaddingMini"
-        />
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v7.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.List;
 public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity> {
     private PagingListView lvList;
     private Parcelable state;
+    private ActionMode actionMode;
 
     protected int getLayoutId(){
         return R.layout.view_shiki_list;
@@ -107,12 +109,21 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity
         confirmDeleteAction.setId(R.id.menu_delete);
         confirmDeleteAction.setOrder(1);
         confirmDeleteAction.setIconId(R.drawable.ic_action_delete);
-        activity.startSupportActionMode(new ActionSelectCallBack(activity, getListView(), getListView().getAdapter(),
+        actionMode = activity.startSupportActionMode(new ActionSelectCallBack(activity, getListView(), getListView().getAdapter(),
                 new DestroyActionCallback.DestroyAction() {
                     @Override
                     public void destroyActionMode() {
                     }
                 }, confirmDeleteAction));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(actionMode!=null){
+            actionMode.finish();
+            actionMode = null;
+        }
     }
 
 }

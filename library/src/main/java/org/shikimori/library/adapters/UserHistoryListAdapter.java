@@ -33,9 +33,10 @@ public class UserHistoryListAdapter extends BaseListAdapter<ItemUserHistory, Bas
         holder.tvText.setText(item.description);
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
 
-        if (item.target != null) {
+        if (item.target != null && item.target.id !=null) {
             h.setVisible(holder.tvStatus, true);
             h.setVisible(holder.tvType,true);
+            h.setVisible(holder.tvName,true);
             holder.tvName.setText(item.target.name);
             ProjectTool.setStatusColor(getContext(), holder.tvStatus, item.target.anons, item.target.ongoing);
             holder.tvStatus.setText(ProjectTool.getStatus(getContext(),
@@ -43,13 +44,14 @@ public class UserHistoryListAdapter extends BaseListAdapter<ItemUserHistory, Bas
 
             holder.tvType.setText(ProjectTool.getTypeFromUrl(getContext(), item.target.url));
 
-            ShikiImage.show(item.target.image.preview, holder.ivPoster, true);
+            String image = item.target.image == null ? null : item.target.image.preview;
+            ShikiImage.show(image, holder.ivPoster, true);
         } else {
             holder.tvName.setText(null);
             h.setVisibleGone(holder.ivPoster);
             h.setVisibleGone(holder.tvStatus);
             h.setVisibleGone(holder.tvType);
-
+            h.setVisibleGone(holder.tvName);
         }
     }
 }

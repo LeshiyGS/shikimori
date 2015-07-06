@@ -114,7 +114,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     protected void buildPages(){
         pageAdapter = getPagerAdapter();
         pager.setAdapter(pageAdapter);
-        int colorId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrSelectedColorTab);
+        int colorId = h.getAttributeResourceId(activity, R.attr.colorAccent);
         int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
         int colorIndicator = h.getAttributeResourceId(activity, R.attr.altarixUiAttrDividerColor);
         // цвет теста табов
@@ -151,7 +151,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(activity == null || activity.isFinishing())
+        if(activity == null || activity.isFinishing() || pages == null)
             return;
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction fr = manager.beginTransaction();

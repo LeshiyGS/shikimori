@@ -30,11 +30,12 @@ public class PostImage extends ImageController{
     private void initImage() {
         //Вставляем картинку
         image = new ImageView(context);
-        image.setBackgroundColor(Color.DKGRAY);
+//        image.setBackgroundColor(Color.DKGRAY);
         ViewGroup.LayoutParams params = h.getDefaultParams();
-        params.height = h.pxToDp(150, context);
+//        params.height = h.pxToDp(150, context);
         image.setLayoutParams(params);
-        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setMaxHeight(h.pxToDp(150, context));
+        image.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         image.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InlinedApi")

@@ -43,7 +43,7 @@ import ru.altarix.ui.tool.TextStyling;
 public class ProjectTool {
 
     public enum TYPE{
-        ANIME, MANGA, OFFTOP
+        ANIME, MANGA, OFFTOP, CHARACTER
     }
 
     public static String getStatus(Context context, boolean anons, boolean ongoing){
@@ -136,10 +136,14 @@ public class ProjectTool {
     }
 
     public static String getTypeFromUrl(Context c, String url){
-        if(url.contains("anime"))
-            return c.getString(R.string.anime);
-        else if(url.contains("manga"))
-            return c.getString(R.string.manga);
+        if(url != null){
+            if(url.contains("anime"))
+                return c.getString(R.string.anime);
+            else if(url.contains("manga"))
+                return c.getString(R.string.manga);
+            else if(url.contains("characters"))
+                return c.getString(R.string.character);
+        }
         return "";
     }
 
@@ -148,6 +152,8 @@ public class ProjectTool {
             return TYPE.ANIME;
         else if(url.contains("manga"))
             return TYPE.MANGA;
+        else if(url.contains("characters"))
+            return TYPE.CHARACTER;
         return null;
     }
 
@@ -192,7 +198,7 @@ public class ProjectTool {
             .playOn(v);
     }
 
-    public static BodyBuild getBodyPuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
+    public static BodyBuild getBodyBuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
         BodyBuild bodyBuilder = new BodyBuild(activity);
         bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override

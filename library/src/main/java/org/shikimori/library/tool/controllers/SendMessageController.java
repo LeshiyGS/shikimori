@@ -40,6 +40,8 @@ public class SendMessageController {
     private EditText editText;
     private MessageData data;
 
+    private String updateId;
+
     public SendMessageController(Context context, Query query, EditText editText) {
         this.context = context;
         this.loader = query.getLoader();
@@ -90,22 +92,36 @@ public class SendMessageController {
 
         if(!data.isOwner()){
             popup.getMenu().removeItem(R.id.icDelete);
+            popup.getMenu().removeItem(R.id.icUpdate);
         }
 
         popup.setOnMenuItemClickListener(new PopupMenuCompat.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                updateId = null;
                 if (item.getItemId() == R.id.icAnswer) {
                     answer(data.getMessageId(), data.getNickName());
                     return true;
                 } else if (item.getItemId() == R.id.icDelete) {
                     deleteMessage();
                     return true;
+                } else if (item.getItemId() == R.id.icUpdate) {
+                    updateId = data.getMessageId();
+                    quoteTool.setText(data.getMessagetext());
+                    return true;
                 }
                 return false;
             }
         });
         popup.show();
+    }
+
+    public String getUpdateId() {
+        return updateId;
+    }
+
+    public void clearUpdateId() {
+        updateId = null;
     }
 
     public interface MessageData<T> {
@@ -121,5 +137,7 @@ public class SendMessageController {
         public boolean isOwner();
 
         public String deleteUrl();
+
+        public String getMessagetext();
     }
 }

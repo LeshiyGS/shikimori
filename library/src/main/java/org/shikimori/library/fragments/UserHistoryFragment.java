@@ -1,11 +1,14 @@
 package org.shikimori.library.fragments;
 
-import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.NewsUserAdapter;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.UserHistoryListAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -13,9 +16,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.objects.one.ItemUserHistory;
-import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
@@ -88,6 +89,30 @@ public class UserHistoryFragment extends BaseListViewFragment {
     @Override
     public ArrayAdapter<ItemUserHistory> getAdapter(List list) {
         return new UserHistoryListAdapter(activity, list);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+
+        Adapter adp = parent.getAdapter();
+        if(adp == null)
+            return;
+
+        ItemUserHistory item = (ItemUserHistory) adp.getItem(position);
+        Intent i = new Intent(activity, ShowPageActivity.class);
+
+        //TODO
+        //Проверка на наличие епизодов.. если  нет то это манга, а не аниме.
+        //Нужно Сделать проверку на тип в самом AMShiki и удалить ItemMangaShiki
+        //Т.К. в Истории былают еще и записи импорта с других сайтов
+        if (item.target.episodes != null)
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+        else
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
+        i.putExtra(Constants.ITEM_ID, item.target.id);
+        activity.startActivity(i);
+
     }
 
 }

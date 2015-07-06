@@ -3,35 +3,26 @@ package org.shikimori.library.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.AniHistoryAdapter;
-import org.shikimori.library.adapters.CalendarAdapter;
-import org.shikimori.library.adapters.PhotoSimplePagerAdapter;
-import org.shikimori.library.custom.CustomPosterView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.AMShiki;
-import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import org.shikimori.library.objects.one.ItemCharacter;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.ProjectTool;
@@ -39,9 +30,6 @@ import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import ru.altarix.ui.CustomTextView;
 
@@ -72,7 +60,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         setBaseView(v);
         svMain   = find(R.id.svMain);
         tvTitle   = find(R.id.tvTitle);
-        tvReview  = find(R.id.tvReview);
+        tvReview  = find(R.id.llReview);
         ivPoster  = find(R.id.ivPoster);
         llInfo    = find(R.id.llInfo);
         tvAnimes  = find(R.id.tvAnimes);
@@ -89,7 +77,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
         super.onActivityCreated(savedInstanceState);
         initArgiments();
         showRefreshLoader();
-        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         loadData();
     }
 
@@ -125,6 +113,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
+        llInfo.removeAllViews();
         item = ItemCharacter.create(res.getResultObject());
 
 //        tvTitle.setText(ProjectTool.getTitleElement(item.russian, item.name, "#d9000000"));

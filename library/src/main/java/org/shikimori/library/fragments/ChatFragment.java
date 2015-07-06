@@ -3,11 +3,13 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.ChatAdapter;
@@ -16,12 +18,13 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ApiMessageController;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
+import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -41,6 +44,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     private ChatAdapter adptr;
     private String toUserId;
     private BodyBuild bodyBuilder;
+    private ApiMessageController apiController;
 
     @Override
     protected int getLayoutId() {
@@ -83,10 +87,12 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ReadMessageController.newInstance(query);
+        apiController = new ApiMessageController(query);
+        apiController.setErrorListener(this);
         toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
         messageController = new SendMessageController(activity, query, etMessage);
-        bodyBuilder = ProjectTool.getBodyPuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         showRefreshLoader();
         loadData();
     }
@@ -130,37 +136,62 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
      * message[body]:[message=30068968]morr[/message], ага, работа
      */
     void sendMessageToServer() {
-        String text = etMessage.getText().toString().trim();
-        if (text.length() == 0) {
-            Crouton.showText(activity, R.string.set_message, Style.ALERT);
+        String text = errorEmpty();
+        if (text == null)
             return;
-        }
 
         if (toUserNickname == null)
             return;
 
         showRefreshLoader();
         etMessage.setEnabled(false);
-        query.init(ShikiApi.getUrl(ShikiPath.MESSAGESPRIVATE))
-                .setMethod(Query.METHOD.POST)
-                .addParam("message[kind]", "Private")
-                .addParam("message[from_id]", getUserId())
-                .addParam("message[to_id]", toUserId)
-                .addParam("message[body]", text)
-                .setErrorListener(new Query.OnQueryErrorListener() {
-                    @Override
-                    public void onQueryError(StatusResult res) {
-                        etMessage.setEnabled(true);
+
+        apiController.init().sendPrivateMessage(getUserId(), toUserId, text, new Query.OnQuerySuccessListener() {
+            @Override
+            public void onQuerySuccess(StatusResult res) {
+                onStartRefresh();
+                etMessage.setEnabled(true);
+                etMessage.setText("");
+                h.hideKeyboard(activity, etMessage);
+            }
+        });
+    }
+
+    // TODO сделать другой message controller и убрать дубликаты из DiscusionFragment и от сюда
+    private void updateMessage() {
+        String text = errorEmpty();
+        if (text == null)
+            return;
+
+        apiController.init().updatePrivateMessage(messageController.getUpdateId(), text, new Query.OnQuerySuccessListener() {
+            @Override
+            public void onQuerySuccess(StatusResult res) {
+                clearData();
+                h.hideKeyboard(activity, etMessage);
+                etMessage.setText("");
+                ItemNewsUserShiki item = new ItemNewsUserShiki().createFromJson(res.getResultObject());
+                // парсим заного сообщение и отображаем
+                if (!TextUtils.isEmpty(item.getHtml())) {
+                    ItemNewsUserShiki inList = adptr.getItemById(item.id);
+                    if (inList != null) {
+                        inList.htmlBody = item.htmlBody;
+                        inList.parsedContent = new LinearLayout(activity);
+                        inList.parsedContent.setLayoutParams(h.getDefaultParams());
+                        bodyBuilder.parce(inList.htmlBody, inList.parsedContent);
+                        adptr.notifyDataSetChanged();
                     }
-                })
-                .getResult(new Query.OnQuerySuccessListener() {
-                    @Override
-                    public void onQuerySuccess(StatusResult res) {
-                        onStartRefresh();
-                        etMessage.setEnabled(true);
-                        etMessage.setText("");
-                    }
-                });
+                }
+            }
+        });
+    }
+
+    private String errorEmpty() {
+        String text = etMessage.getText().toString().trim();
+        if (text.length() == 0) {
+            Crouton.showText(activity, R.string.set_message, Style.ALERT);
+            return null;
+        }
+        return text;
     }
 
     /**
@@ -210,6 +241,11 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
             public String deleteUrl() {
                 return ShikiPath.MESSAGESPRIVATE;
             }
+
+            @Override
+            public String getMessagetext() {
+                return obj.body;
+            }
         });
     }
 
@@ -220,9 +256,22 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivSend) {
-            sendMessageToServer();
+            if(!etMessage.isEnabled()){
+                Crouton.makeText(activity, R.string.wait_load_data, Style.ALERT).show();
+                return;
+            }
+            if(messageController.getUpdateId()!=null)
+                updateMessage();
+            else
+                sendMessageToServer();
         } else if (v.getId() == R.id.icSettings) {
             answerMessage(v);
         }
+    }
+
+    @Override
+    public void onQueryError(StatusResult res) {
+        super.onQueryError(res);
+        etMessage.setEnabled(true);
     }
 }

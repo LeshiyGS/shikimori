@@ -5,12 +5,15 @@ import android.os.Bundle;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.CharacterDetailsFragment;
+import org.shikimori.library.fragments.ClubDetailsFragment;
+import org.shikimori.library.fragments.CommunityClubsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.FavoriteFragment;
 import org.shikimori.library.fragments.InfoMediaFragment;
 import org.shikimori.library.fragments.MangaDeatailsFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.fragments.TopicMainCommentFragment;
+import org.shikimori.library.fragments.UserClubsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**
@@ -25,6 +28,8 @@ public class ShowPageActivity extends PageActivity {
     public static final int CHARACTER_PAGE = 5;
     public static final int FAVORITES_PAGE = 6;
     public static final int USER_PROFILE = 7;
+    public static final int CLUB_PAGE = 8;
+    public static final int FORUMS_PAGE = 9;
     protected Bundle params;
 
     @Override
@@ -51,11 +56,19 @@ public class ShowPageActivity extends PageActivity {
             loadPage(FavoriteFragment.newInstance());
             setTitle(R.string.favorite);
         } else if(page == OFTOPIC_PAGE){
-            addPageFragment(TopicMainCommentFragment.newInstance(params), "^-^");
+            addPageFragment(TopicMainCommentFragment.newInstance(params), R.string.topic);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
             showPages();
         } else if(page == USER_PROFILE){
             loadPage(ProfileShikiFragment.newInstance(params));
+        } else if(page == CLUB_PAGE){
+            addPageFragment(ClubDetailsFragment.newInstance(params), R.string.description);
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
+            showPages();
+        } else if(page == FORUMS_PAGE){
+            addPageFragment(UserClubsFragment.newInstance(params), R.string.clubs);
+            //addPageFragment(blablablaFragment.newInstance(), R.string.topics);
+            showPages();
         }
     }
 }

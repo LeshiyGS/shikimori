@@ -22,21 +22,36 @@
             android:id="@+id/tvLabel"
             style="?attr/altarixUiAttrLabelStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/defaultPadding4" />
 
-        <EditText
+
+        <android.support.v7.widget.AppCompatEditText
             android:id="@+id/etText"
-            style="?attr/altarixUiAttrEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:textColor="?attr/altarixUiAttrTextColor"
+            android:textColorHint="?attr/altarixUiAttrHintColor"
+            android:paddingTop="0dp"
             android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/tvError"
+            style="?attr/altarixUiAttrErrorStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:paddingLeft="@dimen/defaultPadding4" />
+
     </LinearLayout>
 
     <ImageView
         android:id="@+id/ivWarning"
         android:layout_width="@dimen/defaultPaddingEnormous"
         android:layout_height="@dimen/defaultPaddingEnormous"
+        android:layout_alignBottom="@+id/etText"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/defaultPadding3"
         android:layout_marginRight="@dimen/defaultPadding3"
         android:scaleType="centerInside"

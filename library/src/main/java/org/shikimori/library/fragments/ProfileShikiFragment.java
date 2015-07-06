@@ -490,7 +490,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         b.putString(Constants.LIST_ID, id);
         b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, name, type));
         b.putString(Constants.USER_ID, getUserId());
-        activity.loadPage(AnimeUserListFragment.newInstance(b));
+        if (type == ProjectTool.TYPE.ANIME)
+            activity.loadPage(AnimeUserListFragment.newInstance(b));
+        else
+            activity.loadPage(MangaUserListFragment.newInstance(b));
     }
 
     @Override

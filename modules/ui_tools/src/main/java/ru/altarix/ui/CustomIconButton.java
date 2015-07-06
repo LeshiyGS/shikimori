@@ -3,8 +3,10 @@ package ru.altarix.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,24 +18,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import ru.altarix.ui.tool.h;
+import ru.altarix.ui.R;
 
 /**
  * Created by Владимир on 01.07.2014.
  */
 public class CustomIconButton extends LinearLayout implements View.OnClickListener {
 
-    protected String mText;
+    protected String mHint;
 
     protected Context mContext;
     protected int guLayout;
     protected TypedArray typedArray;
     private int mTypeImage, mSelectedImage;
-    private View ivImage;
+
+    private ImageView ivImage;
     private OnClickListener clickListener;
     private Drawable icon;
     private View iconBack;
-    private TextView tvText;
+    private CountDownTimer coldawn;
 
     public CustomIconButton(Context context) {
         super(context);
@@ -73,24 +76,23 @@ public class CustomIconButton extends LinearLayout implements View.OnClickListen
         params.width = ((View) iconBack.getParent()).getWidth();
         iconBack.setLayoutParams(params);
     }
-
-
     /**
+     *
      * @param attrs
      * @param baseLayout may be override in xml
      */
     protected void init(AttributeSet attrs, @LayoutRes int baseLayout) {
         mContext = getContext();
         setOrientation(VERTICAL);
-        if (attrs != null) {
+        if(attrs != null){
             typedArray = mContext.getTheme().obtainStyledAttributes(attrs, R.styleable.AltarixUiDesclareStyle, 0, 0);
 
             try {
-                int resText = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "text", 0);
-                mText = resText == 0 ? null : getContext().getString(resText);
+                int resHint = attrs.getAttributeResourceValue("http://schemas.android.com/apk/res/android", "hint",0);
+                mHint      = resHint==0? null : getContext().getString(resHint);
                 mTypeImage = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiIcon, 0);
                 mSelectedImage = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiSelectedImage, 0);
-                guLayout = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiLayout, 0);
+                guLayout   = typedArray.getResourceId(R.styleable.AltarixUiDesclareStyle_uiLayout, 0);
             } finally {
             }
         }
@@ -104,13 +106,8 @@ public class CustomIconButton extends LinearLayout implements View.OnClickListen
 
 
         View v = inflater.inflate(guLayout, this, false);
-        ivImage = v.findViewById(R.id.ivImage);
-        tvText = (TextView) v.findViewById(R.id.tvText);
+        ivImage = (ImageView)v.findViewById(R.id.ivImage);
 
-        if (mText != null && tvText != null) {
-            tvText.setText(mText);
-            tvText.setVisibility(VISIBLE);
-        }
 
         iconBack = v.findViewById(R.id.iconBack);
         if (iconBack != null && mSelectedImage != 0)
@@ -152,16 +149,6 @@ public class CustomIconButton extends LinearLayout implements View.OnClickListen
         }
     }
 
-    public void setText(String text) {
-        tvText.setText(text);
-        h.setVisible(tvText, true);
-        h.setVisibleGone(ivImage);
-    }
-
-    public void setText(int text) {
-        setText(mContext.getString(text));
-    }
-
     private void playAnim() {
         if (iconBack == null)
             return;
@@ -172,9 +159,26 @@ public class CustomIconButton extends LinearLayout implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         playAnim();
-        if (clickListener != null)
-            clickListener.onClick(this);
+        if(coldawn!=null)
+            coldawn.cancel();
+        // ставим секунду
+        coldawn = new CountDownTimer(200, 200) {
+
+            public void onTick(long millisUntilFinished) {
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            // разрешаем делать запрос на сервер
+            public void onFinish() {
+                if(clickListener!=null)
+                    clickListener.onClick(CustomIconButton.this);
+            }
+        }.start();
+    }
+
+    public ImageView getImageView() {
+        return ivImage;
     }
 }

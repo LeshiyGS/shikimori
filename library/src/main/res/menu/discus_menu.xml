@@ -7,4 +7,7 @@
     <item android:id="@+id/icDelete"
         android:title="@string/delete"
         library:showAsAction="always" />
+    <item android:id="@+id/icUpdate"
+        android:title="@string/edit"
+        library:showAsAction="always" />
 </menu>

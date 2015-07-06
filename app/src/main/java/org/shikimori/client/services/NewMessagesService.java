@@ -44,10 +44,13 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate NewMessagesService");
+        timerHandler.postDelayed(timerRunnable, 0);
+    }
+
+    void initQuery(){
         query = new Query(this)
                 .init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
                 .setErrorListener(this);
-        timerHandler.postDelayed(timerRunnable, 0);
     }
 
     @Override
@@ -67,9 +70,12 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     protected void getMessages() {
         if (!isNotifyEnable())
             return;
-        user = new ShikiUser(this);
+        if(user==null || ShikiUser.USER_ID == null)
+            user = new ShikiUser(this);
         if (!h.getConnection(this) || ShikiUser.USER_ID == null)
             return;
+        if(query == null)
+            initQuery();
         query.getResult(this);
     }
 

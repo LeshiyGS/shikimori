@@ -59,7 +59,7 @@ public class Query {
     private SwipeRefreshLayout loaderSwipe;
 
     public enum METHOD {
-        GET, POST, DELETE
+        GET, POST, DELETE, PUT
     }
 
     // cancell all request
@@ -273,6 +273,8 @@ public class Query {
             if(_paramStr.length() > 0)
                 _paramStr = "?" + _paramStr;
             tempClient.delete(prefix + _paramStr, getSuccessListener(successListener));
+        } else if (method == METHOD.PUT){
+            tempClient.put(prefix, params, getSuccessListener(successListener));
         }
     }
 
@@ -398,6 +400,7 @@ public class Query {
         if (context == null)
             return true;
         if (!res.isSuccess()) {
+            hideLoaders();
             if (TextUtils.isEmpty(res.getMsg())) {
                 if (!h.getConnection(context))
                     res.setMsg(context.getString(R.string.error_connection));
@@ -407,7 +410,6 @@ public class Query {
             if (errorListener != null)
                 errorListener.onQueryError(res);
             else {
-                hideLoaders();
                 showStandartError(res);
             }
             return true;

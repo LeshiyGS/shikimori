@@ -3,6 +3,7 @@ package org.shikimori.library.objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.abstracts.AMDetails;
+import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.Studio;
 
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public class ItemAnimeDetails extends AMDetails {
                     studios.add(new Studio(item));
             }
         }
+
         return this;
     }
-
 
 }

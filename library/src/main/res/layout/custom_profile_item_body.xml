@@ -27,8 +27,8 @@
         android:paddingLeft="@dimen/defaultPadding6"
         android:paddingRight="@dimen/defaultPadding6"
         android:visibility="gone"
+        style="@style/altarixUiText"
         android:textColor="@android:color/white"
-        style="@style/shadowText"
         android:background="@drawable/notify_style"
         />
 

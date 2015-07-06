@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,10 +23,7 @@ import org.shikimori.library.interfaces.OnViewBuildLister;
 import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.ArrayList;
@@ -44,11 +39,11 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     protected String search = "";
     protected boolean pauseOnScroll = false; // or true
     protected boolean pauseOnFling = true; // or false
-    ArrayAdapter adapter;
+    BaseAdapter adapter;
     private BackGroubdLoader<? extends OnViewBuildLister> backBuilder;
     List<Object> allList = new ArrayList<>();
 
-    protected boolean isOptionsMenu(){
+    protected boolean isOptionsMenu() {
         return true;
     }
 
@@ -108,7 +103,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         return super.onOptionsItemSelected(item);
     }
 
-    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater){
+    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.animes_menu, menu);
         inflateSearch(menu);
         return menu;
@@ -145,7 +140,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         return false;
     }
 
-    public abstract ArrayAdapter<?> getAdapter(List<?> list);
+    public abstract BaseAdapter getAdapter(List<?> list);
 
     protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
 
@@ -154,18 +149,18 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
 
         int size = list.size();
         // повышать на +1 или нет
-        int limit = limitOver ? (LIMIT+1) : LIMIT;
+        int limit = limitOver ? (LIMIT + 1) : LIMIT;
         // если предыдущее количество кратно limit+1
         // значит есть еще данные
-        if(size!=0 && size%(limit) == 0){
+        if (size != 0 && size % (limit) == 0) {
             hasMoreItems(true);
             // удаляем последний элемент
-            if(removeLastItem)
+            if (removeLastItem)
                 list.remove(size - 1);
         } else
             hasMoreItems(false);
 
-        if(page == DEFAULT_FIRST_PAGE)
+        if (page == DEFAULT_FIRST_PAGE)
             allList.clear();
 
         for (int i = 0; i < list.size(); i++)
@@ -179,8 +174,8 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         }
     }
 
-    protected void removeItem(int position){
-        if (allList != null){
+    protected void removeItem(int position) {
+        if (allList != null) {
             allList.remove(position);
             adapter = getAdapter(allList);
             setAdapter(adapter);
@@ -202,21 +197,21 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         return false;
     }
 
-    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends OnViewBuildLister> cl){
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends OnViewBuildLister> cl) {
         loadAsyncBuild(bodyBuild, array, 0, cl, null);
     }
 
-    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends OnViewBuildLister> cl){
-        loadAsyncBuild(bodyBuild, array, maxLenght, cl,null);
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends OnViewBuildLister> cl) {
+        loadAsyncBuild(bodyBuild, array, maxLenght, cl, null);
     }
 
-    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght,  Class<? extends OnViewBuildLister> cl, OnAdvancedCheck listener){
-        if(activity == null)
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends OnViewBuildLister> cl, OnAdvancedCheck listener) {
+        if (activity == null)
             return;
-        backBuilder = new BackGroubdLoader<OnViewBuildLister>(activity, bodyBuild, maxLenght, array,  (Class<OnViewBuildLister>) cl){
+        backBuilder = new BackGroubdLoader<OnViewBuildLister>(activity, bodyBuild, maxLenght, array, (Class<OnViewBuildLister>) cl) {
             @Override
             public void deliverResult(List data) {
-                if(activity == null)
+                if (activity == null)
                     return;
                 super.deliverResult(data);
                 stopRefresh();
@@ -229,7 +224,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
 
     }
 
-    public List<Object> getAllList(){
+    public List<Object> getAllList() {
         return allList;
     }
 
@@ -242,7 +237,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(backBuilder!=null)
+        if (backBuilder != null)
             backBuilder.cancelLoad();
     }
 }

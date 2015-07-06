@@ -104,7 +104,8 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
         }else if(type == ProjectTool.TYPE.MANGA){
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
-        }
+        }else if(type == ProjectTool.TYPE.CHARACTER)
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CHARACTER_PAGE);
         i.putExtra(Constants.ITEM_ID, item.id);
         activity.startActivity(i);
     }

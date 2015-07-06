@@ -17,13 +17,17 @@
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/altarixUiLabel.miniblack"
+            style="@style/altarixUiLabel.mini"
             android:text="status"
             android:paddingLeft="@dimen/defaultPaddingMini"
             android:paddingRight="@dimen/defaultPaddingMini"
             android:textColor="@color/white_overlay_60"
             android:ellipsize="end"
-            android:lines="1"/>
+            android:lines="1"
+            android:layout_alignLeft="@+id/tvDate"
+            android:layout_alignStart="@+id/tvDate"
+            android:layout_above="@+id/tvDate"
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:id="@+id/tvType"
@@ -41,10 +45,12 @@
 
         <ImageView
             android:id="@+id/ivPoster"
-            android:layout_width="@dimen/paddingPosterH"
-            android:layout_height="@dimen/paddingPosterW"
-            android:layout_below="@+id/tvStatus"
-            android:scaleType="centerCrop" />
+            android:layout_width="@dimen/paddingPosterH80"
+            android:layout_height="@dimen/paddingPosterW115"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
 
         <TextView
@@ -53,13 +59,14 @@
             android:layout_height="wrap_content"
             style="@style/altarixUiText"
             android:textStyle="bold"
-            android:layout_below="@+id/tvStatus"
-            android:layout_marginLeft="@dimen/defaultPaddingMini"
-            android:layout_toEndOf="@+id/tvStatus"
-            android:layout_toRightOf="@+id/ivPoster"
             android:ellipsize="end"
             android:text="name"
-            android:lines="1" />
+            android:lines="1"
+            android:layout_alignBottom="@+id/tvType"
+            android:layout_toRightOf="@+id/tvStatus"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/margin5" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -83,7 +90,7 @@
             android:layout_toRightOf="@+id/ivPoster"
             android:layout_toEndOf="@+id/ivPoster"
             style="@style/altarixUiText"
-            />
+            android:layout_marginTop="@dimen/margin10" />
 
     </RelativeLayout>
 </FrameLayout>
