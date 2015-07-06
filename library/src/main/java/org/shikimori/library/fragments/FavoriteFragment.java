@@ -41,7 +41,7 @@ public class FavoriteFragment extends PagerAdapterFragment {
 
         addPage(FavoriteListFragment.newInstance(0),  activity.getString(R.string.anime));
         addPage(FavoriteListFragment.newInstance(1),  activity.getString(R.string.manga));
-        addPage(FavoriteListFragment.newInstance(2),  activity.getString(R.string.chapters));
+        addPage(FavoriteListFragment.newInstance(2),  activity.getString(R.string.characters));
         addPage(FavoriteListFragment.newInstance(3),  activity.getString(R.string.people));
         addPage(FavoriteListFragment.newInstance(4),  activity.getString(R.string.mangakas));
         addPage(FavoriteListFragment.newInstance(5),  activity.getString(R.string.seyu));
