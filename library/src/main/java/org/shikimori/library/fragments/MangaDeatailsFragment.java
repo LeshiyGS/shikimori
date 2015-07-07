@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
+import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemMangaDetails;
@@ -103,21 +104,17 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         if(v.getId() == R.id.ivPoster && details.image!=null)
             activity.getThumbToImage().zoom(ivPoster, details.image.original);
         else if(v.getId() == R.id.bAddToList){
-            addToListPopup(v, R.menu.add_to_list_anime_menu, details.userRate.id == null, new PopupMenu.OnMenuItemClickListener() {
+            addToListPopup(v, R.menu.add_to_list_manga_menu, details.userRate, new OnNewMenuListener() {
 
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    query.getLoader().show();
                     if(item.getItemId() == R.id.delete){
-                        deleteRate(details.userRate.id, details.userRate);
+                        deleteRate(details.userRate.id, details.userRate, MANGA);
                         return true;
                     }
 
-                    AdapterViewCompat.AdapterContextMenuInfo info = (AdapterViewCompat.AdapterContextMenuInfo) item.getMenuInfo();
-                    if((info.position+1) == details.userRate.statusInt)
-                        return true;
-
-                    setRate(info.position+1, details.id, ANIME, details.userRate);
+                    int position = getPosition(item) + 1;
+                    setRate(position, details.id, MANGA, details.userRate);
 
                     return false;
                 }

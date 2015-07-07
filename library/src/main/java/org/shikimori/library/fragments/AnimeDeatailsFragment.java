@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +15,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.adapters.StudiosAdapter;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
+import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
@@ -111,21 +113,16 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         if(v.getId() == R.id.ivPoster && details.image!=null)
             activity.getThumbToImage().zoom(ivPoster, details.image.original);
         else if(v.getId() == R.id.bAddToList){
-            addToListPopup(v, R.menu.add_to_list_anime_menu, details.userRate.id == null, new PopupMenu.OnMenuItemClickListener() {
+            addToListPopup(v, R.menu.add_to_list_anime_menu, details.userRate, new OnNewMenuListener() {
 
                 @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    query.getLoader().show();
-                    if(item.getItemId() == R.id.delete){
-                        deleteRate(details.userRate.id, details.userRate);
+                public boolean onMenuItemClick(PopupMenu menu, MenuItem menuItem) {
+                    if(menuItem.getItemId() == R.id.delete){
+                        deleteRate(details.userRate.id, details.userRate, ANIME);
                         return true;
                     }
-
-                    AdapterViewCompat.AdapterContextMenuInfo info = (AdapterViewCompat.AdapterContextMenuInfo) item.getMenuInfo();
-                    if((info.position+1) == details.userRate.statusInt)
-                        return true;
-
-                    setRate(info.position+1, details.id, ANIME, details.userRate);
+                    int position = getPosition(menuItem) + 1;
+                    setRate(position, details.id, ANIME, details.userRate);
 
                     return false;
                 }

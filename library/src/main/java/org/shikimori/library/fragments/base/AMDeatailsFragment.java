@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.PopupMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,12 +25,15 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
@@ -195,12 +199,15 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     };
 
 
-    protected void addToListPopup(View v, int menu, boolean hideDeleteButton, PopupMenu.OnMenuItemClickListener listener){
-        PopupMenu popupMenu = new PopupMenu(activity, v);
+    protected void addToListPopup(View v, int menu, UserRate rate, OnNewMenuListener listener){
+        PopupMenu popupMenu = new PopupMenu(activity, v, Gravity.CENTER_VERTICAL);
         popupMenu.inflate(menu);
-        if(hideDeleteButton){
+        if(rate.id == null){
             popupMenu.getMenu().removeItem(R.id.delete);
+        } else {
+            popupMenu.getMenu().getItem(rate.statusInt-1).setVisible(false);
         }
+        listener.setMenu(popupMenu);
         popupMenu.setOnMenuItemClickListener(listener);
         popupMenu.show();
     }
@@ -213,6 +220,10 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         String name = ProjectTool.getListStatusName(activity, rate.status, type);
         if(name == null)
             name = activity.getString(R.string.add_to_list);
+        if(rate.status == UserRate.Status.WATCHING)
+            h.setVisible(bListSettings, true);
+        else
+            h.setVisibleGone(bListSettings);
         bAddToList.setText(name);
     }
 
@@ -230,8 +241,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
      */
     protected void setRate(int status, String targetId, ProjectTool.TYPE type, final UserRate rate){
         invalidate();
-        apiRateController.init()
-                .setStatus(status);
+        apiRateController.init();
 
         // update object rate
         rate.status = UserRate.Status.fromInt(status);
@@ -239,7 +249,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
 
         // set button name
         setAddListName(rate, type);
-
+        apiRateController.setUserRate(rate);
         // create rate
         if(rate.id==null){
             query.getLoader().show();
@@ -254,6 +264,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         } else {
             apiRateController.updateRate(rate.id);
         }
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + ShikiUser.USER_ID);
     }
 
     /**
@@ -261,11 +272,12 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
      * @param id
      * @param userRate
      */
-    protected void deleteRate(String id, UserRate userRate){
+    protected void deleteRate(String id, UserRate userRate, ProjectTool.TYPE type){
         invalidate();
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + ShikiUser.USER_ID);
         apiRateController.deleteRate(id);
-        bAddToList.setText(R.string.add_to_list);
         userRate.id = null;
         userRate.status = UserRate.Status.NONE;
+        setAddListName(userRate, type);
     }
 }

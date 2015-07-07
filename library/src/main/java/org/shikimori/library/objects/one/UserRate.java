@@ -51,6 +51,17 @@ public class UserRate extends JsonParseable<UserRate> {
                 default: return NONE;
             }
         }
+        public static int fromStatus(Status status) {
+            switch (status) {
+                case WATCHING: return 1;
+                case PLANNED: return 2;
+                case COMPLETED: return 3;
+                case REWATCHING: return 4;
+                case ON_HOLD: return 5;
+                case DROPPED: return 6;
+                default: return 0;
+            }
+        }
     }
 
 }

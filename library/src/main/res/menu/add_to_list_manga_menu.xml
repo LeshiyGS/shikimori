@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:library="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/watching"
+        android:title="@string/reading"
+        library:showAsAction="always" />
+    <item android:id="@+id/planned"
+        android:title="@string/planned"
+        library:showAsAction="always"/>
+    <item android:id="@+id/completed"
+        android:title="@string/completedmanga"
+        library:showAsAction="always"/>
+    <item android:id="@+id/rewatching"
+        android:title="@string/rewatchingmanga"
+        library:showAsAction="always"/>
+    <item android:id="@+id/on_hold"
+        android:title="@string/on_hold"
+        library:showAsAction="always"/>
+    <item android:id="@+id/dropped"
+        android:title="@string/dropped"
+        library:showAsAction="always"/>
+    <item android:id="@+id/delete"
+        android:title="@string/delete_from_list"
+        library:showAsAction="always"/>
+</menu>

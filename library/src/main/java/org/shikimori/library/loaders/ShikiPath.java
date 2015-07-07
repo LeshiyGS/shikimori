@@ -38,7 +38,7 @@ public interface ShikiPath {
     public String GET_USER_MANGA_LIST = "api/users/:id/manga_rates";
     public String GET_USERS_LIST = "api/users";
     public String GET_CLUBS_LIST = "api/clubs";
-    public String GET_USER_CLUBS_LIST = "/api/users/:id/clubs";
-    public String SET_USER_RATE = "/api/user_rates";
-    public String USER_RATE_ID = "/api/user_rates/:id";
+    public String GET_USER_CLUBS_LIST = "api/users/:id/clubs";
+    public String SET_USER_RATE = "api/user_rates";
+    public String USER_RATE_ID = "api/user_rates/:id";
 }
