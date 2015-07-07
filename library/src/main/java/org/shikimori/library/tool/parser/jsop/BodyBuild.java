@@ -315,7 +315,7 @@ public class BodyBuild {
 //        String originImg = imageSrc.attr("srcset");
 //        String id = elemnt.id();
 
-        AMShiki item = AMShiki.create(null);
+        AMShiki item = new AMShiki().create(null);
         item.image = new ItemImage(null);
         item.image.preview = imageSrc.attr("src");
         item.image.original = imageSrc.attr("srcset");

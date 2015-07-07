@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Феофилактов on 17.04.2015.
  */
-public class ItemCharacter extends JsonParseable implements JsonParseable.Creator<ItemCharacter> {
+public class ItemCharacter extends JsonParseable<ItemCharacter> {
 
     public String id, name, russian, altname, japanese, descriptionHtml, threadId;
     public ItemImage image;
@@ -19,10 +19,6 @@ public class ItemCharacter extends JsonParseable implements JsonParseable.Creato
     public Seyu seyu;
     public List<AMShiki> animes = new ArrayList<>();
     public List<AMShiki> mangas = new ArrayList<>();
-
-    public static ItemCharacter create(JSONObject json){
-        return new ItemCharacter().createFromJson(json);
-    }
 
     @Override
     public ItemCharacter createFromJson(JSONObject json) {
@@ -45,13 +41,13 @@ public class ItemCharacter extends JsonParseable implements JsonParseable.Creato
         JSONArray array = json.optJSONArray("animes");
         if(array!=null){
             for (int i = 0; i < array.length(); i++) {
-                animes.add(AMShiki.create(array.optJSONObject(i)));
+                animes.add(new AMShiki().create(array.optJSONObject(i)));
             }
         }
         array = json.optJSONArray("mangas");
         if(array!=null){
             for (int i = 0; i < array.length(); i++) {
-                mangas.add(AMShiki.create(array.optJSONObject(i)));
+                mangas.add(new AMShiki().create(array.optJSONObject(i)));
             }
         }
 

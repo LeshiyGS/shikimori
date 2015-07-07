@@ -1,12 +1,12 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -17,11 +17,12 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
-import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
+
+import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 
 
 /**
@@ -29,7 +30,7 @@ import java.util.List;
  */
 public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
-    private ItemAnimeDetails animeDetails;
+    private ItemAnimeDetails details;
 
     public static AnimeDeatailsFragment newInstance(Bundle b) {
         AnimeDeatailsFragment frag = new AnimeDeatailsFragment();
@@ -40,6 +41,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
     }
 
     @Override
@@ -52,39 +54,43 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         super.onQuerySuccess(res);
         if (activity == null)
             return;
-        animeDetails = ItemAnimeDetails.create(res.getResultObject());
+        details = new ItemAnimeDetails().createFromJson(res.getResultObject());
         prepareData();
     }
 
     private void prepareData() {
 
-        if (animeDetails.id == null)
+        if (details.id == null)
             return;
 
-        activity.setTitle(animeDetails.name);
+        activity.setTitle(details.name);
         // название аниме в карточке
-        setTitleElement(animeDetails.russianName, animeDetails.name);
+        setTitleElement(details.russianName, details.name);
         // description
-        h.setTextViewHTML(activity, tvReview, animeDetails.description_html);
+        h.setTextViewHTML(activity, tvReview, details.description_html);
         // rating
-        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + animeDetails.score);
-        rbTitle.setRating(Float.parseFloat(animeDetails.score) / 2);
+        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
+        rbTitle.setRating(Float.parseFloat(details.score) / 2);
         // info
 
-        addInfo(R.string.type, animeDetails.kind);
-        addInfo(R.string.episodes, animeDetails.episodesAired + " / " + animeDetails.episodes);
-        addInfo(R.string.title_time, animeDetails.duration + " " + activity.getString(R.string.min));
+        addInfo(R.string.type, details.kind);
+        addInfo(R.string.episodes, details.episodesAired + " / " + details.episodes);
+        addInfo(R.string.title_time, details.duration + " " + activity.getString(R.string.min));
 
 
-        addInfo(R.string.title_rating, animeDetails.rating);
-        addInfo(R.string.title_genres, TextUtils.join(", ", animeDetails.genres));
-        //addInfo(R.string.title_publishers, TextUtils.join(", ", animeDetails.studios));
+        addInfo(R.string.title_rating, details.rating);
+        addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
+        //addInfo(R.string.title_publishers, TextUtils.join(", ", details.studios));
 
-        setStudios(R.string.title_studio, animeDetails.studios);
-        buildStateWanted(animeDetails.ratesStatusesStats);
+        setStudios(R.string.title_studio, details.studios);
+        buildStateWanted(details.ratesStatusesStats);
+
+        setAddListName(details.userRate, ANIME);
+
+        h.setVisible(llWrapAddList, true);
 
         if (activity instanceof ExtraLoadInterface)
-            ((ExtraLoadInterface) activity).extraLoad(animeDetails.thread_id);
+            ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
 
         // poster
         if(getView()!=null)
@@ -92,8 +98,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
                 @Override
                 public void run() {
 
-                    ImageLoader.getInstance().displayImage(animeDetails.image.original, ivPoster, addBlurToTitle);
-                    setStatus(animeDetails.anons, animeDetails.ongoing);
+                    ImageLoader.getInstance().displayImage(details.image.original, ivPoster, addBlurToTitle);
+                    setStatus(details.anons, details.ongoing);
                     svMain.scrollTo(0,0);
                 }
             });
@@ -102,8 +108,31 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if(v.getId() == R.id.ivPoster && animeDetails.image!=null)
-            activity.getThumbToImage().zoom(ivPoster, animeDetails.image.original);
+        if(v.getId() == R.id.ivPoster && details.image!=null)
+            activity.getThumbToImage().zoom(ivPoster, details.image.original);
+        else if(v.getId() == R.id.bAddToList){
+            addToListPopup(v, R.menu.add_to_list_anime_menu, details.userRate.id == null, new PopupMenu.OnMenuItemClickListener() {
+
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    query.getLoader().show();
+                    if(item.getItemId() == R.id.delete){
+                        deleteRate(details.userRate.id, details.userRate);
+                        return true;
+                    }
+
+                    AdapterViewCompat.AdapterContextMenuInfo info = (AdapterViewCompat.AdapterContextMenuInfo) item.getMenuInfo();
+                    if((info.position+1) == details.userRate.statusInt)
+                        return true;
+
+                    setRate(info.position+1, details.id, ANIME, details.userRate);
+
+                    return false;
+                }
+            });
+        } else if(v.getId() == R.id.bListSettings){
+
+        }
     }
 
     /**

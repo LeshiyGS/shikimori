@@ -11,7 +11,7 @@ import org.shikimori.library.objects.abs.JsonParseable;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Creator<ItemCommentsShiki>, OnViewBuildLister {
+public class ItemCommentsShiki extends JsonParseable implements OnViewBuildLister {
     public String id, user_id, commentable_id, commentable_type, body, html_body, created_at, updated_at;
     public String nickname, avatar, image_x160, image_x148, last_online_at;
     public boolean offtopic, review, viewed,  can_be_edited;
@@ -23,10 +23,6 @@ public class ItemCommentsShiki extends JsonParseable implements JsonParseable.Cr
         if (allData != null)
             return allData.toString();
         return "";
-    }
-
-    public static ItemCommentsShiki create(JSONObject json) {
-        return new ItemCommentsShiki().createFromJson(json);
     }
 
     @Override

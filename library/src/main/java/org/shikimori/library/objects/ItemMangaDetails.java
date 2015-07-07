@@ -13,10 +13,6 @@ public class ItemMangaDetails extends AMDetails {
     public List<String> publishers;
     public String volumes, chapters;
 
-    public static ItemMangaDetails create(JSONObject json) {
-        return new ItemMangaDetails().createFromJson(json);
-    }
-
     @Override
     public ItemMangaDetails createFromJson(JSONObject json) {
         super.createFromJson(json);

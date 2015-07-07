@@ -1,5 +1,7 @@
 package org.shikimori.library.objects.abs;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,7 +15,6 @@ import java.util.List;
  */
 public class ObjectBuilder<T extends JsonParseable> {
 
-    private static final String CREATOR_FIELD = "CREATOR";
     /**
      * list of items
      */
@@ -36,10 +37,19 @@ public class ObjectBuilder<T extends JsonParseable> {
     }
 
     public List<T> getList(JSONArray data, Class<T> objCls){
-        this.objCls = objCls;
-        list = new ArrayList<>(data !=null ? data.length() : 0);
-        prepareData(data);
+        addToList(new ArrayList<T>(data !=null ? data.length() : 0), data, objCls);
         return list;
+    }
+
+    public void addToList(@NonNull List<T> list, JSONArray data, Class<T> objCls){
+        addToList(list, data, objCls, null);
+    }
+
+    public void addToList(@NonNull List<T> list, JSONArray data, Class<T> objCls, AdvanceCheck check){
+        this.objCls = objCls;
+        this.list = list;
+        checklistener = check;
+        buildData(data);
     }
 
     /**
@@ -51,8 +61,8 @@ public class ObjectBuilder<T extends JsonParseable> {
     public ObjectBuilder(JSONArray array, Class<T> objCls, AdvanceCheck check) {
         this.objCls = objCls;
         checklistener = check;
-        list = new ArrayList<T>(array.length());
-        prepareData(array);
+        list = new ArrayList<>(array.length());
+        buildData(array);
     }
 
     /**
@@ -60,47 +70,46 @@ public class ObjectBuilder<T extends JsonParseable> {
      *
      * @param array
      */
-    public void prepareData(JSONArray array) {
-        if (array != null) {
-            try {
-                Method method = objCls.getMethod("create", JSONObject.class);
-                buildData(method, array);
-            } catch (NoSuchMethodException e) {
-                buildData(array);
-            }
-        }
-    }
+//    public void prepareData(JSONArray array) {
+//        if (array != null) {
+////            try {
+////                Method method = objCls.getMethod("create", JSONObject.class);
+////                buildData(method, array);
+////            } catch (NoSuchMethodException e) {
+//                buildData(array);
+////            }
+//        }
+//    }
 
-    /**
-     * Use CREATOR for build item
-     *
-     * @param array
-     */
-    void buildData(JSONArray array) {
-        try {
-            T.Creator<T> creator = (T.Creator<T>) objCls.getField(CREATOR_FIELD).get(null);
-            for (int i = 0, count = array.length(); i < count; i++) {
-                T item = creator.createFromJson(array.getJSONObject(i));
-
-                if (checklistener != null && checklistener.check(item, i))
-                    continue;
-                list.add(item);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    /**
+//     * Use CREATOR for build item
+//     *
+//     * @param array
+//     */
+//    void buildData(JSONArray array) {
+//        try {
+//            T.Creator<T> creator = (T.Creator<T>) objCls.getField(CREATOR_FIELD).get(null);
+//            for (int i = 0, count = array.length(); i < count; i++) {
+//                T item = creator.createFromJson(array.getJSONObject(i));
+//
+//                if (checklistener != null && checklistener.check(item, i))
+//                    continue;
+//                list.add(item);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * Use static method create for build item
      *
-     * @param method
      * @param array
      */
-    void buildData(Method method, JSONArray array) {
+    void buildData(JSONArray array) {
         for (int i = 0, count = array.length(); i < count; i++) {
             try {
-                T item = (T) method.invoke(null, array.optJSONObject(i));
+                T item = (T) objCls.newInstance().createFromJson(array.optJSONObject(i));
                 if (checklistener != null && checklistener.check(item, i))
                     continue;
                 list.add(item);
@@ -125,7 +134,7 @@ public class ObjectBuilder<T extends JsonParseable> {
      * @param array
      */
     public void addData(JSONArray array) {
-        prepareData(array);
+        buildData(array);
     }
 
     public List<T> getDataList() {

@@ -8,7 +8,7 @@ import org.shikimori.library.objects.abs.JsonParseable;
 /**
  * Created by Владимир on 27.08.2014.
  */
-public class ItemCaclendarShiki extends JsonParseable implements JsonParseable.Creator<ItemCaclendarShiki> {
+public class ItemCaclendarShiki extends JsonParseable<ItemCaclendarShiki> {
     public String id, name, russianName, nextEpisode, episodesIired, nextEpisodeAt, imgPreview, imgOrigin;
     public boolean ongoing;
     private JSONObject allData;
@@ -19,10 +19,6 @@ public class ItemCaclendarShiki extends JsonParseable implements JsonParseable.C
         if (allData != null)
             return allData.toString();
         return "";
-    }
-
-    public static ItemCaclendarShiki create(JSONObject json) {
-        return new ItemCaclendarShiki().createFromJson(json);
     }
 
     @Override

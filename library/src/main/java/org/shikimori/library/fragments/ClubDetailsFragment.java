@@ -99,7 +99,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseActivity> implemen
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
-        item = ItemClubDescriptionShiki.create(res.getResultObject());
+        item = new ItemClubDescriptionShiki().create(res.getResultObject());
 
         activity.setTitle(item.name);
 

@@ -2,9 +2,14 @@ package org.shikimori.library.fragments.base;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -23,6 +28,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.RatesStatusesStats;
+import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
@@ -30,7 +36,9 @@ import org.shikimori.library.tool.FixPauseAnimate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ApiRatesController;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import java.util.List;
 
@@ -49,10 +57,15 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
     protected RatingBar rbTitle;
     protected ViewGroup llInfo, llWanted;
     protected ExpandableHeightGridView llStudios;
+    private Button bAddToList;
+    private ImageButton bListSettings;
+    protected ApiRatesController apiRateController;
+    protected View llWrapAddList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.view_shiki_deatales, null);
+        setBaseView(v);
         svMain = (ScrollView) v.findViewById(R.id.svMain);
         tvTitle = (TextView) v.findViewById(R.id.tvTitle);
         llInfo = (ViewGroup) v.findViewById(R.id.llInfo);
@@ -64,6 +77,13 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         tvMenuStudios = (TextView) v.findViewById(R.id.tvMenuStudios);
         llStudios = (ExpandableHeightGridView) v.findViewById(R.id.llStudios);
         llWanted = (ViewGroup) v.findViewById(R.id.llWanted);
+        bAddToList =  find(R.id.bAddToList);
+        bListSettings =  find(R.id.bListSettings);
+        llWrapAddList =  find(R.id.llWrapAddList);
+
+        bAddToList.setOnClickListener(this);
+        bListSettings.setOnClickListener(this);
+
 
         ivPoster.setOnTouchListener(h.getImageHighlight);
         return v;
@@ -86,12 +106,17 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         loadDataFromServer();
 
         ivPoster.setOnClickListener(this);
+        apiRateController = new ApiRatesController(query);
     }
 
     @Override
     public void onStartRefresh() {
-        query.invalidateCache(ShikiApi.getUrl(getPatch() + itemId));
+        invalidate();
         loadDataFromServer();
+    }
+
+    protected void invalidate(){
+        query.invalidateCache(ShikiApi.getUrl(getPatch() + itemId));
     }
 
     void loadDataFromServer(){
@@ -169,8 +194,78 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> 
         }
     };
 
+
+    protected void addToListPopup(View v, int menu, boolean hideDeleteButton, PopupMenu.OnMenuItemClickListener listener){
+        PopupMenu popupMenu = new PopupMenu(activity, v);
+        popupMenu.inflate(menu);
+        if(hideDeleteButton){
+            popupMenu.getMenu().removeItem(R.id.delete);
+        }
+        popupMenu.setOnMenuItemClickListener(listener);
+        popupMenu.show();
+    }
+
+    /**
+     * Name of
+     * @param rate
+     */
+    protected void setAddListName(UserRate rate, ProjectTool.TYPE type){
+        String name = ProjectTool.getListStatusName(activity, rate.status, type);
+        if(name == null)
+            name = activity.getString(R.string.add_to_list);
+        bAddToList.setText(name);
+    }
+
     @Override
     public void onClick(View v) {
 
+    }
+
+    /**
+     * Обновление "добавить в список"
+     * @param status позиция в списке + 1
+     * @param targetId id anime or manga
+     * @param type anime or manga
+     * @param rate если уже есть список передаем его
+     */
+    protected void setRate(int status, String targetId, ProjectTool.TYPE type, final UserRate rate){
+        invalidate();
+        apiRateController.init()
+                .setStatus(status);
+
+        // update object rate
+        rate.status = UserRate.Status.fromInt(status);
+        rate.statusInt = status;
+
+        // set button name
+        setAddListName(rate, type);
+
+        // create rate
+        if(rate.id==null){
+            query.getLoader().show();
+            apiRateController.createRate(getUserId(), targetId, type, new Query.OnQuerySuccessListener() {
+                @Override
+                public void onQuerySuccess(StatusResult res) {
+                    rate.createFromJson(res.getResultObject());
+                    query.getLoader().hide();
+                }
+            });
+        // update rate
+        } else {
+            apiRateController.updateRate(rate.id);
+        }
+    }
+
+    /**
+     * Remove rate from user list
+     * @param id
+     * @param userRate
+     */
+    protected void deleteRate(String id, UserRate userRate){
+        invalidate();
+        apiRateController.deleteRate(id);
+        bAddToList.setText(R.string.add_to_list);
+        userRate.id = null;
+        userRate.status = UserRate.Status.NONE;
     }
 }

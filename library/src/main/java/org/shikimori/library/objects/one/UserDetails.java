@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class UserDetails extends JsonParseable implements JsonParseable.Creator<UserDetails> {
+public class UserDetails extends JsonParseable<UserDetails> {
 
     public String name, sex, fullYears, lastOnline,
             website, location, about, aboutHtml;
@@ -21,17 +21,13 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
     public Statuses fullStatuses;
     public boolean banned, isIgnored, showComments, hasAnime, hasManga, inFriends;
 
-    public static UserDetails create(JSONObject json) {
-        return new UserDetails().createFromJson(json);
-    }
-
     @Override
     public UserDetails createFromJson(JSONObject json) {
         if(json == null)
             return this;
 
         HelperObj helper = new HelperObj(json);
-        user = new ItemUser(json);
+        user = new ItemUser().create(json);
         if(user.avatar!=null)
             user.avatar = user.avatar.replace("x48", "x80");
         name = helper.addString("name");
@@ -83,7 +79,7 @@ public class UserDetails extends JsonParseable implements JsonParseable.Creator<
         JSONArray array = obj.optJSONArray(name);
         if(array!=null){
             for (int i = 0; i < array.length(); i++) {
-                list.add(AnimeManga.create(array.optJSONObject(i)));
+                list.add(new AnimeManga().create(array.optJSONObject(i)));
             }
         }
         return list;

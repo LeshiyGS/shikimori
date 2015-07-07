@@ -19,11 +19,6 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="UiButtonTheme" parent="AppTheme">
-        <item name="colorButtonNormal">?attr/colorAccent</item>
-        <item name="colorControlHighlight">?attr/colorPrimaryDark</item>
-    </style>
-
     <!--<style name="UiButtonAuthTheme" parent="altarixUiButtonTheme">-->
         <!--<item name="colorButtonNormal">@android:color/black</item>-->
     <!--</style>-->

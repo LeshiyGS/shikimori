@@ -10,17 +10,13 @@ import org.shikimori.library.objects.abs.JsonParseable;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Creator<ItemNewsUserShiki>, OnViewBuildLister {
+public class ItemNewsUserShiki extends JsonParseable<ItemNewsUserShiki> implements OnViewBuildLister {
 
     public String id, kind, body, htmlBody, createdAt;
     public Linked linked;
     public ItemUser from, to;
     public boolean read;
     public ViewGroup parsedContent;
-
-    public static ItemNewsUserShiki create(JSONObject json){
-        return new ItemNewsUserShiki().createFromJson(json);
-    }
 
     @Override
     public ItemNewsUserShiki createFromJson(JSONObject json) {
@@ -34,8 +30,8 @@ public class ItemNewsUserShiki extends JsonParseable implements JsonParseable.Cr
         htmlBody = HelperObj.getString(json, "html_body");
         createdAt = HelperObj.getString(json, "created_at");
         linked = new Linked(json.optJSONObject("linked"));
-        from = new ItemUser(json.optJSONObject("from"));
-        to = new ItemUser(json.optJSONObject("to"));
+        from = new ItemUser().create(json.optJSONObject("from"));
+        to = new ItemUser().create(json.optJSONObject("to"));
 
         return this;
     }

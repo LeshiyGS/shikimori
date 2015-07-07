@@ -7,13 +7,9 @@ import org.shikimori.library.objects.abs.JsonParseable;
 /**
  * Created by Феофилактов on 25.04.2015.
  */
-public class ItemUserHistory extends JsonParseable implements JsonParseable.Creator<ItemUserHistory> {
+public class ItemUserHistory extends JsonParseable<ItemUserHistory> {
     public String id, createdAt, description;
     public AMShiki target;
-
-    public static ItemUserHistory create(JSONObject json){
-        return new ItemUserHistory().createFromJson(json);
-    }
 
     @Override
     public ItemUserHistory createFromJson(JSONObject json) {
@@ -24,7 +20,7 @@ public class ItemUserHistory extends JsonParseable implements JsonParseable.Crea
         createdAt = HelperObj.getString(json, "created_at");
         description = HelperObj.getString(json, "description");
 
-        target = AMShiki.create(json.optJSONObject("target"));
+        target = new AMShiki().create(json.optJSONObject("target"));
         return this;
     }
 }

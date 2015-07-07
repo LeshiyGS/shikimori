@@ -39,4 +39,10 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/guTextSizeNormal</item>
     </style>
+
+    <style name="UiButtonTheme" parent="AltarixUiTeme">
+        <item name="colorButtonNormal">?attr/colorAccent</item>
+        <item name="colorControlHighlight">?attr/colorPrimaryDark</item>
+    </style>
+
 </resources>

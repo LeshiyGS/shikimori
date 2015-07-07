@@ -8,14 +8,10 @@ import org.shikimori.library.tool.ProjectTool;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemClubShiki extends JsonParseable implements JsonParseable.Creator<ItemClubShiki> {
+public class ItemClubShiki extends JsonParseable<ItemClubShiki> {
     public String id, name, original, main;
     protected JSONObject allData;
     protected HelperObj helper;
-
-    public static ItemClubShiki create(JSONObject json) {
-        return new ItemClubShiki().createFromJson(json);
-    }
 
     @Override
     public ItemClubShiki createFromJson(JSONObject json) {

@@ -301,7 +301,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                 .playOn(llBody);
 
         stopRefresh();
-        userDetails = UserDetails.create(res.getResultObject());
+        userDetails = new UserDetails().create(res.getResultObject());
 
         fillUi(res.getResultObject());
 

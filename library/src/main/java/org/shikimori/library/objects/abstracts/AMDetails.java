@@ -16,14 +16,10 @@ import java.util.List;
 public class AMDetails extends AMShiki {
 
     public String rating, kind, aired_on, released_on, duration, score, description, description_html, thread_id,
-            world_art_id, myanimelist_id, ani_db_id, user_rate;
+            world_art_id, myanimelist_id, ani_db_id;
     public Boolean favoured;
     public List<String>  english, japanese, synonyms, genres;
     public List<RatesStatusesStats> ratesStatusesStats;
-
-    public static AMDetails create(JSONObject json) {
-        return new AMDetails().createFromJson(json);
-    }
 
     @Override
     public AMDetails createFromJson(JSONObject json) {
@@ -44,7 +40,6 @@ public class AMDetails extends AMShiki {
         world_art_id = helper.addString("world_art_id");
         myanimelist_id = helper.addString("myanimelist_id");
         ani_db_id = helper.addString("ani_db_id");
-        user_rate  = helper.addString("user_rate");
         favoured = json.optBoolean("favoured");
 
         genres  = getList(json.optJSONArray("genres"), "russian");

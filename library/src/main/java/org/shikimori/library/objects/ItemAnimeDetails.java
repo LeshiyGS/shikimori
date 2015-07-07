@@ -16,10 +16,6 @@ public class ItemAnimeDetails extends AMDetails {
 
     public List<Studio> studios;
 
-    public static ItemAnimeDetails create(JSONObject json) {
-        return new ItemAnimeDetails().createFromJson(json);
-    }
-
     @Override
     public ItemAnimeDetails createFromJson(JSONObject json) {
         super.createFromJson(json);

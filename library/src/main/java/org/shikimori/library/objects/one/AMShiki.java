@@ -10,23 +10,20 @@ import org.shikimori.library.tool.ProjectTool;
 /**
  * Created by LeshiyGS on 30.08.2014.
  */
-public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMShiki> {
+public class AMShiki extends JsonParseable<AMShiki> {
     public String id, name,russianName, nextEpisodeAt, url ,episodes, episodesAired;
     public boolean ongoing, anons;
     protected JSONObject allData;
     protected HelperObj helper;
     public ItemImage image;
     public String poster;
+    public UserRate userRate;
 
     @Override
     public String toString() {
         if (allData != null)
             return allData.toString();
         return "";
-    }
-
-    public static AMShiki create(JSONObject json) {
-        return new AMShiki().createFromJson(json);
     }
 
     @Override
@@ -57,6 +54,9 @@ public class AMShiki extends JsonParseable implements JsonParseable.Creator<AMSh
         image = new ItemImage(json.optJSONObject("image"));
         // use image field instead of this
         poster = ProjectTool.fixUrl(json.optString("image"));
+
+        userRate = new UserRate().create(json.optJSONObject("user_rate"));
+
         return this;
     }
 

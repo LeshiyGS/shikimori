@@ -11,10 +11,6 @@ import org.shikimori.library.objects.one.AMShiki;
 public class ItemMangaShiki extends AMShiki {
     public String nextEpisode,volumes,chapters;
 
-    public static ItemMangaShiki create(JSONObject json) {
-        return new ItemMangaShiki().createFromJson(json);
-    }
-
     @Override
     public ItemMangaShiki createFromJson(JSONObject json) {
         super.createFromJson(json);

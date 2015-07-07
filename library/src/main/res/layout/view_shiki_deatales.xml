@@ -4,16 +4,16 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/svMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/svMain"
-        android:fillViewport="true"
-        android:layout_margin="@dimen/defaultPaddingMini">
+        android:layout_margin="@dimen/defaultPaddingMini"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -27,102 +27,129 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
+                    style="@style/altarixUiText.TextTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:gravity="center_vertical"
-                    style="@style/altarixUiText.TextTitle"
-                    android:minHeight="@dimen/paddingMfcQueueTime"
                     android:layout_alignParentBottom="true"
-                    android:textColor="@color/white_overlay_85"
+                    android:layout_gravity="bottom"
+                    android:background="@color/tool_background_70"
+                    android:gravity="center_vertical"
+                    android:minHeight="@dimen/paddingMfcQueueTime"
                     android:padding="@dimen/defaultPadding"
-                    android:background="@color/tool_background_70" />
+                    android:textColor="@color/white_overlay_85" />
 
                 <TextView
                     android:id="@+id/tvStatus"
+                    style="@style/notyfy_style_blue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_above="@+id/tvTitle"
-                    style="@style/notyfy_style_blue"
-                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:textSize="@dimen/guTextSizeNormal"
-                    />
+                    android:visibility="gone" />
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/llWrapAddList"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/defaultPadding56"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bAddToList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/add_to_list"
+                    android:layout_weight=".9"
+                    android:theme="@style/UiButtonTheme"
+                    />
+
+                <ImageButton
+                    android:id="@+id/bListSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_edit"
+                    android:theme="@style/UiButtonTheme"
+                    />
+
+            </LinearLayout>
+
             <TextView
+                android:id="@+id/tvMenuInfo"
+                style="@style/altarixUiText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvMenuInfo"
-                android:text="@string/info"
-                style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/info"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/llInfo"
-                android:padding="@dimen/defaultPadding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                android:padding="@dimen/defaultPadding" />
 
 
             <TextView
+                android:id="@+id/tvMenuStudios"
+                style="@style/altarixUiText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvMenuStudios"
-                android:text="@string/title_studio"
-                style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/title_studio"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
 
             <org.shikimori.library.custom.ExpandableHeightGridView
                 android:id="@+id/llStudios"
+                android:focusable="false"
+                android:descendantFocusability="afterDescendants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-                <!--android:id="@+id/tvInfo"-->
-                <!--android:textColor="@color/title_black_transparent"-->
-                <!--android:padding="@dimen/defaultPadding" />-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+            <!--android:id="@+id/tvInfo"-->
+            <!--android:textColor="@color/title_black_transparent"-->
+            <!--android:padding="@dimen/defaultPadding" />-->
 
             <TextView
+                android:id="@+id/tvMenuRewiew"
+                style="@style/altarixUiText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvMenuRewiew"
-                android:text="@string/description"
-                style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/description"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/llReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/defaultPadding"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/title_black_transparent"
-                android:padding="@dimen/defaultPadding" />
+                android:textColor="@color/title_black_transparent" />
 
             <TextView
                 android:id="@+id/tvMenuWanted"
+                style="@style/altarixUiText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
-                android:text="@string/wanted_title"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/wanted_title"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
 
 
             <LinearLayout
@@ -137,25 +164,25 @@
 
             <TextView
                 android:id="@+id/tvMenuScore"
+                style="@style/altarixUiText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
-                android:text="@string/rating"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/rating"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
 
             <RatingBar
+                android:id="@+id/rbTitle"
+                style="?android:attr/ratingBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/rbTitle"
                 android:layout_gravity="center"
-                android:focusable="false"
-                android:numStars="5"
-                style="?android:attr/ratingBarStyle"
                 android:layout_margin="10dp"
+                android:focusable="false"
                 android:isIndicator="true"
+                android:numStars="5"
                 android:stepSize="0.01" />
         </LinearLayout>
     </ScrollView>

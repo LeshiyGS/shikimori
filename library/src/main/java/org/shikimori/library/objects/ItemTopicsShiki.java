@@ -23,10 +23,6 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
     public ViewGroup parsedContent;
     public Document doc;
 
-    public static ItemTopicsShiki create(JSONObject json){
-        return new ItemTopicsShiki().createFromJson(json);
-    }
-
     @Override
     public ItemTopicsShiki createFromJson(JSONObject json) {
         if(json == null)
@@ -35,7 +31,7 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
         jsonObject = json.toString();
         commentsCount = json.optInt("comments_count");
         section = new Section(json.optJSONObject("section"));
-        user = new ItemUser(json.optJSONObject("user"));
+        user = new ItemUser().create(json.optJSONObject("user"));
 
         title = HelperObj.getString(json, "title");
         type = HelperObj.getString(json, "type");

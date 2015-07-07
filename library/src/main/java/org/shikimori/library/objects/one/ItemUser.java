@@ -10,13 +10,10 @@ import org.shikimori.library.objects.abs.JsonParseable;
 public class ItemUser extends JsonParseable<ItemUser> {
     public String id, nickname, img64, img148, avatar, lastOnlineAt;
 
-    public static ItemUser create(JSONObject json){
-        return new ItemUser(json);
-    }
-
-    public ItemUser(JSONObject json){
+    @Override
+    public ItemUser createFromJson(JSONObject json) {
         if(json == null)
-            return;
+            return this;
         id = HelperObj.getString(json, "id");
         nickname = HelperObj.getString(json, "nickname");
         avatar = HelperObj.getString(json,"avatar");
@@ -24,10 +21,10 @@ public class ItemUser extends JsonParseable<ItemUser> {
 
         JSONObject image = json.optJSONObject("image");
         if(image == null)
-            return;
+            return this;
 
         img64 = HelperObj.getString(image, "x64");
         img148 = HelperObj.getString(image, "x148");
-
+        return this;
     }
 }

@@ -115,4 +115,6 @@
     <string name="topics">Топики</string>
     <string name="wait_load_data">Подождите ответа от сервера</string>
     <string name="edit">Редактировать</string>
+    <string name="add_to_list">Добавить в список</string>
+    <string name="delete_from_list">Удалить из списка</string>
 </resources>

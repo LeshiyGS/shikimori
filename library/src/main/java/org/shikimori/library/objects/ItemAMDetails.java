@@ -13,10 +13,6 @@ public class ItemAMDetails extends AMDetails {
     public List<String> studios;
     public String volumes, chapters;
 
-    public static ItemAMDetails create(JSONObject json) {
-        return new ItemAMDetails().createFromJson(json);
-    }
-
     @Override
     public ItemAMDetails createFromJson(JSONObject json) {
         super.createFromJson(json);

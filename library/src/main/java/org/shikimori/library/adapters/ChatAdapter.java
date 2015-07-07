@@ -31,6 +31,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
 
     public ChatAdapter(Context context, List<ItemNewsUserShiki> list) {
         super(context, list, R.layout.item_shiki_comments_list, SettingsHolder.class);
+
     }
 
     String formatDate(long date, String format) {

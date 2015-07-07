@@ -63,7 +63,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseActivity> impleme
                 .getResultObject(this);
         } else {
             try {
-                buildView(ItemTopicsShiki.create(new JSONObject(itemCashed)));
+                buildView(new ItemTopicsShiki().createFromJson(new JSONObject(itemCashed)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -72,7 +72,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseActivity> impleme
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        final ItemTopicsShiki item = ItemTopicsShiki.create(res.getResultObject());
+        final ItemTopicsShiki item = new ItemTopicsShiki().createFromJson(res.getResultObject());
         buildView(item);
     }
 

@@ -29,6 +29,8 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.objects.one.UserRate;
+import org.shikimori.library.objects.one.UserRate.Status;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.parser.elements.PostImage;
@@ -43,7 +45,7 @@ import ru.altarix.ui.tool.TextStyling;
 public class ProjectTool {
 
     public enum TYPE{
-        ANIME, MANGA, OFFTOP, CHARACTER
+        ANIME, MANGA, OFFTOP, CHARACTER;
     }
 
     public static String getStatus(Context context, boolean anons, boolean ongoing){
@@ -108,6 +110,24 @@ public class ProjectTool {
         return null;
     }
 
+    public static String getListStatusName(Context context, Status statusName, TYPE type){
+        switch (statusName){
+            case COMPLETED:
+                return type == TYPE.ANIME ? context.getString(R.string.completed) : context.getString(R.string.completedmanga);
+            case DROPPED:
+                return context.getString(R.string.dropped);
+            case ON_HOLD:
+                return context.getString(R.string.on_hold);
+            case PLANNED:
+                return context.getString(R.string.planned);
+            case WATCHING:
+                return type == TYPE.ANIME ? context.getString(R.string.watching) : context.getString(R.string.watchingmanga);
+            case REWATCHING:
+                return type == TYPE.ANIME ? context.getString(R.string.rewatching) : context.getString(R.string.rewatchingmanga);
+        }
+        return null;
+    }
+
     public static String formatDatePost(String cteatedAt){
         return h.getStringDate("dd MMMM yyyy HH:mm",
                 h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", cteatedAt));
@@ -155,6 +175,16 @@ public class ProjectTool {
         else if(url.contains("characters"))
             return TYPE.CHARACTER;
         return null;
+    }
+
+    public static String getStringFromType(TYPE type){
+        if(type == TYPE.ANIME)
+            return "Anime";
+        else if (type == TYPE.MANGA)
+            return "Manga";
+        else if (type == TYPE.CHARACTER)
+            return "Character";
+        return "";
     }
 
     public static Intent getSimpleIntentDetails(Context context, String type){

@@ -1,8 +1,12 @@
 package org.shikimori.library.tool.controllers;
 
+import android.view.View;
+
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.tool.ProjectTool;
 
 /**
  * Created by Владимир on 03.07.2015.
@@ -48,6 +52,18 @@ public class ApiMessageController extends BaseApiController<ApiMessageController
                 .addParam("comment[body]", text);
 
         send(listener);
+    }
+
+    public boolean setRead(View v, boolean read, String id){
+        query.init(ShikiApi.getUrl(ShikiPath.READ_MESSAGE))
+                .setMethod(Query.METHOD.POST)
+                .addParam("is_read", read ? 0 : 1)
+                .addParam("ids", id);
+
+        send(null);
+        read = !read;
+        ProjectTool.setReadOpasity(v, read);
+        return read;
     }
 
 }

@@ -1,7 +1,10 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
+import android.support.v7.internal.widget.AdapterViewCompat;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -13,6 +16,9 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemMangaDetails;
 import org.shikimori.library.tool.h;
+
+import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
+import static org.shikimori.library.tool.ProjectTool.TYPE.MANGA;
 
 
 /**
@@ -38,7 +44,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         super.onQuerySuccess(res);
         if (activity == null)
             return;
-        details = ItemMangaDetails.create(res.getResultObject());
+        details = new ItemMangaDetails().createFromJson(res.getResultObject());
         prepareData();
     }
 
@@ -68,6 +74,10 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         h.setVisibleGone(llStudios);
         // чего хотят пользователи
         buildStateWanted(details.ratesStatusesStats);
+
+        setAddListName(details.userRate, MANGA);
+
+        h.setVisible(llWrapAddList, true);
         // status color and animation
         setStatus(details.anons, details.ongoing);
         // load comments
@@ -92,5 +102,28 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         super.onClick(v);
         if(v.getId() == R.id.ivPoster && details.image!=null)
             activity.getThumbToImage().zoom(ivPoster, details.image.original);
+        else if(v.getId() == R.id.bAddToList){
+            addToListPopup(v, R.menu.add_to_list_anime_menu, details.userRate.id == null, new PopupMenu.OnMenuItemClickListener() {
+
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    query.getLoader().show();
+                    if(item.getItemId() == R.id.delete){
+                        deleteRate(details.userRate.id, details.userRate);
+                        return true;
+                    }
+
+                    AdapterViewCompat.AdapterContextMenuInfo info = (AdapterViewCompat.AdapterContextMenuInfo) item.getMenuInfo();
+                    if((info.position+1) == details.userRate.statusInt)
+                        return true;
+
+                    setRate(info.position+1, details.id, ANIME, details.userRate);
+
+                    return false;
+                }
+            });
+        } else if(v.getId() == R.id.bListSettings){
+
+        }
     }
 }
