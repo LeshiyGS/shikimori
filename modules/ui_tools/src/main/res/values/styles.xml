@@ -39,7 +39,7 @@
 
     <style name="altarixUiLabel" parent="android:Widget.TextView">
         <item name="android:textSize">@dimen/guTextSize12</item>
-        <item name="android:textColor">@color/altarixUiLabelColor</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="altarixUiLabelEditTextStyle" parent="altarixUiLabel.smallWithPaddintLeft">
@@ -90,6 +90,13 @@
         <item name="android:padding">@dimen/defaultPadding</item>
         <!--<item name="android:background">@drawable/mr_back_button</item>-->
         <!--<item name="android:gravity">center</item>-->
+    </style>
+
+    <style name="altarixListViewStyle" parent="@android:style/Widget.ListView">
+        <item name="android:listSelector">@drawable/altarix_ui_selector_simple</item>
+        <item name="android:divider">@color/altarixDivaderColor</item>
+        <item name="android:dividerHeight">1dp</item>
+        <!--<item name="android:listSelector">?attr/selectableItemBackground</item>-->
     </style>
 
 </resources>

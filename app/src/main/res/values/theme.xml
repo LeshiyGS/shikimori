@@ -5,18 +5,15 @@
         <item name="pullColor">@color/greenColor</item>
         <item name="android:textColorLink">@color/lightBlue</item>
         <item name="altarixUiAttrDividerColor">@color/lightBlue</item>
-        <item name="colorAccent">@color/lightBlue</item>
         <item name="altarixUiAttrTabBackgroundColor">@android:color/white</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
-        <!--<item name="android:windowFullscreen">true</item>-->
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBar" tools:ignore="NewApi">false</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColorHint">@color/greenColor</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
     <!--<style name="UiButtonAuthTheme" parent="altarixUiButtonTheme">-->

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent">#959595</color>
     <color name="altarixUiTextColor">#333333</color>
-    <color name="altarixUiLabelColor">#959595</color>
+    <color name="altarixDivaderColor">#999999</color>
+    <color name="altarixUiLabelColor">@color/colorAccent</color>
     <color name="altarixUiHintColor">#959595</color>
-    <color name="altarixUiPressedColor">#90e6ce</color>
+    <color name="altarixUiPressedColor">@color/colorAccent</color>
     <color name="dialog_divider_color">#ff33b5e5</color>
     <color name="altarixUiNormalControl">#959595</color>
     <color name="altarixUiRed">#ff0000</color>

@@ -1,3 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="rating">
+        <item>@string/withoutrating</item>
+        <item>@string/rating1</item>
+        <item>@string/rating2</item>
+        <item>@string/rating3</item>
+        <item>@string/rating4</item>
+        <item>@string/rating5</item>
+        <item>@string/rating6</item>
+        <item>@string/rating7</item>
+        <item>@string/rating8</item>
+        <item>@string/rating9</item>
+        <item>@string/rating10</item>
+    </string-array>
+
+    <string-array name="status_anime">
+        <item>@string/watching</item>
+        <item>@string/planned</item>
+        <item>@string/completed</item>
+        <item>@string/rewatching</item>
+        <item>@string/on_hold</item>
+        <item>@string/dropped</item>
+    </string-array>
+
+    <string-array name="status_manga">
+        <item>@string/reading</item>
+        <item>@string/planned</item>
+        <item>@string/completedmanga</item>
+        <item>@string/rewatchingmanga</item>
+        <item>@string/on_hold</item>
+        <item>@string/dropped</item>
+    </string-array>
+
+
 </resources>

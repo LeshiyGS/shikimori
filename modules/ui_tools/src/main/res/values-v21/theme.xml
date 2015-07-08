@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AltarixUiBaseTeme" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <!--стиль edittext-->
+        <!--<item name="android:editTextStyle">@style/altarixUiEditTextStyle</item>-->
+    </style>
+
+    <style name="AltarixUiBaseTeme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" >
+        <!--стиль edittext-->
+        <!--<item name="android:editTextStyle">@style/altarixUiEditTextStyle</item>-->
+    </style>
+
+</resources>

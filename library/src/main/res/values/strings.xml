@@ -117,4 +117,17 @@
     <string name="edit">Редактировать</string>
     <string name="add_to_list">Добавить в список</string>
     <string name="delete_from_list">Удалить из списка</string>
+
+    <string name="withoutrating">Без оценки</string>
+    <string name="rating1">(1) Хуже некуда</string>
+    <string name="rating2">(2) Ужасно</string>
+    <string name="rating3">(3) Очень плохо</string>
+    <string name="rating4">(4) Плохо</string>
+    <string name="rating5">(5) Более-менее</string>
+    <string name="rating6">(6) Нормально</string>
+    <string name="rating7">(7) Хорошо</string>
+    <string name="rating8">(8) Отлично</string>
+    <string name="rating9">(9) Великолепно</string>
+    <string name="rating10">(10) Эпик вин!</string>
+    <string name="save">Сохранить</string>
 </resources>

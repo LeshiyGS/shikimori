@@ -2,15 +2,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AltarixUiBaseTeme" parent="Theme.AppCompat.Light.DarkActionBar" >
-        <!--стиль edittext-->
-        <!--<item name="android:editTextStyle">@style/altarixUiEditTextStyle</item>-->
+        <!-- что бы при клике цвет менялся на нужный замените @color/altarixUiPressedColor-->
+        <item name="selectableItemBackground">@drawable/altarix_ui_selector_simple</item>
+    </style>
+
+    <style name="AltarixUiBaseTeme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" >
+        <!-- что бы при клике цвет менялся на нужный замените @color/altarixUiPressedColor-->
+        <item name="selectableItemBackground">@drawable/altarix_ui_selector_simple</item>
     </style>
 
 
     <style name="AltarixUiTeme" parent="AltarixUiBaseTeme" >
         <!--стиль текста-->
         <!--<item name="altarixUiAttrEditTextBackgroundStyle">@style/altarixUiEditTextStyle</item>-->
-        <item name="colorAccent">@color/dialog_divider_color</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <!-- Цвет подсветки нажатия -->
         <item name="colorControlHighlight">?attr/colorAccent</item>
         <!--цвет текста-->
@@ -51,13 +56,75 @@
         <item name="colorControlNormal">@color/altarixUiNormalControl</item>
         <!-- style button-->
         <item name="android:buttonStyle">@style/altarixUiButton</item>
+        <!-- dialog theme stuff -->
+        <item name="android:datePickerDialogTheme" tools:ignore="NewApi">@style/AltarixUiTeme.DialogTheme</item>
+        <!-- styles pressed list view -->
+        <item name="android:listViewStyle">@style/altarixListViewStyle</item>
+    </style>
+
+    <style name="AltarixUiTeme.NoActionBar" parent="AltarixUiBaseTeme.NoActionBar" >
+        <!--стиль текста-->
+        <!--<item name="altarixUiAttrEditTextBackgroundStyle">@style/altarixUiEditTextStyle</item>-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Цвет подсветки нажатия -->
+        <item name="colorControlHighlight">?attr/colorAccent</item>
+        <!--цвет текста-->
+        <item name="altarixUiAttrTextColor">@color/altarixUiTextColor</item>
+        <!--цвет hint-->
+        <item name="altarixUiAttrHintColor">@color/altarixUiHintColor</item>
+        <!--цвет текста ошибки-->
+        <item name="altarixUiAttrErrorStyle">?attr/altarixUiAttrErrorStyle</item>
+        <!--стиль нажатия на элемент в нажатом сосотоянии-->
+        <item name="altarixUiAttrBackgroundPressedStyle">@style/altarixUiBackgroundPressedStyle</item>
+        <!--цвет выделения нажатия на элемент-->
+        <item name="altarixUiAttrPressedColor">?attr/colorAccent</item>
+        <!--стиль выделения фона при нажатии на элемент-->
+        <item name="altarixUiAttrSelectorSimpleStyle">@style/altarixUiSelectorSimpleStyle</item>
+        <!-- Стиль табов-->
+        <item name="altarixUiAttrTabStyle">@style/altarixUiTabStyle</item>
+        <!--фон таба он отдельно от таба-->
+        <item name="altarixUiAttrTabBackgroundColor">@color/altarixUiPressedColor</item>
+        <!--фон таба он отдельно от таба-->
+        <item name="altarixUiAttrTabLineColor">@color/altarixUiPressedColor</item>
+        <!-- Цвет фона сружочка когда нажимаешь на иконку-->
+        <item name="altarixUiAttrCirclePressedStyle">@style/altarixUiCirclePressedStyle</item>
+        <!-- Цвет фона сружочка когда нажимаешь на иконку-->
+        <item name="altarixUiAttrSelectorCircleStyle">@style/altarixUiSelectorCircleStyle</item>
+        <!-- Цвет фона сружочка когда нажимаешь на иконку-->
+        <item name="altarixUiAttrLabelColor">@color/altarixUiLabelColor</item>
+        <!-- style label-->
+        <item name="altarixUiAttrLabelStyle">@style/altarixUiLabel</item>
+        <!-- style label title-->
+        <item name="altarixUiAttrLabelTitleStyle">@style/altarixUiText.TextTitle</item>
+        <!-- style date-->
+        <item name="altarixUiAttrDateStyle">@style/text.customDate</item>
+        <!-- style text-->
+        <item name="altarixUiAttrTextStyle">@style/altarixUiText</item>
+        <!-- divider color-->
+        <item name="altarixUiAttrDividerColor">@color/dialog_divider_color</item>
+
+        <item name="colorControlNormal">@color/altarixUiNormalControl</item>
+        <!-- style button-->
+        <item name="android:buttonStyle">@style/altarixUiButton</item>
+        <!-- dialog theme stuff -->
+        <item name="android:datePickerDialogTheme" tools:ignore="NewApi">@style/AltarixUiTeme.DialogTheme</item>
+        <!-- styles pressed list view -->
+        <item name="android:listViewStyle">@style/altarixListViewStyle</item>
 
     </style>
 
     <style name="altarixUiButtonTheme" parent="AltarixUiTeme">
-        <item name="colorButtonNormal">?attr/colorAccent</item>
-        <item name="colorControlHighlight">?attr/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/guTextSizeTitle</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:textColor">@color/white_overlay_80</item>
+        <item name="android:padding">@dimen/defaultPadding</item>
+        <item name="colorControlHighlight">@color/black_owerlay_40</item>
+        <item name="android:gravity">center</item>
     </style>
 
+    <!-- Styles for pop-up dialogs -->
+    <style name="AltarixUiTeme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>
