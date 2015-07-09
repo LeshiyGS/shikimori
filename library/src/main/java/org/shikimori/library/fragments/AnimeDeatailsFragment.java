@@ -20,6 +20,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
 import org.shikimori.library.objects.one.Studio;
+import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -30,7 +31,7 @@ import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class AnimeDeatailsFragment extends AMDeatailsFragment {
+public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRateDialogFragment.ControllListenerRate {
 
     private ItemAnimeDetails details;
 
@@ -128,7 +129,10 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
                 }
             });
         } else if(v.getId() == R.id.bListSettings){
-
+            AddRateDialogFragment frag = AddRateDialogFragment.newInstance();
+            frag.setUpdateListener(this);
+            frag.setType(ANIME);
+            frag.show(activity.getFragmentManagerLocal(), "");
         }
     }
 
@@ -151,5 +155,15 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             h.setVisibleGone(tvMenuStudios);
             h.setVisibleGone(llStudios);
         }
+    }
+
+    @Override
+    public UserRate getRateUser() {
+        return details.userRate;
+    }
+
+    @Override
+    public void updateRateFromDialog() {
+
     }
 }

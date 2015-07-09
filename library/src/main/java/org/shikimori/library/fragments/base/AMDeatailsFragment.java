@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.fragments.AddRateDialogFragment;
 import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -52,7 +53,8 @@ import ru.altarix.ui.CustomTextView;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener {
+public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
+        implements Query.OnQuerySuccessListener, View.OnClickListener{
 
     private String itemId;
     protected ScrollView svMain;

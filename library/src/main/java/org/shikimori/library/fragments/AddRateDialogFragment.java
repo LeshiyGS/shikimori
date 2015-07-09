@@ -1,5 +1,6 @@
 package org.shikimori.library.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import org.shikimori.library.R;
+import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.h;
 
@@ -22,6 +24,12 @@ public class AddRateDialogFragment extends DialogFragment {
     private ProjectTool.TYPE type;
 
     CustomSpinner csRating, csStatus;
+    private ControllListenerRate controllListener;
+    private ControllListenerRate listener;
+
+    public static AddRateDialogFragment newInstance(){
+        return new AddRateDialogFragment();
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,5 +68,14 @@ public class AddRateDialogFragment extends DialogFragment {
 
     public void setType(ProjectTool.TYPE type){
         this.type = type;
+    }
+
+    public void setUpdateListener(ControllListenerRate listener){
+        this.listener = listener;
+    }
+
+    public interface ControllListenerRate{
+        public UserRate getRateUser();
+        public void updateRateFromDialog();
     }
 }

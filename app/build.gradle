@@ -57,8 +57,26 @@ dependencies {
 //    compile 'com.github.nicolasjafelle:paginglistview:1.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
 //    compile project(":modules:easyAdapter")
-    compile project(":modules:ui_tools")
+//    compile project(":modules:ui_tools")
     compile project(":modules:PinnedSectionAdapter")
     compile project(":modules:PhotoView")
+    fileTree("../modules_aar").visit { FileVisitDetails details ->
+        String _name = details.file.name.replace(".aar", "")
+        println "name id: " +name
+        compileAltarixModule(_name, "0")
+
+    }
 //    compile project(":modules:tabunAC")
+}
+
+def compileAltarixModuleExt(nameD, versionD, extName) {
+    project.dependencies.compile('org:' + nameD) {
+        artifact {
+            name = (extName != null ? extName : nameD)
+            type = 'aar'
+        }
+    }
+}
+def compileAltarixModule(nameD, versionD) {
+    compileAltarixModuleExt(nameD, versionD, null)
 }

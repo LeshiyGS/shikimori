@@ -2,7 +2,7 @@ include ':app',
         ':library',
 //        ':extention',
 //        ":modules:easyAdapter",
-        ":modules:ui_tools",
+//        ":modules:ui_tools",
         ":modules:PinnedSectionAdapter",
         ":modules:PhotoView"
 //        ":myPaggingListView"

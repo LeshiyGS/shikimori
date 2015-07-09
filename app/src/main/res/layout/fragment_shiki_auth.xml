@@ -38,7 +38,7 @@
             android:id="@+id/tvLoginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/UiButtonTheme"
+            android:theme="@style/altarixUiButton"
             android:text="@string/enter"/>
 
     </LinearLayout>

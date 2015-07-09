@@ -1,76 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ui="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal">
-        <ru.altarix.ui.CustomEditText
-            android:id="@+id/cetEpisodes"
+        android:padding="@dimen/defaultPaddingMini"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/episodes"
-            android:layout_marginRight="@dimen/defaultPadding"
-            android:layout_weight=".9"/>
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/bMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_action_up"
-            android:theme="@style/UiButtonTheme"
+            <ru.altarix.ui.CustomEditText
+                android:id="@+id/cetEpisodes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/defaultPadding"
+                android:layout_weight=".9"
+                android:hint="@string/episodes" />
+
+            <ImageButton
+                android:id="@+id/bMinus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_action_up"
+                android:theme="@style/altarixUiButtonTheme"
+                android:padding="@dimen/defaultPadding4"/>
+
+            <ImageButton
+                android:id="@+id/bPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_action_down"
+                android:theme="@style/altarixUiButtonTheme"
+                android:padding="@dimen/defaultPadding4"/>
+
+        </LinearLayout>
+
+        <ru.altarix.ui.CustomSpinner
+            android:id="@+id/csRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/rating"
+            ui:uiArray="@array/rating" />
+
+        <ru.altarix.ui.CustomSpinner
+            android:id="@+id/csStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/status" />
+
+        <TextView
+            style="@style/altarixUiLabel.mini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/defaultPadding4"
+            android:text="@string/comments" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/etComment"
+            android:paddingTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
             />
 
-        <ImageButton
-            android:id="@+id/bPlus"
+        <TextView
+            android:id="@+id/bSave"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_action_down"
-            android:theme="@style/UiButtonTheme"
-            />
+            android:layout_height="wrap_content"
+            style="@style/altarixUiButton"
+            android:background="?attr/selectableItemBackground"
+            android:textColor="@color/colorAccent"
+            android:layout_gravity="right"
+            android:text="@string/save" />
 
     </LinearLayout>
-    
-    <ru.altarix.ui.CustomSpinner
-        android:id="@+id/csRating"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/rating"
-        ui:uiArray="@array/rating"
-        />
-
-    <ru.altarix.ui.CustomSpinner
-        android:id="@+id/csStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/status"
-        ui:uiArray="@array/rating"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/altarixUiLabel.mini"
-        android:text="@string/comments"
-        />
-
-    <android.support.v7.widget.AppCompatEditText
-        android:id="@+id/etComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="5"
-        />
-
-    <Button
-        android:id="@+id/bSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/altarixUiButtonTheme"
-        android:text="@string/save"/>
-
-</LinearLayout>
+</ScrollView>

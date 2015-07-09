@@ -63,7 +63,7 @@
                     android:layout_height="match_parent"
                     android:text="@string/add_to_list"
                     android:layout_weight=".9"
-                    android:theme="@style/UiButtonTheme"
+                    android:theme="@style/altarixUiButtonTheme"
                     />
 
                 <ImageButton
@@ -71,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_edit"
-                    android:theme="@style/UiButtonTheme"
+                    android:theme="@style/altarixUiButtonTheme"
                     />
 
             </LinearLayout>

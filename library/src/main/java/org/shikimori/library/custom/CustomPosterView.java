@@ -37,8 +37,8 @@ public class CustomPosterView extends CustomTextView {
     protected void init(AttributeSet attrs) {
         super.init(attrs);
 
-        ivImage.setOnClickListener(this);
-        ivImage.setOnTouchListener(h.getImageHighlight);
+        getIcon().setOnClickListener(this);
+        getIcon().setOnTouchListener(h.getImageHighlight);
     }
 
     @Override
