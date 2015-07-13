@@ -1,8 +1,6 @@
 package org.shikimori.library.fragments;
 
 import android.os.Bundle;
-import android.support.v7.internal.widget.AdapterViewCompat;
-import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +14,7 @@ import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemMangaDetails;
+import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.h;
 
 import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
@@ -25,7 +24,7 @@ import static org.shikimori.library.tool.ProjectTool.TYPE.MANGA;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLoadInterface{
+public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLoadInterface, AddRateDialogFragment.ControllListenerRate {
 
     private ItemMangaDetails details;
 
@@ -88,7 +87,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         getView().post(new Runnable() {
             @Override
             public void run() {
-                svMain.scrollTo(0,0);
+                svMain.scrollTo(0, 0);
             }
         });
     }
@@ -101,14 +100,14 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if(v.getId() == R.id.ivPoster && details.image!=null)
+        if (v.getId() == R.id.ivPoster && details.image != null)
             activity.getThumbToImage().zoom(ivPoster, details.image.original);
-        else if(v.getId() == R.id.bAddToList){
+        else if (v.getId() == R.id.bAddToList) {
             addToListPopup(v, R.menu.add_to_list_manga_menu, details.userRate, new OnNewMenuListener() {
 
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if(item.getItemId() == R.id.delete){
+                    if (item.getItemId() == R.id.delete) {
                         deleteRate(details.userRate.id, details.userRate, MANGA);
                         return true;
                     }
@@ -119,8 +118,22 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
                     return false;
                 }
             });
-        } else if(v.getId() == R.id.bListSettings){
-
+        } else if (v.getId() == R.id.bListSettings) {
+            AddRateDialogFragment frag = AddRateDialogFragment.newInstance();
+            frag.setUpdateListener(this);
+            frag.setType(MANGA);
+            frag.show(activity.getFragmentManagerLocal(), "");
         }
+    }
+
+    @Override
+    public UserRate getRateUser() {
+        return details.userRate;
+    }
+
+    @Override
+    public void updateRateFromDialog() {
+        setRate(details.id, MANGA, details.userRate);
+        setAddListName(details.userRate, MANGA);
     }
 }

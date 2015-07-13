@@ -242,12 +242,16 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
      * @param rate если уже есть список передаем его
      */
     protected void setRate(int status, String targetId, ProjectTool.TYPE type, final UserRate rate){
-        invalidate();
-        apiRateController.init();
-
         // update object rate
         rate.status = UserRate.Status.fromInt(status);
         rate.statusInt = status;
+        setRate(targetId, type, rate);
+    }
+
+
+    protected void setRate(String targetId, ProjectTool.TYPE type, final UserRate rate){
+        invalidate();
+        apiRateController.init();
 
         // set button name
         setAddListName(rate, type);

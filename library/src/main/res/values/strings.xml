@@ -24,6 +24,7 @@
     <string name="seeing">Просмотренно %1$d / %2$d</string>
     <string name="reading">Прочитано %1$d / %2$d</string>
     <string name="episodes">Эпизоды:</string>
+    <string name="episodes_title">Эпизоды</string>
     <string name="male">муж</string>
     <string name="female">жен</string>
     <string name="years">лет:</string>
@@ -65,6 +66,7 @@
     <string name="friends">Друзья</string>
     <string name="statistics">Статистика</string>
     <string name="status">Статус: </string>
+    <string name="status_title">Статус</string>
     <string name="all">Все</string>
     <string name="all_topics">Все топики сайта</string>
     <string name="characters">Персонажи</string>
@@ -74,6 +76,7 @@
     <string name="reviews">Обзоры</string>
     <string name="polls">Опросы</string>
     <string name="comments">Комментарии</string>
+    <string name="comment">Комментарий</string>
     <string name="discus_anime">Обсуждение аниме</string>
     <string name="discus_manga">Обсуждение манги</string>
     <string name="open_details">Открыть детали</string>

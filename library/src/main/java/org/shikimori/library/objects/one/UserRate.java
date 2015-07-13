@@ -9,7 +9,7 @@ import org.shikimori.library.objects.abs.JsonParseable;
  */
 public class UserRate extends JsonParseable<UserRate> {
     public String id, text, chapters, volumes, textHtml;
-    public int score, episodes, rewatches,statusInt;
+    public int score, rewatches,statusInt,episodes;
     public Status status = Status.NONE;
 
     @Override

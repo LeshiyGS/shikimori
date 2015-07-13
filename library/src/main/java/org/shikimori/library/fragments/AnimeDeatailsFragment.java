@@ -164,6 +164,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRate
 
     @Override
     public void updateRateFromDialog() {
-
+        setRate(details.id, ANIME, details.userRate);
+        setAddListName(details.userRate, ANIME);
     }
 }

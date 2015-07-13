@@ -21,13 +21,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/defaultPadding"
                 android:layout_weight=".9"
-                android:hint="@string/episodes" />
+                android:inputType="number"
+                android:hint="@string/episodes_title" />
 
             <ImageButton
                 android:id="@+id/bMinus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_up"
+                android:src="@drawable/ic_action_down"
                 android:theme="@style/altarixUiButtonTheme"
                 android:padding="@dimen/defaultPadding4"/>
 
@@ -35,7 +36,7 @@
                 android:id="@+id/bPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_action_down"
+                android:src="@drawable/ic_action_up"
                 android:theme="@style/altarixUiButtonTheme"
                 android:padding="@dimen/defaultPadding4"/>
 
@@ -52,22 +53,21 @@
             android:id="@+id/csStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/status" />
+            android:hint="@string/status_title" />
 
-        <TextView
-            style="@style/altarixUiLabel.mini"
+        <ru.altarix.ui.CustomEditText
+            android:id="@+id/cetRewatching"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/defaultPadding4"
-            android:text="@string/comments" />
+            android:inputType="number"
+            android:hint="@string/rewatching" />
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/etComment"
-            android:paddingTop="0dp"
+
+        <ru.altarix.ui.CustomEditText
+            android:id="@+id/cetComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            />
+            android:hint="@string/comment" />
 
         <TextView
             android:id="@+id/bSave"

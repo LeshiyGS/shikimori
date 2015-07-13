@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorAccent">#03A9F4</color>
-    <color name="colorLabels">#959595</color>
+    <color name="altarixUiLabelColor">#959595</color>
 </resources>
