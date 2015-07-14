@@ -32,7 +32,7 @@ import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRateDialogFragment.ControllListenerRate {
+public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
     private ItemAnimeDetails details;
 
@@ -89,9 +89,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRate
         setStudios(R.string.title_studio, details.studios);
         buildStateWanted(details.ratesStatusesStats);
 
-        setAddListName(details.userRate, ANIME);
-
         h.setVisible(llWrapAddList, true);
+        llWrapAddList.setRate(details.id, details.userRate, ANIME);
 
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
@@ -114,21 +113,6 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRate
         super.onClick(v);
         if(v.getId() == R.id.ivPoster && details.image!=null)
             activity.getThumbToImage().zoom(ivPoster, details.image.original);
-        else if(v.getId() == R.id.bAddToList){
-            addToListPopup(v, R.menu.add_to_list_anime_menu, details.userRate, new OnNewMenuListener() {
-
-                @Override
-                public boolean onMenuItemClick(PopupMenu menu, MenuItem menuItem) {
-                    setRate(menuItem.getItemId(), details.id, ANIME, details.userRate);
-                    return true;
-                }
-            });
-        } else if(v.getId() == R.id.bListSettings){
-            AddRateDialogFragment frag = AddRateDialogFragment.newInstance();
-            frag.setUpdateListener(this);
-            frag.setType(ANIME);
-            frag.show(activity.getFragmentManagerLocal(), "");
-        }
     }
 
     /**
@@ -143,7 +127,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRate
             llStudios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    h.showMsg(activity, "test");
+//                    h.showMsg(activity, "test");
                 }
             });
         } else {
@@ -152,14 +136,4 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRate
         }
     }
 
-    @Override
-    public UserRate getRateUser() {
-        return details.userRate;
-    }
-
-    @Override
-    public void updateRateFromDialog() {
-        setRate(details.id, ANIME, details.userRate);
-        setAddListName(details.userRate, ANIME);
-    }
 }

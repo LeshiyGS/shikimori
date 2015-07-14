@@ -24,7 +24,7 @@ import static org.shikimori.library.tool.ProjectTool.TYPE.MANGA;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLoadInterface, AddRateDialogFragment.ControllListenerRate {
+public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLoadInterface {
 
     private ItemMangaDetails details;
 
@@ -75,7 +75,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         // чего хотят пользователи
         buildStateWanted(details.ratesStatusesStats);
 
-        setAddListName(details.userRate, MANGA);
+        llWrapAddList.setRate(details.id, details.userRate, MANGA);
 
         h.setVisible(llWrapAddList, true);
         // status color and animation
@@ -102,31 +102,6 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
             activity.getThumbToImage().zoom(ivPoster, details.image.original);
-        else if (v.getId() == R.id.bAddToList) {
-            addToListPopup(v, R.menu.add_to_list_manga_menu, details.userRate, new OnNewMenuListener() {
-
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    setRate(item.getItemId(), details.id, MANGA, details.userRate);
-                    return true;
-                }
-            });
-        } else if (v.getId() == R.id.bListSettings) {
-            AddRateDialogFragment frag = AddRateDialogFragment.newInstance();
-            frag.setUpdateListener(this);
-            frag.setType(MANGA);
-            frag.show(activity.getFragmentManagerLocal(), "");
-        }
     }
 
-    @Override
-    public UserRate getRateUser() {
-        return details.userRate;
-    }
-
-    @Override
-    public void updateRateFromDialog() {
-        setRate(details.id, MANGA, details.userRate);
-        setAddListName(details.userRate, MANGA);
-    }
 }

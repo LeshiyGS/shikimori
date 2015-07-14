@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/defaultPadding56"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bAddToList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".9"
+            android:text="@string/add_to_list"
+            android:theme="@style/altarixUiButtonTheme" />
+
+        <ImageButton
+            android:id="@+id/bListSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_edit"
+            android:theme="@style/altarixUiButtonTheme" />
+
+        <ImageButton
+            android:id="@+id/bListPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_action_up"
+            android:theme="@style/altarixUiButtonTheme" />
+    </LinearLayout>
+</FrameLayout>
