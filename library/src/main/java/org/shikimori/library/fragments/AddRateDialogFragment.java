@@ -63,8 +63,6 @@ public class AddRateDialogFragment extends DialogFragment implements View.OnClic
         else
             csStatus.setList(getActivity().getResources().getStringArray(R.array.status_manga));
 
-
-
         if (listener != null) {
             UserRate rate = listener.getRateUser();
             csStatus.setSelection(ProjectTool.getListPositionFromStatus(rate.status));

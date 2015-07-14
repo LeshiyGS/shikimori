@@ -50,31 +50,10 @@
                     android:visibility="gone" />
             </RelativeLayout>
 
-            <LinearLayout
+            <org.shikimori.library.custom.CustomAddRateView
                 android:id="@+id/llWrapAddList"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/defaultPadding56"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/bAddToList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/add_to_list"
-                    android:layout_weight=".9"
-                    android:theme="@style/altarixUiButtonTheme"
-                    />
-
-                <ImageButton
-                    android:id="@+id/bListSettings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_edit"
-                    android:theme="@style/altarixUiButtonTheme"
-                    />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvMenuInfo"

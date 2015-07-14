@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.custom.CustomAddRateView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.AddRateDialogFragment;
 import org.shikimori.library.interfaces.OnNewMenuListener;
@@ -65,10 +66,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     protected RatingBar rbTitle;
     protected ViewGroup llInfo, llWanted;
     protected ExpandableHeightGridView llStudios;
-    private Button bAddToList;
-    private ImageButton bListSettings;
     protected ApiRatesController apiRateController;
-    protected View llWrapAddList;
+    protected CustomAddRateView llWrapAddList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,13 +84,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
         tvMenuStudios = (TextView) v.findViewById(R.id.tvMenuStudios);
         llStudios = (ExpandableHeightGridView) v.findViewById(R.id.llStudios);
         llWanted = (ViewGroup) v.findViewById(R.id.llWanted);
-        bAddToList =  find(R.id.bAddToList);
-        bListSettings =  find(R.id.bListSettings);
         llWrapAddList =  find(R.id.llWrapAddList);
-
-        bAddToList.setOnClickListener(this);
-        bListSettings.setOnClickListener(this);
-
 
         ivPoster.setOnTouchListener(h.getImageHighlight);
         return v;
@@ -107,6 +100,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        llWrapAddList.initParams(activity, getUserId());
         initArgiments();
         if(itemId == null)
             return;
@@ -203,96 +197,103 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     };
 
 
-    protected void addToListPopup(View v, int menu, UserRate rate, OnNewMenuListener listener){
-        PopupMenu popupMenu = new PopupMenu(activity, v, Gravity.CENTER_VERTICAL);
-        popupMenu.inflate(menu);
-        if(rate.id == null){
-            popupMenu.getMenu().removeItem(R.id.delete);
-        } else {
-            int idMenu = ProjectTool.getItemIdFromStatus(rate.status);
-            if(idMenu > 0)
-                popupMenu.getMenu().removeItem(idMenu);
-        }
-        listener.setMenu(popupMenu);
-        popupMenu.setOnMenuItemClickListener(listener);
-        popupMenu.show();
-    }
-
-    /**
-     * Name of
-     * @param rate
-     */
-    protected void setAddListName(UserRate rate, ProjectTool.TYPE type){
-        String name = ProjectTool.getListStatusName(activity, rate.status, type);
-        if(name == null)
-            name = activity.getString(R.string.add_to_list);
-        if(rate.status == UserRate.Status.WATCHING ||
-                rate.status == UserRate.Status.REWATCHING  )
-            h.setVisible(bListSettings, true);
-        else
-            h.setVisibleGone(bListSettings);
-        bAddToList.setText(name);
-    }
+//    protected void addToListPopup(View v, int menu, UserRate rate, OnNewMenuListener listener){
+//        PopupMenu popupMenu = new PopupMenu(activity, v, Gravity.CENTER_VERTICAL);
+//        popupMenu.inflate(menu);
+//        if(rate.id == null){
+//            popupMenu.getMenu().removeItem(R.id.delete);
+//        } else {
+//            int idMenu = ProjectTool.getItemIdFromStatus(rate.status);
+//            if(idMenu > 0)
+//                popupMenu.getMenu().removeItem(idMenu);
+//        }
+//        listener.setMenu(popupMenu);
+//        popupMenu.setOnMenuItemClickListener(listener);
+//        popupMenu.show();
+//    }
+//
+//    /**
+//     * Name of
+//     * @param rate
+//     */
+//    protected void setAddListName(UserRate rate, ProjectTool.TYPE type){
+//        String name = ProjectTool.getListStatusName(activity, rate.status, type);
+//        if(name == null)
+//            name = activity.getString(R.string.add_to_list);
+//        else if(rate.status != UserRate.Status.COMPLETED){
+//            StringBuilder str = new StringBuilder(name)
+//                .append(" - ")
+//                .append(rate.episodes)
+//            ;
+//            name = str.toString();
+//        }
+//        if(rate.status == UserRate.Status.WATCHING ||
+//                rate.status == UserRate.Status.REWATCHING  )
+//            h.setVisible(bListSettings, true);
+//        else
+//            h.setVisibleGone(bListSettings);
+//        bAddToList.setText(name);
+//    }
 
     @Override
     public void onClick(View v) {
 
     }
-
-    /**
-     * Обновление "добавить в список"
-     * @param itemId id menu
-     * @param targetId id anime or manga
-     * @param type anime or manga
-     * @param rate если уже есть список передаем его
-     */
-    protected void setRate(int itemId, String targetId, ProjectTool.TYPE type, final UserRate rate){
-        if(itemId == R.id.delete){
-            deleteRate(rate.id, rate, type);
-            return;
-        }
-        // update object rate
-        rate.status = ProjectTool.getListStatusValue(itemId);
-        rate.statusInt = UserRate.Status.fromStatus(rate.status);
-        setRate(targetId, type, rate);
-    }
-
-
-    protected void setRate(String targetId, ProjectTool.TYPE type, final UserRate rate){
-        invalidate();
-        apiRateController.init();
-
-        // set button name
-        setAddListName(rate, type);
-        apiRateController.setUserRate(rate);
-        // create rate
-        if(rate.id==null){
-            query.getLoader().show();
-            apiRateController.createRate(getUserId(), targetId, type, new Query.OnQuerySuccessListener() {
-                @Override
-                public void onQuerySuccess(StatusResult res) {
-                    rate.createFromJson(res.getResultObject());
-                    query.getLoader().hide();
-                }
-            });
-        // update rate
-        } else {
-            apiRateController.updateRate(rate.id);
-        }
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + ShikiUser.USER_ID);
-    }
-
-    /**
-     * Remove rate from user list
-     * @param id
-     * @param userRate
-     */
-    protected void deleteRate(String id, UserRate userRate, ProjectTool.TYPE type){
-        invalidate();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + ShikiUser.USER_ID);
-        apiRateController.deleteRate(id);
-        userRate.id = null;
-        userRate.status = UserRate.Status.NONE;
-        setAddListName(userRate, type);
-    }
+//
+//    /**
+//     * Обновление "добавить в список"
+//     * @param itemId id menu
+//     * @param targetId id anime or manga
+//     * @param type anime or manga
+//     * @param rate если уже есть список передаем его
+//     */
+//    protected void setRate(int itemId, String targetId, ProjectTool.TYPE type, final UserRate rate){
+//        if(itemId == R.id.delete){
+//            deleteRate(rate.id, rate, type);
+//            return;
+//        }
+//        // update object rate
+//        rate.status = ProjectTool.getListStatusValue(itemId);
+//        rate.statusInt = UserRate.Status.fromStatus(rate.status);
+//        setRate(targetId, type, rate);
+//    }
+//
+//
+//    protected void setRate(String targetId, ProjectTool.TYPE type, final UserRate rate){
+//        invalidate();
+//        apiRateController.init();
+//
+//        // set button name
+//        setAddListName(rate, type);
+//        apiRateController.setUserRate(rate);
+//        // create rate
+//        if(rate.id==null){
+//            query.getLoader().show();
+//            apiRateController.createRate(getUserId(), targetId, type, new Query.OnQuerySuccessListener() {
+//                @Override
+//                public void onQuerySuccess(StatusResult res) {
+//                    rate.createFromJson(res.getResultObject());
+//                    query.getLoader().hide();
+//                }
+//            });
+//        // update rate
+//        } else {
+//            apiRateController.updateRate(rate.id);
+//        }
+//        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + ShikiUser.USER_ID);
+//    }
+//
+//    /**
+//     * Remove rate from user list
+//     * @param id
+//     * @param userRate
+//     */
+//    protected void deleteRate(String id, UserRate userRate, ProjectTool.TYPE type){
+//        invalidate();
+//        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + ShikiUser.USER_ID);
+//        apiRateController.deleteRate(id);
+//        userRate.id = null;
+//        userRate.status = UserRate.Status.NONE;
+//        setAddListName(userRate, type);
+//    }
 }
