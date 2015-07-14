@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.fragments.AddRateDialogFragment;
+import org.shikimori.library.fragments.dialogs.AddRateDialogFragment;
 import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;

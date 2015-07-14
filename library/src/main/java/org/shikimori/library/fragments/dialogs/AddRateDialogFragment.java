@@ -1,4 +1,4 @@
-package org.shikimori.library.fragments;
+package org.shikimori.library.fragments.dialogs;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -19,9 +19,8 @@ import ru.altarix.ui.CustomSpinner;
 /**
  * Created by Феофилактов on 08.07.2015.
  */
-public class AddRateDialogFragment extends DialogFragment implements View.OnClickListener {
+public class AddRateDialogFragment extends BaseDialogFragment implements View.OnClickListener {
     private LayoutInflater inflater;
-    private int title;
     private ProjectTool.TYPE type;
 
     CustomSpinner csRating, csStatus;
@@ -35,8 +34,6 @@ public class AddRateDialogFragment extends DialogFragment implements View.OnClic
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initTitle();
-
         this.inflater = inflater;
         View v = inflater.inflate(R.layout.add_rate_dialog_fragment, null);
 
@@ -72,18 +69,6 @@ public class AddRateDialogFragment extends DialogFragment implements View.OnClic
             cetEpisodes.setText(String.valueOf(rate.episodes));
         }
 
-    }
-
-    private void initTitle() {
-        if (title != 0)
-            getDialog().setTitle(title);
-        else
-            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
-    }
-
-    public void setTitle(int title) {
-        this.title = title;
     }
 
     public void setType(ProjectTool.TYPE type) {

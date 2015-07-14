@@ -2,15 +2,9 @@ package org.shikimori.library.fragments.base;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.v7.widget.PopupMenu;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
@@ -26,16 +20,11 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.CustomAddRateView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
-import org.shikimori.library.fragments.AddRateDialogFragment;
-import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.RatesStatusesStats;
-import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
@@ -44,13 +33,10 @@ import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ApiRatesController;
 import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import java.util.List;
 
 import ru.altarix.ui.CustomTextView;
-
-import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 
 
 /**
