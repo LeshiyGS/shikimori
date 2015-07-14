@@ -19,6 +19,8 @@ public class Constants {
     public static final String ITEM_OBJECT = "item_object";
     public static final String PAGE_EXTRA_LOAD = "page_extra_load";
 
+    public static final String DISSCUSION_TYPE = "disscusion_type";
+
     // type topic type
     public static final String ANIME = "anime";
     public static final String ANIMANGACOMMENT = "AniMangaComment";

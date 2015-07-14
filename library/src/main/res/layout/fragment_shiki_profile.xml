@@ -27,12 +27,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingLeft="@dimen/defaultPadding"
-                    android:paddingRight="@dimen/defaultPaddingMini">
+                    android:paddingRight="@dimen/defaultPaddingMini"
+                    android:paddingBottom="@dimen/defaultPadding">
 
                     <ImageView
                         android:id="@+id/ava"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:scaleType="centerCrop" />
 
                     <ru.altarix.ui.CustomIconButton
@@ -179,6 +180,17 @@
                     </FrameLayout>
                 </RelativeLayout>
 
+                <TextView
+                    android:id="@+id/tvMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu"
+                    style="@style/altarixUiText"
+                    android:textColor="@color/title_black_transparent"
+                    android:textStyle="bold"
+                    android:padding="@dimen/defaultPadding"
+                    android:background="@color/white_overlay_85" />
+
                 <org.shikimori.library.custom.ExpandableHeightGridView
                     android:id="@+id/gvBodyProfile"
                     android:layout_width="match_parent"
@@ -188,6 +200,16 @@
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth" />
 
+                <TextView
+                    android:id="@+id/tvMenuAbout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_me"
+                    style="@style/altarixUiText"
+                    android:textColor="@color/title_black_transparent"
+                    android:textStyle="bold"
+                    android:padding="@dimen/defaultPadding"
+                    android:background="@color/white_overlay_85" />
 
                 <LinearLayout
                     android:id="@+id/aboutHtml"

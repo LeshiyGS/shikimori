@@ -2,6 +2,7 @@ package org.shikimori.client;
 
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,8 +23,10 @@ import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.fragments.CalendarFragment;
 import org.shikimori.library.fragments.CommunityClubsFragment;
 import org.shikimori.library.fragments.CommunityUsersFragment;
+import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
@@ -39,6 +42,8 @@ public class DrawerTool {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerAdapter mDrawerAdapter;
     private int launchId =-1;
+
+    private Bundle b = new Bundle();
 
     public DrawerTool(BaseActivity context){
         this.activity = context;
@@ -139,7 +144,20 @@ public class DrawerTool {
         if (pageId == DrawerAdapter.DRAWER_MENU_CALENDAR_ID) {
             frag = CalendarShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_PROFILE_ID) {
-            frag = ProfileShikiFragment.newInstance();
+
+            b.putString(Constants.TREAD_ID, activity.getShikiUser().getId());
+            b.putBoolean(Constants.DISSCUSION_TYPE, true);
+
+            String[] titles = new String[]{ activity.getString(R.string.info), activity.getString(R.string.lenta)};
+            ArrayList<Fragment> pageList = new ArrayList<>();
+            pageList.add(ProfileShikiFragment.newInstance());
+            pageList.add(DiscusionFragment.newInstance(b));
+            frag = PagerAdapterFragment.newInstance(
+                    activity.getString(R.string.profile),
+                    pageList,
+                    titles
+            );
+            //frag = ProfileShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_ANIME_ID) {
             frag = AnimesShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_MANGA_ID) {

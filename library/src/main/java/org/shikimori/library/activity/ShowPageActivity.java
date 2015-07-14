@@ -60,7 +60,10 @@ public class ShowPageActivity extends PageActivity {
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
             showPages();
         } else if(page == USER_PROFILE){
-            loadPage(ProfileShikiFragment.newInstance(params));
+            addPageFragment(ProfileShikiFragment.newInstance(params), R.string.info);
+            addPageFragment(DiscusionFragment.newInstance(params), R.string.lenta);
+            showPages();
+            //loadPage(ProfileShikiFragment.newInstance(params));
         } else if(page == CLUB_PAGE){
             addPageFragment(ClubDetailsFragment.newInstance(params), R.string.description);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);

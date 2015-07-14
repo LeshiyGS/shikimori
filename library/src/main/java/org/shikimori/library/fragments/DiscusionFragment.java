@@ -38,6 +38,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class DiscusionFragment extends BaseListViewFragment implements ExtraLoadInterface, View.OnClickListener {
 
     private String treadId;
+    private Boolean disscusion_type;
+    private String disType;
     BodyBuild bodyBuilder;
     private EditText etMessage;
     View ivSend;
@@ -102,6 +104,18 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     private void initParams() {
         if (treadId == null)
             treadId = getParam(Constants.TREAD_ID);
+
+        if (disscusion_type == null)
+            disscusion_type = getParam(Constants.DISSCUSION_TYPE);
+
+        if (disscusion_type != null){
+            if (disscusion_type == false)
+                disType = "Entry";
+            else
+                disType = "User";
+        }else{
+            disType = "Entry";
+        }
     }
 
     @Override
@@ -114,6 +128,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     void clearData() {
         ContentValues cv = new ContentValues();
         cv.put("commentable_id", treadId);
+        cv.put("commentable_type", disType);
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
         messageController.clearUpdateId();
     }
@@ -124,7 +139,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
             return;
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
                 .addParam("commentable_id", treadId)
-                .addParam("commentable_type", "Entry")
+                .addParam("commentable_type", disType)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("desc", "1")
