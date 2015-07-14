@@ -73,11 +73,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/altarixUiText"
-            android:layout_below="@+id/tvStatus"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignLeft="@+id/tvRusName"
-            android:layout_alignStart="@+id/tvRusName" />
+            android:layout_alignStart="@+id/tvRusName"
+            android:layout_below="@+id/tvRusName"
+            android:layout_marginTop="10dp" />
 
     </RelativeLayout>
 </FrameLayout>
