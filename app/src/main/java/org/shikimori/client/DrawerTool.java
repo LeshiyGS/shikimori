@@ -146,7 +146,7 @@ public class DrawerTool {
         } else if (pageId == DrawerAdapter.DRAWER_MENU_PROFILE_ID) {
 
             b.putString(Constants.TREAD_ID, activity.getShikiUser().getId());
-            b.putBoolean(Constants.DISSCUSION_TYPE, true);
+            b.putString(Constants.DISSCUSION_TYPE, Constants.TYPE_USER);
 
             String[] titles = new String[]{ activity.getString(R.string.info), activity.getString(R.string.lenta)};
             ArrayList<Fragment> pageList = new ArrayList<>();

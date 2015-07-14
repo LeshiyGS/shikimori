@@ -38,7 +38,6 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class DiscusionFragment extends BaseListViewFragment implements ExtraLoadInterface, View.OnClickListener {
 
     private String treadId;
-    private Boolean disscusion_type;
     private String disType;
     BodyBuild bodyBuilder;
     private EditText etMessage;
@@ -105,17 +104,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if (treadId == null)
             treadId = getParam(Constants.TREAD_ID);
 
-        if (disscusion_type == null)
-            disscusion_type = getParam(Constants.DISSCUSION_TYPE);
-
-        if (disscusion_type != null){
-            if (disscusion_type == false)
-                disType = "Entry";
-            else
-                disType = "User";
-        }else{
-            disType = "Entry";
-        }
+        disType = getParam(Constants.DISSCUSION_TYPE, Constants.TYPE_ENTRY);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.View;
 
 import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
@@ -132,6 +133,12 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         if(params!=null)
             return (C) params.get(name);
         return null;
+    }
+
+    protected <C extends Object> C getParam(String name, C def){
+        if(params!=null)
+            return (C) params.get(name);
+        return def;
     }
 
     protected boolean getParamBoolean(String name){

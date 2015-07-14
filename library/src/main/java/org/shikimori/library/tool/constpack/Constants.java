@@ -20,6 +20,8 @@ public class Constants {
     public static final String PAGE_EXTRA_LOAD = "page_extra_load";
 
     public static final String DISSCUSION_TYPE = "disscusion_type";
+    public static final String TYPE_ENTRY = "Entry";
+    public static final String TYPE_USER = "User";
 
     // type topic type
     public static final String ANIME = "anime";
