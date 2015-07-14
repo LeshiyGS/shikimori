@@ -49,6 +49,8 @@ import java.util.List;
 
 import ru.altarix.ui.CustomTextView;
 
+import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
+
 
 /**
  * Created by LeshiyGS on 31.03.2015.
@@ -207,7 +209,9 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
         if(rate.id == null){
             popupMenu.getMenu().removeItem(R.id.delete);
         } else {
-            popupMenu.getMenu().getItem(rate.statusInt-1).setVisible(false);
+            int idMenu = ProjectTool.getItemIdFromStatus(rate.status);
+            if(idMenu > 0)
+                popupMenu.getMenu().removeItem(idMenu);
         }
         listener.setMenu(popupMenu);
         popupMenu.setOnMenuItemClickListener(listener);
@@ -222,7 +226,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
         String name = ProjectTool.getListStatusName(activity, rate.status, type);
         if(name == null)
             name = activity.getString(R.string.add_to_list);
-        if(rate.status == UserRate.Status.WATCHING)
+        if(rate.status == UserRate.Status.WATCHING ||
+                rate.status == UserRate.Status.REWATCHING  )
             h.setVisible(bListSettings, true);
         else
             h.setVisibleGone(bListSettings);
@@ -236,15 +241,19 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
 
     /**
      * Обновление "добавить в список"
-     * @param status позиция в списке + 1
+     * @param itemId id menu
      * @param targetId id anime or manga
      * @param type anime or manga
      * @param rate если уже есть список передаем его
      */
-    protected void setRate(int status, String targetId, ProjectTool.TYPE type, final UserRate rate){
+    protected void setRate(int itemId, String targetId, ProjectTool.TYPE type, final UserRate rate){
+        if(itemId == R.id.delete){
+            deleteRate(rate.id, rate, type);
+            return;
+        }
         // update object rate
-        rate.status = UserRate.Status.fromInt(status);
-        rate.statusInt = status;
+        rate.status = ProjectTool.getListStatusValue(itemId);
+        rate.statusInt = UserRate.Status.fromStatus(rate.status);
         setRate(targetId, type, rate);
     }
 

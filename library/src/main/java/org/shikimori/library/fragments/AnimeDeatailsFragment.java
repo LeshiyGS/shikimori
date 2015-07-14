@@ -21,6 +21,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
 import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.objects.one.UserRate;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
@@ -118,14 +119,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements AddRate
 
                 @Override
                 public boolean onMenuItemClick(PopupMenu menu, MenuItem menuItem) {
-                    if(menuItem.getItemId() == R.id.delete){
-                        deleteRate(details.userRate.id, details.userRate, ANIME);
-                        return true;
-                    }
-                    int position = getPosition(menuItem) + 1;
-                    setRate(position, details.id, ANIME, details.userRate);
-
-                    return false;
+                    setRate(menuItem.getItemId(), details.id, ANIME, details.userRate);
+                    return true;
                 }
             });
         } else if(v.getId() == R.id.bListSettings){

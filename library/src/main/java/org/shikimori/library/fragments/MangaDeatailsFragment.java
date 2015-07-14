@@ -107,15 +107,8 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
 
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.delete) {
-                        deleteRate(details.userRate.id, details.userRate, MANGA);
-                        return true;
-                    }
-
-                    int position = getPosition(item) + 1;
-                    setRate(position, details.id, MANGA, details.userRate);
-
-                    return false;
+                    setRate(item.getItemId(), details.id, MANGA, details.userRate);
+                    return true;
                 }
             });
         } else if (v.getId() == R.id.bListSettings) {

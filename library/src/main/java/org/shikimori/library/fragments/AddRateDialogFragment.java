@@ -64,9 +64,10 @@ public class AddRateDialogFragment extends DialogFragment implements View.OnClic
             csStatus.setList(getActivity().getResources().getStringArray(R.array.status_manga));
 
 
+
         if (listener != null) {
             UserRate rate = listener.getRateUser();
-            csStatus.setSelection(rate.statusInt > 0 ? rate.statusInt - 1 : 0);
+            csStatus.setSelection(ProjectTool.getListPositionFromStatus(rate.status));
             csRating.setSelection(rate.score);
             cetComment.setText(rate.text);
             cetRewatching.setText(String.valueOf(rate.rewatches));
@@ -114,10 +115,8 @@ public class AddRateDialogFragment extends DialogFragment implements View.OnClic
      */
     private void fillRate() {
         UserRate rate = listener.getRateUser();
-
-        int status = csStatus.getSelectedItemPosition()+1;
-        rate.status = UserRate.Status.fromInt(status);
-        rate.statusInt = status;
+        rate.status = ProjectTool.getListStatusFromPosition(csStatus.getSelectedItemPosition());
+        rate.statusInt = UserRate.Status.fromStatus(rate.status);
         rate.score = csRating.getSelectedItemPosition();
         rate.text = cetComment.getText();
         // count rewatch

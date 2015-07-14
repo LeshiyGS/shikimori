@@ -42,23 +42,24 @@ public class UserRate extends JsonParseable<UserRate> {
 
         public static Status fromInt(int status) {
             switch (status) {
+                case 0: return PLANNED;
                 case 1: return WATCHING;
-                case 2: return PLANNED;
-                case 3: return COMPLETED;
-                case 4: return REWATCHING;
-                case 5: return ON_HOLD;
-                case 6: return DROPPED;
+                case 2: return COMPLETED;
+                case 3: return ON_HOLD;
+                case 4: return DROPPED;
+                case 9: return REWATCHING;
                 default: return NONE;
             }
         }
+
         public static int fromStatus(Status status) {
             switch (status) {
+                case PLANNED: return 0;
                 case WATCHING: return 1;
-                case PLANNED: return 2;
-                case COMPLETED: return 3;
-                case REWATCHING: return 4;
-                case ON_HOLD: return 5;
-                case DROPPED: return 6;
+                case COMPLETED: return 2;
+                case ON_HOLD: return 3;
+                case DROPPED: return 4;
+                case REWATCHING: return 9;
                 default: return 0;
             }
         }

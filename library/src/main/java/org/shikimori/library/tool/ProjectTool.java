@@ -27,6 +27,7 @@ import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.objects.one.UserRate;
@@ -38,6 +39,8 @@ import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 import ru.altarix.ui.tool.TextStyling;
+
+import static org.shikimori.library.objects.one.UserRate.Status.*;
 
 /**
  * Created by Владимир on 07.04.2015.
@@ -126,6 +129,56 @@ public class ProjectTool {
                 return type == TYPE.ANIME ? context.getString(R.string.rewatching) : context.getString(R.string.rewatchingmanga);
         }
         return null;
+    }
+
+    public static Status getListStatusValue(int id){
+        if(id == R.id.watching)
+            return WATCHING;
+        else if(id == R.id.planned)
+            return PLANNED;
+        else if(id == R.id.completed)
+            return COMPLETED;
+        else if(id == R.id.on_hold)
+            return ON_HOLD;
+        else if(id == R.id.dropped)
+            return DROPPED;
+        else if(id == R.id.rewatching)
+            return REWATCHING;
+        else return NONE;
+    }
+    public static int getListPositionFromStatus(Status status){
+        switch (status){
+            case WATCHING: return 0;
+            case PLANNED: return 1;
+            case COMPLETED: return 2;
+            case REWATCHING: return 3;
+            case ON_HOLD: return 4;
+            case DROPPED: return 5;
+            default: return 0;
+        }
+    }
+    public static Status getListStatusFromPosition(int position){
+        switch (position){
+            case 0: return WATCHING;
+            case 1: return PLANNED;
+            case 2: return COMPLETED;
+            case 3: return REWATCHING;
+            case 4: return ON_HOLD;
+            case 5: return DROPPED;
+            default: return NONE;
+        }
+    }
+
+    public static int getItemIdFromStatus(Status status){
+        switch (status){
+            case WATCHING: return R.id.watching;
+            case PLANNED: return R.id.planned;
+            case COMPLETED: return R.id.completed;
+            case ON_HOLD: return R.id.on_hold;
+            case DROPPED: return R.id.dropped;
+            case REWATCHING: return R.id.rewatching;
+            default: return 0;
+        }
     }
 
     public static String formatDatePost(String cteatedAt){
