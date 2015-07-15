@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/defaultPadding4"
+    android:paddingRight="@dimen/defaultPadding4"
+    android:paddingTop="@dimen/defaultPaddingMini"
+    android:paddingBottom="@dimen/defaultPaddingMini"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="text"
+        style="@style/altarixUiText.TextTitle"
+        />
+
+    <ImageSwitcher
+        android:id="@+id/isImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSwitcherClick" >
+
+        <ImageView
+            android:id="@+id/ivChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_plus" />
+
+        <ImageView
+            android:id="@+id/ivChecked2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_minus" />
+
+    </ImageSwitcher>
+    
+</LinearLayout>
