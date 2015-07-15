@@ -221,7 +221,6 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         };
         backBuilder.setAdvancedCheck(listener);
         backBuilder.forceLoad();
-
     }
 
     public List<Object> getAllList() {

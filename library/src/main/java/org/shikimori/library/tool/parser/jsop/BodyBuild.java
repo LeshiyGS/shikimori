@@ -17,6 +17,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +29,6 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
-import org.shikimori.library.adapters.AniHistoryAdapter;
 import org.shikimori.library.adapters.AniPostGaleryAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.objects.one.AMShiki;
@@ -39,7 +39,6 @@ import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ImageController;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.UILImageGetter;
-import org.shikimori.library.tool.parser.elements.PostAnime;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
@@ -63,6 +62,10 @@ public class BodyBuild {
 
     public enum CLICKABLETYPE{
         NOT, INTEXT, POPUP
+    }
+
+    public enum IMAGETYPE{
+        SYMPLE, POSTER, BIGIMAGE
     }
 
     private final Point screensize;
@@ -254,14 +257,14 @@ public class BodyBuild {
                 buildViewAni(elemnt, parent);
                 break;
             case "img":
-                addImage(elemnt, parent);
+                addImage(elemnt, parent, getImageType(elemnt));
                 break;
             case "blockquote":
                 buildBlockquote(elemnt, parent);
                 break;
             case "a":
                 if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
-                    addImage(elemnt.child(0), parent);
+                    addImage(elemnt.child(0), parent, getImageType(elemnt.child(0)));
                 } else
                     setSimpleText(elemnt, parent);
                 break;
@@ -272,6 +275,14 @@ public class BodyBuild {
         }
 
         return true;
+    }
+
+    IMAGETYPE getImageType(Element elemnt){
+        if(elemnt.hasClass("b-poster"))
+            return IMAGETYPE.POSTER;
+        else if (elemnt.hasAttr("width") || elemnt.hasAttr("width"))
+            return IMAGETYPE.SYMPLE;
+        return IMAGETYPE.BIGIMAGE;
     }
 
     /**
@@ -500,16 +511,11 @@ public class BodyBuild {
     /**
      * **********************************************************
      * Work whith images
-     *
      * @param element
      * @param parent  **********************************************************
+     * @param typeImage
      */
-    void addImage(Element element, ViewGroup parent) {
-        View view = getLastView(parent);
-        if (view == null || !(view instanceof GridLayout)) {
-            insertText();
-            view = createImageGallery(parent);
-        }
+    void addImage(Element element, ViewGroup parent, IMAGETYPE typeImage) {
 
         ItemImageShiki item = new ItemImageShiki();
         item.setThumb(element.attr("src"));
@@ -517,13 +523,9 @@ public class BodyBuild {
         Element parentNode = element.parent();
         if (parentNode.tagName().equals("a")) {
             item.setOriginal(parentNode.attr("href"));
-            //parentNode.remove();
-        } else {
-            //element.remove();
         }
 
         final PostImage postImg = new PostImage(context, item);
-
         if(imageClickListener!=null){
             postImg.getImage().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -533,13 +535,28 @@ public class BodyBuild {
             });
             postImg.getImage().setOnTouchListener(h.getImageHighlight);
         }
-
+        // добавляем в пост обработку для отображения картинки
         images.add(postImg);
-        if(!gallerys.contains(view))
-            gallerys.add(view);
 
-        final GridLayout grid = (GridLayout) view;
-        grid.addView(postImg.getImage());
+        // получаем последнюю добавленную вьюху
+        View view = getLastView(parent);
+        if(view == null)
+            insertText();
+
+        if (typeImage == IMAGETYPE.BIGIMAGE) {
+            if(!(view instanceof GridLayout)){
+                insertText();
+                view = createImageGallery(parent);
+                gallerys.add(view);
+            }
+            postImg.setIsGallery();
+            GridLayout grid = (GridLayout) view;
+            grid.addView(postImg.getImage());
+        } else {
+            insertText();
+            postImg.initMargin();
+            parent.addView(postImg.getImage());
+        }
     }
 
     private View getLastView(ViewGroup parent) {
@@ -548,7 +565,6 @@ public class BodyBuild {
             return null;
         return parent.getChildAt(count - 1);
     }
-
 
     private GridLayout createImageGallery(ViewGroup parent) {
         GridLayout layout = new GridLayout(context);

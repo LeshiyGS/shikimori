@@ -33,7 +33,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_above="@+id/llComment">
 
         <com.paging.listview.PagingListView
@@ -43,7 +43,6 @@
             android:cacheColorHint="#00000000"
             android:divider="@null" />
     </android.support.v4.widget.SwipeRefreshLayout>
-
 
     <TextView
         android:id="@+id/tvEmptyView"

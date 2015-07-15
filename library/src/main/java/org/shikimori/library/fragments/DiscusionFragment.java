@@ -143,6 +143,11 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     @Override
     public void onQuerySuccess(final StatusResult res) {
         loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemCommentsShiki.class);
+    }
+
+    @Override
+    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+        super.prepareData(list, removeLastItem, limitOver);
         if(getAllList().size()==0)
             h.setVisible(tvEmptyView, true);
         else

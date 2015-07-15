@@ -8,7 +8,6 @@ import android.view.View;
 
 import org.shikimori.library.loaders.Queryable;
 import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
@@ -39,18 +38,19 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         params = getArguments();
     }
 
-    public int getActionBarTitle(){
-        if(params!=null)
-           return params.getInt(Constants.ACTION_BAR_TITLE);
+    public int getActionBarTitle() {
+        if (params != null)
+            return params.getInt(Constants.ACTION_BAR_TITLE);
         return 0;
     }
 
     /**
      * Set action bar title
+     *
      * @return
      */
-    public String getActionBarTitleString(){
-        if(params!=null)
+    public String getActionBarTitleString() {
+        if (params != null)
             return params.getString(Constants.ACTION_BAR_TITLE);
         return null;
     }
@@ -58,27 +58,27 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(baseView!=null)
+        if (baseView != null)
             baseView = getView();
 
         initData();
 
         this.activity = (T) getActivity();
-        query = ((Queryable)activity).prepareQuery(false);
+        query = ((Queryable) activity).prepareQuery(false);
 
         setActionBarTitle();
     }
 
-    private void setActionBarTitle(){
+    private void setActionBarTitle() {
         ActionBar actionBar = activity.getSupportActionBar();
-        if(actionBar!=null){
+        if (actionBar != null) {
             String title;
             int titleInt;
             // set int title
-            if((titleInt = getActionBarTitle())!=0)
+            if ((titleInt = getActionBarTitle()) != 0)
                 actionBar.setTitle(titleInt);
-            // set String title
-            else if ((title = getActionBarTitleString())!=null)
+                // set String title
+            else if ((title = getActionBarTitleString()) != null)
                 actionBar.setTitle(title);
         }
     }
@@ -92,9 +92,9 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
 
     @Override
     public void onDestroyView() {
-        if(activity!=null)
+        if (activity != null)
             h.hideKeyboard(activity, activity.getWindow().getDecorView());
-        if(query!=null)
+        if (query != null)
             query.onStop();
         super.onDestroyView();
     }
@@ -105,19 +105,19 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
 
 
     private void initData() {
-        if(params != null)
+        if (params != null)
             userId = params.getString(Constants.USER_ID);
 
-        if(userId == null)
+        if (userId == null)
             userId = ShikiUser.USER_ID;
     }
 
 
-    public String getUserId(){
+    public String getUserId() {
         return userId;
     }
 
-    protected void setBaseView(View v){
+    protected void setBaseView(View v) {
         baseView = v;
     }
 
@@ -129,20 +129,21 @@ public class BaseFragment<T extends ActionBarActivity> extends Fragment {
         return h.get(baseView, id);
     }
 
-    protected <C extends Object> C getParam(String name){
-        if(params!=null)
+    protected <C extends Object> C getParam(String name) {
+        if (params != null)
             return (C) params.get(name);
         return null;
     }
 
-    protected <C extends Object> C getParam(String name, C def){
-        if(params!=null)
-            return (C) params.get(name);
+    protected <C extends Object> C getParam(String name, C def) {
+        C param = getParam(name);
+        if (param != null)
+            return param;
         return def;
     }
 
-    protected boolean getParamBoolean(String name){
-        if(params!=null)
+    protected boolean getParamBoolean(String name) {
+        if (params != null)
             return params.getBoolean(name);
         return false;
     }

@@ -27,6 +27,24 @@ public class PostImage extends ImageController{
         initImage();
     }
 
+    public void setIsGallery(){
+        image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        image.setBackgroundColor(Color.DKGRAY);
+        ViewGroup.LayoutParams params = image.getLayoutParams();
+        params.height = h.pxToDp(150, context);
+        image.setLayoutParams(params);
+    }
+
+    public void setScaleType(ImageView.ScaleType type){
+        image.setScaleType(type);
+    }
+
+    public void setFixesSize(){
+        ViewGroup.LayoutParams params = image.getLayoutParams();
+        params.height = h.pxToDp(150, context);
+        image.setLayoutParams(params);
+    }
+
     private void initImage() {
         //Вставляем картинку
         image = new ImageView(context);
@@ -34,7 +52,6 @@ public class PostImage extends ImageController{
         ViewGroup.LayoutParams params = h.getDefaultParams();
 //        params.height = h.pxToDp(150, context);
         image.setLayoutParams(params);
-        image.setMaxHeight(h.pxToDp(150, context));
         image.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
         image.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +62,7 @@ public class PostImage extends ImageController{
                 // TODO if simple image show big view or go to anime or manga
 
 
-                if(imageData.getClickListener()!=null)
+                if (imageData.getClickListener() != null)
                     imageData.getClickListener().onClick(view);
 
             }
@@ -53,5 +70,9 @@ public class PostImage extends ImageController{
 
         if(imageData.getThumb() == null)
             return;
+    }
+
+    public void initMargin() {
+        image.setPadding(0, 30, 0, 30);
     }
 }
