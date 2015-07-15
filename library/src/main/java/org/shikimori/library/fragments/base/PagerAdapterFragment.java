@@ -65,11 +65,6 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         return frag;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     protected void setTitles(List<String> titles) {
         this.titles = titles;
     }
@@ -147,18 +142,13 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
         pager.setCurrentItem(page);
     }
 
-
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(activity == null || activity.isFinishing() || pages == null)
-            return;
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fr = manager.beginTransaction();
-        for (Fragment frag : pages)
-            fr.remove(frag);
-        fr.commitAllowingStateLoss();
+    public void onDestroyView() {
+        super.onDestroyView();
 
+        if(activity == null)
+            return;
+        activity.clearBackStack(pages);
     }
 
     @Override

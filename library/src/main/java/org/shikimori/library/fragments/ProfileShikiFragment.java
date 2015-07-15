@@ -297,8 +297,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             return;
 
         h.setVisible(llBody, true);
-        YoYo.with(Techniques.FadeIn)
-                .playOn(llBody);
 
         stopRefresh();
         userDetails = new UserDetails().create(res.getResultObject());

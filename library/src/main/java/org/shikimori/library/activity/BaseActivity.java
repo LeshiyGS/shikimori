@@ -90,6 +90,15 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
             contentView.removeAllViews();
     }
 
+    public void clearBackStack(List<Fragment> list){
+        if(isFinishing() || list == null)
+            return;
+        FragmentTransaction fr = fManager.beginTransaction();
+        for (Fragment frag : list)
+            fr.remove(frag);
+        fr.commitAllowingStateLoss();
+    }
+
     public void loadPage(int id){
 
     }

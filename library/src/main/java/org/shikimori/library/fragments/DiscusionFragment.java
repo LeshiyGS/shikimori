@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.CommentsAdapter;
@@ -41,6 +43,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     private String disType;
     BodyBuild bodyBuilder;
     private EditText etMessage;
+    private TextView tvEmptyView;
     View ivSend;
     private SendMessageController messageController;
     private CommentsAdapter adaptr;
@@ -62,9 +65,10 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         setBaseView(v);
         etMessage = find(R.id.etMessage);
         ivSend = find(R.id.ivSend);
-
+        tvEmptyView = find(R.id.tvEmptyView);
         ivSend.setOnClickListener(this);
 
+        tvEmptyView.setTypeface(null, Typeface.ITALIC);
         return v;
     }
 
@@ -132,13 +136,17 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("desc", "1")
-                .setCache(true, Query.HOUR)
+                .setCache(true, Query.FIVE_MIN)
                 .getResult(this);
     }
 
     @Override
     public void onQuerySuccess(final StatusResult res) {
         loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemCommentsShiki.class);
+        if(getAllList().size()==0)
+            h.setVisible(tvEmptyView, true);
+        else
+            h.setVisibleGone(tvEmptyView);
     }
 
     @Override

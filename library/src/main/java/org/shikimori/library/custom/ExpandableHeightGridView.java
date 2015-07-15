@@ -10,15 +10,23 @@ public class ExpandableHeightGridView extends GridView {
     boolean expanded = true;
 
     public ExpandableHeightGridView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public ExpandableHeightGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public ExpandableHeightGridView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
+    }
+
+    private void init() {
+        setScrollContainer(false);
+        setFocusable(false);
+        setFocusableInTouchMode(false);
     }
 
     public boolean isExpanded() {

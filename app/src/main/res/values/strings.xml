@@ -14,5 +14,6 @@
     <string name="sound">Звук</string>
     <string name="notify_sound_desc">Звуковое сопровождение уведомлений</string>
     <string name="new_title">Письмишко</string>
+    <string name="lenta">Лента</string>
 
 </resources>

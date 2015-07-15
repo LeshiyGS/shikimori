@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        >
-
-        <com.paging.listview.PagingListView
-            android:id="@+id/lvList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cacheColorHint="#00000000"
-            android:divider="@null" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/llComment"
@@ -27,9 +10,9 @@
         android:background="@drawable/card_message"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/defaultPaddingMini"
-        android:paddingRight="@dimen/defaultPaddingMini"
-        >
+        android:paddingRight="@dimen/defaultPaddingMini">
 
         <EditText
             android:id="@+id/etMessage"
@@ -47,5 +30,31 @@
             android:src="@mipmap/ic_action_send" />
 
     </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/llComment">
 
-</LinearLayout>
+        <com.paging.listview.PagingListView
+            android:id="@+id/lvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="@null" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    <TextView
+        android:id="@+id/tvEmptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        style="@style/altarixUiLabel.normal"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/guTextSizeTitle"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/defaultPadding58"
+        android:text="@string/list_empty_message"/>
+
+</RelativeLayout>

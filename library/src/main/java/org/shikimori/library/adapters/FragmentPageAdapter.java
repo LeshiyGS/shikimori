@@ -1,5 +1,6 @@
 package org.shikimori.library.adapters;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,6 +24,11 @@ public class FragmentPageAdapter extends
 
     public void setPagesFrags(ArrayList<Fragment> pagesFrags){
         this.pagesFrags = pagesFrags;
+    }
+
+    @Override
+    public Parcelable saveState() {
+        return null;
     }
 
     @Override

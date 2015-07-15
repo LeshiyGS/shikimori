@@ -31,25 +31,23 @@ dependencies {
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
     compile 'org.jsoup:jsoup:1.8.1'
     compile project(":modules:PhotoView")
-    println "names arr start: "
-    fileTree("../modules_aar").visit { FileVisitDetails details ->
-        String _name = details.file.name.replace(".aar", "")
-        println "name id: " +name
-        compileAltarixModule(_name, "0")
-
-    }
+//    fileTree("../modules_aar").visit { FileVisitDetails details ->
+//        String _name = details.file.name.replace(".aar", "")
+//        println "name id: " +name
+//        compileAltarixModule(_name, "0")
+//    }
 //    compile project(":myPaggingListView")
 //    compile 'in.srain.cube:grid-view-with-header-footer:1.0.10.1'
 }
 
-def compileAltarixModuleExt(nameD, versionD, extName) {
-    project.dependencies.compile('org:' + nameD) {
-        artifact {
-            name = (extName != null ? extName : nameD)
-            type = 'aar'
-        }
-    }
-}
-def compileAltarixModule(nameD, versionD) {
-    compileAltarixModuleExt(nameD, versionD, null)
-}
+//def compileAltarixModuleExt(nameD, versionD, extName) {
+//    project.dependencies.compile('org:' + nameD) {
+//        artifact {
+//            name = (extName != null ? extName : nameD)
+//            type = 'aar'
+//        }
+//    }
+//}
+//def compileAltarixModule(nameD, versionD) {
+//    compileAltarixModuleExt(nameD, versionD, null)
+//}
