@@ -94,15 +94,6 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         Log.d("test", "click");
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_animes_filter) {
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.animes_menu, menu);
         inflateSearch(menu);

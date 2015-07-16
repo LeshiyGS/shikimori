@@ -1,12 +1,10 @@
 package org.shikimori.library.fragments.dialogs;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.UserRate;
@@ -35,7 +33,7 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.inflater = inflater;
-        View v = inflater.inflate(R.layout.add_rate_dialog_fragment, null);
+        View v = inflater.inflate(R.layout.dialog_fragment_add_rate, null);
 
         csRating = h.get(v, R.id.csRating);
         csStatus = h.get(v, R.id.csStatus);

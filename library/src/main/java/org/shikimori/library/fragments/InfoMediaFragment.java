@@ -2,9 +2,12 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.AMBaseListFragment;
+import org.shikimori.library.fragments.dialogs.AddRateDialogFragment;
+import org.shikimori.library.fragments.dialogs.FiltersDialogFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.constpack.Constants;
@@ -62,5 +65,15 @@ public class InfoMediaFragment extends AMBaseListFragment {
         }
 
         return url;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_animes_filter) {
+            FiltersDialogFragment frag = FiltersDialogFragment.newInstance();
+            frag.show(activity.getFragmentManagerLocal(), "");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

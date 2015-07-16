@@ -6,7 +6,7 @@
 
             <corners android:radius="@dimen/defaultPadding3"/>
 
-            <solid android:color="@color/darkPink" />
+            <solid android:color="@color/altarixUiRed" />
 
         </shape>
     </item>

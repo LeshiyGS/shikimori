@@ -92,21 +92,36 @@ public class h {
         m.show();
     }
 
+    @Deprecated
     public static void setVisible(View v, boolean visible) {
-        if (v == null)
-            return;
-        if (visible) {
-            if (v.getVisibility() != View.VISIBLE)
-                v.setVisibility(View.VISIBLE);
-        } else {
-            if (v.getVisibility() != View.INVISIBLE)
-                v.setVisibility(View.INVISIBLE);
-        }
+        setVisible(visible ? View.VISIBLE : View.INVISIBLE, v);
     }
 
-    public static void setVisibleGone(View v) {
-        if (v != null && v.getVisibility() != View.GONE)
-            v.setVisibility(View.GONE);
+    public static void setVisible(boolean visible, View ... views) {
+        setVisible(visible ? View.VISIBLE : View.INVISIBLE, views);
+    }
+
+    public static void setVisibleGone(View ... v) {
+        setVisible(View.GONE, v);
+    }
+
+    public static void setVisible(View ... v) {
+        setVisible(View.VISIBLE, v);
+    }
+
+    public static void setVisibleGone(boolean gone, View ... views) {
+        setVisible(gone ? View.GONE : View.VISIBLE, views);
+    }
+
+    private static void setVisible(int status, View ... views){
+        if(views == null)
+            return;
+        for (View v : views) {
+            if(v!=null){
+                if (v.getVisibility() != status)
+                    v.setVisibility(status);
+            }
+        }
     }
 
     public static int pxToDp(int px, Context contex) {
