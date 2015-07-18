@@ -12,31 +12,17 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="text"
         style="@style/altarixUiText.TextTitle"
+        android:textColor="@color/black_owerlay_60"
         />
 
     <ImageSwitcher
         android:id="@+id/isImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onSwitcherClick" >
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
 
-        <ImageView
-            android:id="@+id/ivChecked"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_plus" />
-
-        <ImageView
-            android:id="@+id/ivChecked2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_minus" />
-
-    </ImageSwitcher>
-    
 </LinearLayout>

@@ -2,6 +2,7 @@ package org.shikimori.library.fragments.dialogs;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.View;
 import android.view.Window;
 
 /**
@@ -23,8 +24,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initTitle();
     }
 }
