@@ -90,7 +90,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         initBodyBuilder();
         apiController = new ApiMessageController(query);
         apiController.setErrorListener(this);
-        messageController = new SendMessageController(activity, query, etMessage);
+        messageController = new SendMessageController(activity, query, etMessage, SendMessageController.Type.COMMENT);
 
         initParams();
 

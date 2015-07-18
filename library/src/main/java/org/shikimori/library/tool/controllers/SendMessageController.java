@@ -34,6 +34,7 @@ import java.util.List;
  */
 public class SendMessageController {
     private final Context context;
+    private Type type;
     private final QuoteEditText quoteTool;
     private LoaderController loader;
     private final Query query;
@@ -42,8 +43,13 @@ public class SendMessageController {
 
     private String updateId;
 
-    public SendMessageController(Context context, Query query, EditText editText) {
+    public enum Type{
+        COMMENT, MESSAGE
+    }
+
+    public SendMessageController(Context context, Query query, EditText editText, Type type) {
         this.context = context;
+        this.type = type;
         this.loader = query.getLoader();
         this.query = query;
         this.editText = editText;
@@ -52,10 +58,15 @@ public class SendMessageController {
     }
 
     protected void answer(String id, String nickname) {
-        StringBuilder str = new StringBuilder("[message=");
-        str.append(id).append("]")
-                .append(nickname)
-                .append("[/message] ");
+        String msgType = type == Type.COMMENT ? "comment" : "message";
+
+        StringBuilder str = new StringBuilder("[");
+        str.append(msgType).append("=")
+           .append(id).append("]")
+            .append(nickname)
+            .append("[/")
+            .append(msgType)
+            .append("] ");
 
         h.insertTextEditText(editText, str.toString());
         quoteTool.setText(editText.getText().toString());

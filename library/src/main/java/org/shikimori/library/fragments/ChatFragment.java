@@ -91,7 +91,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
         apiController.setErrorListener(this);
         toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
-        messageController = new SendMessageController(activity, query, etMessage);
+        messageController = new SendMessageController(activity, query, etMessage, SendMessageController.Type.MESSAGE);
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         showRefreshLoader();
         loadData();
