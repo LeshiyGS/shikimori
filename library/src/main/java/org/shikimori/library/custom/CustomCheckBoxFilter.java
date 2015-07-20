@@ -227,5 +227,12 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
             this.value = value;
         }
 
+        public int getStatus() {
+            return status;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }

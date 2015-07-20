@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.loopj.android.http.RequestParams;
+
 import org.shikimori.library.R;
 import org.shikimori.library.custom.CustomCheckBoxFilter;
 import org.shikimori.library.tool.h;
@@ -45,7 +47,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         // my list
         addViewList(R.string.list, controller.getMyList());
         // episodes
-        addViewList(R.string.episod_title, controller.getEpisodList());
+        addViewList(R.string.episod_title, controller.getDurationList());
         // rating
         addViewList(R.string.title_rating, controller.getRateList());
 
@@ -75,7 +77,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
 
     public static class FilterController{
 
-        List<CustomCheckBoxFilter.Box> statusList, myList, episodList,typeList,rateList;
+        List<CustomCheckBoxFilter.Box> statusList, myList, durationList,typeList,rateList;
         private Context context;
         public FilterController(Context context){
             this.context = context;
@@ -122,14 +124,14 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
             }
             return myList;
         }
-        public List<CustomCheckBoxFilter.Box> getEpisodList() {
-            if(episodList == null){
-                episodList = new ArrayList<>();
-                episodList.add(new CustomCheckBoxFilter.Box(getString(R.string.minute_10), "duration", "S"));
-                episodList.add(new CustomCheckBoxFilter.Box(getString(R.string.minute_30), "duration", "D"));
-                episodList.add(new CustomCheckBoxFilter.Box(getString(R.string.after_30), "duration", "F"));
+        public List<CustomCheckBoxFilter.Box> getDurationList() {
+            if(durationList == null){
+                durationList = new ArrayList<>();
+                durationList.add(new CustomCheckBoxFilter.Box(getString(R.string.minute_10), "duration", "S"));
+                durationList.add(new CustomCheckBoxFilter.Box(getString(R.string.minute_30), "duration", "D"));
+                durationList.add(new CustomCheckBoxFilter.Box(getString(R.string.after_30), "duration", "F"));
             }
-            return episodList;
+            return durationList;
         }
         public List<CustomCheckBoxFilter.Box> getRateList() {
             if(rateList == null){
@@ -143,6 +145,39 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
             }
             return rateList;
         }
+
+        ///api/animes?duration=F&genre=3&limit=1&mylist=1&order=ranked
+        // &page=1&rating=NC-17&search=Te&season=2014&studio=2&type=TV
+
+        public RequestParams getRequestParams(){
+            RequestParams params = new RequestParams();
+            prepareParam(statusList, "status", params);
+            prepareParam(myList, "mylist", params);
+            prepareParam(durationList, "duration", params);
+            prepareParam(rateList, "rating", params);
+            prepareParam(typeList, "type", params);
+            return params;
+        }
+
+        private void prepareParam(List<CustomCheckBoxFilter.Box> list, String keyParsm, RequestParams params){
+            if(list == null)
+                return;
+            StringBuilder builder = new StringBuilder();
+            for (CustomCheckBoxFilter.Box box : list) {
+                if(box.getStatus() == 1){
+                    if(builder.length() > 0)
+                        builder.append(",");
+                    builder.append(box.getValue());
+                } else if(box.getStatus() == 2){
+                    if(builder.length() > 0)
+                        builder.append(",");
+                    builder.append("!").append(box.getValue());
+                }
+            }
+            if(builder.length() > 0)
+                params.put(keyParsm, builder.toString());
+        }
+
     }
 
 }
