@@ -94,32 +94,41 @@ public class h {
 
     @Deprecated
     public static void setVisible(View v, boolean visible) {
-        setVisible(visible ? View.VISIBLE : View.INVISIBLE, v);
+        setVisible(visible ? View.VISIBLE : View.INVISIBLE,false, v);
     }
 
     public static void setVisible(boolean visible, View ... views) {
-        setVisible(visible ? View.VISIBLE : View.INVISIBLE, views);
+        setVisible(visible ? View.VISIBLE : View.INVISIBLE,false, views);
+    }
+    public static void setVisibleToggle(View ... views) {
+        setVisible(View.INVISIBLE, true, views);
+    }
+    public static void setGoneToggle(View ... views) {
+        setVisible(View.GONE, true, views);
     }
 
     public static void setVisibleGone(View ... v) {
-        setVisible(View.GONE, v);
+        setVisible(View.GONE,false, v);
     }
 
     public static void setVisible(View ... v) {
-        setVisible(View.VISIBLE, v);
+        setVisible(View.VISIBLE,false, v);
     }
 
     public static void setVisibleGone(boolean gone, View ... views) {
-        setVisible(gone ? View.GONE : View.VISIBLE, views);
+        setVisible(gone ? View.GONE : View.VISIBLE, false, views);
     }
 
-    private static void setVisible(int status, View ... views){
+    private static void setVisible(int status, boolean toggle, View ... views){
         if(views == null)
             return;
         for (View v : views) {
             if(v!=null){
                 if (v.getVisibility() != status)
                     v.setVisibility(status);
+                else if(toggle){
+                    v.setVisibility(View.VISIBLE);
+                }
             }
         }
     }

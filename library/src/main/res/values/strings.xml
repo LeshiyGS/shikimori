@@ -161,4 +161,5 @@
     <string name="rating_r">R-17</string>
     <string name="rating_r_plus">R+</string>
     <string name="rating_rx">Rx</string>
+    <string name="go_to">Перейти</string>
 </resources>

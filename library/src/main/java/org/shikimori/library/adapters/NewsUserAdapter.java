@@ -1,25 +1,30 @@
 package org.shikimori.library.adapters;
 
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.MessageHolder;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.one.ItemClubShiki;
+import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.baselisteners.BaseAnimationListenerAndroid;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
+import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
@@ -28,10 +33,14 @@ import java.util.List;
  */
 public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageHolder> implements View.OnClickListener {
 
+    private final BodyBuild bodyBuild;
     private String type;
+    private Query query;
 
     public NewsUserAdapter(Context context, Query query, List list) {
         super(context, list, R.layout.item_shiki_message_list, MessageHolder.class);
+        this.query = query;
+        bodyBuild = ProjectTool.getBodyBuilder((BaseActivity) context, BodyBuild.CLICKABLETYPE.NOT);
     }
 
     @Override
@@ -40,6 +49,8 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         holder.ivPoster.setOnTouchListener(h.getImageHighlight);
         holder.tvRead.setOnClickListener(this);
         holder.ivUser.setOnClickListener(this);
+        holder.bGoTo.setOnClickListener(this);
+        holder.bComment.setOnClickListener(this);
     }
 
     @Override
@@ -47,6 +58,8 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         MessageHolder holder = super.getViewHolder(v);
         holder.ivPoster = get(v, R.id.ivPoster);
         holder.tvRead = get(v, R.id.tvRead);
+        holder.bGoTo = get(v, R.id.bGoTo);
+        holder.bComment = get(v, R.id.bComment);
         return holder;
     }
 
@@ -72,7 +85,9 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             h.setVisibleGone(holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        h.setVisible(holder.tvRead, true);
+        holder.bComment.setTag(position);
+        holder.bGoTo.setTag(position);
+        h.setVisible(holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 
@@ -80,14 +95,43 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     public void onClick(final View v) {
         if (v.getId() == R.id.tvRead) {
             int position = (int) v.getTag();
-            final ItemNewsUserShiki item = getItem(position);
+            ItemNewsUserShiki item = getItem(position);
             item.read = ReadMessageController.getInstance().setRead(v, item.read, item.id);
-        } else if (v.getId() == R.id.ivUser){
-            if(type.equals(Constants.INBOX)){
+        } else if (v.getId() == R.id.ivUser) {
+            if (type.equals(Constants.INBOX) || type.equals(Constants.NOTIFYING)) {
                 ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();
                 ProjectTool.goToUser(getContext(), item.from.id);
             }
+        } else if (v.getId() == R.id.bComment) {
+            showCooment(getItem((int) v.getTag()));
+        } else if (v.getId() == R.id.bGoTo) {
+            ItemNewsUserShiki item = getItem((int) v.getTag());
+            Intent i = new Intent(getContext(), ShowPageActivity.class);
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.DISCUSSION);
+            i.putExtra(Constants.TREAD_ID, item.linked.threadId);
+            i.putExtra(Constants.ACTION_BAR_TITLE, item.id);
+            getContext().startActivity(i);
         }
+    }
+
+    private void showCooment(ItemNewsUserShiki item){
+        final TextPopup popup = new TextPopup((Activity) getContext());
+        popup.showLoader();
+        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS_ID, item.linked.id))
+                .getResultObject(new Query.OnQuerySuccessListener() {
+                    @Override
+                    public void onQuerySuccess(StatusResult res) {
+                        ItemCommentsShiki comment = new ItemCommentsShiki().createFromJson(res.getResultObject());
+                        bodyBuild.parceAsync(comment.html_body, new BodyBuild.ParceDoneListener() {
+                            @Override
+                            public void done(ViewGroup view) {
+                                popup.hideLoader();
+                                popup.setBody(view);
+                            }
+                        });
+                    }
+                });
+        popup.show();
     }
 
     public void setType(String type) {

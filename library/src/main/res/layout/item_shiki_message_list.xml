@@ -46,6 +46,7 @@
             android:layout_toStartOf="@+id/ivPoster"
             android:layout_toRightOf="@+id/ivUser"
             android:layout_toEndOf="@+id/ivUser"
+            android:animateLayoutChanges="true"
             android:layout_marginLeft="@dimen/defaultPaddingMini"
             android:layout_marginRight="@dimen/defaultPaddingMini"
             >
@@ -68,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/defaultPaddingMini"
+                android:visibility="gone"
                 style="@style/altarixUiLabel.mini" />
 
             <LinearLayout
@@ -75,6 +77,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
+
+            <LinearLayout
+                android:id="@+id/llActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:text="@string/comment"
+                    android:textSize="@dimen/guTextSize12"
+                    />
+
+                <Button
+                    android:id="@+id/bGoTo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_marginLeft="@dimen/defaultPaddingMini"
+                    android:layout_marginStart="@dimen/defaultPaddingMini"
+                    android:text="@string/go_to"
+                    android:textSize="@dimen/guTextSize12"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>

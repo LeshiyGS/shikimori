@@ -2,19 +2,14 @@ package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListAdapter;
 
-import org.json.JSONArray;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
@@ -24,24 +19,18 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.ItemTopicsShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.actionmode.ActionDescription;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
+import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
@@ -108,7 +97,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
         ReadMessageController.newInstance(query);
         activity.setOnFragmentBackListener(this);
         bodyBuild = new BodyBuild(activity);
-        if(type.equals(Constants.INBOX))
+        if (type.equals(Constants.INBOX))
             getListView().setOnItemLongClickListener(this);
         showRefreshLoader();
         loadData();
@@ -159,21 +148,21 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
         super.onItemClick(parent, view, position, id);
 
         Adapter adp = parent.getAdapter();
-        if(adp == null)
+        if (adp == null)
             return;
 
         ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
-        if(type.equals(Constants.INBOX)){
+        if (type.equals(Constants.INBOX)) {
             activity.loadPage(InboxFragment.newInstance(), true, false);
-        } else if (type.equals(Constants.NEWS)){
+        } else if (type.equals(Constants.NEWS)) {
             Intent intent = ProjectTool.getSimpleIntentDetails(activity, item.linked.type);
-            if(intent!=null){
+            if (intent != null) {
                 intent.putExtra(Constants.ITEM_ID, item.linked.id);
                 activity.startActivity(intent);
                 return;
             }
 
-            if(item.kind.toLowerCase().equals(Constants.SITENEWS)){
+            if (item.kind.toLowerCase().equals(Constants.SITENEWS)) {
                 intent = new Intent(activity, ShowPageActivity.class);
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
                 intent.putExtra(Constants.TREAD_ID, item.linked.id);
@@ -181,10 +170,16 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
 
                 return;
             }
+        } else if (type.equals(Constants.NOTIFYING)) {
+            if(item.linked == null || item.linked.id == null)
+                return;
+            View btn = view.findViewById(R.id.llActions);
+            h.setGoneToggle(btn);
+
         }
     }
 
-    void showPopupText(String html){
+    void showPopupText(String html) {
         popup = new TextPopup(activity);
         popup.showLoader();
 //        bodyBuild.parce(item.doc, popup.getBody());
@@ -200,11 +195,12 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
 
     /**
      * Скрываем попап если он открыт
+     *
      * @return
      */
     @Override
     public boolean onBackPressed() {
-        if(popup!=null && popup.hide()){
+        if (popup != null && popup.hide()) {
             return true;
         }
         return false;
@@ -222,7 +218,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
                     ItemNewsUserShiki obj = (ItemNewsUserShiki) lists.get(selectedItems[i]);
                     ids.add(obj.id);
                 }
-                if(ids.size() > 0){
+                if (ids.size() > 0) {
                     String strIds = TextUtils.join(",", ids);
                     // TODO delete collections messages
                 }

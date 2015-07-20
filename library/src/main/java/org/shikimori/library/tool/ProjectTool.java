@@ -48,7 +48,24 @@ import static org.shikimori.library.objects.one.UserRate.Status.*;
 public class ProjectTool {
 
     public enum TYPE{
-        ANIME, MANGA, OFFTOP, CHARACTER;
+        ANIME, MANGA, OFFTOP, CHARACTER,
+        ALL,NEWS,SITE,GROUP,
+        REVIEWS, POLLS;
+
+        public String toUrl(){
+            switch (this){
+                case ANIME: return "a";
+                case MANGA: return "m";
+                case OFFTOP: return "o";
+                case CHARACTER: return "c";
+                case NEWS: return "news";
+                case SITE: return "s";
+                case GROUP: return "g";
+                case REVIEWS: return "reviews";
+                case POLLS: return "v";
+                default: return "all";
+            }
+        }
     }
 
     public static String getStatus(Context context, boolean anons, boolean ongoing){
@@ -299,4 +316,5 @@ public class ProjectTool {
 
         return bodyBuilder;
     }
+
 }
