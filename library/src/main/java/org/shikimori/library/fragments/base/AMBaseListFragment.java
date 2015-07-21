@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.loopj.android.http.RequestParams;
+
 import org.shikimori.library.adapters.AMAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -38,17 +40,28 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
 
     @Override
     public void loadData() {
-        query.init(getLoadPath(), StatusResult.TYPE.ARRAY)
-            .addParam("limit", LIMIT)
+        query.init(getLoadPath(), StatusResult.TYPE.ARRAY);
+
+        RequestParams filter = getFilterParams();
+        if(filter!=null)
+            query.setParams(filter);
+
+        query.addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("search", getSearchText())
             .setCache(true, Query.DAY)
             .getResult(this);
     }
 
+    public RequestParams getFilterParams(){
+        return null;
+    }
+
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
+        if(query!=null)
+            query.getLoader().hide();
         ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), AMShiki.class);
         prepareData(builder.list, true, true);
     }

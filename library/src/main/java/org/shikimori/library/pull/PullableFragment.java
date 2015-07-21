@@ -64,7 +64,7 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        color = h.getAttributeResourceId(activity, R.attr.pullColor);
+        color = h.getAttributeResourceId(activity, R.attr.colorAccent);
 
         if (swipeLayout != null && color!=0){
             swipeLayout.setColorSchemeResources(color);

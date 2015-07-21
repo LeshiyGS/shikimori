@@ -48,7 +48,7 @@ public class ShowPageActivity extends PageActivity {
             addPageFragment(CharacterDetailsFragment.newInstance(params), R.string.character);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
         } else if (page == FAVORITES_PAGE) {
-            loadPage(FavoriteFragment.newInstance());
+            loadPage(FavoriteFragment.newInstance(params));
             setTitle(R.string.favorite);
             return;
         } else if (page == DISCUSSION) {

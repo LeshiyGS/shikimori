@@ -39,24 +39,30 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     public static final int FRIENDS = 6;
 
     private final BaseActivity mContext;
+    private final boolean selfUser;
     private Query query;
     private ShikiUser user;
+    private String currentUserId;
     private final ViewGroup body;
     private List<Item> menu = new ArrayList<>();
     private NotifyProfileAdapter notifyAdapter;
 
-    public NotifyProfileController(BaseActivity mContext, Query query, ShikiUser user, ViewGroup body) {
+    public NotifyProfileController(BaseActivity mContext, Query query, ShikiUser user, String currentUserId, ViewGroup body) {
         this.mContext = mContext;
         this.query = query;
         this.user = user;
+        this.currentUserId = currentUserId;
+        selfUser = user.getId().equals(currentUserId);
         this.body = body;
         initList();
     }
 
     private void initList() {
-        menu.add(new Item(NEWS, mContext.getString(R.string.news)));
-        menu.add(new Item(INBOX, mContext.getString(R.string.messages)));
-        menu.add(new Item(NOTIFYING, mContext.getString(R.string.notifying)));
+        if(selfUser){
+            menu.add(new Item(NEWS, mContext.getString(R.string.news)));
+            menu.add(new Item(INBOX, mContext.getString(R.string.messages)));
+            menu.add(new Item(NOTIFYING, mContext.getString(R.string.notifying)));
+        }
         menu.add(new Item(HISTORY, mContext.getString(R.string.history)));
         menu.add(new Item(FORUMS, mContext.getString(R.string.forums)));
         menu.add(new Item(FAVORITE, mContext.getString(R.string.favorite)));
@@ -69,6 +75,8 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     }
 
     public void load(final Query.OnQuerySuccessListener listener) {
+        if(!selfUser)
+            return;
         query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
                 .setCache(true, Query.FIVE_MIN)
                 .getResult(new Query.OnQuerySuccessListener() {
@@ -80,8 +88,8 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
                 });
     }
 
-    public void load(JSONObject dataFromServer) {
-        if (dataFromServer == null)
+    private void load(JSONObject dataFromServer) {
+        if (dataFromServer == null || !selfUser)
             return;
         Notification notify = new Notification(dataFromServer);
         user.setNotification(notify);
@@ -89,6 +97,8 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     }
 
     public void updateLocalData(Notification notify){
+        if(!selfUser)
+            return;
         for (Item item : menu) {
             if (item.id == INBOX)
                 item.count = notify.messages;
@@ -109,21 +119,22 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             mContext.loadPage(UserNewsFragment.newInstance(Constants.NOTIFYING));
         else if (item.id == INBOX)
             mContext.loadPage(InboxFragment.newInstance());
-        else if (id == HISTORY)
-            mContext.loadPage(UserHistoryFragment.newInstance());
-        else if (id == FORUMS){
+        else if (item.id == HISTORY)
+            mContext.loadPage(UserHistoryFragment.newInstance(currentUserId));
+        else if (item.id == FORUMS){
             Intent i = new Intent(mContext, ShowPageActivity.class);
-            i.putExtra(Constants.USER_ID, user.getId());
+            i.putExtra(Constants.USER_ID, currentUserId);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.FORUMS_PAGE);
             mContext.startActivity(i);
         }
-        else if (id == FAVORITE) {
+        else if (item.id == FAVORITE) {
             Intent i = new Intent(mContext, ShowPageActivity.class);
+            i.putExtra(Constants.USER_ID, currentUserId);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.FAVORITES_PAGE);
             mContext.startActivity(i);
         }
-        else if (id == FRIENDS) {
-            mContext.loadPage(CommunityUsersFragment.newInstance(true));
+        else if (item.id == FRIENDS) {
+            mContext.loadPage(CommunityUsersFragment.newInstance(true, currentUserId));
         }
     }
 

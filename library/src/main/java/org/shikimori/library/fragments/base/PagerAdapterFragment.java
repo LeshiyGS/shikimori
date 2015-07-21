@@ -109,20 +109,10 @@ public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements 
     protected void buildPages(){
         pageAdapter = getPagerAdapter();
         pager.setAdapter(pageAdapter);
-        int colorId = h.getAttributeResourceId(activity, R.attr.colorAccent);
-        int colorLabelId = h.getAttributeResourceId(activity, R.attr.altarixUiAttrLabelColor);
-        int colorIndicator = h.getAttributeResourceId(activity, R.attr.altarixUiAttrDividerColor);
-        // цвет теста табов
-        int clr = activity.getResources().getColor(colorId);
-        int clrNotSelected = activity.getResources().getColor(colorLabelId);
-        int clrIndicator = activity.getResources().getColor(colorIndicator);
-        // set colors
-        pagerStrip.setSelectedIndicatorColors(clrIndicator);
-        pagerStrip.setTextColors(clr, clrNotSelected);
         if(titles!=null){
             String[] titlesArray = new String[titles.size()];
             titles.toArray(titlesArray); // fill the array
-            pagerStrip.setTitles(titlesArray);
+            pagerStrip.setArrayTitles(titlesArray);
         }
         pagerStrip.setViewPager(pager);
     }

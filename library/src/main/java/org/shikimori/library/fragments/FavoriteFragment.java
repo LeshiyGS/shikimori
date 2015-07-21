@@ -30,8 +30,12 @@ public class FavoriteFragment extends PagerAdapterFragment {
     public static FavoriteFragment newInstance(String userId) {
         Bundle b = new Bundle();
         b.putString(Constants.USER_ID, userId);
+        return newInstance(b);
+    }
+
+    public static FavoriteFragment newInstance(Bundle params) {
         FavoriteFragment frag = new FavoriteFragment();
-        frag.setArguments(b);
+        frag.setArguments(params);
         return frag;
     }
 
@@ -39,13 +43,13 @@ public class FavoriteFragment extends PagerAdapterFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        addPage(FavoriteListFragment.newInstance(0),  activity.getString(R.string.anime));
-        addPage(FavoriteListFragment.newInstance(1),  activity.getString(R.string.manga));
-        addPage(FavoriteListFragment.newInstance(2),  activity.getString(R.string.characters));
-        addPage(FavoriteListFragment.newInstance(3),  activity.getString(R.string.people));
-        addPage(FavoriteListFragment.newInstance(4),  activity.getString(R.string.mangakas));
-        addPage(FavoriteListFragment.newInstance(5),  activity.getString(R.string.seyu));
-        addPage(FavoriteListFragment.newInstance(6),  activity.getString(R.string.producers));
+        addPage(FavoriteListFragment.newInstance(0, getArguments()),  activity.getString(R.string.anime));
+        addPage(FavoriteListFragment.newInstance(1, getArguments()),  activity.getString(R.string.manga));
+        addPage(FavoriteListFragment.newInstance(2, getArguments()),  activity.getString(R.string.characters));
+        addPage(FavoriteListFragment.newInstance(3, getArguments()),  activity.getString(R.string.people));
+        addPage(FavoriteListFragment.newInstance(4, getArguments()),  activity.getString(R.string.mangakas));
+        addPage(FavoriteListFragment.newInstance(5, getArguments()),  activity.getString(R.string.seyu));
+        addPage(FavoriteListFragment.newInstance(6, getArguments()), activity.getString(R.string.producers));
 
         showPages();
 

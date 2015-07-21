@@ -225,7 +225,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         sbAnimeProgress = (SeekBar) v.findViewById(R.id.sbAnimeProgress);
         sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
         gvBodyProfile = (GridView) v.findViewById(R.id.gvBodyProfile);
-        h.setVisible(llBody, false);
 
         v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
         v.findViewById(R.id.ivMangaListShow).setOnClickListener(this);
@@ -259,13 +258,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         // load unread messages
         showRefreshLoader();
         activity.setOnFragmentBackListener(this);
-        if (getUserId().equals(ShikiUser.USER_ID)) {
-            checkUserMenu();
-            notifyController = new NotifyProfileController(activity,
-                    query, activity.getShikiUser(), gvBodyProfile);
-        } else {
-            h.setVisibleGone(gvBodyProfile);
-        }
+        checkUserMenu();
+        notifyController = new NotifyProfileController(activity,
+                query, activity.getShikiUser(), getUserId(), gvBodyProfile);
         loadDataFromServer();
     }
 
@@ -296,7 +291,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         if (activity == null)
             return;
 
-        h.setVisible(llBody, true);
+        h.setVisible(llBody);
 
         stopRefresh();
         userDetails = new UserDetails().create(res.getResultObject());

@@ -1,9 +1,7 @@
 package org.shikimori.library.custom;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -21,6 +18,8 @@ import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.altarix.ui.CustomGroupCheckBox;
 
 /**
  * Created by Феофилактов on 14.07.2015.
@@ -34,6 +33,10 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
     int[] images = {
         0, R.drawable.ic_action_plus, R.drawable.ic_action_minus
     };
+    // включен ли негативный статус
+    private boolean negativeStatus = true;
+    // возможность выбора несколько вариантов
+    private boolean multy = true;
 
     public CustomCheckBoxFilter(Context context) {
         this(context, null);
@@ -82,6 +85,14 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
         buildViews();
     }
 
+    public void setNagativeStatus(boolean negative){
+        this.negativeStatus = negative;
+    }
+
+    public void setMultyChoise(boolean multy){
+        this.multy = multy;
+    }
+
     /**
      * Строим список
      */
@@ -99,6 +110,8 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
             llCheckBoxList.addView(v);
 
             prepareCounts(box);
+
+            isImage.setImageResource(images[box.status]);
         }
         invalidateCount();
     }
@@ -140,6 +153,8 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
             titleCountNegative++;
         } else {
             titleCountNegative--;
+            if(!negativeStatus)
+                titleCount--;
         }
 
         if(titleCount<0)
@@ -191,8 +206,11 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
             int position = llCheckBoxList.indexOfChild(v);
             Box box = list.get(position);
 
+            if(!multy)
+                clear(box);
+
             box.status++;
-            if(box.status > 2)
+            if(box.status > 2 || (!negativeStatus && box.status > 1))
                 box.status = 0;
 
             upCount(box);
@@ -200,6 +218,19 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
             isImage.setImageResource(images[box.status]);
         }
     };
+
+    private void clear(Box selected) {
+        for (int i = 0; i < list.size(); i++) {
+            Box box = list.get(i);
+            if(!selected.equals(box)){
+                if(box.getStatus() > 0){
+                    View v = llCheckBoxList.getChildAt(i);
+                    v.performClick();
+//                    box.setStatus(0);
+                }
+            }
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -209,7 +240,7 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
     }
 
 
-    public static class Box{
+    public static class Box implements CustomGroupCheckBox.Labeled {
         String title;
         String type;
         String value;
@@ -233,6 +264,15 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
 
         public String getValue() {
             return value;
+        }
+
+        @Override
+        public String getLabel() {
+            return title;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 }

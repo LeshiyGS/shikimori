@@ -39,9 +39,15 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     }
 
     public static CommunityUsersFragment newInstance(boolean friendList) {
+        return newInstance(friendList, null);
+    }
+    public static CommunityUsersFragment newInstance(boolean friendList, String userId) {
         Bundle b = new Bundle();
         b.putBoolean(FRIENDLIST, friendList);
         b.putInt(Constants.ACTION_BAR_TITLE, R.string.friends);
+        if(userId!=null)
+            b.putString(Constants.USER_ID, userId);
+
         CommunityUsersFragment frag = new CommunityUsersFragment();
         frag.setArguments(b);
         return frag;

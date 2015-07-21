@@ -162,4 +162,11 @@
     <string name="rating_r_plus">R+</string>
     <string name="rating_rx">Rx</string>
     <string name="go_to">Перейти</string>
+    <string name="sоrt_rating">По рейтингу</string>
+    <string name="sоrt_populating">По популярности</string>
+    <string name="sоrt_name">По алфавиту</string>
+    <string name="sоrt_aired_on">По дате выхода</string>
+    <string name="sоrt_id">По дате добавления</string>
+    <string name="clear">Очистить</string>
+    <string name="title_order">Сортировка</string>
 </resources>

@@ -30,9 +30,16 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
     private int position;
 
     public static FavoriteListFragment newInstance(int position){
-        FavoriteListFragment frag = new FavoriteListFragment();
-        Bundle b = new Bundle();
+        return newInstance(position, null);
+    }
+
+    public static FavoriteListFragment newInstance(int position, Bundle b){
+        if(b == null)
+            b = new Bundle();
+        else
+            b = (Bundle) b.clone();
         b.putInt(Constants.LIST_ID, position);
+        FavoriteListFragment frag = new FavoriteListFragment();
         frag.setArguments(b);
         return frag;
     }

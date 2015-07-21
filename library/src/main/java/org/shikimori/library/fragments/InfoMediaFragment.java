@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
+import com.loopj.android.http.RequestParams;
+
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.AMBaseListFragment;
 import org.shikimori.library.fragments.dialogs.AddRateDialogFragment;
@@ -15,10 +17,11 @@ import org.shikimori.library.tool.constpack.Constants;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class InfoMediaFragment extends AMBaseListFragment {
+public class InfoMediaFragment extends AMBaseListFragment implements FiltersDialogFragment.OnFilterListener {
 
     private String type;
     private int title;
+    private FiltersDialogFragment.FilterController filterController;
 
     public static Fragment newInstance(String type) {
         return newInstance(type, null);
@@ -71,9 +74,25 @@ public class InfoMediaFragment extends AMBaseListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_animes_filter) {
             FiltersDialogFragment frag = FiltersDialogFragment.newInstance();
+            frag.setFilterController(filterController);
+            frag.setOnFilterListener(this);
             frag.show(activity.getFragmentManagerLocal(), "");
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void filtered(FiltersDialogFragment.FilterController controller) {
+        filterController = controller;
+        query.getLoader().show();
+        loadData();
+    }
+
+    @Override
+    public RequestParams getFilterParams() {
+        if(filterController!=null)
+            return filterController.getRequestParams();
+        return super.getFilterParams();
     }
 }
