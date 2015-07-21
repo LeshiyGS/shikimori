@@ -1,24 +1,12 @@
 package org.shikimori.client.activity;
 
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.shikimori.client.DrawerTool;
 import org.shikimori.client.R;
-import org.shikimori.client.adapters.DrawerAdapter;
-import org.shikimori.client.fragments.AnimesShikiFragment;
-import org.shikimori.client.fragments.CalendarShikiFragment;
-import org.shikimori.client.fragments.MangasShikiFragment;
-import org.shikimori.client.fragments.TopicsShikiFragment;
-import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.interfaces.UserDataChangeListener;
-import org.shikimori.library.tool.h;
 
 
 /**

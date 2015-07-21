@@ -35,8 +35,8 @@
             android:id="@+id/wrapName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/defaultPadding"
-            android:layout_marginStart="@dimen/defaultPadding"
+            android:layout_marginLeft="@dimen/defaultPaddingMini"
+            android:layout_marginStart="@dimen/defaultPaddingMini"
             android:layout_toEndOf="@+id/ivPoster"
             android:layout_toRightOf="@+id/ivPoster">
 
@@ -72,8 +72,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/defaultPadding"
-            android:layout_marginStart="@dimen/defaultPadding"
+            android:layout_marginLeft="@dimen/defaultPaddingMini"
+            android:layout_marginStart="@dimen/defaultPaddingMini"
+            android:layout_marginTop="@dimen/defaultPaddingMini"
             android:layout_toEndOf="@+id/ivPoster"
             android:layout_toRightOf="@+id/ivPoster"
             android:layout_below="@+id/wrapName"
@@ -84,6 +85,7 @@
                 style="@style/altarixUiLabel.mini"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                  />
 
             <LinearLayout

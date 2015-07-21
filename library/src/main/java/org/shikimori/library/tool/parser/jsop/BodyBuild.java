@@ -148,7 +148,7 @@ public class BodyBuild {
      * Click в тексте
      */
     public interface UrlTextListener{
-        public void textLink(String url);
+        public void textLink(String url, URLSpan span, View view);
     }
 
     /**
@@ -237,6 +237,8 @@ public class BodyBuild {
             return false;
         if (html.contains("img") && !checkAvaOrSmiles(html))
             return false;
+        if (html.contains("comments"))
+            return false;
         return true;
     }
 
@@ -265,8 +267,14 @@ public class BodyBuild {
             case "a":
                 if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
                     addImage(elemnt.child(0), parent, getImageType(elemnt.child(0)));
-                } else
+                } else {
+                    String comment = elemnt.attr("data-href");
+                    if(comment.contains("comments") || comment.contains("message")){
+                        elemnt.attr("href", comment);
+                    }
+
                     setSimpleText(elemnt, parent);
+                }
                 break;
             default:
                 if (elemnt.children().size() > 0)
@@ -482,7 +490,7 @@ public class BodyBuild {
         ClickableSpan clickable = new ClickableSpan() {
             public void onClick(View view) {
                 if(urlTextListener!=null)
-                    urlTextListener.textLink(span.getURL());
+                    urlTextListener.textLink(span.getURL(), span, view);
             }
         };
         strBuilder.setSpan(clickable, start, end, flags);

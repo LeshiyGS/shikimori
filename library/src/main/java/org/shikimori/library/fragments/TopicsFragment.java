@@ -129,6 +129,10 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
                 intent.putExtra(Constants.TREAD_ID, item.id);
                 intent.putExtra(Constants.ITEM_OBJECT, item.jsonObject);
                 break;
+            case Constants.GROUP:
+                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+                intent.putExtra(Constants.TREAD_ID, item.id);
+                break;
                 //}else{
                 //    showPopupText(item);
 //                    return;

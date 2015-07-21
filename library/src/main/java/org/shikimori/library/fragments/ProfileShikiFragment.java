@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +19,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -526,7 +526,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         builder.setClickType(BodyBuild.CLICKABLETYPE.INTEXT);
         builder.setUrlTextListener(new BodyBuild.UrlTextListener() {
             @Override
-            public void textLink(String url) {
+            public void textLink(String url, URLSpan span, View view) {
                 url.length();
             }
         });

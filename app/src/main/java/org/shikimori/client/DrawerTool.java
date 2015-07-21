@@ -18,19 +18,17 @@ import org.shikimori.client.fragments.AnimesShikiFragment;
 import org.shikimori.client.fragments.CalendarShikiFragment;
 import org.shikimori.client.fragments.MangasShikiFragment;
 import org.shikimori.client.fragments.PreferenceShikiPragment;
-import org.shikimori.client.fragments.TopicsShikiFragment;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.fragments.CalendarFragment;
 import org.shikimori.library.fragments.CommunityClubsFragment;
 import org.shikimori.library.fragments.CommunityUsersFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
+import org.shikimori.library.fragments.TopicsFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Владимир on 16.04.2015.
@@ -163,7 +161,7 @@ public class DrawerTool {
         } else if (pageId == DrawerAdapter.DRAWER_MENU_MANGA_ID) {
             frag = MangasShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_NEWS_ID) {
-            frag = TopicsShikiFragment.newInstance();
+            frag = TopicsFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_SETTINGS_ID) {
             if (Build.VERSION.SDK_INT > 10) {
                 activity.removeCurrentFragment();

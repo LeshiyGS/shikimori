@@ -1,23 +1,15 @@
 package org.shikimori.library.tool;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.daimajia.androidanimations.library.BaseViewAnimator;
-import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import org.shikimori.library.R;
@@ -26,17 +18,16 @@ import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
-import org.shikimori.library.objects.one.ItemNewsUserShiki;
-import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.objects.one.UserRate.Status;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
-import org.shikimori.library.tool.pmc.PopupMenuCompat;
+import org.shikimori.library.tool.popup.TextPopup;
 
 import ru.altarix.ui.tool.TextStyling;
 
@@ -299,7 +290,7 @@ public class ProjectTool {
     }
 
     public static BodyBuild getBodyBuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
-        BodyBuild bodyBuilder = new BodyBuild(activity);
+        final BodyBuild bodyBuilder = new BodyBuild(activity);
         bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override
             public void imageClick(PostImage image) {
@@ -309,12 +300,33 @@ public class ProjectTool {
         bodyBuilder.setClickType(type);
         bodyBuilder.setUrlTextListener(new BodyBuild.UrlTextListener() {
             @Override
-            public void textLink(String url) {
-                LinkHelper.goToUrl(activity, url);
+            public void textLink(String url, URLSpan span, View view) {
+                LinkHelper.goToUrl(activity, url, activity, bodyBuilder);
             }
         });
 
         return bodyBuilder;
+    }
+
+    public static void showComment(Query query, String id, final BodyBuild bodyBuild){
+        final TextPopup popup = new TextPopup((Activity) query.getContext());
+        popup.showLoader();
+        popup.setTitle(R.string.comment);
+        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS_ID, id))
+                .getResultObject(new Query.OnQuerySuccessListener() {
+                    @Override
+                    public void onQuerySuccess(StatusResult res) {
+                        ItemCommentsShiki comment = new ItemCommentsShiki().createFromJson(res.getResultObject());
+                        bodyBuild.parceAsync(comment.html_body, new BodyBuild.ParceDoneListener() {
+                            @Override
+                            public void done(ViewGroup view) {
+                                popup.hideLoader();
+                                popup.setBody(view);
+                            }
+                        });
+                    }
+                });
+        popup.show();
     }
 
 }

@@ -109,29 +109,13 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             Intent i = new Intent(getContext(), ShowPageActivity.class);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.DISCUSSION);
             i.putExtra(Constants.TREAD_ID, item.linked.threadId);
-            i.putExtra(Constants.ACTION_BAR_TITLE, item.id);
+//            i.putExtra(Constants.ACTION_BAR_TITLE, item.id);
             getContext().startActivity(i);
         }
     }
 
     private void showCooment(ItemNewsUserShiki item){
-        final TextPopup popup = new TextPopup((Activity) getContext());
-        popup.showLoader();
-        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS_ID, item.linked.id))
-                .getResultObject(new Query.OnQuerySuccessListener() {
-                    @Override
-                    public void onQuerySuccess(StatusResult res) {
-                        ItemCommentsShiki comment = new ItemCommentsShiki().createFromJson(res.getResultObject());
-                        bodyBuild.parceAsync(comment.html_body, new BodyBuild.ParceDoneListener() {
-                            @Override
-                            public void done(ViewGroup view) {
-                                popup.hideLoader();
-                                popup.setBody(view);
-                            }
-                        });
-                    }
-                });
-        popup.show();
+        ProjectTool.showComment(query, item.linked.id, bodyBuild);
     }
 
     public void setType(String type) {

@@ -31,6 +31,7 @@ public class Constants {
     public static final String CHARACTER = "character";
     public static final String TOPIC = "topic";
     public static final String REVIEW = "review";
+    public static final String GROUP = "group";
     public static final String SITENEWS = "sitenews";
 
     // users

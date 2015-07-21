@@ -81,10 +81,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         ImageLoader.getInstance().displayImage(item.from.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        if (ShikiUser.USER_ID.equals(item.from.id))
-            h.setVisible(holder.tvRead, false);
-        else
-            h.setVisible(holder.tvRead, true);
+        h.setVisible(!ShikiUser.USER_ID.equals(item.from.id), holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 

@@ -64,12 +64,12 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
     @Override
     public void setValues(InboxHolder holder, ItemDialogs item, int position) {
 
-        if(!item.message.from.id.equals(item.user.id)){
-            h.setVisible(holder.llFromUserName, true);
+        boolean selfUser = item.message.from.id.equals(item.user.id);
+        h.setVisibleGone(selfUser, holder.llFromUserName);
+
+        if(!selfUser){
             holder.tvFromUser.setText(item.message.from.nickname);
             ImageLoader.getInstance().displayImage(item.message.from.img148, holder.ivFromUser);
-        } else {
-            h.setVisibleGone(holder.llFromUserName);
         }
 
         holder.tvName.setText(item.user.nickname);
@@ -91,12 +91,10 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
         ImageLoader.getInstance().displayImage(item.user.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        if (ShikiUser.USER_ID.equals(item.message.from.id))
-            h.setVisible(holder.tvRead, false);
-        else {
-            h.setVisible(holder.tvRead, true);
+        selfUser = ShikiUser.USER_ID.equals(item.message.from.id);
+        h.setVisible(!selfUser, holder.tvRead);
+        if (!selfUser)
             ProjectTool.setReadOpasity(holder.tvRead, item.message.read);
-        }
     }
 
     @Override
