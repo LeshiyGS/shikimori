@@ -298,13 +298,6 @@ public class ProjectTool {
             }
         });
         bodyBuilder.setClickType(type);
-        bodyBuilder.setUrlTextListener(new BodyBuild.UrlTextListener() {
-            @Override
-            public void textLink(String url, URLSpan span, View view) {
-                LinkHelper.goToUrl(activity, url, activity, bodyBuilder);
-            }
-        });
-
         return bodyBuilder;
     }
 

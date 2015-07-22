@@ -44,6 +44,7 @@
             <include
                 android:id="@+id/iLoader"
                 layout="@layout/loading_view"/>
+
             <LinearLayout
                 android:id="@+id/llReview"
                 android:layout_width="match_parent"

@@ -28,12 +28,15 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.shikimori.library.R;
+import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.AniPostGaleryAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
 import org.shikimori.library.objects.one.ItemImageShiki;
+import org.shikimori.library.tool.LinkHelper;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ImageController;
@@ -69,14 +72,14 @@ public class BodyBuild {
     }
 
     private final Point screensize;
-    private Context context;
+    private BaseActivity context;
     private TextView lastTv;
     List<ImageController> images = new ArrayList<>();
     CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
     CLICKABLETYPE clicktype = CLICKABLETYPE.NOT;
     // check reach maxLenth
 
-    public BodyBuild(Activity context) {
+    public BodyBuild(BaseActivity context) {
         this.context = context;
         screensize = h.getScreenSize(context);
     }
@@ -328,7 +331,9 @@ public class BodyBuild {
      */
     private void buildViewAni(Element elemnt, ViewGroup parent) {
 
-        Element imageSrc = elemnt.select("img").first();
+        Element a = elemnt.select("a").first();
+
+        Element imageSrc = a.select("img").first();
 //        String title = imageSrc.attr("title");
 //        String prevImg = imageSrc.attr("src");
 //        String originImg = imageSrc.attr("srcset");
@@ -339,6 +344,7 @@ public class BodyBuild {
         item.image.preview = imageSrc.attr("src");
         item.image.original = imageSrc.attr("srcset");
         item.name = imageSrc.attr("title");
+        item.url = a.attr("href");
         item.id = elemnt.id();
 
         ExpandableHeightGridView exGrid;
@@ -350,10 +356,11 @@ public class BodyBuild {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     AMShiki obj = (AMShiki) parent.getAdapter().getItem(position);
-                    Intent i = new Intent(context, ShowPageActivity.class);
-                    i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-                    i.putExtra(Constants.ITEM_ID, obj.id);
-                    context.startActivity(i);
+                    LinkHelper.goToUrl(context, obj.url, BodyBuild.this);
+//                    Intent i = new Intent(context, ShowPageActivity.class);
+//                    i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+//                    i.putExtra(Constants.ITEM_ID, obj.id);
+//                    context.startActivity(i);
                 }
             });
         } else {
@@ -491,6 +498,8 @@ public class BodyBuild {
             public void onClick(View view) {
                 if(urlTextListener!=null)
                     urlTextListener.textLink(span.getURL(), span, view);
+                else
+                    LinkHelper.goToUrl(context, span.getURL(), BodyBuild.this);
             }
         };
         strBuilder.setSpan(clickable, start, end, flags);
@@ -651,10 +660,10 @@ public class BodyBuild {
         private ParceDoneListener listener;
         private int maxLenght;
 
-        public ViewsLoader(Context context, String text, ParceDoneListener listener) {
+        public ViewsLoader(BaseActivity context, String text, ParceDoneListener listener) {
             super(context);
             this.text = text;
-            builder = new BodyBuild((Activity) context);
+            builder = new BodyBuild(context);
             this.listener = listener;
         }
 

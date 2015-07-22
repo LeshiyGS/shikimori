@@ -18,20 +18,17 @@ import java.util.regex.Pattern;
  * Created by Владимир on 18.06.2015.
  */
 public class LinkHelper {
-    public static void goToUrl(Context context, String url, BaseActivity activity, BodyBuild bodyBuild){
+    public static void goToUrl(BaseActivity activity, String url, BodyBuild bodyBuild){
 
         if(url.contains("/animes")){
-            String id = getItemId("animes", url);
-            if(id!=null){
-                ProjectTool.ShowSimplePage(context, Constants.ANIME, id);
+            if(goToPage(activity, "animes", url, Constants.ANIME))
                 return;
-            }
         } else if(url.contains("/mangas")){
-            String id = getItemId("mangas", url);
-            if(id!=null){
-                ProjectTool.ShowSimplePage(context, Constants.MANGA, id);
+            if(goToPage(activity, "mangas", url, Constants.MANGA))
                 return;
-            }
+        } else if(url.contains("/characters")){
+            if(goToPage(activity, "characters", url, Constants.CHARACTER))
+                return;
         } else if(url.contains("/comments")){
             String id = getItemId("comments", url);
             ProjectTool.showComment(activity.prepareQuery(false), id, bodyBuild);
@@ -41,7 +38,16 @@ public class LinkHelper {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse(url));
-        context.startActivity(intent);
+        activity.startActivity(intent);
+    }
+
+    static boolean goToPage(Context contenx, String name, String url, String type){
+        String id = getItemId(name, url);
+        if(id!=null){
+            ProjectTool.ShowSimplePage(contenx, type, id);
+            return true;
+        }
+        return false;
     }
 
     static String getItemId(String pattern, String url){

@@ -120,23 +120,14 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
 
         intent = new Intent(activity, ShowPageActivity.class);
         switch (type.toLowerCase()) {
-            case Constants.TOPIC:
-                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
-                intent.putExtra(Constants.TREAD_ID, item.id);
-                break;
-            case Constants.REVIEW:
-                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
-                intent.putExtra(Constants.TREAD_ID, item.id);
-                intent.putExtra(Constants.ITEM_OBJECT, item.jsonObject);
-                break;
             case Constants.GROUP:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
                 intent.putExtra(Constants.TREAD_ID, item.id);
                 break;
-                //}else{
-                //    showPopupText(item);
-//                    return;
-               // }
+            default:
+                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
+                intent.putExtra(Constants.TREAD_ID, item.id);
+                intent.putExtra(Constants.ITEM_OBJECT, item.jsonObject);
         }
         intent.putExtra(Constants.ITEM_ID, item.linkedId);
         activity.startActivity(intent);

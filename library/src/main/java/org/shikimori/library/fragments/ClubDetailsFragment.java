@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -77,7 +79,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseActivity> implemen
     @Override
     public void onStartRefresh() {
         query.invalidateCache(getUrl());
-        h.setVisible(iLoader, true);
+        h.setVisible(iLoader);
         loadData();
     }
 
