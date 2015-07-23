@@ -15,6 +15,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemMangaDetails;
 import org.shikimori.library.objects.one.UserRate;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.h;
 
 import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
@@ -59,25 +60,25 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         // description
         h.setTextViewHTML(activity, tvReview, details.description_html);
         // rating
-        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
-        rbTitle.setRating(Float.parseFloat(details.score) / 2);
+//        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
+//        rbTitle.setRating(Float.parseFloat(details.score) / 2);
+        rbTitle.setRating(Double.valueOf(details.score), details.scoreStats);
 
         // info list
-        addInfo(R.string.type, details.kind);
+        addInfo(R.string.type, getTypeTranslate(details.kind));
         addInfo(R.string.volumes, details.volumes);
         addInfo(R.string.chapters, details.chapters);
         addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
         addInfo(R.string.title_publishers, TextUtils.join(", ", details.publishers));
 
         // hide studio block
-        h.setVisibleGone(tvMenuStudios);
-        h.setVisibleGone(llStudios);
+        h.setVisibleGone(tvMenuStudios, llStudios);
         // чего хотят пользователи
         buildStateWanted(details.ratesStatusesStats);
 
         llWrapAddList.setRate(details.id, details.userRate, MANGA);
 
-        h.setVisible(llWrapAddList, true);
+        h.setVisible(llWrapAddList);
         // status color and animation
         setStatus(details.anons, details.ongoing);
         // load comments
@@ -101,7 +102,19 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
-            activity.getThumbToImage().zoom(ivPoster, details.image.original);
+            activity.getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
+    }
+
+    String getTypeTranslate(String type){
+        switch (type){
+            case "doujin": return activity.getString(R.string.doujin);
+            case "manga": return activity.getString(R.string.manga);
+            case "manhua": return activity.getString(R.string.manhua);
+            case "manhwa": return activity.getString(R.string.manhwa);
+            case "novel": return activity.getString(R.string.novel);
+            case "one_shot": return activity.getString(R.string.one_shot);
+            default: return type;
+        }
     }
 
 }

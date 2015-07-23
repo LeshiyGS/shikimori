@@ -4,6 +4,7 @@ import android.widget.ImageView;
 
 import com.koushikdutta.ion.Ion;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
@@ -13,6 +14,10 @@ import org.shikimori.library.loaders.ShikiApi;
  */
 public class ShikiImage {
     public static boolean show(String url, ImageView imageView){
+        return show(url, imageView, null);
+    }
+
+    public static boolean show(String url, ImageView imageView, ImageLoadingListener listener){
         imageView.setImageDrawable(null);
         if(url == null)
             return false;
@@ -20,18 +25,21 @@ public class ShikiImage {
         if(!url.startsWith("http"))
             url = ShikiApi.HTTP_SERVER + url;
 
-        if(url.contains(".gif"))
+        if(url.contains(".gif")){
             Ion.with(imageView).placeholder(R.drawable.ic_loading).load(url);
+            if(listener!=null)
+                listener.onLoadingComplete(null,null,null);
+        }
         else
-            ImageLoader.getInstance().displayImage(url, imageView);
+            ImageLoader.getInstance().displayImage(url, imageView, listener);
         return true;
     }
+
+
+
     public static boolean show(String url, ImageView imageView, boolean hideIfEnpty){
-        if(!show(url, imageView) && hideIfEnpty){
-            h.setVisibleGone(imageView);
-            return false;
-        }else
-            h.setVisible(imageView, true);
-        return true;
+        boolean loaded = show(url, imageView) && hideIfEnpty;
+        h.setVisibleGone(!loaded, imageView);
+        return loaded;
     }
 }

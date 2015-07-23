@@ -294,7 +294,7 @@ public class ProjectTool {
         bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override
             public void imageClick(PostImage image) {
-                activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
+                activity.getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
             }
         });
         bodyBuilder.setClickType(type);

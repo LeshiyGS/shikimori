@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.gars.verticalratingbar.VerticalRatingBar;
 import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -47,9 +48,9 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
 
     private String itemId;
     protected ScrollView svMain;
-    protected TextView tvTitle, tvScore, tvReview,tvStatus, tvMenuStudios;
+    protected TextView tvTitle, tvReview,tvStatus;
     protected ImageView ivPoster;
-    protected RatingBar rbTitle;
+    protected VerticalRatingBar rbTitle;
     protected ViewGroup llInfo, llWanted;
     protected ExpandableHeightGridView llStudios;
     protected ApiRatesController apiRateController;
@@ -62,12 +63,10 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
         svMain = (ScrollView) v.findViewById(R.id.svMain);
         tvTitle = (TextView) v.findViewById(R.id.tvTitle);
         llInfo = (ViewGroup) v.findViewById(R.id.llInfo);
-        tvScore = (TextView) v.findViewById(R.id.tvMenuScore);
         tvReview = (TextView) v.findViewById(R.id.llReview);
         ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
-        rbTitle = (RatingBar) v.findViewById(R.id.rbTitle);
+        rbTitle = (VerticalRatingBar) v.findViewById(R.id.vRatingBar);
         tvStatus = (TextView) v.findViewById(R.id.tvStatus);
-        tvMenuStudios = (TextView) v.findViewById(R.id.tvMenuStudios);
         llStudios = (ExpandableHeightGridView) v.findViewById(R.id.llStudios);
         llWanted = (ViewGroup) v.findViewById(R.id.llWanted);
         llWrapAddList =  find(R.id.llWrapAddList);
@@ -86,7 +85,9 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        rbTitle.setSelectColor(activity.getResources().getColor(R.color.colorAccent));
         llWrapAddList.initParams(activity, getUserId());
+
         initArgiments();
         if(itemId == null)
             return;
@@ -95,6 +96,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
 
         ivPoster.setOnClickListener(this);
         apiRateController = new ApiRatesController(query);
+
     }
 
     @Override
@@ -152,17 +154,17 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     /**
      * Set wanted from people
      */
-    protected void buildStateWanted(List<RatesStatusesStats> ratesStatusesStats) {
+    protected void buildStateWanted(List<VerticalRatingBar.Rates> ratesStatusesStats) {
         llWanted.removeAllViews();
         LayoutInflater inflater = activity.getLayoutInflater();
         if(ratesStatusesStats!=null){
-            for (RatesStatusesStats ratesStatusesStat : ratesStatusesStats) {
+            for (VerticalRatingBar.Rates ratesStatusesStat : ratesStatusesStats) {
                 View v = inflater.inflate(R.layout.item_shiki_progress, null);
                 SeekBar sbProgress = h.get(v, R.id.sbProgress);
                 sbProgress.setEnabled(false);
                 TextView tvProgress = h.get(v, R.id.tvProgress);
-                sbProgress.setProgress(ratesStatusesStat.procents);
-                tvProgress.setText(ratesStatusesStat.name + " / "+ratesStatusesStat.value);
+                sbProgress.setProgress(ratesStatusesStat.getProcents());
+                tvProgress.setText(ratesStatusesStat.getTitle() + " / "+ratesStatusesStat.getValue());
                 llWanted.addView(v);
             }
         }

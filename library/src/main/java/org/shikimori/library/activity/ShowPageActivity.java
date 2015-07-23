@@ -33,6 +33,7 @@ public class ShowPageActivity extends PageActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHomeArrow(true);
         params = getIntent().getExtras();
         chosePage();
     }

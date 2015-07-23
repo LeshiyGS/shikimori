@@ -24,7 +24,7 @@
     </string-array>
 
     <string-array name="status_manga">
-        <item>@string/reading</item>
+        <item>@string/completedmanga</item>
         <item>@string/planned</item>
         <item>@string/completedmanga</item>
         <item>@string/rewatchingmanga</item>

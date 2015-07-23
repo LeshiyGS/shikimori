@@ -17,7 +17,10 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.abs.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemUserHistory;
+import org.shikimori.library.tool.LinkHelper;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
 
@@ -100,19 +103,8 @@ public class UserHistoryFragment extends BaseListViewFragment {
             return;
 
         ItemUserHistory item = (ItemUserHistory) adp.getItem(position);
-        Intent i = new Intent(activity, ShowPageActivity.class);
-
-        //TODO
-        //Проверка на наличие епизодов.. если  нет то это манга, а не аниме.
-        //Нужно Сделать проверку на тип в самом AMShiki и удалить ItemMangaShiki
-        //Т.К. в Истории былают еще и записи импорта с других сайтов
-        if (item.target.episodes != null)
-            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-        else
-            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
-        i.putExtra(Constants.ITEM_ID, item.target.id);
-        activity.startActivity(i);
-
+        if(item.target!=null)
+            LinkHelper.goToUrl(activity, item.target.url, ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.NOT));
     }
 
 }

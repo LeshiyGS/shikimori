@@ -1,5 +1,7 @@
 package org.shikimori.library.objects.abstracts;
 
+import com.gars.verticalratingbar.VerticalRatingBar;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.one.AMShiki;
@@ -8,6 +10,7 @@ import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.Studio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +22,8 @@ public class AMDetails extends AMShiki {
             world_art_id, myanimelist_id, ani_db_id;
     public Boolean favoured;
     public List<String>  english, japanese, synonyms, genres;
-    public List<RatesStatusesStats> ratesStatusesStats;
+    public List<VerticalRatingBar.Rates> ratesStatusesStats;
+    public List<VerticalRatingBar.Rates> scoreStats;
 
     @Override
     public AMDetails createFromJson(JSONObject json) {
@@ -43,25 +47,43 @@ public class AMDetails extends AMShiki {
         favoured = json.optBoolean("favoured");
 
         genres  = getList(json.optJSONArray("genres"), "russian");
-        JSONArray array = json.optJSONArray("rates_statuses_stats");
-        ratesStatusesStats = new ArrayList<>();
+        // user stats
+        ratesStatusesStats = buildStats(json.optJSONArray("rates_statuses_stats"));
+        Collections.reverse(ratesStatusesStats);
+        // scores
+        scoreStats = buildStats(json.optJSONArray("rates_scores_stats"));
+        Collections.reverse(scoreStats);
+        return this;
+    }
+
+    private List<VerticalRatingBar.Rates> buildStats(JSONArray array){
+        List<VerticalRatingBar.Rates> list = new ArrayList<>();
         int fullStateProgress = 0;
         if(array!=null){
             for (int i = 0; i < array.length(); i++) {
-                RatesStatusesStats item = new RatesStatusesStats(array.optJSONObject(i));
-                ratesStatusesStats.add(item);
-                fullStateProgress += item.value;
+                JSONObject obj = array.optJSONObject(i);
+                VerticalRatingBar.Rates item = new VerticalRatingBar.Rates(obj.optInt("value"));
+                item.setTitle(HelperObj.getString(obj, "name"));
+                list.add(item);
+                fullStateProgress += item.getValue();
             }
         }
 
         if(fullStateProgress!=0){
-            for (RatesStatusesStats ratesStatusesStat : ratesStatusesStats) {
-                ratesStatusesStat.procents = ratesStatusesStat.value * 100 / fullStateProgress;
+            for (VerticalRatingBar.Rates rates : list) {
+                rates.setProcents(rates.getValue() * 100 / fullStateProgress);
             }
         }
 
+        if(list.size() > 5){
+            List<VerticalRatingBar.Rates> newList = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                newList.add(list.get(i));
+            }
+            list = newList;
+        }
 
-        return this;
+        return list;
     }
 
     protected ArrayList<String> getList(JSONArray arr, String name){

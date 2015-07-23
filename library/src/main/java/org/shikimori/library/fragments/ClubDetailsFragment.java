@@ -130,7 +130,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseActivity> implemen
     public void onClick(View v) {
         if(v.getId() == R.id.ivPoster){
             if(item.original!=null)
-                activity.getThumbToImage().zoom(ivPoster, item.original);
+                activity.getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.original));
         }
     }
 }

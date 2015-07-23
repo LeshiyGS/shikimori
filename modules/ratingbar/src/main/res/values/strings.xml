@@ -1,0 +1,4 @@
+<resources>
+    <string name="rates">ОЦЕНОК\n%1$d</string>
+    <string name="rates_none">ОЦЕНОК\n0</string>
+</resources>

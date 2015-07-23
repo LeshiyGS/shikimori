@@ -155,12 +155,12 @@
     <string name="minute_10">До 10 минут</string>
     <string name="minute_30">До 30 минут</string>
     <string name="after_30">Более 30 минут</string>
-    <string name="rating_g">G</string>
-    <string name="rating_pg">PG</string>
-    <string name="rating_pg_13">PG-13</string>
-    <string name="rating_r">R-17</string>
-    <string name="rating_r_plus">R+</string>
-    <string name="rating_rx">Rx</string>
+    <string name="rating_g">G - Нет возрастных ограничений</string>
+    <string name="rating_pg">PG - Рекомендуется присутствие родителей</string>
+    <string name="rating_pg_13">PG-13 - Детям до 13 лет просмотр не желателен</string>
+    <string name="rating_r">R-17 - Лицам до 17 лет обязательное присутствие взрослого</string>
+    <string name="rating_r_plus">R+ - Лицам до 17 лет просмотр запрещен</string>
+    <string name="rating_rx">Rx - Хентай</string>
     <string name="go_to">Перейти</string>
     <string name="sоrt_rating">По рейтингу</string>
     <string name="sоrt_populating">По популярности</string>
@@ -169,4 +169,9 @@
     <string name="sоrt_id">По дате добавления</string>
     <string name="clear">Очистить</string>
     <string name="title_order">Сортировка</string>
+    <string name="doujin">Додзинси</string>
+    <string name="manhua">Маньхуа</string>
+    <string name="manhwa">Манхва</string>
+    <string name="novel">Новелла</string>
+    <string name="one_shot">Ваншот</string>
 </resources>

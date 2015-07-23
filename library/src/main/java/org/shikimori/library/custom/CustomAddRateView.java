@@ -92,11 +92,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         }
         if (rate.status == UserRate.Status.WATCHING ||
                 rate.status == UserRate.Status.REWATCHING) {
-            h.setVisible(bListSettings, true);
-            h.setVisible(bListPlus, true);
+            h.setVisible(bListSettings, bListPlus);
         } else {
-            h.setVisibleGone(bListSettings);
-            h.setVisibleGone(bListPlus);
+            h.setVisibleGone(bListSettings,bListPlus);
         }
         bAddToList.setText(name);
     }

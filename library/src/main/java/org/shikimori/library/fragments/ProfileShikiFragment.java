@@ -519,7 +519,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                 list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
 
 //                activity.getThumbToImage().zoom(image.getImage(), 2, list);
-                activity.getThumbToImage().zoom(image.getImage(), image.getImageData().getOriginal());
+                activity.getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
             }
         });
 

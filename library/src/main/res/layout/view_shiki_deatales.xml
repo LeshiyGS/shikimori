@@ -25,6 +25,14 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
 
+                <org.shikimori.library.custom.ExpandableHeightGridView
+                    android:id="@+id/llStudios"
+                    android:focusable="false"
+                    android:padding="@dimen/defaultPaddingMini"
+                    android:descendantFocusability="afterDescendants"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:id="@+id/tvTitle"
                     style="@style/altarixUiText.TextTitle"
@@ -55,6 +63,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <com.gars.verticalratingbar.VerticalRatingBar
+                android:id="@+id/vRatingBar"
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/defaultPaddingMini"/>
+
             <TextView
                 android:id="@+id/tvMenuInfo"
                 style="@style/altarixUiText"
@@ -73,32 +88,6 @@
                 android:orientation="vertical"
                 android:padding="@dimen/defaultPadding" />
 
-
-            <TextView
-                android:id="@+id/tvMenuStudios"
-                style="@style/altarixUiText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_overlay_85"
-                android:padding="@dimen/defaultPadding"
-                android:text="@string/title_studio"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold" />
-
-            <org.shikimori.library.custom.ExpandableHeightGridView
-                android:id="@+id/llStudios"
-                android:focusable="false"
-                android:descendantFocusability="afterDescendants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
-            <!--android:id="@+id/tvInfo"-->
-            <!--android:textColor="@color/title_black_transparent"-->
-            <!--android:padding="@dimen/defaultPadding" />-->
 
             <TextView
                 android:id="@+id/tvMenuRewiew"
@@ -141,28 +130,30 @@
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvMenuScore"
-                style="@style/altarixUiText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_overlay_85"
-                android:padding="@dimen/defaultPadding"
-                android:text="@string/rating"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold" />
+            <!--<TextView-->
+                <!--android:id="@+id/tvMenuScore"-->
+                <!--style="@style/altarixUiText"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/white_overlay_85"-->
+                <!--android:padding="@dimen/defaultPadding"-->
+                <!--android:text="@string/rating"-->
+                <!--android:textColor="@color/title_black_transparent"-->
+                <!--android:textStyle="bold" />-->
 
-            <RatingBar
-                android:id="@+id/rbTitle"
-                style="?android:attr/ratingBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:focusable="false"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:stepSize="0.01" />
+
+
+            <!--<RatingBar-->
+                <!--android:id="@+id/rbTitle"-->
+                <!--style="?android:attr/ratingBarStyle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:focusable="false"-->
+                <!--android:isIndicator="true"-->
+                <!--android:numStars="5"-->
+                <!--android:stepSize="0.01" />-->
         </LinearLayout>
     </ScrollView>
 

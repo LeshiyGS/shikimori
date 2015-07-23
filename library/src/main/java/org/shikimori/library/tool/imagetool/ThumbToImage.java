@@ -34,6 +34,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ImageShowActivity;
 import org.shikimori.library.tool.RelevalCircular;
+import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.h;
 
@@ -78,8 +79,7 @@ public class ThumbToImage {
         this.thumbView = thumbView;
         this.list = list;
 
-        h.setVisible(wraper, true);
-        h.setVisible(back, true);
+        h.setVisible(wraper, back);
         YoYo.with(Techniques.FadeIn)
                 .duration(300)
                 .playOn(back);
@@ -93,12 +93,12 @@ public class ThumbToImage {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    viewPager.setVisibility(View.VISIBLE);
-                    expandedImage.setVisibility(View.GONE);
+                    h.setVisible(viewPager);
+                    h.setVisibleGone(expandedImage);
                 }
             });
         } else
-            viewPager.setVisibility(View.VISIBLE);
+            h.setVisible(viewPager);
 
         List<View> views = new ArrayList<>();
 
@@ -138,8 +138,7 @@ public class ThumbToImage {
             return;
         }
 
-        h.setVisible(wraper, true);
-        h.setVisible(back, true);
+        h.setVisible(wraper, back);
         YoYo.with(Techniques.FadeIn)
                 .duration(300)
                 .playOn(back);

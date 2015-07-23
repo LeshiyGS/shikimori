@@ -78,8 +78,11 @@ public class UILImageGetter implements Html.ImageGetter {
 
             if(c instanceof Activity)
                 ((Activity) c).runOnUiThread(new Runnable() {
+
                     @Override
                     public void run() {
+                        if(c == null || container == null)
+                            return;
                         container.setText(container.getText());
                     }
                 });

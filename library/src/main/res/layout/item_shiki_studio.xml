@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray_black"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/ivImage"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:scaleType="centerInside" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        style="@style/altarixUiText.TextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:text="test"
-        android:paddingBottom="@dimen/defaultPaddingMini"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/white_overlay_85" />
+        android:scaleType="centerInside" />
 
-</LinearLayout>
+    <!--<TextView-->
+        <!--android:id="@+id/tvTitle"-->
+        <!--style="@style/altarixUiText.TextTitle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:ellipsize="marquee"-->
+        <!--android:text="test"-->
+        <!--android:paddingBottom="@dimen/defaultPaddingMini"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:textColor="@color/white_overlay_85" />-->
+
+</FrameLayout>

@@ -223,7 +223,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
     public void onClick(View v) {
         if(v.getId() == R.id.ivPoster){
             if(item.image!=null)
-                activity.getThumbToImage().zoom(ivPoster, item.image.original);
+                activity.getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.image.original));
         }
     }
 }

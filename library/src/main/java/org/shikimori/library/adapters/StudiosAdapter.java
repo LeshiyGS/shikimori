@@ -31,7 +31,7 @@ public class StudiosAdapter extends SimpleBaseAdapter<Studio, StudiosAdapter.Hol
 
     @Override
     public void setValues(StudiosAdapter.Holder holder, Studio item, int position) {
-        holder.tvTitle.setText(item.name);
+//        holder.tvTitle.setText(item.name);
         ShikiImage.show(item.image, holder.ivImage);
     }
 

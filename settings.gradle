@@ -4,7 +4,8 @@ include ':app',
 //        ":modules:easyAdapter",
 //        ":modules:ui_tools",
         ":modules:PinnedSectionAdapter",
-        ":modules:PhotoView"
+        ":modules:PhotoView",
+        ":modules:ratingbar"
 //        ":myPaggingListView"
 
 

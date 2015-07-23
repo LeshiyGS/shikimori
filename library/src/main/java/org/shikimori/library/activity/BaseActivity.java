@@ -289,14 +289,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Queryabl
     }
 
     public void setHomeArrow(boolean arrow) {
-        ActionBar actionBar = getSupportActionBar();
-        if (arrow) {
-            // actionBar.setLogo(R.drawable.nav_icon_back);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        } else {
-            //  actionBar.setLogo(R.drawable.ic_launcher);
-            actionBar.setDisplayHomeAsUpEnabled(false);
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(arrow);
     }
 
     public FragmentManager getFragmentManagerLocal(){
