@@ -71,8 +71,6 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         addInfo(R.string.title_genres, TextUtils.join(", ", details.genres));
         addInfo(R.string.title_publishers, TextUtils.join(", ", details.publishers));
 
-        // hide studio block
-        h.setVisibleGone(tvMenuStudios, llStudios);
         // чего хотят пользователи
         buildStateWanted(details.ratesStatusesStats);
 
