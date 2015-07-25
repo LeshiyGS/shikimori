@@ -43,11 +43,12 @@ public class ApiMessageController extends BaseApiController<ApiMessageController
         send(listener);
     }
 
-    public void sendComment(String treadId, String userId, String text, Query.OnQuerySuccessListener listener){
+    public void sendComment(String treadId, String userId, String mesType, String text, Query.OnQuerySuccessListener listener){
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS))
                 .setMethod(Query.METHOD.POST)
                 .addParam("comment[commentable_id]", treadId)
-                .addParam("comment[commentable_type]", "Entry")
+//                .addParam("comment[commentable_type]", "Entry")
+                .addParam("comment[commentable_type]", mesType)
                 .addParam("comment[user_id]", userId)
                 .addParam("comment[body]", text);
 

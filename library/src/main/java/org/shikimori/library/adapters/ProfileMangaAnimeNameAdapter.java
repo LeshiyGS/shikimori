@@ -22,11 +22,11 @@ import java.util.List;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ProfileMangaAnnimeNameAdapter extends SimpleBaseAdapter<AnimeManga, AnimeMangaNamesHolder> {
+public class ProfileMangaAnimeNameAdapter extends SimpleBaseAdapter<AnimeManga, AnimeMangaNamesHolder> {
 
     private ProjectTool.TYPE type;
 
-    public ProfileMangaAnnimeNameAdapter(Context context, List list, ProjectTool.TYPE type) {
+    public ProfileMangaAnimeNameAdapter(Context context, List list, ProjectTool.TYPE type) {
         super(context, list, R.layout.item_shiki_profile_anime_manga_list);
         this.type = type;
     }

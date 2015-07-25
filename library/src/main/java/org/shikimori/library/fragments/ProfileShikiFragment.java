@@ -24,7 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.adapters.ProfileMangaAnnimeNameAdapter;
+import org.shikimori.library.adapters.ProfileMangaAnimeNameAdapter;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -454,7 +454,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         pop = new ListPopup(activity);
         pop.setAnimate(Techniques.Pulse);
         pop.setOnItemClickListener(listener);
-        pop.setAdapter(new ProfileMangaAnnimeNameAdapter(activity,
+        pop.setAdapter(new ProfileMangaAnimeNameAdapter(activity,
                 type == ProjectTool.TYPE.MANGA ? userDetails.fullStatuses.manga :
                         userDetails.fullStatuses.animes, type));
         pop.setTitle(title);

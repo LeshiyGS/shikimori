@@ -35,6 +35,7 @@ import java.util.List;
 public class SendMessageController {
     private final Context context;
     private Type type;
+    private String mestype;
     private final QuoteEditText quoteTool;
     private LoaderController loader;
     private final Query query;

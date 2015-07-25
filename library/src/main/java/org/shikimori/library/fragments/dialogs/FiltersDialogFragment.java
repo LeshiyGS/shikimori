@@ -62,6 +62,8 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         addViewList(R.string.episod_title, controller.getDurationList());
         // rating
         addViewList(R.string.title_rating, controller.getRateList());
+        // genres
+        addViewList(R.string.title_genres, controller.getGenreList());
         // order list
         CustomCheckBoxFilter box = addViewList(R.string.title_order, controller.getOrderList());
         box.setNagativeStatus(false);
@@ -108,6 +110,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         clear(controller.getTypeList());
         clear(controller.getRateList());
         clear(controller.getOrderList());
+        clear(controller.getGenreList());
         fillViews();
     }
     private void clear(List<CustomCheckBoxFilter.Box> list) {
@@ -122,7 +125,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
 
     public static class FilterController{
 
-        List<CustomCheckBoxFilter.Box> statusList, myList, durationList,typeList,rateList,orderList;
+        List<CustomCheckBoxFilter.Box> statusList, myList, durationList,typeList,rateList,orderList, genreList;
         private Context context;
         public FilterController(Context context){
             this.context = context;
@@ -203,6 +206,57 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
             return orderList;
         }
 
+        public List<CustomCheckBoxFilter.Box> getGenreList(){
+            if(genreList == null){
+                genreList = new ArrayList<>();
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_shounen), "genre", "27-Shounen"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_shounen_ai), "genre", "28-Shounen-Ai"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_seinen), "genre", "42-Seinen"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_shoujo), "genre", "25-Shoujo"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_shoujo_ai), "genre", "26-Shoujo-Ai"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_josei), "genre", "43-Josei"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_comedy), "genre", "4-Comedy"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_romance), "genre", "22-Romance"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_school), "genre", "23-School"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_dementia), "genre", "5-Dementia"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_martial_arts), "genre", "17-Martial-Arts"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_vampire), "genre", "32-Vampire"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_military), "genre", "38-Military"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_harem), "genre", "35-Harem"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_demons), "genre", "6-Demons"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_kids), "genre", "15-Kids"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_drama), "genre", "8-Drama"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_game), "genre", "11-Game"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_historical), "genre", "13-Historical"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_space), "genre", "29-Space"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_magic), "genre", "16-Magic"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_cars), "genre", "3-Cars"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_mecha), "genre", "18-Mecha"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_mystery), "genre", "7-Mystery"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_music), "genre", "19-Music"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_parody), "genre", "20-Parody"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_slice_of_life), "genre", "36-Slice-of-Life"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_police), "genre", "39-Police"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_adventure), "genre", "2-Adventure"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_psychological), "genre", "40-Psychological"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_samurai), "genre", "21-Samurai"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_supernatural), "genre", "37-Supernatural"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_gender_bender), "genre", "44-Gender-Bender"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_sports), "genre", "30-Sports"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_super_power), "genre", "31-Super-Power"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_horror), "genre", "14-Horror"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_sci_fi), "genre", "24-Sci-Fi"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_fantasy), "genre", "10-Fantasy"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_action), "genre", "1-Action"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_ecchi), "genre", "9-Ecchi"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_thriller), "genre", "41-Thriller"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_hentai), "genre", "12-Hentai"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_yaoi), "genre", "33-Yaoi"));
+                genreList.add(new CustomCheckBoxFilter.Box(getString(R.string.sort_yuri), "genre", "34-Yuri"));
+            }
+            return genreList;
+        }
+
         ///api/animes?duration=F&genre=3&limit=1&mylist=1&order=ranked
         // &page=1&rating=NC-17&search=Te&season=2014&studio=2&type=TV
 
@@ -214,6 +268,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
             prepareParam(rateList, "rating", params);
             prepareParam(typeList, "type", params);
             prepareParam(orderList, "order", params);
+            prepareParam(genreList, "genre", params);
             return params;
         }
 

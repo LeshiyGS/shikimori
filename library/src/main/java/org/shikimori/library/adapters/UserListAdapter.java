@@ -29,7 +29,11 @@ public class UserListAdapter extends BaseListAdapter<ItemUserListShiki, BaseHold
         if(item.amDetails!=null){
             holder.tvName.setText(item.amDetails.name);
             holder.tvRusName.setText(item.amDetails.russianName);
-            holder.tvText.setText("Просмотренно "+ item.episodes + " (Вышло " + item.amDetails.episodesAired + ") из " + item.amDetails.episodes);
+            if (ProjectTool.getTypeFromUrl(item.amDetails.url) == ProjectTool.TYPE.MANGA){
+                holder.tvText.setText(String.format(getContext().getString(R.string.reading_all), item.chapters, item.amDetails.chapters));
+            }else if (ProjectTool.getTypeFromUrl(item.amDetails.url) == ProjectTool.TYPE.ANIME) {
+                holder.tvText.setText(String.format(getContext().getString(R.string.seeing_all), item.episodes, item.amDetails.episodesAired, item.amDetails.episodes));
+            }
             if(item.amDetails!=null){
                 holder.tvStatus.setText(ProjectTool.getStatus(getContext(), item.amDetails.anons, item.amDetails.ongoing));
                 ProjectTool.setStatusColor(getContext(), holder.tvStatus, item.amDetails.anons, item.amDetails.ongoing);

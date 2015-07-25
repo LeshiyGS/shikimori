@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +109,9 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if (treadId == null)
             treadId = getParam(Constants.TREAD_ID);
 
-        disType = getParam(Constants.DISSCUSION_TYPE, Constants.TYPE_ENTRY);
+        if (disType == null)
+            disType = getParam(Constants.DISSCUSION_TYPE, Constants.TYPE_ENTRY);
+        if (disType == null) disType = Constants.TYPE_ENTRY;
     }
 
     @Override
@@ -260,7 +263,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         showRefreshLoader();
         etMessage.setEnabled(false);
 
-        apiController.init().sendComment(treadId, getUserId(), text, new Query.OnQuerySuccessListener() {
+        apiController.init().sendComment(treadId, getUserId(), disType, text, new Query.OnQuerySuccessListener() {
             @Override
             public void onQuerySuccess(StatusResult res) {
                 onStartRefresh();

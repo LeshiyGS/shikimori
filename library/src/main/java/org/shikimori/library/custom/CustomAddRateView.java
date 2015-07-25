@@ -82,19 +82,17 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
      */
     public void setButtonName() {
         String name = ProjectTool.getListStatusName(getContext(), rate.status, type);
-        if (name == null)
+        if (name == null) {
             name = getContext().getString(R.string.add_to_list);
-        else if (rate.status != UserRate.Status.COMPLETED) {
+            h.setVisibleGone(bListSettings);
+            h.setVisibleGone(bListPlus);
+        } else if (rate.status != UserRate.Status.COMPLETED) {
             StringBuilder str = new StringBuilder(name)
                     .append(" - ")
                     .append(rate.episodes);
             name = str.toString();
-        }
-        if (rate.status == UserRate.Status.WATCHING ||
-                rate.status == UserRate.Status.REWATCHING) {
-            h.setVisible(bListSettings, bListPlus);
-        } else {
-            h.setVisibleGone(bListSettings,bListPlus);
+            h.setVisible(bListSettings, true);
+            h.setVisible(bListPlus, true);
         }
         bAddToList.setText(name);
     }
