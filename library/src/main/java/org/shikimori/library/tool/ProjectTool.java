@@ -277,6 +277,7 @@ public class ProjectTool {
     public static void goToUser(Context context, String userId){
         Intent intent = new Intent(context, ShowPageActivity.class);
         intent.putExtra(Constants.USER_ID, userId);
+        intent.putExtra(Constants.DISSCUSION_TYPE, Constants.TYPE_USER);
         intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
         context.startActivity(intent);
     }

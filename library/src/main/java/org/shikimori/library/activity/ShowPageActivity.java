@@ -61,7 +61,6 @@ public class ShowPageActivity extends PageActivity {
         } else if (page == USER_PROFILE) {
             addPageFragment(ProfileShikiFragment.newInstance(params), R.string.info);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.lenta);
-            //loadPage(ProfileShikiFragment.newInstance(params));
         } else if (page == CLUB_PAGE) {
             addPageFragment(ClubDetailsFragment.newInstance(params), R.string.description);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
