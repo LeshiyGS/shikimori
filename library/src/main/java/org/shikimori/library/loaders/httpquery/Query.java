@@ -14,14 +14,12 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.ResponseHandlerInterface;
 import com.loopj.android.http.SyncHttpClient;
 
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 import org.shikimori.library.R;
-import org.shikimori.library.interfaces.LogouUserLister;
+import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
@@ -342,8 +340,8 @@ public class Query {
             if (data.has("error")) {
                 String errorMessage = data.optString("error");
                 if (errorMessage.contains("Вам необходимо войти в систему")) {
-                    if ((context instanceof LogouUserLister)) {
-                        ((LogouUserLister) context).logoutTrigger();
+                    if ((context instanceof LogouUserListener)) {
+                        ((LogouUserListener) context).logoutTrigger();
                         return;
                     }
                 }

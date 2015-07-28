@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/abc_textfield_activated_mtrl_alpha" />
-    <item android:drawable="@drawable/abc_spinner_mtrl_am_alpha" />
-</layer-list>
-
