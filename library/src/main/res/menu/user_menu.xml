@@ -15,4 +15,11 @@
             android:icon="@drawable/ic_action_bell_on"
             library:showAsAction="always" />
     </group>
+    <group android:id="@+id/selfUserGroup">
+        <item android:id="@+id/ic_logout"
+            android:title="@string/ignore"
+            android:icon="@drawable/ic_action_logout"
+            library:showAsAction="always" />
+    </group>
+
 </menu>

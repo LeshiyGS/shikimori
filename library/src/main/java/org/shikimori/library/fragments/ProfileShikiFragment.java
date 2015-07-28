@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.ProfileMangaAnimeNameAdapter;
+import org.shikimori.library.interfaces.LogouUserLister;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -107,7 +108,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             Crouton.makeText(activity, R.string.wait_load_user_data, Style.ALERT).show();
             return true;
         }
-        if (item.getItemId() == R.id.ic_send_message) {
+        if (item.getItemId() == R.id.ic_logout) {
+            ((LogouUserLister) activity).logoutTrigger();
+            return true;
+        } else if (item.getItemId() == R.id.ic_send_message) {
             activity.loadPage(ChatFragment.newInstance(userDetails.user.nickname, getUserId()));
             return true;
         } else if (item.getItemId() == R.id.ic_add_friend){
@@ -197,6 +201,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             if (actionMenu != null) {
                 if (isSelfProfile())
                     actionMenu.setGroupVisible(R.id.userGroup, false);
+                else {
+                    actionMenu.setGroupVisible(R.id.selfUserGroup, false);
+                }
             }
         }
     }
