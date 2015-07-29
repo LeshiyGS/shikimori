@@ -28,15 +28,17 @@ import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.CustomTextView;
 
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class CharacterDetailsFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener {
+public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener {
 
     TextView tvTitle;
     ImageView ivPoster;
@@ -87,12 +89,12 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
 
     @Override
     public void onStartRefresh() {
-        query.invalidateCache(getUrl());
+        getFC().getQuery().invalidateCache(getUrl());
         loadData();
     }
 
     void loadData(){
-        query.init(getUrl())
+        getFC().getQuery().init(getUrl())
                 .setCache(true, Query.HOUR)
                 .getResult(this);
     }
@@ -223,7 +225,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseActivity> imp
     public void onClick(View v) {
         if(v.getId() == R.id.ivPoster){
             if(item.image!=null)
-                activity.getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.image.original));
+                activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.image.original));
         }
     }
 }

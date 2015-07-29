@@ -15,7 +15,9 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
+
+import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -30,7 +32,7 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
     public static CommunityClubsFragment newInstance() {
         return new CommunityClubsFragment();
     }
-
+    ObjectBuilder builder = new ObjectBuilder();
     @Override
     protected boolean isOptionsMenu() {
         return false;
@@ -48,7 +50,7 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(getLoadPath());
+        getFC().getQuery().invalidateCache(getLoadPath());
         loadData();
     }
 
@@ -60,7 +62,7 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
 
     @Override
     public void loadData() {
-        query.init(getLoadPath(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getLoadPath(), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .setCache(true, Query.FIVE_MIN)
@@ -70,8 +72,8 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemClubShiki.class);
-        prepareData(builder.list, true, true);
+        List<ItemClubShiki> list = builder.getDataList(res.getResultArray(), ItemClubShiki.class);
+        prepareData(list, true, true);
     }
 
     @Override

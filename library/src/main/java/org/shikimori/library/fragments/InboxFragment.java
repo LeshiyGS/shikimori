@@ -48,7 +48,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ReadMessageController.newInstance(query);
+        ReadMessageController.newInstance(getFC().getQuery());
         showRefreshLoader();
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.NOT);
         loadData();
@@ -56,7 +56,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public void loadData() {
-        query.init(ShikiApi.getUrl(ShikiPath.DIALOGS), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .getResult(this);
@@ -82,7 +82,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     }
 
     void clearData() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.DIALOGS));
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.DIALOGS));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     private void deleteDialod(final int dialogposition, final View parent) {
         ItemDialogs item = adptr.getItem(dialogposition);
         activity.getLoaderController().show();
-        query.init(ShikiApi.getUrl(ShikiPath.DIALOGS) + "/" + item.message.from.nickname)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS) + "/" + item.message.from.nickname)
                 .setMethod(Query.METHOD.DELETE)
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override

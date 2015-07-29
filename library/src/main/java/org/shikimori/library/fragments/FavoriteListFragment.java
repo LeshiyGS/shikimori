@@ -15,7 +15,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -28,6 +28,7 @@ import java.util.List;
 public class FavoriteListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     private int position;
+    ObjectBuilder builder = new ObjectBuilder();
 
     public static FavoriteListFragment newInstance(int position){
         return newInstance(position, null);
@@ -63,7 +64,7 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
 
     @Override
    public void loadData() {
-        query.init(ShikiApi.getUrl(ShikiPath.FAVOURITES, getUserId()))
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.FAVOURITES, getFC().getUserId()))
                 .setCache(true, Query.DAY)
                 .getResult(this);
     }
@@ -77,7 +78,7 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
         if(data == null)
             return;
 
-        ObjectBuilder<AMShiki> builder = new ObjectBuilder<>(data.optJSONArray(getType()), AMShiki.class, new ObjectBuilder.AdvanceCheck<AMShiki>() {
+        List<AMShiki> list = builder.getDataList(data.optJSONArray(getType()), AMShiki.class, new ObjectBuilder.AdvanceCheck<AMShiki>() {
             @Override
             public boolean check(AMShiki item, int position) {
                 item.poster = item.poster.replace("x64", "preview");
@@ -85,13 +86,13 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
             }
         });
 
-        prepareData(builder.getDataList(), true, true);
+        prepareData(list, true, true);
     }
 
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.FAVOURITES, getUserId()));
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.FAVOURITES, getFC().getUserId()));
         loadData();
     }
 

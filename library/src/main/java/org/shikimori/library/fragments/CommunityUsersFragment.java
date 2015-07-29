@@ -18,8 +18,10 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.ItemUserListShiki;
+import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.objects.one.ItemUser;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
@@ -31,7 +33,7 @@ import java.util.List;
 public class CommunityUsersFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     private static String FRIENDLIST = "FRIENDLIST";
-
+    ObjectBuilder builder = new ObjectBuilder();
     boolean friendList;
 
     public static CommunityUsersFragment newInstance() {
@@ -60,14 +62,14 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 
     protected String getLoadPath() {
         if(friendList)
-            return ShikiApi.getUrl(ShikiPath.FRIENDS, getUserId());
+            return ShikiApi.getUrl(ShikiPath.FRIENDS, getFC().getUserId());
         return ShikiApi.getUrl(ShikiPath.GET_USERS_LIST);
     }
 
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(getLoadPath());
+        getFC().getQuery().invalidateCache(getLoadPath());
         loadData();
     }
 
@@ -80,7 +82,7 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 
     @Override
     public void loadData() {
-        query.init(getLoadPath(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getLoadPath(), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("search", getSearchText())
@@ -91,8 +93,8 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemUser.class);
-        prepareData(builder.list, true, true);
+        List<ItemUser> list = builder.getDataList(res.getResultArray(), ItemUser.class);
+        prepareData(list, true, true);
     }
 
     @Override

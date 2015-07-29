@@ -10,14 +10,17 @@ import android.widget.BaseAdapter;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.PaggingGridView2;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
+
 /**
  * Created by Владимир on 31.03.2015.
  */
-public abstract class BaseGridViewFragment extends BaseListFragment<BaseActivity> {
+public abstract class BaseGridViewFragment extends BaseListFragment<BaseKitActivity<ShikiAC>> {
     private PaggingGridView2 gvList;
     private Parcelable state;
     private View footerGridLoading;

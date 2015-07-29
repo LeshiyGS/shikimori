@@ -16,7 +16,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -29,7 +29,7 @@ import java.util.List;
 public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     private String userId;
-
+    ObjectBuilder builder = new ObjectBuilder();
     public static UserClubsFragment newInstance() {
         return new UserClubsFragment();
     }
@@ -56,7 +56,7 @@ public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQ
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(getLoadPath());
+        getFC().getQuery().invalidateCache(getLoadPath());
         loadData();
     }
 
@@ -70,7 +70,7 @@ public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQ
 
     @Override
     public void loadData() {
-        query.init(getLoadPath(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getLoadPath(), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .setCache(true, Query.FIVE_MIN)
@@ -80,8 +80,8 @@ public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQ
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemClubShiki.class);
-        prepareData(builder.list, true, true);
+        List<ItemClubShiki> list = builder.getDataList(res.getResultArray(), ItemClubShiki.class);
+        prepareData(list, true, true);
     }
 
     @Override

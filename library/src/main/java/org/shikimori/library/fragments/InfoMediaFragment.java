@@ -85,7 +85,7 @@ public class InfoMediaFragment extends AMBaseListFragment implements FiltersDial
     @Override
     public void filtered(FiltersDialogFragment.FilterController controller) {
         filterController = controller;
-        query.getLoader().show();
+        getFC().getQuery().getLoader().show();
         loadData();
     }
 

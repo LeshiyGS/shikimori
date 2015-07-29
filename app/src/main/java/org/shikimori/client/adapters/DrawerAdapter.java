@@ -14,9 +14,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.client.R;
 import org.shikimori.library.tool.ShikiUser;
 
+import java.util.ArrayList;
+
+import ru.altarix.basekit.library.tools.drawer.BaseDrawerAdapter;
 import ru.altarix.ui.tool.h;
 
-public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
+public class DrawerAdapter extends BaseDrawerAdapter<DrawerAdapter.Item, DrawerAdapter.ViewHolder> {
     public static final int DRAWER_MENU_MAIN_ID = 4555;
     public static final int DRAWER_MENU_PROFILE_ID = 4556;
     public static final int DRAWER_MENU_ANIME_ID = 4557;
@@ -26,43 +29,17 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     public static final int DRAWER_MENU_COMUNITY_ID = 4562;
     public static final int DRAWER_MENU_SETTINGS_ID = 4563;
     public static final int DRAWER_MENU_ABOUT_ID = 4564;
-    public static final int NON_SELECTED = -1;
 
-    private Context mContext;
-    private LayoutInflater inflater;
-    private int selectedPos = NON_SELECTED;
     private ShikiUser shikiUser;
-    private int selectedId;
     private int countnotification;
 
     @SuppressWarnings("deprecation")
     public DrawerAdapter(Context context) {
-        super(context, 0);
-        mContext = context;
-        initData();
-        inflater = LayoutInflater.from(mContext);
+        super(context, new ArrayList<Item>(), R.layout.item_shiki_drawer_menu);
     }
 
-
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Item elem = getItem(position);
-        View view = convertView;
-        ViewHolder holder;
-        if (convertView == null) {
-            if (position != 0) {
-                view = inflater.inflate(R.layout.item_shiki_drawer_menu, parent, false);
-            } else {
-                view = inflater.inflate(R.layout.item_shiki_drawer_menu_profile, null);
-            }
-            holder = getViewHolder(view);
-            view.setTag(holder);
-            h.setFont(mContext, view);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-
-        view.setId(elem.id);
+    public void setValues(ViewHolder holder, Item elem, int position) {
         // set menu name
         holder.icon.setImageDrawable(null);
         holder.tvTitle.setText(elem.title);
@@ -75,32 +52,21 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
             h.setVisible(holder.tvNotifyCount, countnotification > 0);
             holder.tvNotifyCount.setText(String.valueOf(countnotification));
 
-        // set icon
+            // set icon
         } else if (elem.icon != 0){
             h.setVisibleGone(holder.tvNotifyCount);
             holder.icon.setImageResource(elem.icon);
         }
+    }
 
-
-        // set selection item
-        if(selectedId==elem.id){
-            view.setBackgroundColor(mContext.getResources().getColor(R.color.greenColor));
+    @Override
+    public void viewListener(View v, Item item) {
+        super.viewListener(v, item);
+        v.setId(item.id);
+        if(selectedId==item.id){
+            v.setBackgroundColor(getContext().getResources().getColor(R.color.greenColor));
         }else
-            view.setBackgroundColor(0);
-
-        return view;
-    }
-
-    public void setSelected(int menuId){
-        setSelected(menuId, NON_SELECTED);
-    }
-
-    public void setSelected(int menuId, int selectedPos){
-        if(selectedId == menuId) return;
-
-        selectedId = menuId;
-        this.selectedPos = selectedPos;
-        notifyDataSetChanged();
+            v.setBackgroundColor(0);
     }
 
     /**
@@ -108,20 +74,13 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
      * @param view
      * @return
      */
-    private ViewHolder getViewHolder(View view) {
+    @Override
+    public ViewHolder getViewHolder(View view) {
         ViewHolder holder = new ViewHolder();
         holder.tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         holder.tvNotifyCount = (TextView) view.findViewById(R.id.tvNotifyCount);
         holder.icon = (ImageView) view.findViewById(R.id.icon);
         return holder;
-    }
-
-    public int getSelectedPosition() {
-        return selectedPos;
-    }
-
-    public int getSelectedId() {
-        return selectedId;
     }
 
     static class ViewHolder {
@@ -151,7 +110,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
     /**
      * Заполняем список менюшками
      */
-    private void initData(){
+    protected void initData(){
         add(new Item(DRAWER_MENU_PROFILE_ID, R.string.user_name, R.mipmap.ic_no_avatar));
 //        add(new Item(DRAWER_MENU_PROFILE_ID, R.string.profile, R.drawable.ic_drawer_profile));
         add(new Item(DRAWER_MENU_ANIME_ID, R.string.anime, R.drawable.ic_drawer_anime));
@@ -161,6 +120,25 @@ public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.Item> {
         add(new Item(DRAWER_MENU_COMUNITY_ID, R.string.community, R.drawable.ic_drawer_comunity));
         add(new Item(DRAWER_MENU_SETTINGS_ID, R.string.settings, R.drawable.ic_drawer_settings));
         add(new Item(DRAWER_MENU_ABOUT_ID, R.string.about, R.drawable.ic_drawer_about));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position == 0)
+            return 1;
+        return 0;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    protected int getLayout(Item item) {
+        if(item.id == DRAWER_MENU_PROFILE_ID)
+            return R.layout.item_shiki_drawer_menu_profile;
+        return super.getLayout(item);
     }
 
 }

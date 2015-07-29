@@ -9,16 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.base.BaseListAdapter;
-import org.shikimori.library.adapters.base.SimpleBaseAdapter;
-import org.shikimori.library.adapters.holder.BaseHolder;
-import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.objects.one.Studio;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.h;
 
 import java.util.List;
+
+import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
@@ -38,8 +34,8 @@ public class StudiosAdapter extends SimpleBaseAdapter<Studio, StudiosAdapter.Hol
     @Override
     public Holder getViewHolder(View v) {
         Holder holder = new Holder();
-        holder.ivImage = get(v, R.id.ivImage);
-        holder.tvTitle = get(v, R.id.tvTitle);
+        holder.ivImage = find(v, R.id.ivImage);
+        holder.tvTitle = find(v, R.id.tvTitle);
         return holder;
     }
 

@@ -52,11 +52,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" >
         </activity>
-        <activity
-            android:name=".activity.DrawerShowPageActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:configChanges="orientation|screenSize" >
-        </activity>
+
         <activity
             android:name=".activity.PreferencesShikiActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"

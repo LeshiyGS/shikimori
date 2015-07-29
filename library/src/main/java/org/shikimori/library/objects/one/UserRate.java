@@ -1,8 +1,8 @@
 package org.shikimori.library.objects.one;
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.HelperObj;
-import org.shikimori.library.objects.abs.JsonParseable;
+import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
+import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 
 /**
  * Created by Владимир on 07.07.2015.

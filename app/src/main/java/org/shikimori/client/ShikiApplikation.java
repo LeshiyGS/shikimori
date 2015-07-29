@@ -10,8 +10,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.push.PushHelperReceiver;
+
+import ru.altarix.basekit.library.tools.pagecontroller.PageController;
 
 /**
  * Created by Феофилактов on 29.03.2015.
@@ -39,7 +42,7 @@ public class ShikiApplikation extends Application {
         PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(3));
         PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(4));
         PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(5));
-
+        PageController.baseActivityController = ShikiAC.class;
         runService();
     }
 

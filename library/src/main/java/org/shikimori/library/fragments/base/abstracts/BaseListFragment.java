@@ -29,6 +29,8 @@ import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
+
 /**
  * Created by Владимир on 02.04.2015.
  */
@@ -40,7 +42,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
     protected boolean pauseOnScroll = false; // or true
     protected boolean pauseOnFling = true; // or false
     BaseAdapter adapter;
-    private BackGroubdLoader<? extends OnViewBuildLister> backBuilder;
+    private BackGroubdLoader<? extends JsonParseable> backBuilder;
     List<Object> allList = new ArrayList<>();
 
     protected boolean isOptionsMenu() {
@@ -188,18 +190,18 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         return false;
     }
 
-    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends OnViewBuildLister> cl) {
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends JsonParseable> cl) {
         loadAsyncBuild(bodyBuild, array, 0, cl, null);
     }
 
-    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends OnViewBuildLister> cl) {
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends JsonParseable> cl) {
         loadAsyncBuild(bodyBuild, array, maxLenght, cl, null);
     }
 
-    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends OnViewBuildLister> cl, OnAdvancedCheck listener) {
+    public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends JsonParseable> cl, OnAdvancedCheck listener) {
         if (activity == null)
             return;
-        backBuilder = new BackGroubdLoader<OnViewBuildLister>(activity, bodyBuild, maxLenght, array, (Class<OnViewBuildLister>) cl) {
+        backBuilder = new BackGroubdLoader<JsonParseable>(activity, bodyBuild, maxLenght, array, (Class<JsonParseable>) cl) {
             @Override
             public void deliverResult(List data) {
                 if (activity == null)

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,6 +193,7 @@ public abstract class BasePopup {
 
         @Override
         public void onClick(View v) {
+            Log.d("popupmenu", "onClick back");
             hide(true);
         }
     };
@@ -246,14 +248,18 @@ public abstract class BasePopup {
 
         @Override
         public void onAnimationStart(Animator animation) {
-            if(visibility && view.getVisibility()!=View.VISIBLE)
+            if(visibility && view.getVisibility()!=View.VISIBLE){
                 view.setVisibility(View.VISIBLE);
+                view.setClickable(true);
+            }
         }
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            if(!visibility && view.getVisibility()!=View.GONE)
+            if(!visibility && view.getVisibility()!=View.GONE){
                 view.setVisibility(View.GONE);
+                view.setClickable(false);
+            }
         }
 
         @Override

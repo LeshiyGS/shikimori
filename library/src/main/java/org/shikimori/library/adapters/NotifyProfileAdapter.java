@@ -1,16 +1,16 @@
 package org.shikimori.library.adapters;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.base.SimpleBaseAdapter;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
+
+import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
 
 /**
  * Created by Владимир on 17.04.2015.
@@ -36,8 +36,8 @@ public class NotifyProfileAdapter extends SimpleBaseAdapter<NotifyProfileControl
     @Override
     public ViewHolder getViewHolder(View v) {
         ViewHolder holder = new ViewHolder();
-        holder.tvText  = get(v, R.id.tvText);
-        holder.tvCount = get(v, R.id.tvCount);
+        holder.tvText  = find(v, R.id.tvText);
+        holder.tvCount = find(v, R.id.tvCount);
         return holder;
     }
 

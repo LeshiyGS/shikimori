@@ -3,10 +3,9 @@ package org.shikimori.library.objects.one;
 
 import org.json.JSONObject;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.objects.abs.HelperObj;
-import org.shikimori.library.objects.abs.JsonParseable;
 import org.shikimori.library.tool.ProjectTool;
-
+import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
+import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by LeshiyGS on 30.08.2014.
  */

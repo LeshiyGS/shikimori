@@ -9,16 +9,19 @@ import android.view.View;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
+
 /**
  * Created by Владимир on 18.06.2015.
  */
 public class LinkHelper {
-    public static void goToUrl(BaseActivity activity, String url, BodyBuild bodyBuild){
+    public static void goToUrl(BaseKitActivity<ShikiAC> activity, String url, BodyBuild bodyBuild){
 
         if(url.contains("/animes")){
             if(goToPage(activity, "animes", url, Constants.ANIME))
@@ -31,7 +34,7 @@ public class LinkHelper {
                 return;
         } else if(url.contains("/comments")){
             String id = getItemId("comments", url);
-            ProjectTool.showComment(activity.prepareQuery(false), id, bodyBuild);
+            ProjectTool.showComment(activity.getAC().getQuery(), id, bodyBuild);
             return;
         }
 

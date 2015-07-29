@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
-import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.ArrayList;
@@ -87,21 +86,4 @@ public class PageActivity extends BaseActivity implements ExtraLoadInterface {
     protected int getLayoutId() {
         return R.layout.view_simple_content;
     }
-
-    @Override
-    public SharedPreferences getSettings() {
-        return getSharedPreferences(Constants.SETTINGS, Context.MODE_PRIVATE);
-    }
-
-    @Override
-    public Query prepareQuery(boolean separate) {
-        if (separate) {
-            Query q = new Query(this);
-            q.setLoader(query.getLoader());
-            return q;
-        }
-
-        return query;
-    }
-
 }

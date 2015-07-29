@@ -86,12 +86,12 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ReadMessageController.newInstance(query);
-        apiController = new ApiMessageController(query);
+        ReadMessageController.newInstance(getFC().getQuery());
+        apiController = new ApiMessageController(getFC().getQuery());
         apiController.setErrorListener(this);
         toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
-        messageController = new SendMessageController(activity, query, etMessage, SendMessageController.Type.MESSAGE);
+        messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.MESSAGE);
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         showRefreshLoader();
         loadData();
@@ -103,7 +103,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
     @Override
     public void loadData() {
-        query.init(getUrlPath(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getUrlPath(), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .getResult(this);
@@ -146,7 +146,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
         showRefreshLoader();
         etMessage.setEnabled(false);
 
-        apiController.init().sendPrivateMessage(getUserId(), toUserId, text, new Query.OnQuerySuccessListener() {
+        apiController.init().sendPrivateMessage(getFC().getUserId(), toUserId, text, new Query.OnQuerySuccessListener() {
             @Override
             public void onQuerySuccess(StatusResult res) {
                 onStartRefresh();
@@ -250,7 +250,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     }
 
     void clearData() {
-        query.invalidateCache(getUrlPath());
+        getFC().getQuery().invalidateCache(getUrlPath());
     }
 
     @Override

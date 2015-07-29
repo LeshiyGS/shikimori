@@ -14,6 +14,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import org.shikimori.client.activity.AuthActivity;
+import org.shikimori.client.tool.AuthMasterShiki;
 import org.shikimori.library.tool.FontCache;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
@@ -50,12 +51,15 @@ public class LoadScreen extends FragmentActivity {
 
     void startApp(){
 
-        if(TextUtils.isEmpty(ShikiUser.getToken())
-                || TextUtils.isEmpty(ShikiUser.USER_NAME) || TextUtils.isEmpty(ShikiUser.USER_ID)){
-            startActivity(new Intent(this, AuthActivity.class));
-        } else {
-            startActivity(new Intent(this, MainActivity.class));
-        }
+        new AuthMasterShiki(this)
+                .openPage(MainActivity.class);
+
+//        if(TextUtils.isEmpty(ShikiUser.getToken())
+//                || TextUtils.isEmpty(ShikiUser.USER_NAME) || TextUtils.isEmpty(ShikiUser.USER_ID)){
+//            startActivity(new Intent(this, AuthActivity.class));
+//        } else {
+//            startActivity(new Intent(this, MainActivity.class));
+//        }
 
         finish();
     }

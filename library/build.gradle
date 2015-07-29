@@ -20,11 +20,7 @@ android {
 }
 
 dependencies {
-//    compile 'com.github.nicolasjafelle:paginglistview:1.1'
     compile 'com.loopj.android:android-async-http:1.4.6'
-//    compile 'com.jmpergar:AwesomeText:1.0.1'
-//    compile project(":modules:easyAdapter")
-//    compile project(":modules:ui_tools")
     compile project(":modules:PinnedSectionAdapter")
     compile 'com.koushikdutta.ion:ion:2.1.3'
     compile 'org.jsoup:jsoup:1.8.1'
@@ -32,23 +28,4 @@ dependencies {
     compile 'org.jsoup:jsoup:1.8.1'
     compile project(":modules:PhotoView")
     compile project(":modules:ratingbar")
-//    fileTree("../modules_aar").visit { FileVisitDetails details ->
-//        String _name = details.file.name.replace(".aar", "")
-//        println "name id: " +name
-//        compileAltarixModule(_name, "0")
-//    }
-//    compile project(":myPaggingListView")
-//    compile 'in.srain.cube:grid-view-with-header-footer:1.0.10.1'
 }
-
-//def compileAltarixModuleExt(nameD, versionD, extName) {
-//    project.dependencies.compile('org:' + nameD) {
-//        artifact {
-//            name = (extName != null ? extName : nameD)
-//            type = 'aar'
-//        }
-//    }
-//}
-//def compileAltarixModule(nameD, versionD) {
-//    compileAltarixModuleExt(nameD, versionD, null)
-//}

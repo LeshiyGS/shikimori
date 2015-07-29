@@ -15,19 +15,21 @@ import org.shikimori.library.adapters.FragmentPageAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.interfaces.PageNextlistener;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.ExSlidingTabLayout;
 
 /**
  * Wrapper pages wizard
  * Created by Владимир on 15.07.2014.
  */
-public class PagerAdapterFragment extends BaseFragment<BaseActivity> implements PageNextlistener, ViewPager.OnPageChangeListener {
+public class PagerAdapterFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements PageNextlistener, ViewPager.OnPageChangeListener {
 
     /**
      * animate page scrolling

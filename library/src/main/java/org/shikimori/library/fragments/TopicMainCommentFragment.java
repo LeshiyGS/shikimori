@@ -20,13 +20,16 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
+
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Gars on 18.06.2015.
  */
-public class TopicMainCommentFragment extends BaseFragment<BaseActivity> implements Query.OnQuerySuccessListener {
+public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener {
 
     private TopicHolder holder;
     private TopicsAdapter adapter;
@@ -58,7 +61,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseActivity> impleme
         holder = adapter.getViewHolder(getView());
 
         if(itemCashed==null){
-            query.init(ShikiApi.getUrl(ShikiPath.TOPICS_ID) + getParam(Constants.TREAD_ID))
+            getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS_ID) + getParam(Constants.TREAD_ID))
                 .setCache(true)
                 .getResultObject(this);
         } else {

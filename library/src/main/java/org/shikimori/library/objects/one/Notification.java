@@ -1,7 +1,6 @@
 package org.shikimori.library.objects.one;
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.HelperObj;
 
 /**
  * Created by Феофилактов on 04.04.2015.

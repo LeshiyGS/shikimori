@@ -17,7 +17,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemUserListShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
@@ -28,6 +28,7 @@ import java.util.List;
 public class AnimeUserListFragment extends BaseListViewFragment {
 
     private String listId;
+    ObjectBuilder builder = new ObjectBuilder();
 
     public static AnimeUserListFragment newInstance(Bundle b) {
         AnimeUserListFragment frag = new AnimeUserListFragment();
@@ -52,12 +53,12 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getUserId()));
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getFC().getUserId()));
         loadData();
     }
 
     public void loadData() {
-        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getUserId()), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getFC().getUserId()), StatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("status", listId)
@@ -76,8 +77,8 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemUserListShiki.class);
-        prepareData(builder.list, true, true);
+        List<ItemUserListShiki> list = builder.getDataList(res.getResultArray(), ItemUserListShiki.class);
+        prepareData(list, true, true);
     }
 
     @Override

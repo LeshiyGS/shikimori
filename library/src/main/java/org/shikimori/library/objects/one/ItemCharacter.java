@@ -2,8 +2,8 @@ package org.shikimori.library.objects.one;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.HelperObj;
-import org.shikimori.library.objects.abs.JsonParseable;
+import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
+import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 
 import java.util.ArrayList;
 import java.util.List;

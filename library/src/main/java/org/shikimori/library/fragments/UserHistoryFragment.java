@@ -15,7 +15,7 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemUserHistory;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
@@ -28,6 +28,8 @@ import java.util.List;
  * Created by LeshiyGS on 1.04.2015.
  */
 public class UserHistoryFragment extends BaseListViewFragment {
+
+    ObjectBuilder builder = new ObjectBuilder();
 
     public static UserHistoryFragment newInstance() {
         return new UserHistoryFragment();
@@ -59,22 +61,22 @@ public class UserHistoryFragment extends BaseListViewFragment {
     }
 
     protected String url() {
-        return ShikiApi.getUrl(ShikiPath.HISTORY, getUserId());
+        return ShikiApi.getUrl(ShikiPath.HISTORY, getFC().getUserId());
     }
 
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(url());
+        getFC().getQuery().invalidateCache(url());
         loadData();
     }
 
     // TODO create loader list
     public void loadData() {
-        if (query == null)
+        if (getFC().getQuery() == null)
             return;
 
-        query.init(url(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(url(), StatusResult.TYPE.ARRAY)
             .addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("desc", "1")
@@ -85,8 +87,7 @@ public class UserHistoryFragment extends BaseListViewFragment {
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
-        ObjectBuilder<ItemUserHistory> builder = new ObjectBuilder<>(res.getResultArray(), ItemUserHistory.class);
-        prepareData(builder.list, true, true);
+        prepareData(builder.getDataList(res.getResultArray(), ItemUserHistory.class), true, true);
     }
 
     @Override

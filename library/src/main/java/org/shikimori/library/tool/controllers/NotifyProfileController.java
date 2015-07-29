@@ -26,6 +26,8 @@ import org.shikimori.library.tool.constpack.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
+
 /**
  * Created by Феофилактов on 04.04.2015.
  */
@@ -38,7 +40,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     public static final int FAVORITE = 5;
     public static final int FRIENDS = 6;
 
-    private final BaseActivity mContext;
+    private final BaseKitActivity<ShikiAC> mContext;
     private final boolean selfUser;
     private Query query;
     private ShikiUser user;
@@ -47,7 +49,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     private List<Item> menu = new ArrayList<>();
     private NotifyProfileAdapter notifyAdapter;
 
-    public NotifyProfileController(BaseActivity mContext, Query query, ShikiUser user, String currentUserId, ViewGroup body) {
+    public NotifyProfileController(BaseKitActivity<ShikiAC> mContext, Query query, ShikiUser user, String currentUserId, ViewGroup body) {
         this.mContext = mContext;
         this.query = query;
         this.user = user;

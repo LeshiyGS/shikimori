@@ -15,16 +15,26 @@ import org.shikimori.library.tool.parser.ImageController;
 /**
  * Created by Владимир on 11.06.2015.
  */
-@Deprecated
 public class PostAnime extends ImageController {
     private Context context;
     TextView tvTitle;
+
+    public String getUrl() {
+        return url;
+    }
+
+    String url;
     private View v;
 
-    public PostAnime(Context context, ItemImageShiki imageData){
+    public PostAnime(Context context, ItemImageShiki imageData, String url){
         this.context = context;
+        this.url = url;
         this.imageData = imageData;
         initData();
+    }
+
+    public void setUrl(String url){
+        this.url = url;
     }
 
     private void initData() {
@@ -32,14 +42,13 @@ public class PostAnime extends ImageController {
         v = inf.inflate(R.layout.item_shiki_anime_grid_small, null);
         image = h.get(v, R.id.ivImage);
         tvTitle = h.get(v, R.id.tvTitle);
+        image.setTag(url);
         image.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InlinedApi")
             @Override
             public void onClick(View view) {
-
                 if(imageData.getClickListener()!=null)
                     imageData.getClickListener().onClick(view);
-
             }
         });
     }

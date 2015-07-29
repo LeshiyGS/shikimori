@@ -21,7 +21,10 @@ import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ApiRatesController;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
+
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Владимир on 14.07.2015.
@@ -35,7 +38,7 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
     private ProjectTool.TYPE type;
     private String itemId;
     private UserRate rate;
-    private BaseActivity activity;
+    private BaseKitActivity activity;
 
     public CustomAddRateView(Context context) {
         this(context, null);
@@ -63,9 +66,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         bListPlus.setOnClickListener(clickListener);
     }
 
-    public void initParams(BaseActivity activity, String userId) {
+    public void initParams(BaseKitActivity activity, String userId) {
         this.activity = activity;
-        this.query = activity.prepareQuery(false);
+        this.query = ((ShikiAC)activity.getAC()).getQuery();
         this.userId = userId;
         apiRateController = new ApiRatesController(query);
     }

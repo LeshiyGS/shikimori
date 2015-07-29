@@ -2,22 +2,16 @@ package org.shikimori.library.adapters;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.base.BaseListAdapter;
-import org.shikimori.library.adapters.base.SimpleBaseAdapter;
 import org.shikimori.library.adapters.holder.AnimeMangaNamesHolder;
-import org.shikimori.library.adapters.holder.MessageHolder;
 import org.shikimori.library.objects.one.AnimeManga;
-import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
-import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.h;
 
-import java.util.Date;
 import java.util.List;
+
+import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
 
 /**
  * Created by Феофилактов on 04.04.2015.

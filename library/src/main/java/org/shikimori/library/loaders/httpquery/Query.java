@@ -21,10 +21,9 @@ import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.tool.LoaderController;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.h;
-
+import ru.altarix.basekit.library.tools.LoaderController;
 /**
  * Created by Феофилактов on 30.10.2014.
  */

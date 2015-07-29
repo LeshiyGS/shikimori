@@ -2,6 +2,7 @@ package org.shikimori.library.tool;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,5 +111,9 @@ public class ShikiUser {
 
     public void setName(String login) {
         prefs.edit().putString(NICKNAME, login).apply();
+    }
+
+    public static boolean isAuthorized() {
+        return !TextUtils.isEmpty(getToken());
     }
 }

@@ -22,11 +22,14 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
+
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Феофилактов on 04.04.2015.
@@ -37,10 +40,10 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     private String type;
     private Query query;
 
-    public NewsUserAdapter(Context context, Query query, List list) {
+    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, Query query, List list) {
         super(context, list, R.layout.item_shiki_message_list, MessageHolder.class);
         this.query = query;
-        bodyBuild = ProjectTool.getBodyBuilder((BaseActivity) context, BodyBuild.CLICKABLETYPE.NOT);
+        bodyBuild = ProjectTool.getBodyBuilder(context, BodyBuild.CLICKABLETYPE.NOT);
     }
 
     @Override
@@ -56,10 +59,10 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     @Override
     public MessageHolder getViewHolder(View v) {
         MessageHolder holder = super.getViewHolder(v);
-        holder.ivPoster = get(v, R.id.ivPoster);
-        holder.tvRead = get(v, R.id.tvRead);
-        holder.bGoTo = get(v, R.id.bGoTo);
-        holder.bComment = get(v, R.id.bComment);
+        holder.ivPoster = find(v, R.id.ivPoster);
+        holder.tvRead = find(v, R.id.tvRead);
+        holder.bGoTo = find(v, R.id.bGoTo);
+        holder.bComment = find(v, R.id.bComment);
         return holder;
     }
 

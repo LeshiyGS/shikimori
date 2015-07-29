@@ -18,16 +18,18 @@ import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.CustomEditText;
 
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnClickListener, Query.OnQuerySuccessListener {
+public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, Query.OnQuerySuccessListener {
 
     private CustomEditText cetLogin;
     private CustomEditText cetPassword;
@@ -73,9 +75,9 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
             }
 
             // show loader
-            activity.getLoaderController().show();
+            activity.getAC().getLoaderController().show();
             // start auth
-            AuthShikiController authController = new AuthShikiController(query, activity.getShikiUser());
+            AuthShikiController authController = new AuthShikiController(getFC().getQuery(), activity.getAC().getShikiUser());
             authController.shikiAuth(login, pass, this);
         }
     }
@@ -86,9 +88,9 @@ public class AuthFragment extends BaseFragment<BaseActivity> implements View.OnC
      */
     @Override
     public void onQuerySuccess(StatusResult res) {
-        activity.getLoaderController().hide();
+        activity.getAC().getLoaderController().hide();
         // success auth
-        if(res.isSuccess() && activity.getShikiUser().getId()!=null){
+        if(res.isSuccess() && activity.getAC().getShikiUser().getId()!=null){
             activity.startActivity(new Intent(activity, MainActivity.class));
             activity.finish();
         // error auth

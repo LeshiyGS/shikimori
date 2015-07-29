@@ -22,7 +22,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.actionmode.ActionDescription;
+import ru.altarix.basekit.library.actionmode.ActionDescription;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.h;
@@ -32,10 +32,12 @@ import org.shikimori.library.tool.popup.TextPopup;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
+
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseListViewFragment implements BaseActivity.OnFragmentBackListener, AdapterView.OnItemLongClickListener {
+public class UserNewsFragment extends BaseListViewFragment implements BaseKitActivity.OnFragmentBackListener, AdapterView.OnItemLongClickListener {
 
     private String type;
     private int title;
@@ -94,7 +96,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ReadMessageController.newInstance(query);
+        ReadMessageController.newInstance(getFC().getQuery());
         activity.setOnFragmentBackListener(this);
         bodyBuild = new BodyBuild(activity);
         if (type.equals(Constants.INBOX))
@@ -113,16 +115,16 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
         super.onStartRefresh();
         ContentValues cv = new ContentValues();
         cv.put("type", type);
-        query.invalidateCache(url(), cv);
+        getFC().getQuery().invalidateCache(url(), cv);
         loadData();
     }
 
     // TODO create loader list
     public void loadData() {
-        if (query == null)
+        if (getFC().getQuery() == null)
             return;
 
-        query.init(url(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(url(), StatusResult.TYPE.ARRAY)
                 .addParam("type", type)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
@@ -138,7 +140,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
 
     @Override
     public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        NewsUserAdapter adptr = new NewsUserAdapter(activity, query, list);
+        NewsUserAdapter adptr = new NewsUserAdapter(activity, getFC().getQuery(), list);
         adptr.setType(type);
         return adptr;
     }
@@ -153,7 +155,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseActivi
 
         ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
         if (type.equals(Constants.INBOX)) {
-            activity.loadPage(InboxFragment.newInstance(), true, false);
+            activity.loadPage(InboxFragment.newInstance());
         } else if (type.equals(Constants.NEWS)) {
             Intent intent = ProjectTool.getSimpleIntentDetails(activity, item.linked.type);
             if (intent != null) {

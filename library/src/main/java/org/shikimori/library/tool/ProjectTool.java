@@ -13,7 +13,6 @@ import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.YoYo;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
@@ -25,10 +24,12 @@ import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.UserRate.Status;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.tool.TextStyling;
 
 import static org.shikimori.library.objects.one.UserRate.Status.*;
@@ -290,12 +291,12 @@ public class ProjectTool {
             .playOn(v);
     }
 
-    public static BodyBuild getBodyBuilder(final BaseActivity activity, BodyBuild.CLICKABLETYPE type){
+    public static BodyBuild getBodyBuilder(final BaseKitActivity<ShikiAC> activity, BodyBuild.CLICKABLETYPE type){
         final BodyBuild bodyBuilder = new BodyBuild(activity);
         bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override
             public void imageClick(PostImage image) {
-                activity.getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
+                activity.getAC().getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
             }
         });
         bodyBuilder.setClickType(type);

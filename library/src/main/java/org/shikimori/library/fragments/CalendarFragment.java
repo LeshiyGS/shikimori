@@ -15,8 +15,9 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
@@ -28,15 +29,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
 import dev.dworks.libs.astickyheader.ui.PinnedSectionGridView;
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class CalendarFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
     private PinnedSectionGridView gvList;
     private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
-
+    ObjectBuilder builder = new ObjectBuilder();
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
     }
@@ -68,19 +70,19 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
 
     @Override
     public void onStartRefresh() {
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.CALENDAR));
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.CALENDAR));
         loadCalendar();
     }
 
     private void loadCalendar() {
-        query.init(ShikiApi.getUrl(ShikiPath.CALENDAR), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), StatusResult.TYPE.ARRAY)
              .setCache(true, Query.DAY)
              .getResult(this);
     }
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), ItemCaclendarShiki.class,
+        List<ItemCaclendarShiki> list = builder.getDataList(res.getResultArray(), ItemCaclendarShiki.class,
                 new ObjectBuilder.AdvanceCheck<ItemCaclendarShiki>() {
             @Override
             public boolean check(ItemCaclendarShiki item, int position) {
@@ -89,7 +91,7 @@ public class CalendarFragment extends PullableFragment<BaseActivity> implements 
                 return false;
             }
         });
-        prepareData(builder.list);
+        prepareData(list);
         stopRefresh();
     }
 

@@ -14,6 +14,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 
+import ru.altarix.basekit.library.tools.WrapperUiTool;
 import ru.altarix.ui.tool.h;
 
 /**
@@ -70,7 +71,7 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
             swipeLayout.setColorSchemeResources(color);
         }
 
-        query.setSwipeLoader(swipeLayout);
+        getFC().getQuery().setSwipeLoader(swipeLayout);
     }
 
     public SwipeRefreshLayout getPullToRefreshLayout() {
@@ -110,7 +111,7 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
      */
     @Override
     public void onRefresh() {
-        query.setErrorListener(this);
+        getFC().getQuery().setErrorListener(this);
         onStartRefresh();
     }
 
@@ -159,7 +160,7 @@ public abstract class PullableFragment<T extends ActionBarActivity> extends Base
     @Override
     public void onQueryError(StatusResult res) {
         stopRefresh();
-        query.showStandartError(res);
+        getFC().getQuery().showStandartError(res);
     }
 
     @Override

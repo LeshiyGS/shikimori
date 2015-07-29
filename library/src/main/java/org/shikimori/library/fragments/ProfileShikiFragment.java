@@ -39,6 +39,7 @@ import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.imagetool.ThumbToImage;
 import org.shikimori.library.tool.parser.elements.PostImage;
@@ -50,11 +51,12 @@ import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class ProfileShikiFragment extends PullableFragment<BaseActivity> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseActivity.OnFragmentBackListener {
+public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
 
     private ImageView avatar;
     private TextView tvUserName;
@@ -112,7 +114,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
             ((LogouUserListener) activity).logoutTrigger();
             return true;
         } else if (item.getItemId() == R.id.ic_send_message) {
-            activity.loadPage(ChatFragment.newInstance(userDetails.user.nickname, getUserId()));
+            activity.loadPage(ChatFragment.newInstance(userDetails.user.nickname, getFC().getUserId()));
             return true;
         } else if (item.getItemId() == R.id.ic_add_friend){
             userDetails.inFriends = !userDetails.inFriends;
@@ -153,7 +155,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
 
     private void sendFriendToServer(boolean inFriends) {
 
-        query.init(ShikiApi.getUrl(ShikiPath.SET_FRIEND, getUserId()))
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.SET_FRIEND, getFC().getUserId()))
              .setMethod(inFriends ? Query.METHOD.POST : Query.METHOD.DELETE)
               .getResult(new Query.OnQuerySuccessListener() {
                   @Override
@@ -164,7 +166,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
     private void sendIgnoreToServer(boolean showComments) {
 
-        query.init(ShikiApi.getUrl(ShikiPath.SET_IGNORES, getUserId()))
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.SET_IGNORES, getFC().getUserId()))
              .setMethod(!showComments ? Query.METHOD.POST : Query.METHOD.DELETE)
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override
@@ -209,7 +211,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     boolean isSelfProfile(){
-        return getUserId().equals(activity.getShikiUser().getId());
+        return getFC().getUserId().equals(activity.getAC().getShikiUser().getId());
     }
 
     @Override
@@ -267,7 +269,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         activity.setOnFragmentBackListener(this);
         checkUserMenu();
         notifyController = new NotifyProfileController(activity,
-                query, activity.getShikiUser(), getUserId(), gvBodyProfile);
+                getFC().getQuery(), activity.getAC().getShikiUser(), getFC().getUserId(), gvBodyProfile);
+
         loadDataFromServer();
     }
 
@@ -278,15 +281,15 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     void invalidateData(){
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId());
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getFC().getUserId());
         if(notifyController!=null){
-            activity.getShikiUser().clearNotification();
-            query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
+            activity.getAC().getShikiUser().clearNotification();
+            getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
         }
     }
 
     void loadDataFromServer() {
-        query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getUserId())
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getFC().getUserId())
                 .setCache(true, Query.HOUR)
                 .getResult(this);
 
@@ -313,7 +316,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     }
 
     void updateUserUI() {
-        if (getUserId() != null && getUserId().equalsIgnoreCase(ShikiUser.USER_ID)) {
+        if (getFC().getUserId() != null && getFC().getUserId().equalsIgnoreCase(ShikiUser.USER_ID)) {
             if (activity instanceof UserDataChangeListener)
                 ((UserDataChangeListener) activity).updateUserUI();
         }
@@ -323,8 +326,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         if (userDetails == null || userDetails.user == null)
             return;
 
-        if (activity.getShikiUser().getId().equalsIgnoreCase(userDetails.user.id))
-            activity.getShikiUser().setData(resultObject);
+        if (activity.getAC().getShikiUser().getId().equalsIgnoreCase(userDetails.user.id))
+            activity.getAC().getShikiUser().setData(resultObject);
 
         if (userDetails.user.img148 != null)
             ImageLoader.getInstance().displayImage(userDetails.user.img148, avatar);
@@ -345,12 +348,12 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
     public void onResume() {
         super.onResume();
         if(notifyController!=null)
-            notifyController.updateLocalData(activity.getShikiUser().getNotification());
+            notifyController.updateLocalData(activity.getAC().getShikiUser().getNotification());
     }
 
     private void buildProfile() {
         if (notifyController != null){
-            notifyController.updateLocalData(activity.getShikiUser().getNotification());
+            notifyController.updateLocalData(activity.getAC().getShikiUser().getNotification());
             notifyController.load(new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {
@@ -489,7 +492,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
         // TODO SET DATA
         b.putString(Constants.LIST_ID, id);
         b.putString(Constants.ACTION_BAR_TITLE, ProjectTool.getListStatusName(activity, name, type));
-        b.putString(Constants.USER_ID, getUserId());
+        b.putString(Constants.USER_ID, getFC().getUserId());
         if (type == ProjectTool.TYPE.ANIME)
             activity.loadPage(AnimeUserListFragment.newInstance(b));
         else
@@ -526,7 +529,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseActivity> impleme
                 list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
 
 //                activity.getThumbToImage().zoom(image.getImage(), 2, list);
-                activity.getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
+                activity.getAC().getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
             }
         });
 

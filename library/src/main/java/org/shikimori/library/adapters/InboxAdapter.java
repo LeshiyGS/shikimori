@@ -49,11 +49,11 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
     @Override
     public InboxHolder getViewHolder(View v) {
         InboxHolder hol = super.getViewHolder(v);
-        hol.ivSettings = get(v, R.id.icSettings);
-        hol.tvRead = get(v, R.id.tvRead);
-        hol.llFromUserName = get(v, R.id.llFromUserName);
-        hol.ivFromUser = get(v, R.id.ivFromUser);
-        hol.tvFromUser = get(v, R.id.tvFromUser);
+        hol.ivSettings = find(v, R.id.icSettings);
+        hol.tvRead = find(v, R.id.tvRead);
+        hol.llFromUserName = find(v, R.id.llFromUserName);
+        hol.ivFromUser = find(v, R.id.ivFromUser);
+        hol.tvFromUser = find(v, R.id.tvFromUser);
         return hol;
     }
 

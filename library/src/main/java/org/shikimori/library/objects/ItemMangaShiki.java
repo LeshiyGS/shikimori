@@ -2,7 +2,7 @@ package org.shikimori.library.objects;
 
 
 import org.json.JSONObject;
-import org.shikimori.library.objects.abs.HelperObj;
+import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 import org.shikimori.library.objects.one.AMShiki;
 
 /**

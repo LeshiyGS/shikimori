@@ -33,17 +33,19 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ApiRatesController;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.CustomTextView;
 
 
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
+public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
         implements Query.OnQuerySuccessListener, View.OnClickListener{
 
     private String itemId;
@@ -72,6 +74,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
         llWrapAddList =  find(R.id.llWrapAddList);
 
         ivPoster.setOnTouchListener(h.getImageHighlight);
+        h.setVisible(false,svMain);
         return v;
     }
 
@@ -85,8 +88,9 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         rbTitle.setSelectColor(activity.getResources().getColor(R.color.colorAccent));
-        llWrapAddList.initParams(activity, getUserId());
+        llWrapAddList.initParams(activity, getFC().getUserId());
 
         initArgiments();
         if(itemId == null)
@@ -95,7 +99,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
         loadDataFromServer();
 
         ivPoster.setOnClickListener(this);
-        apiRateController = new ApiRatesController(query);
+        apiRateController = new ApiRatesController(getFC().getQuery());
 
     }
 
@@ -106,11 +110,11 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
     }
 
     protected void invalidate(){
-        query.invalidateCache(ShikiApi.getUrl(getPatch() + itemId));
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(getPatch() + itemId));
     }
 
     void loadDataFromServer(){
-        query.init(ShikiApi.getUrl(getPatch()+itemId))
+        getFC().getQuery().init(ShikiApi.getUrl(getPatch()+itemId))
                 .setCache(true, Query.HOUR)
                 .getResult(this);
     }
@@ -139,6 +143,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseActivity>
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+        h.setVisible(svMain);
         stopRefresh();
         llInfo.removeAllViews();
     }

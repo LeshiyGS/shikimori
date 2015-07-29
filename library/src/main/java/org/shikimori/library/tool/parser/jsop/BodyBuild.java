@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.widget.GridLayout;
 import android.text.SpannableStringBuilder;
@@ -38,10 +39,12 @@ import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ImageController;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.UILImageGetter;
+import org.shikimori.library.tool.parser.elements.PostAnime;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
@@ -52,6 +55,8 @@ import org.shikimori.library.tool.popup.ListPopup;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 
 /**
@@ -72,14 +77,14 @@ public class BodyBuild {
     }
 
     private final Point screensize;
-    private BaseActivity context;
+    private BaseKitActivity<ShikiAC> context;
     private TextView lastTv;
     List<ImageController> images = new ArrayList<>();
     CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
     CLICKABLETYPE clicktype = CLICKABLETYPE.NOT;
     // check reach maxLenth
 
-    public BodyBuild(BaseActivity context) {
+    public BodyBuild(BaseKitActivity<ShikiAC> context) {
         this.context = context;
         screensize = h.getScreenSize(context);
     }
@@ -329,15 +334,11 @@ public class BodyBuild {
      * Work simple Anime and Manga preview
      * **********************************************************
      */
-    private void buildViewAni(Element elemnt, ViewGroup parent) {
+    private void buildViewAni(Element elemnt, final ViewGroup parent) {
 
         Element a = elemnt.select("a").first();
 
         Element imageSrc = a.select("img").first();
-//        String title = imageSrc.attr("title");
-//        String prevImg = imageSrc.attr("src");
-//        String originImg = imageSrc.attr("srcset");
-//        String id = elemnt.id();
 
         AMShiki item = new AMShiki().create(null);
         item.image = new ItemImage(null);
@@ -347,47 +348,43 @@ public class BodyBuild {
         item.url = a.attr("href");
         item.id = elemnt.id();
 
-        ExpandableHeightGridView exGrid;
-        View view = getLastView(parent);
-        if (view == null || !(view instanceof ExpandableHeightGridView)) {
-            insertText();
-            exGrid = createPosterGallery(parent);
-            exGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if(Build.VERSION.SDK_INT > 10){
+            ExpandableHeightGridView exGrid;
+            View view = getLastView(parent);
+            if (view == null || !(view instanceof ExpandableHeightGridView)) {
+                insertText();
+                exGrid = createPosterGallery(parent);
+                exGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        AMShiki obj = (AMShiki) parent.getAdapter().getItem(position);
+                        LinkHelper.goToUrl(context, obj.url, BodyBuild.this);
+                    }
+                });
+            } else {
+                exGrid = (ExpandableHeightGridView) view;
+            }
+
+            if(exGrid.getAdapter() == null)
+                exGrid.setAdapter(new AniPostGaleryAdapter(context, new ArrayList<AMShiki>()));
+
+            ((AniPostGaleryAdapter)exGrid.getAdapter()).add(item);
+        } else {
+            ItemImageShiki imageData = new ItemImageShiki(item.image.preview, item.image.original);
+            imageData.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    AMShiki obj = (AMShiki) parent.getAdapter().getItem(position);
-                    LinkHelper.goToUrl(context, obj.url, BodyBuild.this);
-//                    Intent i = new Intent(context, ShowPageActivity.class);
-//                    i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-//                    i.putExtra(Constants.ITEM_ID, obj.id);
-//                    context.startActivity(i);
+                public void onClick(View v) {
+                    String url = (String) v.getTag();
+                    LinkHelper.goToUrl(context, url, BodyBuild.this);
                 }
             });
-        } else {
-            exGrid = (ExpandableHeightGridView) view;
+
+            PostAnime postAnime = new PostAnime(context, imageData, item.url);
+            postAnime.setTitle(item.name);
+            images.add(postAnime);
+            parent.addView(postAnime.getView());
         }
 
-        if(exGrid.getAdapter() == null)
-            exGrid.setAdapter(new AniPostGaleryAdapter(context, new ArrayList<AMShiki>()));
-
-        ((AniPostGaleryAdapter)exGrid.getAdapter()).add(item);
-
-//        ItemImageShiki imageData = new ItemImageShiki(prevImg, originImg);
-//        imageData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(context, ShowPageActivity.class);
-//                i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-//                i.putExtra(Constants.ITEM_ID, id);
-//                context.startActivity(i);
-//            }
-//        });
-//
-//        PostAnime postAnime = new PostAnime(context, imageData);
-//        postAnime.setTitle(title);
-//        images.add(postAnime);
-//     //   elemnt.remove();
-//        parent.addView(postAnime.getView());
     }
 
     /**
@@ -660,7 +657,7 @@ public class BodyBuild {
         private ParceDoneListener listener;
         private int maxLenght;
 
-        public ViewsLoader(BaseActivity context, String text, ParceDoneListener listener) {
+        public ViewsLoader(BaseKitActivity context, String text, ParceDoneListener listener) {
             super(context);
             this.text = text;
             builder = new BodyBuild(context);

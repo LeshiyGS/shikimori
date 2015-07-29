@@ -11,6 +11,8 @@ import org.shikimori.library.tool.h;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
+
 /**
  * Created by Владимир on 01.04.2015.
  */

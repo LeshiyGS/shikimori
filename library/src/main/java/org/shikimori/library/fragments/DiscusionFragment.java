@@ -90,9 +90,9 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initBodyBuilder();
-        apiController = new ApiMessageController(query);
+        apiController = new ApiMessageController(getFC().getQuery());
         apiController.setErrorListener(this);
-        messageController = new SendMessageController(activity, query, etMessage, SendMessageController.Type.COMMENT);
+        messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.COMMENT);
 
         initParams();
 
@@ -130,15 +130,15 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         ContentValues cv = new ContentValues();
         cv.put("commentable_id", treadId);
         cv.put("commentable_type", disType);
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
         messageController.clearUpdateId();
     }
 
     // TODO create loader list
     public void loadData() {
-        if (query == null)
+        if (getFC().getQuery() == null)
             return;
-        query.init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
                 .addParam("commentable_id", treadId)
                 .addParam("commentable_type", disType)
                 .addParam("limit", LIMIT)
@@ -173,7 +173,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         Thread mythread = new Thread() {
             public void run() {
                 try {
-                    while (query == null) {
+                    while (activity == null || getFC().getQuery() == null) {
                         sleep(500);
                     }
                 } catch (Exception e) {
@@ -242,7 +242,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
             @Override
             public boolean isOwner() {
-                return getUserId().equals(obj.user_id);
+                return DiscusionFragment.this.getFC().getUserId().equals(obj.user_id);
             }
 
             @Override
@@ -268,7 +268,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         showRefreshLoader();
         etMessage.setEnabled(false);
 
-        apiController.init().sendComment(treadId, getUserId(), disType, text, new Query.OnQuerySuccessListener() {
+        apiController.init().sendComment(treadId, getFC().getUserId(), disType, text, new Query.OnQuerySuccessListener() {
             @Override
             public void onQuerySuccess(StatusResult res) {
                 onStartRefresh();

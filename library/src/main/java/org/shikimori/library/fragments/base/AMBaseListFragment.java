@@ -14,7 +14,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.AMShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 import java.util.List;
 
@@ -23,10 +23,12 @@ import java.util.List;
  */
 public abstract class AMBaseListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
+    ObjectBuilder builder = new ObjectBuilder();
+
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        query.invalidateCache(getLoadPath());
+        getFC().getQuery().invalidateCache(getLoadPath());
         loadData();
     }
 
@@ -40,13 +42,13 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
 
     @Override
     public void loadData() {
-        query.init(getLoadPath(), StatusResult.TYPE.ARRAY);
+        getFC().getQuery().init(getLoadPath(), StatusResult.TYPE.ARRAY);
 
         RequestParams filter = getFilterParams();
         if(filter!=null)
-            query.setParams(filter);
+            getFC().getQuery().setParams(filter);
 
-        query.addParam("limit", LIMIT)
+        getFC().getQuery().addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("search", getSearchText())
             .setCache(true, Query.DAY)
@@ -60,10 +62,8 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
-        if(query!=null)
-            query.getLoader().hide();
-        ObjectBuilder builder = new ObjectBuilder(res.getResultArray(), AMShiki.class);
-        prepareData(builder.list, true, true);
+        getFC().hideLoader();
+        prepareData(builder.getDataList(res.getResultArray(), AMShiki.class), true, true);
     }
 
     @Override

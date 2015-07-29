@@ -13,10 +13,12 @@ import org.shikimori.library.tool.h;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
+
 /**
  * Created by Владимир on 06.04.2015.
  */
-public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<T, H>{
+public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<T, H> {
 
     private Class<H> classHolder;
 

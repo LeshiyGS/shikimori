@@ -5,8 +5,10 @@ include ':app',
 //        ":modules:ui_tools",
         ":modules:PinnedSectionAdapter",
         ":modules:PhotoView",
+//        ":basekit",
         ":modules:ratingbar"
 //        ":myPaggingListView"
 
 
 //project(':myPaggingListView').projectDir = new File(settingsDir, '../example/PagingListView/PagingListViewProject/PagingListView')
+//project(':basekit').projectDir = new File(settingsDir, '../mos_basekit/basekit')

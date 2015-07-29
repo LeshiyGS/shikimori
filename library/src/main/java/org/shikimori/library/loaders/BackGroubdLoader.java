@@ -7,19 +7,22 @@ import android.widget.LinearLayout;
 import org.json.JSONArray;
 import org.shikimori.library.interfaces.OnAdvancedCheck;
 import org.shikimori.library.interfaces.OnViewBuildLister;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+
+import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
 
-public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoader<List<T>> {
+public class BackGroubdLoader<T extends JsonParseable> extends AsyncTaskLoader<List<T>> {
 
     private BodyBuild bodyBuilder;
     private int maxLenght;
     private JSONArray array;
     private Class<T> tClass;
     private OnAdvancedCheck listener;
+    ObjectBuilder builder = new ObjectBuilder();
 
     public BackGroubdLoader(Context context, BodyBuild bodyBuilder, JSONArray array, Class<T> tClass) {
         this(context, bodyBuilder, 0, array, tClass);
@@ -39,22 +42,22 @@ public class BackGroubdLoader<T extends OnViewBuildLister> extends AsyncTaskLoad
 
     @Override
     public List<T> loadInBackground() {
-        ObjectBuilder builder = new ObjectBuilder(array, tClass,
+        return builder.getDataList(array, tClass,
                 new ObjectBuilder.AdvanceCheck<T>() {
                     @Override
                     public boolean check(T item, int position) {
-                        if(onAdvancesCheck(item, position))
+                        if (onAdvancesCheck(item, position))
                             return false;
                         LinearLayout body = new LinearLayout(getContext());
                         body.setLayoutParams(h.getDefaultParams());
                         body.setOrientation(LinearLayout.VERTICAL);
-                        item.setBuildView(body);
-                        bodyBuilder.parce(item.getHtml(), body, maxLenght);
+
+                        ((OnViewBuildLister)item).setBuildView(body);
+                        bodyBuilder.parce(((OnViewBuildLister)item).getHtml(), body, maxLenght);
                         return false;
                     }
                 }
         );
-        return builder.list;
     }
 
     @Override

@@ -37,12 +37,6 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
     public String getPatch() {
         return ShikiPath.ANIMES_ID;
     }
@@ -107,7 +101,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
-            activity.getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
+            activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
     }
 
     /**

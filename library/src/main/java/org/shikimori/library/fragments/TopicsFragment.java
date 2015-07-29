@@ -29,7 +29,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
-import org.shikimori.library.objects.abs.ObjectBuilder;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -39,10 +39,12 @@ import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
+
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class TopicsFragment extends BaseListViewFragment implements BaseActivity.OnFragmentBackListener {
+public class TopicsFragment extends BaseListViewFragment implements BaseKitActivity.OnFragmentBackListener {
 
     String section = "all";
     BodyBuild bodyBuild;
@@ -76,7 +78,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
         ContentValues cv = new ContentValues();
         cv.put("section", section);
 
-        query.invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS), cv);
+        getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.TOPICS), cv);
         loadData();
     }
 
@@ -84,10 +86,10 @@ public class TopicsFragment extends BaseListViewFragment implements BaseActivity
      * Load data from server
      */
     public void loadData() {
-        if (query == null)
+        if (getFC().getQuery() == null)
             return;
 
-        query.init(ShikiApi.getUrl(ShikiPath.TOPICS), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS), StatusResult.TYPE.ARRAY)
                 .addParam("section", section)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)

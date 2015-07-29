@@ -5,7 +5,7 @@ import com.gars.verticalratingbar.VerticalRatingBar;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.one.AMShiki;
-import org.shikimori.library.objects.abs.HelperObj;
+import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.Studio;
 

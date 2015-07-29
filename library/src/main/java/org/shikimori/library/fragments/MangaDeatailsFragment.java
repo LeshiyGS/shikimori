@@ -100,7 +100,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
-            activity.getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
+            activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
     }
 
     String getTypeTranslate(String type){

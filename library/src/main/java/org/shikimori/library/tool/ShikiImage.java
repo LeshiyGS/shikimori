@@ -1,5 +1,6 @@
 package org.shikimori.library.tool;
 
+import android.os.Build;
 import android.widget.ImageView;
 
 import com.koushikdutta.ion.Ion;
@@ -25,7 +26,7 @@ public class ShikiImage {
         if(!url.startsWith("http"))
             url = ShikiApi.HTTP_SERVER + url;
 
-        if(url.contains(".gif")){
+        if(url.contains(".gif") && Build.VERSION.SDK_INT > 13){
             Ion.with(imageView).placeholder(R.drawable.ic_loading).load(url);
             if(listener!=null)
                 listener.onLoadingComplete(null,null,null);

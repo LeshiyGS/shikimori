@@ -44,7 +44,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
     @Override
     public SettingsHolder getViewHolder(View v) {
         SettingsHolder hol = super.getViewHolder(v);
-        hol.ivSettings = get(v, R.id.icSettings);
+        hol.ivSettings = find(v, R.id.icSettings);
         return hol;
     }
 

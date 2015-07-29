@@ -12,16 +12,19 @@ import com.paging.listview.PagingListView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.tool.actionmode.ActionDescription;
-import org.shikimori.library.tool.actionmode.ActionSelectCallBack;
-import org.shikimori.library.tool.actionmode.DestroyActionCallback;
+import ru.altarix.basekit.library.actionmode.ActionDescription;
+import ru.altarix.basekit.library.actionmode.ActionSelectCallBack;
+import ru.altarix.basekit.library.actionmode.DestroyActionCallback;
+import org.shikimori.library.tool.controllers.ShikiAC;
 
 import java.util.List;
+
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Владимир on 31.03.2015.
  */
-public abstract class BaseListViewFragment extends BaseListFragment<BaseActivity> {
+public abstract class BaseListViewFragment extends BaseListFragment<BaseKitActivity<ShikiAC>> {
     private PagingListView lvList;
     private Parcelable state;
     private ActionMode actionMode;
