@@ -20,5 +20,6 @@
     <string name="app_new_version_template">new v. %1$s</string>
     <string name="url_apk_notfound">Ссылка на файл не найдена</string>
     <string name="load_new_app">Загрузить обновление</string>
+    <string name="new_version">Новая версия</string>
 
 </resources>

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import org.shikimori.client.BuildConfig;
 import org.shikimori.client.R;
 import org.shikimori.client.tool.UpdateApp;
+import org.shikimori.client.tool.controllers.ApiShikiVersionController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
@@ -64,9 +65,8 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
 
     private void checkVersion() {
         if (ProjectTool.isFullVersion()) {
-            getFC().getQuery().init("http://anibreak.ru/v.0.3/get/shiki/version")
-                   .setCache(true)
-                   .getResultObject(this);
+            new ApiShikiVersionController(getFC().getQuery())
+                    .checkNewVersion(this);
         }
     }
 
