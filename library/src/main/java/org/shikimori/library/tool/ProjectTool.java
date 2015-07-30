@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.YoYo;
 
+import org.shikimori.library.BuildConfig;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
@@ -38,6 +39,8 @@ import static org.shikimori.library.objects.one.UserRate.Status.*;
  * Created by Владимир on 07.04.2015.
  */
 public class ProjectTool {
+
+    public static String buildType = "";
 
     public enum TYPE{
         ANIME, MANGA, OFFTOP, CHARACTER,
@@ -322,6 +325,10 @@ public class ProjectTool {
                     }
                 });
         popup.show();
+    }
+
+    public static boolean isFullVersion(){
+        return buildType.equals("debug") || buildType.equals("full");
     }
 
 }

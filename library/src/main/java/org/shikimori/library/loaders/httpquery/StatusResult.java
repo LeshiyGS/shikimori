@@ -113,6 +113,12 @@ public class StatusResult {
         }
         return null;
     }
+    public int getParameterInt(String papam) {
+        if (jsonObject != null){
+            return jsonObject.optInt(papam);
+        }
+        return 0;
+    }
 
     public void setHeaders(Header[] headers) {
         this.headers = headers;

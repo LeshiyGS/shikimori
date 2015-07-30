@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/defaultPadding"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiText.TextTitle"
+            android:layout_marginTop="@dimen/defaultPadding"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tvNewVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/altarixUiText.TextTitle"
+            android:layout_marginTop="@dimen/defaultPadding"
+            android:visibility="gone"
+            android:gravity="center"/>
+
+
+        <ProgressBar
+            android:id="@+id/pbLoaderApk"
+            style="@style/progresbarspiner"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginBottom="20dp"
+            android:max="100"
+            android:visibility="gone" />
+            <!--android:progressDrawable="@drawable/seek_background_green"-->
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/bLoadApk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/load_new_app"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/defaultPadding"
+            android:theme="@style/altarixUiButtonTheme"/>
+
+    </LinearLayout>
+</ScrollView>

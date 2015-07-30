@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.activity.PreferencesShikiActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
+import org.shikimori.client.fragments.AboutFragment;
 import org.shikimori.client.fragments.AnimesShikiFragment;
 import org.shikimori.client.fragments.CalendarShikiFragment;
 import org.shikimori.client.fragments.MangasShikiFragment;
@@ -95,6 +96,8 @@ public class DrawerTool extends DrawerToolHelper<DrawerActivity>{
                     pageList,
                     titles
             );
+        } else if (pageId == DrawerAdapter.DRAWER_MENU_ABOUT_ID){
+            return AboutFragment.newInstance();
         }
 
         return null;

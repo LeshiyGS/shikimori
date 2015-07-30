@@ -113,8 +113,8 @@ public class Query {
      * @param prefix
      * @return
      */
-    public Query init(String prefix) {
-        this.prefix = prefix;
+    public Query init(String url) {
+        this.prefix = url;
         cache = false;
         // request method
         this.method = METHOD.GET;

@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
@@ -42,7 +43,9 @@ public class ShikiApplikation extends Application {
         PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(3));
         PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(4));
         PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(5));
+
         PageController.baseActivityController = ShikiAC.class;
+        ProjectTool.buildType = BuildConfig.BUILD_TYPE;
         runService();
     }
 
