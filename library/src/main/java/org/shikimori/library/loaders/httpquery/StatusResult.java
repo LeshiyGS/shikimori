@@ -113,6 +113,19 @@ public class StatusResult {
         }
         return null;
     }
+
+    public <C extends Object> C getValue(String key){
+        if (jsonObject != null && jsonObject.has(key)){
+            return (C) jsonObject.opt(key);
+        }
+        return null;
+    }
+
+    public boolean getParametrBool(String key){
+        Object val = getValue(key);
+        return val != null && (boolean) val;
+    }
+
     public int getParameterInt(String papam) {
         if (jsonObject != null){
             return jsonObject.optInt(papam);

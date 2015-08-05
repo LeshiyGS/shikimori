@@ -78,6 +78,14 @@
                 <action android:name="${applicationId}.im.RECEIVE" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".receives.UpdateReceiver" >
+            <intent-filter>
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.wifi.supplicant.CONNECTION_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -3,12 +3,15 @@ package org.shikimori.client.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
@@ -29,7 +32,7 @@ import ru.altarix.ui.CustomEditText;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, Query.OnQuerySuccessListener {
+public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, Query.OnQuerySuccessListener, TextView.OnEditorActionListener {
 
     private CustomEditText cetLogin;
     private CustomEditText cetPassword;
@@ -49,6 +52,8 @@ public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> impleme
         View v = inflater.inflate(R.layout.fragment_shiki_auth, null);
         cetLogin = (CustomEditText) v.findViewById(R.id.cetLogin);
         cetPassword = (CustomEditText) v.findViewById(R.id.cetPassword);
+        cetPassword.getEditText().setImeOptions(EditorInfo.IME_ACTION_DONE);
+        cetPassword.getEditText().setOnEditorActionListener(this);
         View tvLoginButton = v.findViewById(R.id.tvLoginButton);
         tvLoginButton.setOnClickListener(this);
 
@@ -64,22 +69,25 @@ public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> impleme
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.tvLoginButton) {
-
-            String login = cetLogin.getText();
-            String pass  = cetPassword.getText();
-
-            // show error if user not set all params
-            if (TextUtils.isEmpty(login) || TextUtils.isEmpty(pass)) {
-                h.showMsg(activity, R.string.set_login_and_pass);
-                return;
-            }
-
-            // show loader
-            activity.getAC().getLoaderController().show();
-            // start auth
-            AuthShikiController authController = new AuthShikiController(getFC().getQuery(), activity.getAC().getShikiUser());
-            authController.shikiAuth(login, pass, this);
+            sendAuth();
         }
+    }
+
+    void sendAuth(){
+        String login = cetLogin.getText();
+        String pass  = cetPassword.getText();
+
+        // show error if user not set all params
+        if (TextUtils.isEmpty(login) || TextUtils.isEmpty(pass)) {
+            h.showMsg(activity, R.string.set_login_and_pass);
+            return;
+        }
+
+        // show loader
+        activity.getAC().getLoaderController().show();
+        // start auth
+        AuthShikiController authController = new AuthShikiController(getFC().getQuery(), activity.getAC().getShikiUser());
+        authController.shikiAuth(login, pass, this);
     }
 
     /**
@@ -113,5 +121,14 @@ public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> impleme
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.auth_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId==EditorInfo.IME_ACTION_DONE){
+            sendAuth();
+            return true;
+        }
+        return false;
     }
 }
