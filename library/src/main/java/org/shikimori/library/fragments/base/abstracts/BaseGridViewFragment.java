@@ -54,8 +54,13 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseKitActiv
 
     @Override
     public void setAdapter(BaseAdapter adapter) {
+        setAdapter(adapter, false);
+    }
+
+    @Override
+    public void setAdapter(BaseAdapter adapter, boolean saveState) {
         // save position
-        if (page != DEFAULT_FIRST_PAGE)
+        if (saveState || page != DEFAULT_FIRST_PAGE)
             state = gvList.onSaveInstanceState();
         // set data
         gvList.setAdapter(adapter);
@@ -72,10 +77,7 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseKitActiv
      */
     @Override
     public void hasMoreItems(boolean more) {
-        if (!more)
-            h.setVisibleGone(footerGridLoading);
-        else
-            h.setVisible(footerGridLoading, true);
+        h.setVisibleGone(!more, footerGridLoading);
         gvList.setHasMoreItems(more);
     }
 

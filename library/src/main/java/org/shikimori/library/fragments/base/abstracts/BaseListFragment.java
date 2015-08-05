@@ -84,6 +84,10 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
 
     public abstract void setAdapter(BaseAdapter adapter);
 
+    public void setAdapter(BaseAdapter adapter, boolean saveState){
+        setAdapter(adapter);
+    }
+
     /**
      * Показываем лоадер если есть еще что подгружать
      *
@@ -171,7 +175,7 @@ public abstract class BaseListFragment<T extends ActionBarActivity> extends Pull
         if (allList != null) {
             allList.remove(position);
             adapter = getAdapter(allList);
-            setAdapter(adapter);
+            setAdapter(adapter, true);
         }
     }
 

@@ -73,7 +73,13 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseKitActiv
     @Override
     public void setAdapter(BaseAdapter adapter) {
         // save position
-        if(page != DEFAULT_FIRST_PAGE)
+        setAdapter(adapter, false);
+    }
+
+    @Override
+    public void setAdapter(BaseAdapter adapter, boolean saveState) {
+        // save position
+        if(saveState || page != DEFAULT_FIRST_PAGE)
             state = lvList.onSaveInstanceState();
         // set data
         lvList.setAdapter(adapter);
