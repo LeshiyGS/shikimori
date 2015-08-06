@@ -11,6 +11,7 @@ public interface ShikiPath {
     public String MESSAGESPRIVATE = "api/messages";
     public String MESSAGESPRIVATE_ID = "api/messages/:id";
     public String ANIMES = "api/animes";
+    public String SCREENSHOTS = "api/animes/:id/screenshots";
     public String ANIMES_ID = "api/animes/";
     public String MANGAS = "api/mangas";
     public String MANGAS_ID = "api/mangas/";

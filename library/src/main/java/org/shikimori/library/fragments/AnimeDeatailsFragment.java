@@ -55,6 +55,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         if (details.id == null)
             return;
 
+        h.setVisible(tvScreens);
+
         activity.setTitle(details.name);
         // название аниме в карточке
         setTitleElement(details.russianName, details.name);
@@ -102,6 +104,10 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
             activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
+        else if (v.getId() == R.id.tvScreens){
+            activity.getPageController()
+                    .startActivity(ScreenShootsFragment.class, itemId);
+        }
     }
 
     /**

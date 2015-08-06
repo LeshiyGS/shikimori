@@ -48,7 +48,7 @@ import ru.altarix.ui.CustomTextView;
 public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
         implements Query.OnQuerySuccessListener, View.OnClickListener{
 
-    private String itemId;
+    protected String itemId;
     protected ScrollView svMain;
     protected TextView tvTitle, tvReview,tvStatus;
     protected ImageView ivPoster;
@@ -57,23 +57,27 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     protected ExpandableHeightGridView llStudios;
     protected ApiRatesController apiRateController;
     protected CustomAddRateView llWrapAddList;
+    protected View tvScreens;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.view_shiki_deatales, null);
         setBaseView(v);
-        svMain = (ScrollView) v.findViewById(R.id.svMain);
-        tvTitle = (TextView) v.findViewById(R.id.tvTitle);
-        llInfo = (ViewGroup) v.findViewById(R.id.llInfo);
-        tvReview = (TextView) v.findViewById(R.id.llReview);
-        ivPoster = (ImageView) v.findViewById(R.id.ivPoster);
-        rbTitle = (VerticalRatingBar) v.findViewById(R.id.vRatingBar);
-        tvStatus = (TextView) v.findViewById(R.id.tvStatus);
-        llStudios = (ExpandableHeightGridView) v.findViewById(R.id.llStudios);
-        llWanted = (ViewGroup) v.findViewById(R.id.llWanted);
+        svMain = find(R.id.svMain);
+        tvTitle = find(R.id.tvTitle);
+        llInfo = find(R.id.llInfo);
+        tvReview = find(R.id.llReview);
+        ivPoster = find(R.id.ivPoster);
+        rbTitle = find(R.id.vRatingBar);
+        tvStatus = find(R.id.tvStatus);
+        llStudios = find(R.id.llStudios);
+        llWanted = find(R.id.llWanted);
         llWrapAddList =  find(R.id.llWrapAddList);
+        tvScreens =  find(R.id.tvScreens);
 
         ivPoster.setOnTouchListener(h.getImageHighlight);
+        ivPoster.setOnClickListener(this);
+        tvScreens.setOnClickListener(this);
         h.setVisible(false,svMain);
         return v;
     }
@@ -98,7 +102,6 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         showRefreshLoader();
         loadDataFromServer();
 
-        ivPoster.setOnClickListener(this);
         apiRateController = new ApiRatesController(getFC().getQuery());
     }
 
