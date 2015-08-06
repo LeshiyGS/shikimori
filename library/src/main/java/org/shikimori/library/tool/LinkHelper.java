@@ -21,6 +21,9 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
  * Created by Владимир on 18.06.2015.
  */
 public class LinkHelper {
+    public static void goToUrl(BaseKitActivity<ShikiAC> activity, String url){
+        goToUrl(activity, url, null);
+    }
     public static void goToUrl(BaseKitActivity<ShikiAC> activity, String url, BodyBuild bodyBuild){
 
         if(url.contains("/animes")){
@@ -32,7 +35,7 @@ public class LinkHelper {
         } else if(url.contains("/characters")){
             if(goToPage(activity, "characters", url, Constants.CHARACTER))
                 return;
-        } else if(url.contains("/comments")){
+        } else if(bodyBuild!=null && url.contains("/comments")){
             String id = getItemId("comments", url);
             ProjectTool.showComment(activity.getAC().getQuery(), id, bodyBuild);
             return;

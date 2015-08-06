@@ -58,7 +58,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         // poster
         ImageLoader.getInstance().displayImage(details.image.original, ivPoster, addBlurToTitle);
         // description
-        h.setTextViewHTML(activity, tvReview, details.description_html);
+        h.setTextViewHTML(activity, tvReview, details.description_html, true);
         // rating
 //        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
 //        rbTitle.setRating(Float.parseFloat(details.score) / 2);

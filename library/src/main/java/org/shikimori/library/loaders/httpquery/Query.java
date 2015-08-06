@@ -109,8 +109,6 @@ public class Query {
 
     /**
      * Call before make request
-     *
-     * @param prefix
      * @return
      */
     public Query init(String url) {
@@ -338,7 +336,7 @@ public class Query {
             JSONObject data = new JSONObject(dataString);
             if (data.has("error")) {
                 String errorMessage = data.optString("error");
-                if (errorMessage.contains("Вам необходимо войти в систему")) {
+                if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
                     if ((context instanceof LogouUserListener)) {
                         ((LogouUserListener) context).logoutTrigger();
                         return;

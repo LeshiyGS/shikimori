@@ -125,10 +125,8 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
                                     @Override
                                     public void onAnimationEnd(Animator animation) {
                                         super.onAnimationEnd(animation);
-                                        Parcelable state = getListView().onSaveInstanceState();
                                         InboxFragment.this.removeItem(dialogposition);
                                         clearData();
-                                        getListView().onRestoreInstanceState(state);
                                     }
                                 })
                                 .duration(300)

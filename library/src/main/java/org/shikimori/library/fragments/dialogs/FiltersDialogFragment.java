@@ -11,6 +11,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.R;
 import org.shikimori.library.custom.CustomCheckBoxFilter;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
     private View bFilter,bClear;
     private FilterController controller;
     private OnFilterListener onFilterListener;
+    private String type;
 
     @Nullable
     @Override
@@ -46,7 +48,7 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(controller == null)
-            controller = new FilterController(getActivity());
+            controller = new FilterController(getActivity(), type);
         fillViews();
     }
 
@@ -54,14 +56,16 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         llContainer.removeAllViews();
         // status
         addViewList(R.string.status_title, controller.getStatusList());
-        // status
+        // type
         addViewList(R.string.type, controller.getTypeList());
         // my list
         addViewList(R.string.list, controller.getMyList());
-        // episodes
-        addViewList(R.string.episod_title, controller.getDurationList());
-        // rating
-        addViewList(R.string.title_rating, controller.getRateList());
+        if(Constants.ANIME.equals(type)){
+            // Duration
+            addViewList(R.string.episod_title, controller.getDurationList());
+            // rating
+            addViewList(R.string.title_rating, controller.getRateList());
+        }
         // genres
         addViewList(R.string.title_genres, controller.getGenreList());
         // order list
@@ -114,6 +118,8 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         fillViews();
     }
     private void clear(List<CustomCheckBoxFilter.Box> list) {
+        if(list == null)
+            return;
         for (CustomCheckBoxFilter.Box box  : list) {
             box.setStatus(0);
         }
@@ -123,16 +129,27 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         return new FiltersDialogFragment();
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public static class FilterController{
 
         List<CustomCheckBoxFilter.Box> statusList, myList, durationList,typeList,rateList,orderList, genreList;
         private Context context;
-        public FilterController(Context context){
+        private String type;
+
+        public FilterController(Context context, String type){
             this.context = context;
+            this.type = type;
         }
 
         String getString(int title){
             return context.getString(title);
+        }
+
+        boolean isAnime(){
+            return type.equals(Constants.ANIME);
         }
 
         public List<CustomCheckBoxFilter.Box> getStatusList() {
@@ -148,15 +165,26 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
         public List<CustomCheckBoxFilter.Box> getTypeList() {
             if(typeList == null){
                 typeList = new ArrayList<>();
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv), "type", "tv"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv_short), "type", "tv_13"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv_middle), "type", "tv_24"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv_long), "type", "tv_48"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.movies), "type", "movie"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.ova), "type", "ova"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.ona), "type", "ona"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.special), "type", "special"));
-                typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.music), "type", "music"));
+
+                if(isAnime()){
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv), "type", "tv"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv_short), "type", "tv_13"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv_middle), "type", "tv_24"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.tv_long), "type", "tv_48"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.movies), "type", "movie"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.ova), "type", "ova"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.ona), "type", "ona"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.special), "type", "special"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.music), "type", "music"));
+                } else {
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.doujin), "type", "doujin"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.manga), "type", "manga"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.manhua), "type", "manhua"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.manhwa), "type", "manhwa"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.novel), "type", "novel"));
+                    typeList.add(new CustomCheckBoxFilter.Box(getString(R.string.one_shot), "type", "one_shot"));
+                }
+
             }
             return typeList;
         }
@@ -164,9 +192,9 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
             if(myList == null){
                 myList = new ArrayList<>();
                 myList.add(new CustomCheckBoxFilter.Box(getString(R.string.planned), "mylist", "0"));
-                myList.add(new CustomCheckBoxFilter.Box(getString(R.string.watching), "mylist", "1"));
-                myList.add(new CustomCheckBoxFilter.Box(getString(R.string.completed), "mylist", "2"));
-                myList.add(new CustomCheckBoxFilter.Box(getString(R.string.rewatching), "mylist", "9"));
+                myList.add(new CustomCheckBoxFilter.Box(getString(isAnime() ? R.string.watching : R.string.watchingmanga), "mylist", "1"));
+                myList.add(new CustomCheckBoxFilter.Box(getString(isAnime() ? R.string.completed: R.string.completedmanga), "mylist", "2"));
+                myList.add(new CustomCheckBoxFilter.Box(getString(isAnime() ? R.string.rewatching:R.string.rewatchingmanga ), "mylist", "9"));
                 myList.add(new CustomCheckBoxFilter.Box(getString(R.string.on_hold), "mylist", "3"));
                 myList.add(new CustomCheckBoxFilter.Box(getString(R.string.dropped), "mylist", "4"));
             }

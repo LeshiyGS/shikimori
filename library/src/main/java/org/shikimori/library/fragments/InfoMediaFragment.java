@@ -75,6 +75,7 @@ public class InfoMediaFragment extends AMBaseListFragment implements FiltersDial
         if (item.getItemId() == R.id.menu_animes_filter) {
             FiltersDialogFragment frag = FiltersDialogFragment.newInstance();
             frag.setFilterController(filterController);
+            frag.setType(type);
             frag.setOnFilterListener(this);
             frag.show(activity.getFragmentManagerLocal(), "");
             return true;

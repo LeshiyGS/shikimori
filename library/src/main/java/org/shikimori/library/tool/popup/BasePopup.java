@@ -207,8 +207,10 @@ public abstract class BasePopup {
         if(decorView!=null){
 
             backView = decorView.findViewById(R.id.back_popup_view);
-            if(backView!=null)
+            if(backView!=null){
+                backView.setOnClickListener(closeToClick);
                 return;
+            }
 
             View firstChaild = decorView.getChildAt(0);
 
@@ -227,6 +229,7 @@ public abstract class BasePopup {
             if(root!=null){
 
                 backView = new View(mContext);
+                backView.setId(R.id.back_popup_view);
                 backView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 backView.setBackgroundColor(mContext.getResources().getColor(R.color.black_owerlay_60));
                 backView.setOnClickListener(closeToClick);

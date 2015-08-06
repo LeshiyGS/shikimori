@@ -16,18 +16,25 @@
             android:text="@string/add_to_list"
             android:theme="@style/altarixUiButtonTheme" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/bListSettings"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/ic_edit"
-            android:theme="@style/altarixUiButtonTheme" />
+            android:background="@drawable/button_selector"
+            android:paddingRight="@dimen/defaultPaddingMini"
+            android:paddingLeft="@dimen/defaultPaddingMini"
+            android:layout_margin="@dimen/defaultPadding6"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/bListPlus"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/ic_action_up"
-            android:theme="@style/altarixUiButtonTheme" />
+            android:background="@drawable/button_selector"
+            android:paddingRight="@dimen/defaultPaddingMini"
+            android:paddingLeft="@dimen/defaultPaddingMini"
+            android:layout_margin="@dimen/defaultPadding6"
+            />
     </LinearLayout>
 </FrameLayout>

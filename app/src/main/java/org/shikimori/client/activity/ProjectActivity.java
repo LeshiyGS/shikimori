@@ -21,6 +21,5 @@ public class ProjectActivity extends BaseActivity implements LogouUserListener {
         getActivityController().getShikiUser().logout();
         new AuthMasterShiki(this)
                 .openPage(MainActivity.class);
-        finish();
     }
 }

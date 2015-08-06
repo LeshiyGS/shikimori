@@ -24,21 +24,26 @@
                 android:inputType="number"
                 android:hint="@string/episodes_title" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/bMinus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_action_down"
-                android:theme="@style/altarixUiButtonTheme"
-                android:padding="@dimen/defaultPadding4"/>
+                android:layout_margin="@dimen/defaultPadding6"
+                android:paddingRight="@dimen/defaultPaddingMini"
+                android:paddingLeft="@dimen/defaultPaddingMini"
+                android:background="@drawable/button_selector"
+                />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/bPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_action_up"
-                android:theme="@style/altarixUiButtonTheme"
-                android:padding="@dimen/defaultPadding4"/>
+                android:background="@drawable/button_selector"
+                android:paddingRight="@dimen/defaultPaddingMini"
+                android:paddingLeft="@dimen/defaultPaddingMini"
+                android:layout_margin="@dimen/defaultPadding6"/>
 
         </LinearLayout>
 

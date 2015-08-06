@@ -60,7 +60,12 @@ public class ShikiUser {
         USER_NAME = prefs.getString(NICKNAME, null);
     }
 
-
+    public boolean isAutorize(){
+        if(TOKEN != null)
+            return true;
+        initStaticParams();
+        return TOKEN != null;
+    }
 
     public String getId(){
         return prefs.getString(ID, "");

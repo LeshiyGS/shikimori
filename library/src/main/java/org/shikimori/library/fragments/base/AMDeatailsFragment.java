@@ -100,7 +100,6 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
         ivPoster.setOnClickListener(this);
         apiRateController = new ApiRatesController(getFC().getQuery());
-
     }
 
     @Override

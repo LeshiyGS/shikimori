@@ -1,23 +1,25 @@
 package org.shikimori.library.tool.controllers;
 
-import android.app.Activity;
-
 import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.imagetool.ThumbToImage;
+import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import ru.altarix.basekit.library.activity.ActivityController;
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.LoaderController;
 
 /**
  * Created by Владимир on 29.07.2015.
  */
-public class ShikiAC<T extends Activity> extends ActivityController<T> {
+public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
 
     private Query query;
     private ShikiUser shikiUser;
     private ThumbToImage thumbToImage;
+    private BodyBuild boddyBuild;
 
     public ShikiAC(T activity) {
         super(activity);
@@ -46,15 +48,16 @@ public class ShikiAC<T extends Activity> extends ActivityController<T> {
 
     /**
      * Custom loader
+     *
      * @return
      */
-    public LoaderController getLoaderController(){
+    public LoaderController getLoaderController() {
         return query.getLoader();
     }
 
     @Override
     public boolean onBackPressed() {
-        if(thumbToImage.closeImage())
+        if (thumbToImage.closeImage())
             return true;
         return super.onBackPressed();
     }
@@ -63,5 +66,11 @@ public class ShikiAC<T extends Activity> extends ActivityController<T> {
     public void onDestroy() {
         super.onDestroy();
         Crouton.cancelAllCroutons();
+    }
+
+    public BodyBuild getBodyBuilder() {
+        if (boddyBuild == null)
+            boddyBuild = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        return boddyBuild;
     }
 }

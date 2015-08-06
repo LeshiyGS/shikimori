@@ -8,17 +8,7 @@
         android:id="@+id/ivImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxHeight="50dp"
         android:scaleType="centerInside" />
-
-    <!--<TextView-->
-        <!--android:id="@+id/tvTitle"-->
-        <!--style="@style/altarixUiText.TextTitle"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:ellipsize="marquee"-->
-        <!--android:text="test"-->
-        <!--android:paddingBottom="@dimen/defaultPaddingMini"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:textColor="@color/white_overlay_85" />-->
 
 </FrameLayout>

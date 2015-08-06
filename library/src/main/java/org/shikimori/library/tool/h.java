@@ -22,6 +22,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
@@ -55,6 +56,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import org.shikimori.library.R;
+import org.shikimori.library.tool.controllers.ShikiAC;
 
 import java.io.File;
 import java.security.MessageDigest;
@@ -68,6 +70,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 
 /**
  * Created by Владимир on 23.06.2014.
@@ -624,26 +628,29 @@ public class h {
         }
     }
 
-    public static void setTextViewHTML(Context activity, TextView text, String html) {
+    public static void setTextViewHTML(BaseKitActivity<ShikiAC> activity, TextView text, String html) {
+        setTextViewHTML(activity, text, html, false);
+    }
+
+    public static void setTextViewHTML(BaseKitActivity<ShikiAC> activity, TextView text, String html, boolean clickable) {
         CharSequence sequence = Html.fromHtml(html);
         SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
         URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
         for (URLSpan span : urls) {
             makeLinkClickable(activity, strBuilder, span);
         }
-//        text.setMovementMethod(LinkMovementMethod.getInstance());
+        if(clickable)
+            text.setMovementMethod(LinkMovementMethod.getInstance());
         text.setText(strBuilder);
     }
 
-    private static void makeLinkClickable(final Context activity, SpannableStringBuilder strBuilder, final URLSpan span) {
+    private static void makeLinkClickable(final BaseKitActivity<ShikiAC> activity, SpannableStringBuilder strBuilder, final URLSpan span) {
         int start = strBuilder.getSpanStart(span);
         int end = strBuilder.getSpanEnd(span);
         int flags = strBuilder.getSpanFlags(span);
         ClickableSpan clickable = new ClickableSpan() {
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(span.getURL()));
-                activity.startActivity(i);
+                LinkHelper.goToUrl(activity, span.getURL(), activity.getAC().getBodyBuilder());
             }
         };
         strBuilder.setSpan(clickable, start, end, flags);

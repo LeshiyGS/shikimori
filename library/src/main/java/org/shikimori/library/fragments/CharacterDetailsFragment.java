@@ -25,6 +25,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemCharacter;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
@@ -144,8 +145,8 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
 
         pageAnime.setAdapter(new AniHistoryAdapter(activity, item.animes));
         pageManga.setAdapter(new AniHistoryAdapter(activity, item.mangas));
-        pageAnime.setOnItemClickListener(animeClick);
-        pageManga.setOnItemClickListener(mangaClick);
+        pageAnime.setOnItemClickListener(goToUrl);
+        pageManga.setOnItemClickListener(goToUrl);
         if(getView()!=null)
             getView().post(new Runnable() {
                 @Override
@@ -164,20 +165,12 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
      * @param type
      */
 
-    AdapterView.OnItemClickListener animeClick = new AdapterView.OnItemClickListener(){
+    AdapterView.OnItemClickListener goToUrl = new AdapterView.OnItemClickListener(){
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             AMShiki _item = (AMShiki) parent.getAdapter().getItem(position);
-            showDetails(_item, ProjectTool.TYPE.ANIME);
-        }
-    };
-    AdapterView.OnItemClickListener mangaClick = new AdapterView.OnItemClickListener(){
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            AMShiki _item = (AMShiki) parent.getAdapter().getItem(position);
-            showDetails(_item, ProjectTool.TYPE.ANIME);
+            LinkHelper.goToUrl(activity, _item.url);
         }
     };
 

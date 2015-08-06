@@ -30,6 +30,7 @@ import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.tool.TextStyling;
 
@@ -307,6 +308,7 @@ public class ProjectTool {
     }
 
     public static void showComment(Query query, String id, final BodyBuild bodyBuild){
+        Crouton.cancelAllCroutons();
         final TextPopup popup = new TextPopup((Activity) query.getContext());
         popup.showLoader();
         popup.setTitle(R.string.comment);

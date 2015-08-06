@@ -14,6 +14,7 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.client.tool.PushHelperShiki;
+import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -76,9 +77,11 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     protected void getMessages() {
         if (!isNotifyEnable())
             return;
-        if(user==null || ShikiUser.USER_ID == null)
+        if(user==null)
             user = new ShikiUser(this);
-        if (!h.getConnection(this) || ShikiUser.USER_ID == null)
+        if(!user.isAutorize())
+            return;
+        if (ShikiUser.USER_ID == null || !h.getConnection(this))
             return;
         if(query == null)
             initQuery();
@@ -128,7 +131,10 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
 
     @Override
     public void onQueryError(StatusResult res) {
-
+        String errorMessage = res.getMsg();
+        if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
+            user.logout();
+        }
     }
 
     @Override
