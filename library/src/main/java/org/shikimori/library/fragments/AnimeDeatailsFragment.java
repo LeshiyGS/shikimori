@@ -41,6 +41,12 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         return ShikiPath.ANIMES_ID;
     }
 
+
+    @Override
+    public ProjectTool.TYPE getType() {
+        return ANIME;
+    }
+
     @Override
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
@@ -55,7 +61,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         if (details.id == null)
             return;
 
-        h.setVisible(tvScreens);
+        h.setVisible(bScreens);
 
         activity.setTitle(details.name);
         // название аниме в карточке
@@ -104,7 +110,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
             activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
-        else if (v.getId() == R.id.tvScreens){
+        else if (v.getId() == R.id.bScreens){
             activity.getPageController()
                     .startActivity(ScreenShootsFragment.class, itemId);
         }

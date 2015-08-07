@@ -31,6 +31,16 @@ public class ScreenShootsFragment extends BaseGridViewFragment{
     ObjectBuilder builder = new ObjectBuilder();
 
     @Override
+    protected boolean isOptionsMenu() {
+        return false;
+    }
+
+    @Override
+    public int getActionBarTitle() {
+        return R.string.screens;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showRefreshLoader();
@@ -51,7 +61,7 @@ public class ScreenShootsFragment extends BaseGridViewFragment{
     public void loadData() {
         getFC().getQuery().init(getUrl())
                 .setCache(true, Query.HOUR*24)
-                .getResultObject(this);
+                .getResultArray(this);
     }
 
     @Override

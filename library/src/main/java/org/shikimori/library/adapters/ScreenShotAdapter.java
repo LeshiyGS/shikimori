@@ -41,8 +41,8 @@ public class ScreenShotAdapter extends SimpleBaseAdapter<ItemScreenShot, ScreenS
     @Override
     public Holder getViewHolder(View view) {
         Holder holder = new Holder();
-        holder.img = (ImageView) view;
-        return null;
+        holder.img = find(view, R.id.ivBigImage);
+        return holder;
     }
 
     @Override

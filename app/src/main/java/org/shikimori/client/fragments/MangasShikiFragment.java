@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import org.shikimori.client.activity.MangaDetailsActivity;
-import org.shikimori.library.fragments.InfoMediaFragment;
+import org.shikimori.library.fragments.AMListMediaFragment;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Владимир on 31.03.2015.
  */
-public class MangasShikiFragment extends InfoMediaFragment {
+public class MangasShikiFragment extends AMListMediaFragment {
 
     public static MangasShikiFragment newInstance() {
         Bundle b = new Bundle();

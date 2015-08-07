@@ -21,6 +21,10 @@ public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
     private ThumbToImage thumbToImage;
     private BodyBuild boddyBuild;
 
+    public ShikiAC(){
+
+    }
+
     public ShikiAC(T activity) {
         super(activity);
     }

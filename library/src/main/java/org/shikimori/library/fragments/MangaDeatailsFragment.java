@@ -49,6 +49,11 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         prepareData();
     }
 
+    @Override
+    public ProjectTool.TYPE getType() {
+        return MANGA;
+    }
+
     private void prepareData() {
 
         if (details.id == null)

@@ -8,7 +8,6 @@ import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.AMBaseListFragment;
-import org.shikimori.library.fragments.dialogs.AddRateDialogFragment;
 import org.shikimori.library.fragments.dialogs.FiltersDialogFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -17,7 +16,7 @@ import org.shikimori.library.tool.constpack.Constants;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class InfoMediaFragment extends AMBaseListFragment implements FiltersDialogFragment.OnFilterListener {
+public class AMListMediaFragment extends AMBaseListFragment implements FiltersDialogFragment.OnFilterListener {
 
     private String type;
     private int title;
@@ -26,11 +25,12 @@ public class InfoMediaFragment extends AMBaseListFragment implements FiltersDial
     public static Fragment newInstance(String type) {
         return newInstance(type, null);
     }
+
     public static Fragment newInstance(String type, String userId) {
         Bundle b = new Bundle();
         b.putString(Constants.TYPE, type);
         b.putString(Constants.USER_ID, userId);
-        InfoMediaFragment frag = new InfoMediaFragment();
+        AMListMediaFragment frag = new AMListMediaFragment();
         frag.setArguments(b);
         return frag;
     }
