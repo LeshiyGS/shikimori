@@ -32,6 +32,7 @@ public class ReadMessageController {
     }
 
     public boolean setRead(View v, boolean read, String id){
+        NotifyProfileController.setNeedRefresh(true);
         query.init(ShikiApi.getUrl(ShikiPath.READ_MESSAGE))
                 .setMethod(Query.METHOD.POST)
                 .addParam("is_read", read ? 0 : 1)

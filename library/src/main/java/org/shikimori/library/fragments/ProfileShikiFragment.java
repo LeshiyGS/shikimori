@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
@@ -282,10 +283,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
     void invalidateData(){
         getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.GET_USER_DETAILS) + getFC().getUserId());
-        if(notifyController!=null){
-            activity.getAC().getShikiUser().clearNotification();
-            getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
-        }
+        if(notifyController!=null)
+            notifyController.invalidate();
     }
 
     void loadDataFromServer() {
@@ -347,8 +346,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     @Override
     public void onResume() {
         super.onResume();
-        if(notifyController!=null)
-            notifyController.updateLocalData(activity.getAC().getShikiUser().getNotification());
+        if(notifyController!=null){
+            if(NotifyProfileController.isNeedRefresh()){
+                notifyController.invalidate();
+                buildProfile();
+            } else {
+                notifyController.updateLocalData(activity.getAC().getShikiUser().getNotification());
+            }
+        }
     }
 
     private void buildProfile() {
@@ -391,10 +396,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
      * Показываем иконку web странички
      */
     private void setWebSite() {
-        if (!TextUtils.isEmpty(userDetails.website))
-            h.setVisible(ivWebShow, true);
-        else
-            h.setVisibleGone(ivWebShow);
+        h.setVisibleGone(TextUtils.isEmpty(userDetails.website), ivWebShow);
     }
 
     private void setSexYearLocation() {

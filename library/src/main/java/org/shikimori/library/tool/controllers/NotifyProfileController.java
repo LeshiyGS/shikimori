@@ -32,6 +32,7 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
  * Created by Феофилактов on 04.04.2015.
  */
 public class NotifyProfileController implements AdapterView.OnItemClickListener {
+    private static boolean NEED_REFRESH;
     public static final int NEWS = 0;
     public static final int INBOX = 1;
     public static final int NOTIFYING = 2;
@@ -48,6 +49,16 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
     private final ViewGroup body;
     private List<Item> menu = new ArrayList<>();
     private NotifyProfileAdapter notifyAdapter;
+
+    public static void setNeedRefresh(boolean refresh){
+        NEED_REFRESH = refresh;
+    }
+
+    public static boolean isNeedRefresh(){
+        boolean ref = NEED_REFRESH;
+        NEED_REFRESH = false;
+        return ref;
+    }
 
     public NotifyProfileController(BaseKitActivity<ShikiAC> mContext, Query query, ShikiUser user, String currentUserId, ViewGroup body) {
         this.mContext = mContext;
@@ -138,6 +149,11 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
         else if (item.id == FRIENDS) {
             mContext.loadPage(CommunityUsersFragment.newInstance(true, currentUserId));
         }
+    }
+
+    public void invalidate() {
+        user.clearNotification();
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
     }
 
     public class Item {
