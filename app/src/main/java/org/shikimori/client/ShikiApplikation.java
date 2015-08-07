@@ -42,14 +42,14 @@ public class ShikiApplikation extends Application {
 
 
         // Setup handler for uncaught exceptions.
-//        if (!BuildConfig.DEBUG || ProjectTool.isFullVersion()) {
+        if (!BuildConfig.DEBUG) {
             Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                 @Override
                 public void uncaughtException(Thread thread, Throwable e) {
                     handleUncaughtException(thread, e);
                 }
             });
-//        }
+        }
 
         new ShikiUser(this);
         ShikiApi.setIsDebug(BuildConfig.DEBUG);
