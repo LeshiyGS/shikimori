@@ -59,6 +59,22 @@
             android:configChanges="orientation|screenSize" >
         </activity>
 
+        <activity
+            android:name=".activity.log.ShowErrorLogActivity"
+            android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".activity.log.SendLogActivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="ru.altarix.mos.reception.SEND_LOG" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".services.NewMessagesService"
             android:enabled="true" />

@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ProjectTool;
@@ -14,6 +15,9 @@ import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.push.PushHelperReceiver;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import ru.altarix.basekit.library.tools.pagecontroller.PageController;
 
@@ -32,10 +36,21 @@ public class ShikiApplikation extends Application {
         try {
             Class.forName("android.os.AsyncTask");
             Class.forName("android.support.v7.internal.view.menu.MenuBuilder");
-        }
-        catch(Throwable ignore) {
+        } catch (Throwable ignore) {
             // ignored
         }
+
+
+        // Setup handler for uncaught exceptions.
+//        if (!BuildConfig.DEBUG || ProjectTool.isFullVersion()) {
+            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread thread, Throwable e) {
+                    handleUncaughtException(thread, e);
+                }
+            });
+//        }
+
         new ShikiUser(this);
         ShikiApi.setIsDebug(BuildConfig.DEBUG);
         initImageLoader(getApplicationContext());
@@ -47,6 +62,22 @@ public class ShikiApplikation extends Application {
         PageController.baseActivityController = ShikiAC.class;
         ProjectTool.buildType = BuildConfig.BUILD_TYPE;
         runService();
+    }
+
+    public void handleUncaughtException(Thread thread, Throwable e) {
+        e.printStackTrace(); // not all Android versions will print the stack trace automatically
+        e.printStackTrace();
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+
+        Intent intent = new Intent();
+        intent.putExtra(SendLogActivity.MSG, sw.toString());
+        intent.setAction("ru.altarix.mos.reception.SEND_LOG"); // see step 5.
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // required when starting from Application
+        startActivity(intent);
+
+        System.exit(1); // kill off the crashed app
     }
 
     public static ImageLoader initImageLoader(Context c) {
@@ -66,7 +97,7 @@ public class ShikiApplikation extends Application {
 
             @Override
             public int getNotifyId() {
-                return super.getNotifyId()+id;
+                return super.getNotifyId() + id;
             }
 
             @Override
@@ -84,7 +115,7 @@ public class ShikiApplikation extends Application {
 
     private void runService() {
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(getPackageName()+".LAUNCH_FROM_APP");
+        broadcastIntent.setAction(getPackageName() + ".LAUNCH_FROM_APP");
         sendBroadcast(broadcastIntent);
     }
 }
