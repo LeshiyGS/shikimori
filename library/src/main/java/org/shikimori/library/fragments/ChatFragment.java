@@ -84,6 +84,11 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     }
 
     @Override
+    public String getActionBarTitleString() {
+        return getParam(Constants.USER_NICKNAME);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ReadMessageController.newInstance(getFC().getQuery());
@@ -91,6 +96,8 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
         apiController.setErrorListener(this);
         toUserNickname = getParam(Constants.USER_NICKNAME);
         toUserId = getParam(Constants.TO_USER_ID);
+
+//        activity.setTitle(toUserNickname);
         messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.MESSAGE);
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         showRefreshLoader();

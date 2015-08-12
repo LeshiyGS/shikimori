@@ -300,8 +300,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
         fillUi(res.getResultObject());
 
-        testHtml(userDetails.aboutHtml);
-
+//        testHtml(userDetails.aboutHtml);
+        testHtml(html);
         buildProfile();
 
         checkUserFriend();
@@ -546,6 +546,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
         });
 
     }
+
+    String html = "<ul class=\"b-list\"><li> После цитат текст не виден. <br>Пример:<br><div class=\"b-quote\"><div class=\"quoteable\"><a href=\"http://shikimori.org/ryuter\" title=\"ryuter\" class=\"bubbled b-user16\" data-href=\"http://shikimori.org/comments/1380981.html\"> <img src=\"http://dere.shikimori.org/images/user/x16/35934.png?1427714655\" srcset=\"http://dere.shikimori.org/images/user/x32/35934.png?1427714655 2x\" alt=\"ryuter\"><span>ryuter</span></a>написал:</div>есть и ошибки</div>Вот. Тут текст написан, но его видно не будет. <br><div class=\"b-quote\"><div class=\"quoteable\"><a href=\"http://shikimori.org/ryuter\" title=\"ryuter\" class=\"bubbled b-user16\" data-href=\"http://shikimori.org/comments/1380981.html\"> <img src=\"http://dere.shikimori.org/images/user/x16/35934.png?1427714655\" srcset=\"http://dere.shikimori.org/images/user/x32/35934.png?1427714655 2x\" alt=\"ryuter\"><span>ryuter</span></a>написал:</div>мог своевременно исправлять</div></li></ul>";
 
 
 //    public class URLDrawable extends BitmapDrawable {

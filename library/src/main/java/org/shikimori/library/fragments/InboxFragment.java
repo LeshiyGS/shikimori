@@ -46,6 +46,11 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     }
 
     @Override
+    public int getActionBarTitle() {
+        return R.string.inbox;
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ReadMessageController.newInstance(getFC().getQuery());

@@ -320,7 +320,7 @@ public class BodyBuild {
             }
             looper(elemnt.childNodes(), quote.getContent());
         }
-        elemnt.remove();
+//        elemnt.remove();
         parent.addView(quote.getQuote());
     }
     /**
@@ -509,7 +509,7 @@ public class BodyBuild {
         // label
         Element label = elemnt.child(0);
         spoiler.getTitle().setText(" + " + label.text());
-        label.remove();
+//        label.remove();
         // text
         Element content = elemnt.getElementsByClass("inner").get(0);
         looper(content.childNodes(), spoiler.getContent());
