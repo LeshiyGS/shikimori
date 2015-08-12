@@ -15,14 +15,12 @@ import android.widget.TextView;
 
 import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.tool.controllers.AuthShikiController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
-import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -79,7 +77,7 @@ public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> impleme
 
         // show error if user not set all params
         if (TextUtils.isEmpty(login) || TextUtils.isEmpty(pass)) {
-            h.showMsg(activity, R.string.set_login_and_pass);
+            hs.showMsg(activity, R.string.set_login_and_pass);
             return;
         }
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import ru.altarix.ui.CustomEditText;
 import ru.altarix.ui.CustomSpinner;
@@ -35,14 +35,14 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
         this.inflater = inflater;
         View v = inflater.inflate(R.layout.dialog_fragment_add_rate, null);
 
-        csRating = h.get(v, R.id.csRating);
-        csStatus = h.get(v, R.id.csStatus);
-        cetComment = h.get(v, R.id.cetComment);
-        cetRewatching = h.get(v, R.id.cetRewatching);
-        cetEpisodes = h.get(v, R.id.cetEpisodes);
-        bMinus = h.get(v, R.id.bMinus);
-        bPlus = h.get(v, R.id.bPlus);
-        bSave = h.get(v, R.id.bSave);
+        csRating = hs.get(v, R.id.csRating);
+        csStatus = hs.get(v, R.id.csStatus);
+        cetComment = hs.get(v, R.id.cetComment);
+        cetRewatching = hs.get(v, R.id.cetRewatching);
+        cetEpisodes = hs.get(v, R.id.cetEpisodes);
+        bMinus = hs.get(v, R.id.bMinus);
+        bPlus = hs.get(v, R.id.bPlus);
+        bSave = hs.get(v, R.id.bSave);
 
         bMinus.setOnClickListener(this);
         bPlus.setOnClickListener(this);

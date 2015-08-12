@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.adapters.holder.TopicHolder;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
@@ -21,7 +20,7 @@ import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
@@ -46,8 +45,8 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.view_shiki_topic_main, null);
-        llRoot = h.get(v, R.id.llRoot);
-        h.setVisibleGone(llRoot);
+        llRoot = hs.get(v, R.id.llRoot);
+        hs.setVisibleGone(llRoot);
         return v;
     }
 
@@ -87,7 +86,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
             @Override
             public void done(ViewGroup view) {
                 activity.getLoaderController().hide();
-                h.setVisible(llRoot, true);
+                hs.setVisible(llRoot, true);
                 item.parsedContent = view;
                 adapter.setValues(holder, item, 0);
             }

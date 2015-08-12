@@ -1,6 +1,5 @@
 package org.shikimori.library.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +14,8 @@ import org.shikimori.library.tool.constpack.Constants;
 
 import ru.altarix.basekit.library.tools.pagecontroller.Page;
 
-import static org.shikimori.library.tool.constpack.Constants.*;
+import static org.shikimori.library.tool.constpack.Constants.ITEM_ID;
+import static org.shikimori.library.tool.constpack.Constants.TYPE;
 
 /**
  * Created by Владимир on 07.08.2015.
@@ -43,9 +43,9 @@ public class SimilarFragment extends AMBaseListFragment {
 
     @Override
     protected String getLoadPath() {
-        if(isAnime)
-            return ShikiApi.getUrl(ShikiPath.MANGA_SIMILAR, (String)getParam(Constants.ITEM_ID));
-        return ShikiApi.getUrl(ShikiPath.ANIME_SIMILAR, (String)getParam(Constants.ITEM_ID));
+        if (!isAnime)
+            return ShikiApi.getUrl(ShikiPath.MANGA_SIMILAR, (String) getParam(Constants.ITEM_ID));
+        return ShikiApi.getUrl(ShikiPath.ANIME_SIMILAR, (String) getParam(Constants.ITEM_ID));
     }
 
     @Override

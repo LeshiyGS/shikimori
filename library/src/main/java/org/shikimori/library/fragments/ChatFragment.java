@@ -24,7 +24,7 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ApiMessageController;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -152,7 +152,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
                 onStartRefresh();
                 etMessage.setEnabled(true);
                 etMessage.setText("");
-                h.hideKeyboard(activity, etMessage);
+                hs.hideKeyboard(activity, etMessage);
             }
         });
     }
@@ -167,7 +167,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
             @Override
             public void onQuerySuccess(StatusResult res) {
                 clearData();
-                h.hideKeyboard(activity, etMessage);
+                hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");
                 ItemNewsUserShiki item = new ItemNewsUserShiki().createFromJson(res.getResultObject());
                 // парсим заного сообщение и отображаем
@@ -176,7 +176,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
                     if (inList != null) {
                         inList.htmlBody = item.htmlBody;
                         inList.parsedContent = new LinearLayout(activity);
-                        inList.parsedContent.setLayoutParams(h.getDefaultParams());
+                        inList.parsedContent.setLayoutParams(hs.getDefaultParams());
                         bodyBuilder.parce(inList.htmlBody, inList.parsedContent);
                         adptr.notifyDataSetChanged();
                     }

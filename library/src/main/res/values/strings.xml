@@ -222,9 +222,12 @@
     <string name="sort_hentai">Хентай</string>
     <string name="sort_yaoi">Яой</string>
     <string name="sort_yuri">Юри</string>
-    <string name="see_screens">Посмотреть скриншоты</string>
+    <string name="see_screens">Cкриншоты</string>
     <string name="see_similar">Похожее</string>
     <string name="screens">Галлерея</string>
     <string name="similar_anime">Похожее аниме</string>
     <string name="similar_manga">Похожая манга</string>
+    <string name="downloadanibreak">Для просмотра видео необходимо поставить Anibreak</string>
+    <string name="anibreak_url">http://anibreak.ru/</string>
+    <string name="images">Картинки</string>
 </resources>

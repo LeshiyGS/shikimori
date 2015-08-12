@@ -22,7 +22,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import ru.altarix.basekit.library.tools.LoaderController;
 /**
  * Created by Феофилактов on 30.10.2014.
@@ -52,7 +52,6 @@ public class Query {
     private boolean cache = false;
     private long timeCache = HALFHOUR; // 30 минут
     private DbCache dbCache;
-    private boolean useAutorization;
     private SwipeRefreshLayout loaderSwipe;
 
     public enum METHOD {
@@ -128,7 +127,6 @@ public class Query {
             addHeader("X-User-Nickname", ShikiUser.USER_NAME);
             addHeader("X-User-Api-Access-Token", ShikiUser.getToken());
         }
-        useAutorization = false;
         params = new RequestParams();
         return this;
     }
@@ -246,7 +244,7 @@ public class Query {
         if (getCache(successListener))
             return;
 
-        if (!h.getConnection(context)) {
+        if (!hs.getConnection(context)) {
             StatusResult res = new StatusResult();
             res.setMsg(context.getString(R.string.error_connection));
             showError(res);
@@ -397,7 +395,7 @@ public class Query {
         if (!res.isSuccess()) {
             hideLoaders();
             if (TextUtils.isEmpty(res.getMsg())) {
-                if (!h.getConnection(context))
+                if (!hs.getConnection(context))
                     res.setMsg(context.getString(R.string.error_connection));
                 else
                     res.setMsg(context.getString(R.string.error_server));
@@ -435,7 +433,7 @@ public class Query {
                 return;
             }
         }
-        h.showMsg(context, res.getMsg());
+        hs.showMsg(context, res.getMsg());
     }
 
 

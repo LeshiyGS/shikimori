@@ -8,7 +8,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -28,9 +28,9 @@ public class CalendarAdapter extends BaseCardGridAdapter<ItemCaclendarShiki> {
 
         if(item.ongoing){
             holder.tvEpisode.setText(getContext().getString(R.string.serie_name) + " " + item.nextEpisode);
-            h.setVisible(holder.tvEpisode, true);
+            hs.setVisible(holder.tvEpisode, true);
         }else{
-            h.setVisibleGone(holder.tvEpisode);
+            hs.setVisibleGone(holder.tvEpisode);
         }
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);

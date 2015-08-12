@@ -21,5 +21,8 @@
     <string name="url_apk_notfound">Ссылка на файл не найдена</string>
     <string name="load_new_app">Загрузить обновление</string>
     <string name="new_version">Новая версия</string>
+    <string name="video">Видео</string>
+    <string name="video_rate_update">Автообновление просмотра</string>
+    <string name="video_rate_update_desc">Обновлять номер серии при просмотре видео в других приложениях</string>
 
 </resources>

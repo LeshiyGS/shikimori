@@ -9,11 +9,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.tool.PreferenceHelper;
+import org.shikimori.library.fragments.AnimeDeatailsFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.push.PushHelperReceiver;
 
 import java.io.PrintWriter;
@@ -61,6 +62,7 @@ public class ShikiApplikation extends Application {
 
         PageController.baseActivityController = ShikiAC.class;
         ProjectTool.buildType = BuildConfig.BUILD_TYPE;
+        AnimeDeatailsFragment.UPDATE_AUTO_SERIES = PreferenceHelper.isUpdateSeries(this);
         runService();
     }
 
@@ -81,15 +83,15 @@ public class ShikiApplikation extends Application {
     }
 
     public static ImageLoader initImageLoader(Context c) {
-        return h.initImageLoader(c);
+        return hs.initImageLoader(c);
     }
 
     public static DisplayImageOptions getImageLoaderOptions() {
-        return h.getImageLoaderOptionsBuilder().build();
+        return hs.getImageLoaderOptionsBuilder().build();
     }
 
     public static DisplayImageOptions.Builder getImageLoaderOptionsBuilder() {
-        return h.getImageLoaderOptionsBuilder();
+        return hs.getImageLoaderOptionsBuilder();
     }
 
     public PushHelperReceiver.PushAction getMessgesPushAction(final int id) {

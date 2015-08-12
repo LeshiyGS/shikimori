@@ -10,10 +10,8 @@ import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
-import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
-import org.shikimori.library.tool.h;
-import org.shikimori.library.tool.parser.jsop.BodyBuild;
+import org.shikimori.library.tool.hs;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +28,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
     }
 
     String formatDate(long date, String format) {
-        return h.getStringDate(format, new Date(date));
+        return hs.getStringDate(format, new Date(date));
     }
 
     @Override
@@ -55,7 +53,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
     @Override
     public void setValues(SettingsHolder holder, ItemCommentsShiki item, int position) {
         holder.tvName.setText(item.nickname);
-        Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.created_at);
+        Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.created_at);
         String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
         holder.tvDate.setText(sdate);
 //        HtmlText text = new HtmlText(getContext(), false);

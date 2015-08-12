@@ -7,7 +7,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.objects.one.ItemClubShiki;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ public class ClubCardStyleAdapter extends BaseCardGridAdapter<ItemClubShiki> {
     @Override
     public void setValues(ViewHolder holder, ItemClubShiki item, int position) {
         holder.tvTitle.setText(item.name);
-        h.setVisibleGone(holder.tvTitleRus);
-        h.setVisibleGone(holder.tvEpisode);
+        hs.setVisibleGone(holder.tvTitleRus);
+        hs.setVisibleGone(holder.tvEpisode);
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);

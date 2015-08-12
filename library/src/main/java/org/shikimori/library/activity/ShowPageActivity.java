@@ -12,6 +12,7 @@ import org.shikimori.library.fragments.MangaDeatailsFragment;
 import org.shikimori.library.fragments.ProfileShikiFragment;
 import org.shikimori.library.fragments.TopicMainCommentFragment;
 import org.shikimori.library.fragments.UserClubsFragment;
+import org.shikimori.library.tool.constpack.Constants;
 
 /**
  * Created by Феофилактов on 07.04.2015.
@@ -39,6 +40,10 @@ public class ShowPageActivity extends PageActivity {
     }
 
     protected void chosePage() {
+        String title = params!= null ? params.getString(Constants.ACTION_BAR_TITLE) : null;
+        if(title!=null)
+            setTitle(title);
+
         if (page == ANIME_PAGE) {
             addPageFragment(AnimeDeatailsFragment.newInstance(params), R.string.anime);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);

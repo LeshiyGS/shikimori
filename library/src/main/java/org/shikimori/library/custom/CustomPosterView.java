@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import ru.altarix.ui.CustomTextView;
 
@@ -38,7 +38,7 @@ public class CustomPosterView extends CustomTextView {
         super.init(attrs);
 
         getIcon().setOnClickListener(this);
-        getIcon().setOnTouchListener(h.getImageHighlight);
+        getIcon().setOnTouchListener(hs.getImageHighlight);
     }
 
     @Override

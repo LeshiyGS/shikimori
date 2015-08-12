@@ -5,7 +5,7 @@ import android.content.Context;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class AniHistoryAdapter extends BaseCardGridAdapter<AMShiki> {
     public void setValues(ViewHolder holder, AMShiki item, int position) {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
-        h.setVisibleGone(holder.tvEpisode);
+        hs.setVisibleGone(holder.tvEpisode);
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);
         ShikiImage.show(item.image.preview, holder.ivImage);

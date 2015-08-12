@@ -12,7 +12,7 @@ import org.shikimori.library.adapters.holder.TopicHolder;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -53,12 +53,12 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 
         holder.llBodyHtml.removeAllViews();
         if (item.parsedContent != null) {
-            h.setVisible(holder.llBodyHtml, true);
-            h.setVisibleGone(holder.tvText);
+            hs.setVisible(holder.llBodyHtml, true);
+            hs.setVisibleGone(holder.tvText);
             holder.llBodyHtml.addView(item.parsedContent);
         } else {
-            h.setVisibleGone(holder.llBodyHtml);
-            h.setVisible(holder.tvText, true);
+            hs.setVisibleGone(holder.llBodyHtml);
+            hs.setVisible(holder.tvText, true);
         }
 
 
@@ -73,7 +73,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         if (item.linked != null && item.linked.image != null)
             ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
         else
-            h.setVisibleGone(holder.ivPoster);
+            hs.setVisibleGone(holder.ivPoster);
 
         holder.tvSection.setText(item.section.name);
         ProjectTool.setTypeColor(getContext(), holder.tvSection, item.linkedType);

@@ -1,8 +1,6 @@
 package org.shikimori.library.tool.parser.elements;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
 
 /**
  * Created by Владимир on 09.04.2015.

@@ -2,8 +2,6 @@ package org.shikimori.library.tool.popup;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,7 +17,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import de.keyboardsurfer.android.widget.crouton.Configuration;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -107,7 +104,7 @@ public abstract class BasePopup {
     protected void showPopup() {
         hide();
         initBackPopup();
-        h.setFont(mContext, view);
+        hs.setFont(mContext, view);
         crouton = Crouton.make(mContext, view);
         Configuration croutonConfiguration = new Configuration.Builder()
                 .setDuration(Configuration.DURATION_INFINITE).build();

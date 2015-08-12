@@ -4,12 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.ItemImageShiki;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.ImageController;
 
 /**
@@ -40,8 +39,8 @@ public class PostAnime extends ImageController {
     private void initData() {
         LayoutInflater inf = LayoutInflater.from(context);
         v = inf.inflate(R.layout.item_shiki_anime_grid_small, null);
-        image = h.get(v, R.id.ivImage);
-        tvTitle = h.get(v, R.id.tvTitle);
+        image = hs.get(v, R.id.ivImage);
+        tvTitle = hs.get(v, R.id.tvTitle);
         image.setTag(url);
         image.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InlinedApi")

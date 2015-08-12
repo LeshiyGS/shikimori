@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public abstract class BaseCardGridAdapter<T> extends SimpleBaseAdapter<T, BaseCa
     @Override
     public void setListeners(ViewHolder holder) {
         super.setListeners(holder);
-        holder.ivImage.setOnTouchListener(h.getImageHighlight);
+        holder.ivImage.setOnTouchListener(hs.getImageHighlight);
     }
 
     @Override

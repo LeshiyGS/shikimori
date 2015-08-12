@@ -102,6 +102,7 @@ public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQ
         ItemClubShiki item = (ItemClubShiki) adp.getItem(position);
         Intent i = new Intent(activity, ShowPageActivity.class);
         i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+        i.putExtra(Constants.ACTION_BAR_TITLE, item.name);
         i.putExtra(Constants.ITEM_ID, item.id);
         activity.startActivity(i);
     }

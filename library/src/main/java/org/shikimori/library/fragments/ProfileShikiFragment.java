@@ -2,7 +2,6 @@ package org.shikimori.library.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
@@ -24,7 +23,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.ProfileMangaAnimeNameAdapter;
 import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.interfaces.UserDataChangeListener;
@@ -41,7 +39,7 @@ import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.imagetool.ThumbToImage;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
@@ -216,11 +214,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     }
 
     @Override
-    public int getActionBarTitle() {
-        return R.string.profile;
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shiki_profile, null);
         llBody = v.findViewById(R.id.llBody);
@@ -300,7 +293,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
         if (activity == null)
             return;
 
-        h.setVisible(llBody);
+        hs.setVisible(llBody);
 
         stopRefresh();
         userDetails = new UserDetails().create(res.getResultObject());
@@ -396,7 +389,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
      * Показываем иконку web странички
      */
     private void setWebSite() {
-        h.setVisibleGone(TextUtils.isEmpty(userDetails.website), ivWebShow);
+        hs.setVisibleGone(TextUtils.isEmpty(userDetails.website), ivWebShow);
     }
 
     private void setSexYearLocation() {
@@ -454,7 +447,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivWebShow) {
-            h.launchUrlLink(activity, userDetails.website);
+            hs.launchUrlLink(activity, userDetails.website);
         } else if (v.getId() == R.id.ivAnimeListShow) {
             showPopup(animePopupListener, ProjectTool.TYPE.ANIME, R.string.lists_anime);
         } else if (v.getId() == R.id.ivMangaListShow) {

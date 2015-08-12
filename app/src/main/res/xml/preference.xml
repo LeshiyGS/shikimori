@@ -29,5 +29,15 @@
             android:summary="@string/notify_sound_desc"
             android:title="@string/sound" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_video_data_group"
+        android:title="@string/video">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="update_serie_number"
+            android:summary="@string/video_rate_update_desc"
+            android:title="@string/video_rate_update" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

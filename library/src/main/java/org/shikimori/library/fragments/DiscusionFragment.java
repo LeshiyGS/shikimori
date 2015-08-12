@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ApiMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController.MessageData;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -156,7 +155,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     @Override
     protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
         super.prepareData(list, removeLastItem, limitOver);
-        h.setVisibleGone(getAllList().size()!=0, tvEmptyView);
+        hs.setVisibleGone(getAllList().size() != 0, tvEmptyView);
     }
 
     @Override
@@ -274,7 +273,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
                 onStartRefresh();
                 etMessage.setEnabled(true);
                 etMessage.setText("");
-                h.hideKeyboard(activity, etMessage);
+                hs.hideKeyboard(activity, etMessage);
             }
         });
     }
@@ -288,7 +287,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
             @Override
             public void onQuerySuccess(StatusResult res) {
                 clearData();
-                h.hideKeyboard(activity, etMessage);
+                hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");
                 ItemCommentsShiki item = new ItemCommentsShiki().createFromJson(res.getResultObject());
                 // парсим заного сообщение и отображаем
@@ -297,7 +296,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
                     if (inList != null) {
                         inList.html_body = item.html_body;
                         inList.parsedContent = new LinearLayout(activity);
-                        inList.parsedContent.setLayoutParams(h.getDefaultParams());
+                        inList.parsedContent.setLayoutParams(hs.getDefaultParams());
                         bodyBuilder.parce(inList.html_body, inList.parsedContent);
                         adaptr.notifyDataSetChanged();
                     }

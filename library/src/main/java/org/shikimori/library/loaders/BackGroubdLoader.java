@@ -10,7 +10,7 @@ import org.shikimori.library.interfaces.OnViewBuildLister;
 
 import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class BackGroubdLoader<T extends JsonParseable> extends AsyncTaskLoader<L
                         if (onAdvancesCheck(item, position))
                             return false;
                         LinearLayout body = new LinearLayout(getContext());
-                        body.setLayoutParams(h.getDefaultParams());
+                        body.setLayoutParams(hs.getDefaultParams());
                         body.setOrientation(LinearLayout.VERTICAL);
 
                         ((OnViewBuildLister)item).setBuildView(body);

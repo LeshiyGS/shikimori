@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
@@ -25,7 +24,7 @@ import org.shikimori.library.tool.ShikiUser;
 import ru.altarix.basekit.library.actionmode.ActionDescription;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
@@ -176,7 +175,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
             if(item.linked == null || item.linked.id == null)
                 return;
             View btn = view.findViewById(R.id.llActions);
-            h.setGoneToggle(btn);
+            hs.setGoneToggle(btn);
 
         }
     }

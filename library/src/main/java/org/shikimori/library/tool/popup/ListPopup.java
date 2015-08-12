@@ -2,9 +2,7 @@ package org.shikimori.library.tool.popup;
 
 import android.app.Activity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -14,7 +12,7 @@ import com.nineoldandroids.animation.Animator;
 import org.shikimori.library.R;
 import org.shikimori.library.tool.FixPauseAnimate;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -90,7 +88,7 @@ public class ListPopup extends BasePopup {
             text.setText(s);
             text.setTag(i);
             text.setOnClickListener(click);
-            text.setBackgroundResource(h.getAttributeResourceId(mContext, R.attr.selectableItemBackground));
+            text.setBackgroundResource(hs.getAttributeResourceId(mContext, R.attr.selectableItemBackground));
             addViewToBody(text);
             playAnimate(text, i);
         }

@@ -1,12 +1,11 @@
-package org.shikimori.client.tool;
+package org.shikimori.library.tool;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
-
-import org.shikimori.client.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +25,12 @@ public class UpdateApp extends AsyncTask<String, Integer, String> {
         context = contextf;
         this.fileName = fileName;
     }
+
+    public UpdateApp setFileName(String name){
+        this.fileName = name;
+        return this;
+    }
+
     public UpdateApp(Context contextf) {
         context = contextf;
     }
@@ -38,8 +43,9 @@ public class UpdateApp extends AsyncTask<String, Integer, String> {
         return loading;
     }
 
-    public void setProgresListener(UpdateApkProgressListener l) {
+    public UpdateApp setProgresListener(UpdateApkProgressListener l) {
         this.update_listener = l;
+        return this;
     }
 
     @Override
@@ -117,7 +123,7 @@ public class UpdateApp extends AsyncTask<String, Integer, String> {
             return;
 
         if (path == null) {
-            h.showMsg(context, R.string.error_download_apk);
+            h.showMsg(context, "Ошибка загрузка apk");
             return;
         }
 
@@ -128,6 +134,13 @@ public class UpdateApp extends AsyncTask<String, Integer, String> {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
         context.startActivity(intent);
         loading = false;
+    }
+
+    public void startLoad(String url){
+        if(Build.VERSION.SDK_INT > 10){
+            executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, url);
+        } else
+            execute(url);
     }
 
     public interface UpdateApkProgressListener {

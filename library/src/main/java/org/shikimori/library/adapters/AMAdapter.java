@@ -1,13 +1,12 @@
 package org.shikimori.library.adapters;
 
 import android.content.Context;
-import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.objects.one.AMShiki;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class AMAdapter extends BaseCardGridAdapter<AMShiki> {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
 
-        h.setVisibleGone(holder.tvEpisode);
+        hs.setVisibleGone(holder.tvEpisode);
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);

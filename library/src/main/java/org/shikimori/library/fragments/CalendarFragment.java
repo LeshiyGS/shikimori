@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.CalendarAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -18,7 +17,7 @@ import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,7 +85,7 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
                 new ObjectBuilder.AdvanceCheck<ItemCaclendarShiki>() {
             @Override
             public boolean check(ItemCaclendarShiki item, int position) {
-                Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.nextEpisodeAt);
+                Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.nextEpisodeAt);
                 item.order = date.getTime();
                 return false;
             }
@@ -131,7 +130,7 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
 //    }
 
     String formatDate(long date, String format) {
-        return h.getStringDate(format, new Date(date));
+        return hs.getStringDate(format, new Date(date));
     }
 
     @Override

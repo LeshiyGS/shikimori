@@ -14,14 +14,13 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.client.tool.PushHelperShiki;
-import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 /**
  * Created by Владимир on 15.06.2015.
@@ -81,7 +80,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
             user = new ShikiUser(this);
         if(!user.isAutorize())
             return;
-        if (ShikiUser.USER_ID == null || !h.getConnection(this))
+        if (ShikiUser.USER_ID == null || !hs.getConnection(this))
             return;
         if(query == null)
             initQuery();

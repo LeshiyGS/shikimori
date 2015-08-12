@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +59,11 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
         View v = inflate(getContext(), R.layout.custom_group_checkbox, null);
         addView(v);
 
-        llCheckBoxList = h.get(v, R.id.llCheckBoxList);
-        tvLabel = h.get(v, R.id.tvLabel);
-        tvCount = h.get(v, R.id.tvCount);
-        tvCountNegative = h.get(v, R.id.tvCountNegative);
-        View llLabel = h.get(v, R.id.llLabel);
+        llCheckBoxList = hs.get(v, R.id.llCheckBoxList);
+        tvLabel = hs.get(v, R.id.tvLabel);
+        tvCount = hs.get(v, R.id.tvCount);
+        tvCountNegative = hs.get(v, R.id.tvCountNegative);
+        View llLabel = hs.get(v, R.id.llLabel);
         // click on title
         llLabel.setOnClickListener(this);
     }
@@ -100,8 +100,8 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
         llCheckBoxList.removeAllViews();
         for (Box box : list) {
             View v = inflate(getContext(), R.layout.custom_checkbox_filter, null);
-            TextView tvTitle = h.get(v, R.id.tvTitle);
-            ImageSwitcher isImage = h.get(v, R.id.isImage);
+            TextView tvTitle = hs.get(v, R.id.tvTitle);
+            ImageSwitcher isImage = hs.get(v, R.id.isImage);
 
             v.setOnClickListener(imageSwitch);
             isImage.setFactory(factory);
@@ -125,8 +125,8 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
         if(titleCountNegative > 0)
             tvCountNegative.setText(String.valueOf(titleCountNegative));
 
-        h.setVisibleGone(titleCount == 0, tvCount);
-        h.setVisibleGone(titleCountNegative == 0, tvCountNegative);
+        hs.setVisibleGone(titleCount == 0, tvCount);
+        hs.setVisibleGone(titleCountNegative == 0, tvCountNegative);
     }
 
     /**
@@ -202,7 +202,7 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
     View.OnClickListener imageSwitch = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            ImageSwitcher isImage = h.get(v, R.id.isImage);
+            ImageSwitcher isImage = hs.get(v, R.id.isImage);
             int position = llCheckBoxList.indexOfChild(v);
             Box box = list.get(position);
 
@@ -235,7 +235,7 @@ public class CustomCheckBoxFilter extends FrameLayout implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.llLabel){
-            h.setVisibleGone(llCheckBoxList.getVisibility() == VISIBLE, llCheckBoxList);
+            hs.setVisibleGone(llCheckBoxList.getVisibility() == VISIBLE, llCheckBoxList);
         }
     }
 

@@ -9,7 +9,7 @@ import org.shikimori.library.objects.ItemScreenShot;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class ScreenShotAdapter extends SimpleBaseAdapter<ItemScreenShot, ScreenS
     @Override
     public void setListeners(Holder holder) {
         super.setListeners(holder);
-        holder.img.setOnTouchListener(h.getImageHighlight);
+        holder.img.setOnTouchListener(hs.getImageHighlight);
         holder.img.setOnClickListener(this);
     }
 

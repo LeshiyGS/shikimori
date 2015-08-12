@@ -2,21 +2,17 @@ package org.shikimori.library.fragments.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.adapters.FragmentPageAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.interfaces.PageNextlistener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
 
 import java.util.ArrayList;
 import java.util.Arrays;

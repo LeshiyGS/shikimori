@@ -7,22 +7,17 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.io.InputStream;
-
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
+
+import java.io.InputStream;
 
 public class UILImageGetter implements Html.ImageGetter {
     Context c;
@@ -30,18 +25,19 @@ public class UILImageGetter implements Html.ImageGetter {
 
     /***
      * Construct the UILImageGetter which will execute AsyncTask and refresh the container
+     *
      * @param t
      * @param c
      */
     public UILImageGetter(View t, Context c) {
         this.c = c;
-        this.container = (TextView)t;
+        this.container = (TextView) t;
     }
 
     @Override
     public Drawable getDrawable(String source) {
 
-        if(source.contains("/images/user/"))
+        if (source.contains("/images/user/"))
             source = source.replace("x16", "x48");
 
         if (source.contains("missing_logo")) {
@@ -55,13 +51,12 @@ public class UILImageGetter implements Html.ImageGetter {
 //        urlDrawable.setBounds(0,0,50,50);
 
 
-        ImageSize size = new ImageSize(200,150);
+        ImageSize size = new ImageSize(200, 150);
         ImageLoader.getInstance().loadImage(source, size, new SimpleListener(urlDrawable));
         return urlDrawable;
     }
 
-    private class SimpleListener extends SimpleImageLoadingListener
-    {
+    private class SimpleListener extends SimpleImageLoadingListener {
         UrlImageDownloader urlImageDownloader;
 
         public SimpleListener(UrlImageDownloader downloader) {
@@ -76,12 +71,12 @@ public class UILImageGetter implements Html.ImageGetter {
             urlImageDownloader.setBounds(0, 0, result.getIntrinsicWidth(), result.getIntrinsicHeight());
             urlImageDownloader.drawable = result;
 
-            if(c instanceof Activity)
+            if (c instanceof Activity)
                 ((Activity) c).runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
-                        if(c == null || container == null)
+                        if (c == null || container == null)
                             return;
                         container.setText(container.getText());
                     }
@@ -89,8 +84,7 @@ public class UILImageGetter implements Html.ImageGetter {
         }
     }
 
-    private class UrlImageDownloader extends BitmapDrawable
-    {
+    private class UrlImageDownloader extends BitmapDrawable {
         public Drawable drawable;
 
         /**
@@ -132,7 +126,7 @@ public class UILImageGetter implements Html.ImageGetter {
         @Override
         public void draw(Canvas canvas) {
             // override the draw to facilitate refresh function later
-            if(drawable != null) {
+            if (drawable != null) {
                 drawable.draw(canvas);
             }
         }

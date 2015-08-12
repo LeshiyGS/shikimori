@@ -2,6 +2,7 @@ package org.shikimori.library.fragments.base;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ApiRatesController;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -56,6 +57,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     protected ApiRatesController apiRateController;
     protected CustomAddRateView llWrapAddList;
     protected View bScreens, bSimilar;
+    protected FloatingActionButton fbPlay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,12 +75,14 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         llWrapAddList = find(R.id.llWrapAddList);
         bScreens = find(R.id.bScreens);
         bSimilar = find(R.id.bSimilar);
+        fbPlay = find(R.id.fbPlay);
 
-        ivPoster.setOnTouchListener(h.getImageHighlight);
+        ivPoster.setOnTouchListener(hs.getImageHighlight);
         ivPoster.setOnClickListener(this);
         bScreens.setOnClickListener(this);
         bSimilar.setOnClickListener(this);
-        h.setVisible(false, svMain);
+        fbPlay.setOnClickListener(this);
+        hs.setVisible(false, svMain);
         return v;
     }
 
@@ -139,7 +143,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
                     @Override
                     public void onAnimationStart(Animator animation) {
                         super.onAnimationStart(animation);
-                        h.setVisible(tvStatus, true);
+                        hs.setVisible(tvStatus);
                     }
                 });
         FixPauseAnimate.play(composer, tvStatus, 700);
@@ -147,7 +151,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        h.setVisible(svMain);
+        hs.setVisible(svMain);
         stopRefresh();
         llInfo.removeAllViews();
     }
@@ -169,9 +173,9 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         if (ratesStatusesStats != null) {
             for (VerticalRatingBar.Rates ratesStatusesStat : ratesStatusesStats) {
                 View v = inflater.inflate(R.layout.item_shiki_progress, null);
-                SeekBar sbProgress = h.get(v, R.id.sbProgress);
+                SeekBar sbProgress = hs.get(v, R.id.sbProgress);
                 sbProgress.setEnabled(false);
-                TextView tvProgress = h.get(v, R.id.tvProgress);
+                TextView tvProgress = hs.get(v, R.id.tvProgress);
                 sbProgress.setProgress(ratesStatusesStat.getProcents());
                 tvProgress.setText(ratesStatusesStat.getTitle() + " / " + ratesStatusesStat.getValue());
                 llWanted.addView(v);

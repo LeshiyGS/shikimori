@@ -11,13 +11,12 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.Date;
 import java.util.List;
@@ -35,7 +34,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
     }
 
     String formatDate(long date, String format) {
-        return h.getStringDate(format, new Date(date));
+        return hs.getStringDate(format, new Date(date));
     }
 
     @Override
@@ -62,7 +61,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
     @Override
     public void setValues(SettingsHolder holder, ItemNewsUserShiki item, int position) {
         holder.tvName.setText(item.from.nickname);
-        Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.createdAt);
+        Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.createdAt);
         String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
         holder.tvDate.setText(sdate);
 //        HtmlText text = new HtmlText(getContext(), false);
@@ -81,7 +80,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
         ImageLoader.getInstance().displayImage(item.from.img148, holder.ivPoster);
 
         holder.tvRead.setTag(position);
-        h.setVisible(!ShikiUser.USER_ID.equals(item.from.id), holder.tvRead);
+        hs.setVisible(!ShikiUser.USER_ID.equals(item.from.id), holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 

@@ -10,7 +10,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 public class ImageShowActivity extends Activity {
 
@@ -29,12 +29,12 @@ public class ImageShowActivity extends Activity {
         String url = extra.getString(IMAGE_URL);
         String name_full_path = extra.getString(IMAGE_FULL_PATH);
         if (url == null && name_full_path == null) {
-            h.showMsg(this, R.string.cant_load_image);
+            hs.showMsg(this, R.string.cant_load_image);
             finish();
         } else {
-            if (h.getConnection(this)) {
+            if (hs.getConnection(this)) {
                 ImageView iv = (ImageView) findViewById(R.id.ivBigImage);
-                h.initImageLoader(this).displayImage(url, iv, new ImageLoadingListener() {
+                hs.initImageLoader(this).displayImage(url, iv, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 
@@ -42,12 +42,12 @@ public class ImageShowActivity extends Activity {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        h.setVisibleGone(loader);
+                        hs.setVisibleGone(loader);
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        h.setVisibleGone(loader);
+                        hs.setVisibleGone(loader);
                     }
 
                     @Override
@@ -56,7 +56,7 @@ public class ImageShowActivity extends Activity {
                     }
                 });
             } else {
-                h.showMsg(this, R.string.error_connection);
+                hs.showMsg(this, R.string.error_connection);
             }
 
         }

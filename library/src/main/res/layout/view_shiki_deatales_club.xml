@@ -40,6 +40,22 @@
                 android:padding="@dimen/defaultPadding"
                 android:background="@color/white_overlay_85" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bImages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/images"
+                    android:theme="@style/altarixUiButtonTheme"
+                    android:textSize="@dimen/guTextSize12"
+                    />
+
+            </LinearLayout>
+
 
             <include
                 android:id="@+id/iLoader"

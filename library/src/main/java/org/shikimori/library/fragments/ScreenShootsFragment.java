@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -29,6 +30,7 @@ import ru.altarix.basekit.library.tools.pagecontroller.Page;
 public class ScreenShootsFragment extends BaseGridViewFragment{
 
     ObjectBuilder builder = new ObjectBuilder();
+    String customUrl;
 
     @Override
     protected boolean isOptionsMenu() {
@@ -43,11 +45,14 @@ public class ScreenShootsFragment extends BaseGridViewFragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        customUrl = getParam(Constants.CUSTOM_URL);
         showRefreshLoader();
         loadData();
     }
 
     String getUrl(){
+        if(!TextUtils.isEmpty(customUrl))
+            return customUrl;
         return ShikiApi.getUrl(ShikiPath.SCREENSHOTS, (String)getParam(Constants.ITEM_ID));
     }
 

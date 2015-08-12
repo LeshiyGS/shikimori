@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.holder.BaseHolder;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -36,9 +36,9 @@ public class BaseListAdapter<T, H extends BaseHolder> extends SimpleBaseAdapter<
     public void setListeners(H holder) {
         super.setListeners(holder);
         if(holder.ivPoster !=null)
-            holder.ivPoster.setOnTouchListener(h.getImageHighlight);
+            holder.ivPoster.setOnTouchListener(hs.getImageHighlight);
         if(holder.ivUser!=null)
-            holder.ivUser.setOnTouchListener(h.getImageHighlight);
+            holder.ivUser.setOnTouchListener(hs.getImageHighlight);
 
     }
 

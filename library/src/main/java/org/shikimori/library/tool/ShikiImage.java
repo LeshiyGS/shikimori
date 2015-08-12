@@ -40,7 +40,7 @@ public class ShikiImage {
 
     public static boolean show(String url, ImageView imageView, boolean hideIfEnpty){
         boolean loaded = show(url, imageView) && hideIfEnpty;
-        h.setVisibleGone(!loaded, imageView);
+        hs.setVisibleGone(!loaded, imageView);
         return loaded;
     }
 }

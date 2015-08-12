@@ -2,7 +2,6 @@ package org.shikimori.library.tool.parser.jsop;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -18,7 +17,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,18 +27,14 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.AniPostGaleryAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
 import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.LinkHelper;
-import org.shikimori.library.tool.ProjectTool;
-import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.ImageController;
 import org.shikimori.library.tool.parser.ParcerTool;
 import org.shikimori.library.tool.parser.UILImageGetter;
@@ -86,7 +80,7 @@ public class BodyBuild {
 
     public BodyBuild(BaseKitActivity<ShikiAC> context) {
         this.context = context;
-        screensize = h.getScreenSize(context);
+        screensize = hs.getScreenSize(context);
     }
 
     public void setOnImageClickListener(ImageClickListener imageClickListener){
@@ -547,7 +541,7 @@ public class BodyBuild {
                     imageClickListener.imageClick(postImg);
                 }
             });
-            postImg.getImage().setOnTouchListener(h.getImageHighlight);
+            postImg.getImage().setOnTouchListener(hs.getImageHighlight);
         }
         // добавляем в пост обработку для отображения картинки
         images.add(postImg);
@@ -677,7 +671,7 @@ public class BodyBuild {
         @Override
         public ViewGroup loadInBackground() {
             LinearLayout view = new LinearLayout(getContext());
-            view.setLayoutParams(h.getDefaultParams());
+            view.setLayoutParams(hs.getDefaultParams());
             view.setOrientation(LinearLayout.VERTICAL);
             builder.parce(text, view, maxLenght);
             return view;

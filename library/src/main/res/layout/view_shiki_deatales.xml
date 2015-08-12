@@ -56,6 +56,19 @@
                     android:layout_alignParentRight="true"
                     android:textSize="@dimen/guTextSizeNormal"
                     android:visibility="gone" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fbPlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_shiki_play"
+                    android:visibility="gone"
+                    android:layout_above="@+id/tvTitle"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="-8dp"
+                    android:elevation="2dp"
+                    />
+
             </RelativeLayout>
 
             <org.shikimori.library.custom.CustomAddRateView
@@ -91,6 +104,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/defaultPaddingMini"
+                android:paddingRight="@dimen/defaultPaddingMini"
                 android:orientation="horizontal">
 
                 <Button

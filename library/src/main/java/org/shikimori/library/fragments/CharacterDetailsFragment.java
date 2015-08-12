@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.AniHistoryAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
@@ -30,7 +29,7 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
@@ -198,11 +197,11 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
      */
     void showHistory(boolean show, View title, View pages){
         if(!show){
-            h.setVisibleGone(title);
-            h.setVisibleGone(pages);
+            hs.setVisibleGone(title);
+            hs.setVisibleGone(pages);
         } else {
-            h.setVisible(title, true);
-            h.setVisible(pages, true);
+            hs.setVisible(title, true);
+            hs.setVisible(pages, true);
         }
     }
 

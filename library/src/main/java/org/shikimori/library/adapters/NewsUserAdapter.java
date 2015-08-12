@@ -1,31 +1,22 @@
 package org.shikimori.library.adapters;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.MessageHolder;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.one.ItemClubShiki;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
-import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
@@ -49,7 +40,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     @Override
     public void setListeners(MessageHolder holder) {
         super.setListeners(holder);
-        holder.ivPoster.setOnTouchListener(h.getImageHighlight);
+        holder.ivPoster.setOnTouchListener(hs.getImageHighlight);
         holder.tvRead.setOnClickListener(this);
         holder.ivUser.setOnClickListener(this);
         holder.bGoTo.setOnClickListener(this);
@@ -85,12 +76,12 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         if (item.linked != null && item.linked.image != null)
             ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
         else
-            h.setVisibleGone(holder.ivPoster);
+            hs.setVisibleGone(holder.ivPoster);
 
         holder.tvRead.setTag(position);
         holder.bComment.setTag(position);
         holder.bGoTo.setTag(position);
-        h.setVisible(holder.tvRead);
+        hs.setVisible(holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
 

@@ -44,4 +44,5 @@ public interface ShikiPath {
     public String GET_USER_CLUBS_LIST = "api/users/:id/clubs";
     public String SET_USER_RATE = "api/user_rates";
     public String USER_RATE_ID = "api/user_rates/:id";
+    public String CLUB_IMAGES = "api/clubs/:id/images";
 }

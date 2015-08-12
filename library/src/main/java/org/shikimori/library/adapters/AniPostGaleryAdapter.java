@@ -6,7 +6,6 @@ import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.h;
 
 import java.util.List;
 

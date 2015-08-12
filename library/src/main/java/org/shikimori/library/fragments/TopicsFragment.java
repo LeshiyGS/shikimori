@@ -3,7 +3,6 @@ package org.shikimori.library.fragments;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,28 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
-import org.shikimori.library.interfaces.OnAdvancedCheck;
-import org.shikimori.library.interfaces.OnViewBuildLister;
-import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
-import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
-import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
 
@@ -124,6 +113,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
         switch (type.toLowerCase()) {
             case Constants.GROUP:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+                intent.putExtra(Constants.ACTION_BAR_TITLE, item.linked.name);
                 intent.putExtra(Constants.TREAD_ID, item.id);
                 break;
             default:

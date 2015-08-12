@@ -2,7 +2,6 @@ package org.shikimori.library.fragments;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -10,15 +9,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
-import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemMangaDetails;
-import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
-import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 import static org.shikimori.library.tool.ProjectTool.TYPE.MANGA;
 
 
@@ -63,7 +59,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         // poster
         ImageLoader.getInstance().displayImage(details.image.original, ivPoster, addBlurToTitle);
         // description
-        h.setTextViewHTML(activity, tvReview, details.description_html, true);
+        hs.setTextViewHTML(activity, tvReview, details.description_html, true);
         // rating
 //        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
 //        rbTitle.setRating(Float.parseFloat(details.score) / 2);
@@ -81,7 +77,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
 
         llWrapAddList.setRate(details.id, details.userRate, MANGA);
 
-        h.setVisible(llWrapAddList);
+        hs.setVisible(llWrapAddList);
         // status color and animation
         setStatus(details.anons, details.ongoing);
         // load comments

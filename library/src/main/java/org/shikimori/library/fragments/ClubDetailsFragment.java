@@ -5,14 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
@@ -25,7 +22,7 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
@@ -44,7 +41,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     private String itemId;
     private ItemClubDescriptionShiki item;
     private BodyBuild bodyBuilder;
-    private View iLoader;
+    private View iLoader, bImages;
 
     public static ClubDetailsFragment newInstance(Bundle b) {
         ClubDetailsFragment frag = new ClubDetailsFragment();
@@ -61,8 +58,10 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         tvReview  = find(R.id.llReview);
         ivPoster  = find(R.id.ivPoster);
         iLoader  = find(R.id.iLoader);
+        bImages  = find(R.id.bImages);
 
         ivPoster.setOnClickListener(this);
+        bImages.setOnClickListener(this);
         return v;
     }
 
@@ -82,7 +81,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     @Override
     public void onStartRefresh() {
         getFC().getQuery().invalidateCache(getUrl());
-        h.setVisible(iLoader);
+        hs.setVisible(iLoader);
         loadData();
     }
 
@@ -106,14 +105,14 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         stopRefresh();
         item = new ItemClubDescriptionShiki().create(res.getResultObject());
 
-        activity.setTitle(item.name);
+//        activity.setTitle(item.name);
 
         bodyBuilder.parceAsync(item.descriptionHtml, new BodyBuild.ParceDoneListener() {
             @Override
             public void done(ViewGroup view) {
                 if (activity == null || getView() == null)
                     return;
-                h.setVisibleGone(iLoader);
+                hs.setVisibleGone(iLoader);
                 tvReview.removeAllViews();
                 tvReview.addView(view);
                 bodyBuilder.loadPreparedImages();
@@ -134,6 +133,10 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         if(v.getId() == R.id.ivPoster){
             if(item.original!=null)
                 activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.original));
+        } else if (v.getId() == R.id.bImages){
+            activity.getPageController()
+                    .addParam(Constants.CUSTOM_URL, ShikiApi.getUrl(ShikiPath.CLUB_IMAGES, itemId))
+                    .startActivity(ScreenShootsFragment.class, itemId);
         }
     }
 }

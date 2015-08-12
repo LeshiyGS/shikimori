@@ -2,7 +2,7 @@ package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
@@ -34,7 +34,7 @@ import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 /**
  * Created by Владимир on 02.04.2015.
  */
-public abstract class BaseListFragment<T extends ActionBarActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
+public abstract class BaseListFragment<T extends AppCompatActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
     public static final int DEFAULT_FIRST_PAGE = 1;
     public static final int LIMIT = 20;
     protected int page = DEFAULT_FIRST_PAGE;

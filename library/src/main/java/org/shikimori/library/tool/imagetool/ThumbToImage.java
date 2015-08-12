@@ -8,7 +8,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -34,9 +33,8 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ImageShowActivity;
 import org.shikimori.library.tool.RelevalCircular;
-import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +77,7 @@ public class ThumbToImage {
         this.thumbView = thumbView;
         this.list = list;
 
-        h.setVisible(wraper, back);
+        hs.setVisible(wraper, back);
         YoYo.with(Techniques.FadeIn)
                 .duration(300)
                 .playOn(back);
@@ -93,12 +91,12 @@ public class ThumbToImage {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    h.setVisible(viewPager);
-                    h.setVisibleGone(expandedImage);
+                    hs.setVisible(viewPager);
+                    hs.setVisibleGone(expandedImage);
                 }
             });
         } else
-            h.setVisible(viewPager);
+            hs.setVisible(viewPager);
 
         List<View> views = new ArrayList<>();
 
@@ -138,7 +136,7 @@ public class ThumbToImage {
             return;
         }
 
-        h.setVisible(wraper, back);
+        hs.setVisible(wraper, back);
         YoYo.with(Techniques.FadeIn)
                 .duration(300)
                 .playOn(back);
@@ -173,8 +171,8 @@ public class ThumbToImage {
             rev.setProgress(20);
         }
 
-        if (h.getConnection(mContext)) {
-            DisplayImageOptions.Builder options = h.getImageLoaderOptionsBuilder();
+        if (hs.getConnection(mContext)) {
+            DisplayImageOptions.Builder options = hs.getImageLoaderOptionsBuilder();
             options.displayer(new SimpleBitmapDisplayer());
             options.resetViewBeforeLoading(false);
 
@@ -197,7 +195,7 @@ public class ThumbToImage {
                                         @Override
                                         public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
                                             super.onAnimationEnd(animation);
-                                            h.setVisibleGone(pbLoaderExpanded);
+                                            hs.setVisibleGone(pbLoaderExpanded);
                                         }
                                     });
                             mAttacher.update();
@@ -295,7 +293,7 @@ public class ThumbToImage {
                 .play(ObjectAnimator.ofFloat(expandedImage, View.X,
                         startBounds.left, finalBounds.left))
                 .with(ObjectAnimator.ofFloat(expandedImage, View.Y,
-                        startBounds.top - h.pxToDp(64, mContext), finalBounds.top))
+                        startBounds.top - hs.pxToDp(64, mContext), finalBounds.top))
                 .with(ObjectAnimator.ofFloat(expandedImage, View.SCALE_X,
                         startScale, 1f)).with(ObjectAnimator.ofFloat(expandedImage,
                 View.SCALE_Y, startScale, 1f));
@@ -307,7 +305,7 @@ public class ThumbToImage {
                 mCurrentAnimator = null;
                 if (isLoad)
                     return;
-                h.setVisible(pbLoaderExpanded, true);
+                hs.setVisible(pbLoaderExpanded, true);
                 YoYo.with(Techniques.SlideInDown)
                         .playOn(pbLoaderExpanded);
                 if(listener!= null)
@@ -316,7 +314,7 @@ public class ThumbToImage {
 
             @Override
             public void onAnimationCancel(Animator animation) {
-                h.setVisibleGone(pbLoaderExpanded);
+                hs.setVisibleGone(pbLoaderExpanded);
                 mCurrentAnimator = null;
             }
         });
@@ -352,12 +350,12 @@ public class ThumbToImage {
                 @Override
                 public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
                     super.onAnimationEnd(animation);
-                    h.setVisibleGone(back);
+                    hs.setVisibleGone(back);
                 }
             })
             .playOn(back);
-        h.setVisibleGone(pbLoaderExpanded);
-        h.setVisible(expandedImage, true);
+        hs.setVisibleGone(pbLoaderExpanded);
+        hs.setVisible(expandedImage, true);
 
 
         if (!isViewPagerOpen && Build.VERSION.SDK_INT > 20) {
@@ -365,7 +363,7 @@ public class ThumbToImage {
                 @Override
                 public void animateEnd() {
                     expandedImage.setImageDrawable(null);
-                    h.setVisible(wraper, false);
+                    hs.setVisible(wraper, false);
                     viewPager.setAdapter(null);
 //                    mAttacher.cleanup();
                 }
@@ -384,7 +382,7 @@ public class ThumbToImage {
             .ofFloat(expandedImage, View.X, startBounds.left))
             .with(ObjectAnimator
                     .ofFloat(expandedImage,
-                            View.Y, startBounds.top - h.pxToDp(64, mContext)))
+                            View.Y, startBounds.top - hs.pxToDp(64, mContext)))
             .with(ObjectAnimator
                     .ofFloat(expandedImage,
                             View.SCALE_X, startScale))
@@ -400,7 +398,7 @@ public class ThumbToImage {
                 //back.setVisibility(View.GONE);
                 expandedImage.setImageDrawable(null);
                 viewPager.setAdapter(null);
-                h.setVisible(wraper, false);
+                hs.setVisible(wraper, false);
 //                mAttacher.cleanup();
                 //expandedImageView.setVisibility(View.GONE);
                 mCurrentAnimator = null;

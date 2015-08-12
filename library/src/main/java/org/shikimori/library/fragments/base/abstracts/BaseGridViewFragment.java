@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.custom.PaggingGridView2;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -77,7 +76,7 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseKitActiv
      */
     @Override
     public void hasMoreItems(boolean more) {
-        h.setVisibleGone(!more, footerGridLoading);
+        hs.setVisibleGone(!more, footerGridLoading);
         gvList.setHasMoreItems(more);
     }
 

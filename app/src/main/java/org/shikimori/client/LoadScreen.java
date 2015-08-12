@@ -1,23 +1,15 @@
 package org.shikimori.client;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.animation.Animation;
-import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import org.shikimori.client.activity.AuthActivity;
 import org.shikimori.client.tool.AuthMasterShiki;
 import org.shikimori.library.tool.FontCache;
-import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 /**
  * Created by Феофилактов on 29.03.2015.
@@ -31,7 +23,7 @@ public class LoadScreen extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_shiki_splash_screen);
 
-        h.setFont(LoadScreen.this, findViewById(R.id.tvLogo), FontCache.FONT.STYLO);
+        hs.setFont(LoadScreen.this, findViewById(R.id.tvLogo), FontCache.FONT.STYLO);
 
         animateLogo();
         pauseBeforeLoad();

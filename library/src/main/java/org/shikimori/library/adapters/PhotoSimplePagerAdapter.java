@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class PhotoSimplePagerAdapter extends PagerAdapter {
     }
 
     private void initSizeElement() {
-        Point size = h.getScreenSize(mContext);
+        Point size = hs.getScreenSize(mContext);
 
         float padding = mContext.getResources().getDimension(R.dimen.defaultPadding);
         float windElement = mContext.getResources().getDimension(R.dimen.defaultPadding);

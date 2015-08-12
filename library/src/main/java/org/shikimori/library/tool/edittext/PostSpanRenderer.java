@@ -3,15 +3,12 @@ package org.shikimori.library.tool.edittext;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jmpergar.awesometext.AwesomeTextHandler;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.h;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

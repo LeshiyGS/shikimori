@@ -17,7 +17,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.edittext.QuoteEditText;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 /**
@@ -60,9 +60,9 @@ public class SendMessageController {
             .append(msgType)
             .append("] ");
 
-        h.insertTextEditText(editText, str.toString());
+        hs.insertTextEditText(editText, str.toString());
         quoteTool.setText(editText.getText().toString());
-        h.showKeyboard(context, editText);
+        hs.showKeyboard(context, editText);
     }
 
     protected void deleteMessage() {

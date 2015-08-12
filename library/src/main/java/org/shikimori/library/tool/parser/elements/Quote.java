@@ -1,19 +1,14 @@
 package org.shikimori.library.tool.parser.elements;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.ItemImageShiki;
-import org.shikimori.library.tool.h;
 import org.shikimori.library.tool.parser.ImageController;
 
 import java.util.regex.Matcher;

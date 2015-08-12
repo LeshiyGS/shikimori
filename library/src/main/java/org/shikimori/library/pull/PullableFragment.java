@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -20,7 +20,7 @@ import ru.altarix.ui.tool.h;
 /**
  * Created by Феофилактов on 12.12.2014.
  */
-public abstract class PullableFragment<T extends ActionBarActivity> extends BaseFragment<T> implements SwipeRefreshLayout.OnRefreshListener, Query.OnQueryErrorListener {
+public abstract class PullableFragment<T extends AppCompatActivity> extends BaseFragment<T> implements SwipeRefreshLayout.OnRefreshListener, Query.OnQueryErrorListener {
 
     private SwipeRefreshLayout swipeLayout;
     private int color;

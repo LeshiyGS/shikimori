@@ -1,7 +1,11 @@
 package org.shikimori.library.fragments;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -16,9 +20,13 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemAnimeDetails;
 import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.tool.ProjectTool;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.UpdateApp;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
+
+import ru.altarix.basekit.library.tools.DialogCompat;
 
 import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 
@@ -29,6 +37,7 @@ import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
     private ItemAnimeDetails details;
+    public static boolean UPDATE_AUTO_SERIES = true;
 
     public static AnimeDeatailsFragment newInstance(Bundle b) {
         AnimeDeatailsFragment frag = new AnimeDeatailsFragment();
@@ -61,13 +70,17 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         if (details.id == null)
             return;
 
-        h.setVisible(bScreens);
+        hs.setVisible(bScreens, fbPlay);
+
+        if(ProjectTool.isFullVersion()){
+            hs.setVisible(fbPlay);
+        }
 
         activity.setTitle(details.name);
         // название аниме в карточке
         setTitleElement(details.russianName, details.name);
         // description
-        h.setTextViewHTML(activity, tvReview, details.description_html, true);
+        hs.setTextViewHTML(activity, tvReview, details.description_html, true);
         // rating
 //        h.setTextViewHTML(activity, tvScore, activity.getString(R.string.rating) + ": " + details.score);
 //        rbTitle.setRating(Float.parseFloat(details.score) / 2);
@@ -86,7 +99,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         setStudios(details.studios);
         buildStateWanted(details.ratesStatusesStats);
 
-        h.setVisible(llWrapAddList);
+        hs.setVisible(llWrapAddList);
         llWrapAddList.setRate(details.id, details.userRate, ANIME);
 
         if (activity instanceof ExtraLoadInterface)
@@ -113,7 +126,62 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         else if (v.getId() == R.id.bScreens){
             activity.getPageController()
                     .startActivity(ScreenShootsFragment.class, itemId);
+        } else if(v.getId() == R.id.fbPlay) {
+            if (ProjectTool.isFullVersion()) {
+                if(!hs.appInstalledOrNot(activity, "com.videogars.anime")){
+                    new DialogCompat(activity)
+                        .setPositiveListener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startLoadAniBreak();
+                            }
+                        })
+                        .showConfirm(activity.getString(R.string.downloadanibreak));
+                } else {
+                    Intent intent = new Intent();
+                    intent.setData(Uri.parse("anibreakUrl://video?anime_shiki_id=" + itemId));
+                    intent.putExtra("shiki_user_name", activity.getAC().getShikiUser().getNickname());
+                    intent.putExtra("shiki_user_token", ShikiUser.getToken());
+                    intent.putExtra("serie_name", String.valueOf(llWrapAddList.getRateUser().episodes));
+                    intent.putExtra("shiki_anime_name", details.name);
+                    intent.putExtra("shiki_anime_name_rus", details.russianName);
+                    if(UPDATE_AUTO_SERIES)
+                        intent.putExtra("shiki_anime_rate_id", details.userRate.id);
+
+                    try {
+                        startActivityForResult(intent, 777);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 777){
+            Log.d("shikiresult", "777");
+            startRefresh();
+        }
+    }
+
+    private void startLoadAniBreak(){
+        activity.getAC().getLoaderController().show();
+        new UpdateApp(activity)
+                .setProgresListener(new UpdateApp.UpdateApkProgressListener() {
+                    @Override
+                    public void update(int progress) {
+
+                    }
+
+                    @Override
+                    public void finish() {
+                        activity.getAC().getLoaderController().hide();
+                    }
+                }).startLoad(activity.getString(R.string.anibreak_url) + "uploads/app-release.apk");
     }
 
     /**
@@ -121,7 +189,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
      */
     protected void setStudios(List<Studio> studions) {
         if (studions.size() > 0) {
-            h.setVisible(llStudios);
+            hs.setVisible(llStudios);
             llStudios.setAdapter(new StudiosAdapter(activity, studions));
             llStudios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -130,7 +198,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
                 }
             });
         } else {
-            h.setVisibleGone(llStudios);
+            hs.setVisibleGone(llStudios);
         }
     }
 

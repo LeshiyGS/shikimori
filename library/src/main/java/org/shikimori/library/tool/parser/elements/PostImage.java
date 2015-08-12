@@ -7,12 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.shikimori.library.R;
 import org.shikimori.library.objects.one.ItemImageShiki;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.ImageController;
 
 /**
@@ -31,7 +27,7 @@ public class PostImage extends ImageController{
         image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         image.setBackgroundColor(Color.DKGRAY);
         ViewGroup.LayoutParams params = image.getLayoutParams();
-        params.height = h.pxToDp(150, context);
+        params.height = hs.pxToDp(150, context);
         image.setLayoutParams(params);
     }
 
@@ -41,7 +37,7 @@ public class PostImage extends ImageController{
 
     public void setFixesSize(){
         ViewGroup.LayoutParams params = image.getLayoutParams();
-        params.height = h.pxToDp(150, context);
+        params.height = hs.pxToDp(150, context);
         image.setLayoutParams(params);
     }
 
@@ -49,7 +45,7 @@ public class PostImage extends ImageController{
         //Вставляем картинку
         image = new ImageView(context);
 //        image.setBackgroundColor(Color.DKGRAY);
-        ViewGroup.LayoutParams params = h.getDefaultParams();
+        ViewGroup.LayoutParams params = hs.getDefaultParams();
 //        params.height = h.pxToDp(150, context);
         image.setLayoutParams(params);
         image.setScaleType(ImageView.ScaleType.FIT_CENTER);

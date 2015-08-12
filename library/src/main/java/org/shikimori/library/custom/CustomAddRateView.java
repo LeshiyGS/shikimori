@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.fragments.dialogs.AddRateDialogFragment;
 import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
@@ -22,7 +21,7 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ApiRatesController;
 import org.shikimori.library.tool.controllers.ShikiAC;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
 
@@ -57,9 +56,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
     private void init() {
         View v = inflate(getContext(), R.layout.custom_add_rate_view, null);
         addView(v);
-        bAddToList = h.get(this, R.id.bAddToList);
-        bListSettings = h.get(this, R.id.bListSettings);
-        bListPlus = h.get(this, R.id.bListPlus);
+        bAddToList = hs.get(this, R.id.bAddToList);
+        bListSettings = hs.get(this, R.id.bListSettings);
+        bListPlus = hs.get(this, R.id.bListPlus);
 
         bAddToList.setOnClickListener(clickListener);
         bListSettings.setOnClickListener(clickListener);
@@ -87,15 +86,15 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         String name = ProjectTool.getListStatusName(getContext(), rate.status, type);
         if (name == null) {
             name = getContext().getString(R.string.add_to_list);
-            h.setVisibleGone(bListSettings);
-            h.setVisibleGone(bListPlus);
+            hs.setVisibleGone(bListSettings);
+            hs.setVisibleGone(bListPlus);
         } else if (rate.status != UserRate.Status.COMPLETED) {
             StringBuilder str = new StringBuilder(name)
                     .append(" - ")
                     .append(rate.episodes);
             name = str.toString();
-            h.setVisible(bListSettings, true);
-            h.setVisible(bListPlus, true);
+            hs.setVisible(bListSettings, true);
+            hs.setVisible(bListPlus, true);
         }
         bAddToList.setText(name);
     }

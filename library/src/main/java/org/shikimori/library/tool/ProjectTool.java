@@ -3,7 +3,6 @@ package org.shikimori.library.tool;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.style.URLSpan;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.YoYo;
 
-import org.shikimori.library.BuildConfig;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
@@ -195,8 +193,8 @@ public class ProjectTool {
     }
 
     public static String formatDatePost(String cteatedAt){
-        return h.getStringDate("dd MMMM yyyy HH:mm",
-                h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", cteatedAt));
+        return hs.getStringDate("dd MMMM yyyy HH:mm",
+                hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", cteatedAt));
     }
 
     public static String fixUrl(String url){

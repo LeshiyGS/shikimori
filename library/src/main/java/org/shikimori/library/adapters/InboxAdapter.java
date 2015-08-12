@@ -11,13 +11,12 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.InboxHolder;
-import org.shikimori.library.adapters.holder.SettingsHolder;
 import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +33,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
     }
 
     String formatDate(long date, String format) {
-        return h.getStringDate(format, new Date(date));
+        return hs.getStringDate(format, new Date(date));
     }
 
     @Override
@@ -65,7 +64,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
     public void setValues(InboxHolder holder, ItemDialogs item, int position) {
 
         boolean selfUser = item.message.from.id.equals(item.user.id);
-        h.setVisibleGone(selfUser, holder.llFromUserName);
+        hs.setVisibleGone(selfUser, holder.llFromUserName);
 
         if(!selfUser){
             holder.tvFromUser.setText(item.message.from.nickname);
@@ -73,7 +72,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
         }
 
         holder.tvName.setText(item.user.nickname);
-        Date date = h.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.message.createdAt);
+        Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.message.createdAt);
         String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
         holder.tvDate.setText(sdate);
         // delete content before
@@ -92,7 +91,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
 
         holder.tvRead.setTag(position);
         selfUser = ShikiUser.USER_ID.equals(item.message.from.id);
-        h.setVisible(!selfUser, holder.tvRead);
+        hs.setVisible(!selfUser, holder.tvRead);
         if (!selfUser)
             ProjectTool.setReadOpasity(holder.tvRead, item.message.read);
     }

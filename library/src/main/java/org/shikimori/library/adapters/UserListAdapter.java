@@ -11,7 +11,7 @@ import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
@@ -38,12 +38,12 @@ public class UserListAdapter extends BaseListAdapter<ItemUserListShiki, BaseHold
                 holder.tvStatus.setText(ProjectTool.getStatus(getContext(), item.amDetails.anons, item.amDetails.ongoing));
                 ProjectTool.setStatusColor(getContext(), holder.tvStatus, item.amDetails.anons, item.amDetails.ongoing);
             } else
-                h.setVisibleGone(holder.tvStatus);
+                hs.setVisibleGone(holder.tvStatus);
 
             if(item.amDetails!=null)
                 ShikiImage.show(item.amDetails.image.original, holder.ivPoster, true);
             else
-                h.setVisibleGone(holder.ivPoster);
+                hs.setVisibleGone(holder.ivPoster);
 
         }
     }

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import org.shikimori.client.BuildConfig;
 import org.shikimori.client.R;
-import org.shikimori.client.tool.UpdateApp;
+import org.shikimori.library.tool.UpdateApp;
 import org.shikimori.client.tool.controllers.ApiShikiVersionController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -80,13 +80,9 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
             h.setVisible(pbLoaderApk);
             h.setVisibleGone(bLoadApk);
 
-            UpdateApp lod = new UpdateApp(activity);
-            lod.setProgresListener(this);
-
-            if(Build.VERSION.SDK_INT > 10){
-                lod.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, versionUrl);
-            } else
-                lod.execute(versionUrl);
+            new UpdateApp(activity)
+                    .setProgresListener(this)
+                    .startLoad(versionUrl);
         }
     }
 

@@ -12,13 +12,10 @@ import com.loopj.android.http.RequestParams;
 import org.shikimori.library.R;
 import org.shikimori.library.custom.CustomCheckBoxFilter;
 import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.h;
+import org.shikimori.library.tool.hs;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import ru.altarix.ui.CustomCheckBox;
-import ru.altarix.ui.CustomGroupCheckBox;
 
 /**
  * Created by Феофилактов on 14.07.2015.
@@ -35,9 +32,9 @@ public class FiltersDialogFragment extends BaseDialogFragment implements View.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.dialog_fragment_filters, null);
-        llContainer = h.get(v, R.id.llContainer);
-        bFilter = h.get(v, R.id.bFilter);
-        bClear = h.get(v, R.id.bClear);
+        llContainer = hs.get(v, R.id.llContainer);
+        bFilter = hs.get(v, R.id.bFilter);
+        bClear = hs.get(v, R.id.bClear);
 
         bFilter.setOnClickListener(this);
         bClear.setOnClickListener(this);
