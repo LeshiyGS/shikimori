@@ -230,4 +230,5 @@
     <string name="downloadanibreak">Для просмотра видео необходимо поставить Anibreak</string>
     <string name="anibreak_url">http://anibreak.ru/</string>
     <string name="images">Картинки</string>
+    <string name="updateanibreak">Необходимо обновить Anibreak</string>
 </resources>

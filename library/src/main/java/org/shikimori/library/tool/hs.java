@@ -3,6 +3,7 @@ package org.shikimori.library.tool;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -783,12 +784,22 @@ public class hs extends h {
         PackageManager pm = c.getPackageManager();
         boolean app_installed = false;
         try {
-            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            PackageInfo info = pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;
         } catch (PackageManager.NameNotFoundException e) {
             app_installed = false;
         }
         return app_installed;
+    }
+
+    public static int appVersionCode(Context c, String uri) {
+        PackageManager pm = c.getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        return -1;
     }
 
 }

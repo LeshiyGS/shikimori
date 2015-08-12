@@ -129,15 +129,14 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         } else if(v.getId() == R.id.fbPlay) {
             if (ProjectTool.isFullVersion()) {
                 if(!hs.appInstalledOrNot(activity, "com.videogars.anime")){
-                    new DialogCompat(activity)
-                        .setPositiveListener(new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startLoadAniBreak();
-                            }
-                        })
-                        .showConfirm(activity.getString(R.string.downloadanibreak));
+                    instalAnibreakDialog(R.string.downloadanibreak);
                 } else {
+                    int versionAniBreak = hs.appVersionCode(activity, "com.videogars.anime");
+                    if(versionAniBreak < 402159){
+                        instalAnibreakDialog(R.string.updateanibreak);
+                        return;
+                    }
+
                     Intent intent = new Intent();
                     intent.setData(Uri.parse("anibreakUrl://video?anime_shiki_id=" + itemId));
                     intent.putExtra("shiki_user_name", activity.getAC().getShikiUser().getNickname());
@@ -157,6 +156,17 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
             }
         }
+    }
+
+    void instalAnibreakDialog(int str){
+        new DialogCompat(activity)
+                .setPositiveListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startLoadAniBreak();
+                    }
+                })
+                .showConfirm(activity.getString(str));
     }
 
     @Override
