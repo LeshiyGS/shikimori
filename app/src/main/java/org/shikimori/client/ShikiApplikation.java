@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.shikimori.client.activity.AboutActivity;
 import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.fragments.AnimeDeatailsFragment;
@@ -30,6 +31,7 @@ public class ShikiApplikation extends Application {
     public static final String NEW_MESSAGES = "new_messages";
     public static final String NEW_NEWS = "new_news";
     public static final String NEW_NOTIFY = "new_notify";
+    public static final String NEW_VERSION = "new_version";
 
     @Override
     public void onCreate() {
@@ -59,6 +61,7 @@ public class ShikiApplikation extends Application {
         PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(3));
         PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(4));
         PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(5));
+        PushHelperReceiver.addAction(NEW_VERSION, getMessgesPushAction(6));
 
         PageController.baseActivityController = ShikiAC.class;
         ProjectTool.buildType = BuildConfig.BUILD_TYPE;
@@ -104,7 +107,12 @@ public class ShikiApplikation extends Application {
 
             @Override
             public Intent getNotifyIntent() {
-                Intent newIntent = new Intent(ShikiApplikation.this, MainActivity.class);
+                Intent newIntent;
+                if(id == 6){
+                    newIntent = new Intent(ShikiApplikation.this, AboutActivity.class);
+                } else {
+                    newIntent = new Intent(ShikiApplikation.this, MainActivity.class);
+                }
                 return newIntent;
             }
 

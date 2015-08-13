@@ -300,8 +300,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
         fillUi(res.getResultObject());
 
-//        testHtml(userDetails.aboutHtml);
-        testHtml(html);
+        testHtml(userDetails.aboutHtml);
+//        testHtml(html);
         buildProfile();
 
         checkUserFriend();

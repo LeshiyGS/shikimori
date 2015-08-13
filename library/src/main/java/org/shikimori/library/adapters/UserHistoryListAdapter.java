@@ -13,9 +13,12 @@ import org.shikimori.library.adapters.holder.BaseHolder;
 import org.shikimori.library.objects.one.ItemUserHistory;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
+import org.shikimori.library.tool.controllers.ShikiAC;
+import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.tool.h;
 
 /**
@@ -30,13 +33,13 @@ public class UserHistoryListAdapter extends BaseListAdapter<ItemUserHistory, Bas
     @Override
     public void setValues(BaseHolder holder, ItemUserHistory item, int position) {
 
-        holder.tvText.setText(item.description);
+        hs.setTextViewHTML((BaseKitActivity<ShikiAC>) getContext(), holder.tvText, item.description);
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
 
         if (item.target != null && item.target.id !=null) {
             h.setVisible(holder.tvStatus, true);
             h.setVisible(holder.tvType,true);
-            h.setVisible(holder.tvName,true);
+            h.setVisible(holder.tvName, true);
             holder.tvName.setText(item.target.name);
             ProjectTool.setStatusColor(getContext(), holder.tvStatus, item.target.anons, item.target.ongoing);
             holder.tvStatus.setText(ProjectTool.getStatus(getContext(),

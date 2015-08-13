@@ -28,6 +28,7 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.AniPostGaleryAdapter;
+import org.shikimori.library.custom.CustomGridlayout;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
@@ -42,6 +43,7 @@ import org.shikimori.library.tool.parser.elements.PostAnime;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.elements.Quote;
 import org.shikimori.library.tool.parser.elements.Spoiler;
+import org.shikimori.library.tool.parser.elements.VideoImage;
 import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
 import org.shikimori.library.tool.popup.BasePopup;
 import org.shikimori.library.tool.popup.ListPopup;
@@ -121,7 +123,7 @@ public class BodyBuild {
     public View parce(String text, ViewGroup viewBody, int maxLenght) {
         if (text == null)
             return null;
-        text.replace("<br><br>", "<br>");
+        text = text.replace("<br><br>", "\n");
         if(maxLenght > 0 && text.length() > maxLenght)
             text = text.substring(0, maxLenght) + "...";
         viewBody.removeAllViews();
@@ -267,7 +269,9 @@ public class BodyBuild {
                 buildBlockquote(elemnt, parent);
                 break;
             case "a":
-                if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
+                if(elemnt.hasClass("c-video")){
+                    addVideo(elemnt, parent);
+                } else if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
                     addImage(elemnt.child(0), parent, getImageType(elemnt.child(0)));
                 } else {
                     String comment = elemnt.attr("data-href");
@@ -281,6 +285,8 @@ public class BodyBuild {
             default:
                 if (elemnt.children().size() > 0)
                     looper(elemnt.childNodes(), parent);
+                else
+                    setSimpleText(elemnt, parent);
                 break;
         }
 
@@ -388,7 +394,6 @@ public class BodyBuild {
      */
     void setSimpleText(Node elemnt, ViewGroup parent) {
         View v = getLastView(parent);
-        StringBuilder builder;
 
         String text;
         String style = elemnt.attr("style");
@@ -398,6 +403,10 @@ public class BodyBuild {
             text = elemnt.outerHtml();
         }
 
+        if(text.length() < 2)
+            return;
+
+        StringBuilder builder;
         if (v instanceof TextView) {
             if (lastTv != null && !lastTv.equals(v))
                 insertText();
@@ -433,9 +442,10 @@ public class BodyBuild {
         if (lastTv == null)
             return;
         StringBuilder builder = (StringBuilder) lastTv.getTag();
-        if(builder == null)
-            builder = new StringBuilder();
-
+        if(builder == null){
+            lastTv = null;
+            return;
+        }
         Spanned _text = ParcerTool.fromHtml(builder.toString(),
                 new UILImageGetter(lastTv, context), null);
         SpannableStringBuilder spanBuilder = new SpannableStringBuilder(_text);
@@ -518,6 +528,30 @@ public class BodyBuild {
 
     /**
      * **********************************************************
+     * Work whith video
+     * @param element
+     * @param parent
+     ***********************************************************/
+    private void addVideo(Element element, ViewGroup parent) {
+
+        Element img = element.child(0);
+        Element marker = element.select("span").get(0);
+
+        ItemImageShiki item = new ItemImageShiki();
+        item.setThumb(img.attr("src"));
+        item.setOriginal(img.attr("src"));
+
+        VideoImage video = new VideoImage(context, item, element.attr("href"));
+        video.setMarker(marker.html());
+        images.add(video);
+
+        View view = getLastView(parent);
+        addToGallery(parent, view, video.getView());
+    }
+
+
+    /**
+     * **********************************************************
      * Work whith images
      * @param element
      * @param parent  **********************************************************
@@ -548,23 +582,25 @@ public class BodyBuild {
 
         // получаем последнюю добавленную вьюху
         View view = getLastView(parent);
-        if(view == null)
-            insertText();
 
         if (typeImage == IMAGETYPE.BIGIMAGE) {
-            if(!(view instanceof GridLayout)){
-                insertText();
-                view = createImageGallery(parent);
-                gallerys.add(view);
-            }
             postImg.setIsGallery();
-            GridLayout grid = (GridLayout) view;
-            grid.addView(postImg.getImage());
+            addToGallery(parent, view, postImg.getImage());
         } else {
             insertText();
             postImg.initMargin();
             parent.addView(postImg.getImage());
         }
+    }
+
+    private void addToGallery(ViewGroup parent, View lastView, View v){
+        if(!(lastView instanceof CustomGridlayout)){
+            insertText();
+            lastView = createImageGallery(parent);
+            gallerys.add(lastView);
+        }
+        CustomGridlayout grid = (CustomGridlayout) lastView;
+        grid.addView(v);
     }
 
     private View getLastView(ViewGroup parent) {
@@ -575,7 +611,7 @@ public class BodyBuild {
     }
 
     private GridLayout createImageGallery(ViewGroup parent) {
-        GridLayout layout = new GridLayout(context);
+        CustomGridlayout layout = new CustomGridlayout(context);
         layout.setColumnCount(3);
         layout.setLayoutParams(getDefaultParams());
         layout.setPadding(0, 0, 0, 30);
@@ -606,26 +642,26 @@ public class BodyBuild {
 //        if(images.size() == 0)
 //            return;
 
-        for (View v : gallerys){
-            final GridLayout grid = (GridLayout) v;
-            grid.post(new Runnable() {
-                @Override
-                public void run() {
-                    int viewCount = grid.getChildCount();
-                    int column = viewCount > 3 ? 3 : viewCount;
-                    for (int i = 0; i < viewCount; i++) {
-                        View v = grid.getChildAt(i);
-                        GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
-
-                        int gridSize = grid.getWidth() == 0 ? screensize.x : grid.getWidth();
-                        gridSize -= grid.getPaddingLeft() - grid.getPaddingRight();
-                        gridSize -= itemParams.rightMargin - itemParams.leftMargin;
-                        itemParams.width = (gridSize / column);
-                        v.setLayoutParams(itemParams);
-                    }
-                }
-            });
-        }
+//        for (View v : gallerys){
+//            final GridLayout grid = (GridLayout) v;
+//            grid.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    int viewCount = grid.getChildCount();
+//                    int column = viewCount > 3 ? 3 : viewCount;
+//                    for (int i = 0; i < viewCount; i++) {
+//                        View v = grid.getChildAt(i);
+//                        GridLayout.LayoutParams itemParams = (GridLayout.LayoutParams) v.getLayoutParams();
+//
+//                        int gridSize = grid.getWidth() == 0 ? screensize.x : grid.getWidth();
+//                        gridSize -= grid.getPaddingLeft() - grid.getPaddingRight();
+//                        gridSize -= itemParams.rightMargin - itemParams.leftMargin;
+//                        itemParams.width = (gridSize / column);
+//                        v.setLayoutParams(itemParams);
+//                    }
+//                }
+//            });
+//        }
 
         for (int i = 0; i < images.size(); i++) {
             images.get(i).loadImage();

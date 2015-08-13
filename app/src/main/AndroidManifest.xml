@@ -52,6 +52,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" >
         </activity>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:configChanges="orientation|screenSize" >
+        </activity>
 
         <activity
             android:name=".activity.PreferencesShikiActivity"

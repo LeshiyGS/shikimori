@@ -6,14 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -21,31 +15,18 @@ import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import com.nineoldandroids.animation.Animator;
-
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Transformation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.YoYo;
 import com.daimajia.androidanimations.library.fading_entrances.FadeInAnimator;
@@ -60,18 +41,11 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import org.shikimori.library.R;
 import org.shikimori.library.tool.controllers.ShikiAC;
 
-import java.io.File;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.h;
@@ -84,7 +58,7 @@ public class hs extends h {
     public static final Locale RUSSIAN_LOCALE = new Locale("ru", "RU");
     public static Handler loop = new Handler(); //fixme это пиздец. Тут должна быть отложенная инициализация как минимум.
 
-//    public static void showMsg(Context context, int msg) {
+    //    public static void showMsg(Context context, int msg) {
 //        if (context == null)
 //            return;
 //
@@ -110,10 +84,11 @@ public class hs extends h {
 //    public static void setVisibleToggle(View ... views) {
 //        setVisible(View.INVISIBLE, true, views);
 //    }
-    public static void setGoneToggle(View ... views) {
+    public static void setGoneToggle(View... views) {
         setVisible(View.GONE, true, views);
     }
-//
+
+    //
 //    public static void setVisibleGone(View ... v) {
 //        setVisible(View.GONE,false, v);
 //    }
@@ -126,14 +101,14 @@ public class hs extends h {
 //        setVisible(gone ? View.GONE : View.VISIBLE, false, views);
 //    }
 //
-    private static void setVisible(int status, boolean toggle, View ... views){
-        if(views == null)
+    private static void setVisible(int status, boolean toggle, View... views) {
+        if (views == null)
             return;
         for (View v : views) {
-            if(v!=null){
+            if (v != null) {
                 if (v.getVisibility() != status)
                     v.setVisibility(status);
-                else if(toggle){
+                else if (toggle) {
                     v.setVisibility(View.VISIBLE);
                 }
             }
@@ -275,7 +250,6 @@ public class hs extends h {
 //        a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density));
 //        v.startAnimation(a);
 //    }
-
     public static void setFont(final Context context, final View v) {
         setFont(context, v, FontCache.FONT.ROBOTO);
     }
@@ -642,7 +616,7 @@ public class hs extends h {
         for (URLSpan span : urls) {
             makeLinkClickable(activity, strBuilder, span);
         }
-        if(clickable)
+        if (clickable)
             text.setMovementMethod(LinkMovementMethod.getInstance());
         text.setText(strBuilder);
     }

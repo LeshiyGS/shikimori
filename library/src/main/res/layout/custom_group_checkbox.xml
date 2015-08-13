@@ -4,64 +4,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="@dimen/defaultPadding4"
-    android:paddingStart="@dimen/defaultPadding4"
-    >
+    android:paddingStart="@dimen/defaultPadding4">
 
     <LinearLayout
         android:id="@+id/llLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:paddingTop="@dimen/defaultPaddingMini"
-        android:paddingBottom="@dimen/defaultPaddingMini"
         android:animateLayoutChanges="true"
-        android:orientation="horizontal">
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/defaultPaddingMini"
+        android:paddingTop="@dimen/defaultPaddingMini">
 
         <TextView
             android:id="@+id/tvLabel"
+            style="?attr/altarixUiAttrLabelTitleStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Title"
             android:layout_weight="1"
-            style="?attr/altarixUiAttrLabelTitleStyle"
-            android:textSize="@dimen/guTextSizeLarge"
-            />
+            android:text="Title"
+            android:textSize="@dimen/guTextSizeLarge" />
+
         <TextView
             android:id="@+id/tvCount"
+            style="@style/altarixUiLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/altarixUiLabel"
-            android:visibility="gone"
+            android:background="@drawable/notify_style_green"
             android:paddingLeft="@dimen/defaultPadding4"
             android:paddingRight="@dimen/defaultPadding4"
             android:textColor="@color/white_overlay_60"
-            android:background="@drawable/notify_style_green"
-            />
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/tvCountNegative"
+            style="@style/altarixUiLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/altarixUiLabel"
-            android:visibility="gone"
             android:layout_marginLeft="@dimen/defaultPadding4"
+            android:background="@drawable/notify_style_red"
             android:paddingLeft="@dimen/defaultPadding4"
             android:paddingRight="@dimen/defaultPadding4"
             android:textColor="@color/white_overlay_60"
-            android:background="@drawable/notify_style_red"
-            />
+            android:visibility="gone" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?attr/altarixUiAttrDividerColor"
-        />
+        android:background="?attr/altarixUiAttrDividerColor" />
 
     <LinearLayout
         android:id="@+id/llCheckBoxList"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_height="wrap_content">
-    </LinearLayout>
+        android:visibility="gone"></LinearLayout>
 </LinearLayout>

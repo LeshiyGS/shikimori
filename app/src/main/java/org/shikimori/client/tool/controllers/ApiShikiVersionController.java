@@ -31,7 +31,7 @@ public class ApiShikiVersionController extends BaseApiController<ApiShikiVersion
                         int lastShowNewVersion = mSettings.getInt("lastShowNewVersion", 0);
 
                         if (newVersion > BuildConfig.VERSION_CODE
-                                && lastShowNewVersion > BuildConfig.VERSION_CODE) {
+                                && lastShowNewVersion < newVersion) {
                             mSettings.edit().putInt("lastShowNewVersion", newVersion).apply();
                             JSONObject obj = res.getResultObject();
                             if(obj!=null){

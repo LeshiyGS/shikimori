@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: "../params.gradle"
+apply from: "../../shikimori.gradle"
 
 android {
     compileSdkVersion 22
@@ -9,19 +10,30 @@ android {
         applicationId "org.shikimori.client"
         minSdkVersion 10
         targetSdkVersion 22
-        versionCode 2
-        versionName "0.2 alpha"
+        versionCode 3
+        versionName "0.3 alpha"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("../../shikimori.jks")
+            storePassword shikimori_login
+            keyAlias "shikimori"
+            keyPassword shikimori_pass
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
         full {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
             versionNameSuffix ".full"
         }
     }
