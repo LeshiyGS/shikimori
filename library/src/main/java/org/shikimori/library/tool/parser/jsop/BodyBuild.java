@@ -123,7 +123,7 @@ public class BodyBuild {
     public View parce(String text, ViewGroup viewBody, int maxLenght) {
         if (text == null)
             return null;
-        text = text.replace("<br><br>", "\n");
+//        text = text.replace("<br><br>", "\n");
         if(maxLenght > 0 && text.length() > maxLenght)
             text = text.substring(0, maxLenght) + "...";
         viewBody.removeAllViews();
@@ -339,6 +339,8 @@ public class BodyBuild {
         Element a = elemnt.select("a").first();
 
         Element imageSrc = a.select("img").first();
+        if(imageSrc == null)
+            return;
 
         AMShiki item = new AMShiki().create(null);
         item.image = new ItemImage(null);
@@ -405,6 +407,9 @@ public class BodyBuild {
 
         if(text.length() < 2)
             return;
+
+//        if(text.equals("<br><br>"))
+        text = text.replace("<br><br>", "\n");
 
         StringBuilder builder;
         if (v instanceof TextView) {

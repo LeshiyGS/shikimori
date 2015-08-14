@@ -3,6 +3,8 @@ package org.shikimori.client;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.webkit.WebView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -57,6 +59,10 @@ public class ShikiApplikation extends Application {
         new ShikiUser(this);
         ShikiApi.setIsDebug(BuildConfig.DEBUG);
         initImageLoader(getApplicationContext());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(ShikiApi.isDebug);
+        }
 
         PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(3));
         PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(4));

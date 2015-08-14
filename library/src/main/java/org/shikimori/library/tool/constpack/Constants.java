@@ -19,6 +19,7 @@ public class Constants {
     public static final String PAGE_FRAGMENT = "page_fragment";
     public static final String ITEM_OBJECT = "item_object";
     public static final String PAGE_EXTRA_LOAD = "page_extra_load";
+    public static final String INIT_TITLE_AFTER = "init_title_after";
 
     public static final String DISSCUSION_TYPE = "disscusion_type";
     public static final String TYPE_ENTRY = "Entry";
@@ -33,7 +34,9 @@ public class Constants {
     public static final String TOPIC = "topic";
     public static final String REVIEW = "review";
     public static final String GROUP = "group";
+    public static final String CLUBS = "clubs";
     public static final String SITENEWS = "sitenews";
+    public static final String GROUP_REQUEST = "GroupRequest";
 
     // users
     public static final String NEWS = "news";

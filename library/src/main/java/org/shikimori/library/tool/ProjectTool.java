@@ -260,6 +260,8 @@ public class ProjectTool {
                 page = ShowPageActivity.MANGA_PAGE; break;
             case Constants.CHARACTER:
                 page = ShowPageActivity.CHARACTER_PAGE; break;
+            case Constants.CLUBS:
+                page = ShowPageActivity.CLUB_PAGE; break;
         }
 
         if(page > -1){
@@ -273,6 +275,8 @@ public class ProjectTool {
 
     public static void ShowSimplePage(Context context, String type, String itemId){
         Intent i = getSimpleIntentDetails(context, type);
+        if(i == null)
+            return;
         i.putExtra(Constants.ITEM_ID, itemId);
         context.startActivity(i);
     }

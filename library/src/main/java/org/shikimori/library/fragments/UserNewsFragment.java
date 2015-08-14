@@ -19,11 +19,13 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import ru.altarix.basekit.library.actionmode.ActionDescription;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
+import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
@@ -172,6 +174,10 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
                 return;
             }
         } else if (type.equals(Constants.NOTIFYING)) {
+            if(item.kind.equalsIgnoreCase(Constants.GROUP_REQUEST)){
+                LinkHelper.goToUrl(activity, item.htmlBody);
+                return;
+            }
             if(item.linked == null || item.linked.id == null)
                 return;
             View btn = view.findViewById(R.id.llActions);

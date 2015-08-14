@@ -1,7 +1,9 @@
 package org.shikimori.library.fragments.dialogs;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
     CustomEditText cetComment, cetRewatching, cetEpisodes;
     private ControllListenerRate listener;
     private View bMinus, bPlus, bSave;
+    private int maxEpisodes;
 
     public static AddRateDialogFragment newInstance() {
         return new AddRateDialogFragment();
@@ -47,6 +50,31 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
         bMinus.setOnClickListener(this);
         bPlus.setOnClickListener(this);
         bSave.setOnClickListener(this);
+        cetEpisodes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(maxEpisodes > 0){
+                    if(s.length() == 0)
+                        cetEpisodes.setText("0");
+                    else{
+                        int epizodes = Integer.valueOf(s.toString());
+                        if(maxEpisodes < epizodes)
+                            cetEpisodes.setText(String.valueOf(maxEpisodes));
+                    }
+                }
+
+            }
+        });
         return v;
     }
 
@@ -123,9 +151,12 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
         int episodInt = 0;
         if (!TextUtils.isEmpty(episod)) {
             episodInt = Integer.valueOf(episod);
-            if (increase)
+            if (increase){
+                if(maxEpisodes>0 && maxEpisodes <= episodInt)
+                    return;
                 episodInt++;
-            else
+
+            } else
                 episodInt--;
 
             if (episodInt < 0)
@@ -133,6 +164,10 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
         }
 
         cetEpisodes.setText(String.valueOf(episodInt));
+    }
+
+    public void setMaxEpisodes(int maxEpisodes) {
+        this.maxEpisodes = maxEpisodes;
     }
 
     public interface ControllListenerRate {

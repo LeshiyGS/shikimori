@@ -35,6 +35,9 @@ public class LinkHelper {
         } else if(url.contains("/characters")){
             if(goToPage(activity, "characters", url, Constants.CHARACTER))
                 return;
+        } else if(url.contains("/clubs")){
+            if(goToPage(activity, "clubs", url, Constants.CLUBS))
+                return;
         } else if(bodyBuild!=null && url.contains("/comments")){
             String id = getItemId("comments", url);
             ProjectTool.showComment(activity.getAC().getQuery(), id, bodyBuild);

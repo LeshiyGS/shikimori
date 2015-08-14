@@ -67,9 +67,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="@dimen/defaultPadding" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/defaultPaddingMini"
+                android:background="@android:color/white">
 
-
+                <WebView
+                    android:id="@+id/wvWeb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </FrameLayout>
         </LinearLayout>
+
+
     </ScrollView>
 
 </FrameLayout>

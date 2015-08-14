@@ -101,9 +101,8 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         } else if (v.getId() == R.id.bGoTo) {
             ItemNewsUserShiki item = getItem((int) v.getTag());
             Intent i = new Intent(getContext(), ShowPageActivity.class);
-            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.DISCUSSION);
             i.putExtra(Constants.TREAD_ID, item.linked.threadId);
-//            i.putExtra(Constants.ACTION_BAR_TITLE, item.id);
+            i.putExtra(Constants.ACTION_BAR_TITLE, item.id);
             getContext().startActivity(i);
         }
     }

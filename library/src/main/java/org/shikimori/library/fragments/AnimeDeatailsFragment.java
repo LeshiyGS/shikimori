@@ -101,6 +101,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
 
         hs.setVisible(llWrapAddList);
         llWrapAddList.setRate(details.id, details.userRate, ANIME);
+        llWrapAddList.setEpisodes(Integer.valueOf(details.episodes));
 
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id);

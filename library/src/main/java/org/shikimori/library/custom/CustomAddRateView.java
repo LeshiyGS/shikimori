@@ -38,6 +38,7 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
     private String itemId;
     private UserRate rate;
     private BaseKitActivity activity;
+    private int maxEpisodes;
 
     public CustomAddRateView(Context context) {
         this(context, null);
@@ -172,8 +173,11 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
                 AddRateDialogFragment frag = AddRateDialogFragment.newInstance();
                 frag.setUpdateListener(CustomAddRateView.this);
                 frag.setType(type);
+                frag.setMaxEpisodes(maxEpisodes);
                 frag.show(activity.getFragmentManagerLocal(), "");
             } else if (v.getId() == R.id.bListPlus) {
+                if(maxEpisodes>0 && maxEpisodes <= rate.episodes)
+                    return;
                 rate.episodes++;
                 updateRateFromDialog();
             }
@@ -205,5 +209,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
     public void updateRateFromDialog() {
         setRate();
         setButtonName();
+    }
+
+    public void setEpisodes(int maxValue) {
+        this.maxEpisodes = maxValue;
     }
 }
