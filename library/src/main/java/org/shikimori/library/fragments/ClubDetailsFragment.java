@@ -154,11 +154,11 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //                if (linksToBrowser && isUrlAllowedForLoad(url)) {
-                Log.d("weblink", ""+url);
+                Log.d("weblink", "" + url);
                 LinkHelper.goToUrl(activity, url);
 //                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                    startActivity(intent);
-                    return true;
+                return true;
 //                }
 //
 //                if (pageListener != null)
@@ -181,7 +181,9 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
 
         StringBuilder sb = new StringBuilder();
         sb.append("<HTML><HEAD>");
-        sb.append("<LINK href=\"http://shikimori.org/assets/application-cb528336bfc38bbed4769a03bd321948.css\" type=\"text/css\" rel=\"stylesheet\"/>");
+        sb.append("<LINK href=\"file:///android_asset/application.css\" type=\"text/css\" rel=\"stylesheet\"/>");
+        sb.append("<script src=\"file:///android_asset/jquery-2.1.4.min.js\" type=\"text/javascript\"></script>");
+        sb.append("<script src=\"file:///android_asset/shiki.js\" type=\"text/javascript\"></script>");
 //        sb.append("<script src=\"http://shikimori.org/assets/core-e3c7f5a04d70fc73396d0a5804875f62.js\" type=\"text/javascript\"></script>");
 //        sb.append("<script src=\"http://shikimori.org/assets/application-b86673bc249423153ae7c934f538e43a.js\" type=\"text/javascript\"></script>");
         sb.append("</HEAD><body>");
