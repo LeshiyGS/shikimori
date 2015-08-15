@@ -21,7 +21,7 @@ allprojects {
         compile 'com.daimajia.androidanimations:library:1.1.3@aar'
         fileTree("../modules_aar").visit { FileVisitDetails details ->
             String _name = details.file.name.replace(".aar", "")
-            println "name id: " +name
+            println "name id: " +_name
             compileAltarixModule(_name, "0")
         }
     }

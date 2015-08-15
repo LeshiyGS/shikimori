@@ -1,31 +1,52 @@
-apply plugin: 'com.android.library'
+//apply plugin: 'com.android.library'
+apply plugin: 'com.android.model.library'
 apply from: "../params.gradle"
 
-android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+model {
+    android {
+        compileSdkVersion = 22
+        buildToolsVersion = "22.0.1"
 
-    defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        defaultConfig.with {
+            minSdkVersion.apiLevel = 10
+            targetSdkVersion.apiLevel = 22
+            versionCode = 1
+            versionName = "1.0"
+        }
+
     }
-    buildTypes {
+    android.buildTypes {
+        debug {
+            ndk.with {
+                debuggable = true
+            }
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            proguardFiles += file('proguard-rules.pro')
         }
     }
-}
 
+    android.ndk {
+        moduleName = "html-parcer"
+        /*
+     * Other ndk flags configurable here are
+     * cppFlags += "-fno-rtti"
+     * cppFlags += "-fno-exceptions"
+     * ldLibs    = ["android", "log"]
+     * stl       = "system"
+     */
+    }
+
+
+}
 dependencies {
     compile 'com.loopj.android:android-async-http:1.4.6'
-    compile project(":modules:PinnedSectionAdapter")
+//    compile project(":modules:PinnedSectionAdapter")
     compile 'com.koushikdutta.ion:ion:2.1.3'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
     compile 'org.jsoup:jsoup:1.8.1'
-    compile project(":modules:PhotoView")
-    compile project(":modules:ratingbar")
+//    compile project(":modules:PhotoView")
+//    compile project(":modules:ratingbar")
 }

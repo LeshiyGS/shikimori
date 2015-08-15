@@ -1,44 +1,61 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.model.application'
 apply from: "../params.gradle"
 apply from: "../../shikimori.gradle"
 
-android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+model {
 
-    defaultConfig {
-        applicationId "org.shikimori.client"
-        minSdkVersion 10
-        targetSdkVersion 22
-        versionCode 3
-        versionName "0.3 alpha"
+    android {
+        compileSdkVersion = 22
+        buildToolsVersion = "22.0.1"
+
+        defaultConfig.with {
+            applicationId = "org.shikimori.client"
+            minSdkVersion.apiLevel = 10
+            targetSdkVersion.apiLevel = 22
+            versionCode = 3
+            versionName = "0.3 alpha"
+        }
+
     }
 
-    signingConfigs {
+//    def sc
+//    signingConfigs {
+//        create('release') {
+//            storeFile = file("../../shikimori.jks")
+//            storePassword = shikimori_login
+//            keyAlias = "shikimori"
+//            keyPassword = shikimori_pass
+//            sc = it
+//        }
+//    }
+
+    android.buildTypes {
         release {
-            storeFile file("../../shikimori.jks")
-            storePassword shikimori_login
-            keyAlias "shikimori"
-            keyPassword shikimori_pass
+            minifyEnabled = false
+            proguardFiles += file('proguard-rules.pro')
+//            signingConfig = sc
         }
+
+//        full {
+//            minifyEnabled = false
+//            proguardFiles += file('proguard-rules.pro')
+////            signingConfig = sc
+//            versionNameSuffix += ".full"
+//        }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
 
-        full {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-            versionNameSuffix ".full"
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile = file("../../shikimori.jks")
+//            storePassword = shikimori_login
+//            keyAlias = "shikimori"
+//            keyPassword = shikimori_pass
+//        }
+//    }
 
-    packagingOptions {
+
+    android.packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
@@ -53,20 +70,29 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+    android.compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_7
+        targetCompatibility = JavaVersion.VERSION_1_7
     }
 
-    lintOptions {
-        abortOnError false
+    android.lintOptions {
+        abortOnError = false
     }
+
+//    android.sources {
+//        main {
+//            java {
+//                source {
+//                    srcDir 'src'
+//                }
+//            }
+//        }
+//    }
+
 }
-
 dependencies {
     compile project(":library")
     compile 'com.loopj.android:android-async-http:1.4.6'
-    compile project(":modules:PinnedSectionAdapter")
-    compile project(":modules:PhotoView")
+//    compile project(":modules:PinnedSectionAdapter")
+//    compile project(":modules:PhotoView")
 }
-

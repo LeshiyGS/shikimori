@@ -1,15 +1,25 @@
-apply plugin: 'android-library'
+apply plugin: 'com.android.model.library'
 
-android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-    defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 22
+model {
+
+    android {
+        compileSdkVersion = 22
+        buildToolsVersion = "22.0.1"
+
+        defaultConfig.with {
+            minSdkVersion.apiLevel = 10
+            targetSdkVersion.apiLevel = 22
+        }
     }
-    sourceSets {
+    android.buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles += file('proguard-rules.pro')
+        }
+    }
+    android.sources {
         main {
-            manifest.srcFile 'AndroidManifest.xml'
+            manifest.srcFile = 'AndroidManifest.xml'
             java.srcDirs = ['src']
             res.srcDirs = ['res']
         }

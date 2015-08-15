@@ -60,6 +60,10 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
  */
 public class BodyBuild {
 
+    static {
+        System.loadLibrary("html-parcer");
+    }
+
     private UrlTextListener urlTextListener;
     private OnClickLinkInPopup popupClick;
     private ImageClickListener imageClickListener;
@@ -130,6 +134,8 @@ public class BodyBuild {
         Document doc = Jsoup.parse(text);
         return parce(doc, viewBody);
     }
+
+    public native View parceNative(String text, ViewGroup viewBody);
 
     public View parce(Document doc, ViewGroup viewBody) {
         if (doc == null)

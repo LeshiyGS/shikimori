@@ -116,7 +116,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
 
         activity.setTitle(item.name);
 
-//        bodyBuilder.parceAsync(item.descriptionHtml, new BodyBuild.ParceDoneListener() {
+//        bodyBuilder.parceAsync(item.descriptionHtml, new BodyBuildJni.ParceDoneListener() {
 //            @Override
 //            public void done(ViewGroup view) {
 //                if (activity == null || getView() == null)
