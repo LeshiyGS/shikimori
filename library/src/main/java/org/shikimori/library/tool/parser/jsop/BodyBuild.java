@@ -235,6 +235,8 @@ public class BodyBuild {
             return false;
         if (html.contains("b-quote"))
             return false;
+        if (html.contains("b-replies"))
+            return false;
         if (html.contains("blockquote"))
             return false;
         if (html.contains("c-anime"))
@@ -254,6 +256,9 @@ public class BodyBuild {
                     break;
                 } else if (elemnt.hasClass("b-quote")) {
                     buildBlockquote(elemnt, parent);
+                    break;
+                } else if (elemnt.hasClass("b-replies")) {
+                    buildReplies(elemnt, parent);
                     break;
                 }
             case "ul":
@@ -291,6 +296,11 @@ public class BodyBuild {
         }
 
         return true;
+    }
+
+    private void buildReplies(Element elemnt, ViewGroup parent) {
+        elemnt.prepend("<b>Ответы:</b> ");
+        setSimpleText(elemnt,parent);
     }
 
     IMAGETYPE getImageType(Element elemnt){
