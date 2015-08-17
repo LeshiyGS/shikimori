@@ -13,7 +13,9 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,12 +63,12 @@
                 android:id="@+id/iLoader"
                 layout="@layout/loading_view"/>
 
-            <LinearLayout
-                android:id="@+id/llReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/defaultPadding" />
+            <!--<LinearLayout-->
+                <!--android:id="@+id/llReview"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="@dimen/defaultPadding" />-->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
