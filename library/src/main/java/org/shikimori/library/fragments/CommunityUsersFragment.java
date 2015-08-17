@@ -22,6 +22,8 @@ import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.objects.one.ItemUser;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
+
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
@@ -119,11 +121,6 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
             return;
 
         ItemUser item = (ItemUser)adp.getItem(position);
-
-        Intent intent = new Intent(activity, ShowPageActivity.class);
-        intent.putExtra(Constants.USER_ID, item.id);
-        intent.putExtra(Constants.DISSCUSION_TYPE, Constants.TYPE_USER);
-        intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
-        activity.startActivity(intent);
+        ProjectTool.goToUser(activity, item.id);
     }
 }

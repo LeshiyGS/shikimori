@@ -31,7 +31,7 @@ import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.baselisteners.BaseImageLoadListener;
 import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.controllers.ApiRatesController;
+import org.shikimori.library.tool.controllers.api.ApiRatesController;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 

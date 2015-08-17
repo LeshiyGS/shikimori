@@ -231,4 +231,5 @@
     <string name="anibreak_url">http://anibreak.ru/</string>
     <string name="images">Картинки</string>
     <string name="updateanibreak">Необходимо обновить Anibreak</string>
+    <string name="relize">Релиз</string>
 </resources>

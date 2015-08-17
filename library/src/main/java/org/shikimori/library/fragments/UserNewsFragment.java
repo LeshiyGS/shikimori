@@ -4,11 +4,14 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
@@ -18,16 +21,20 @@ import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import ru.altarix.basekit.library.actionmode.ActionDescription;
+
+import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
+import org.shikimori.library.tool.pmc.PopupMenuCompat;
 import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
@@ -38,7 +45,7 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseListViewFragment implements BaseKitActivity.OnFragmentBackListener, AdapterView.OnItemLongClickListener {
+public class UserNewsFragment extends BaseListViewFragment implements BaseKitActivity.OnFragmentBackListener, AdapterView.OnItemLongClickListener, View.OnClickListener {
 
     private String type;
     private int title;
@@ -110,13 +117,16 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
         return ShikiApi.getUrl(ShikiPath.MESSAGES, ShikiUser.USER_ID);
     }
 
+    private void invalidate(){
+        ContentValues cv = new ContentValues();
+        cv.put("type", type);
+        getFC().getQuery().invalidateCache(url(), cv);
+    }
 
     @Override
     public void onStartRefresh() {
         super.onStartRefresh();
-        ContentValues cv = new ContentValues();
-        cv.put("type", type);
-        getFC().getQuery().invalidateCache(url(), cv);
+        invalidate();
         loadData();
     }
 
@@ -141,8 +151,9 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
 
     @Override
     public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        NewsUserAdapter adptr = new NewsUserAdapter(activity, getFC().getQuery(), list);
+        NewsUserAdapter adptr = new NewsUserAdapter(activity, getAdapterLayout(),getFC().getQuery(), list);
         adptr.setType(type);
+        adptr.setOnSettingsListener(this);
         return adptr;
     }
 
@@ -176,6 +187,9 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
         } else if (type.equals(Constants.NOTIFYING)) {
             if(item.kind.equalsIgnoreCase(Constants.GROUP_REQUEST)){
                 LinkHelper.goToUrl(activity, item.htmlBody);
+                return;
+            } else if(item.kind.equalsIgnoreCase(Constants.FRIEND_REQUEST)){
+                ProjectTool.goToUser(activity, item.from.id);
                 return;
             }
             if(item.linked == null || item.linked.id == null)
@@ -234,4 +248,44 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
         showDeleteFromListInterface(confirmDeleteAction);
         return true;
     }
+
+    public int getAdapterLayout() {
+        if(type.equals(Constants.NEWS))
+            return R.layout.item_shiki_message_list_news;
+        return R.layout.item_shiki_message_list;
+    }
+
+    @Override
+    public void onClick(final View v) {
+        if(v.getId() == R.id.icSettings){
+            PopupMenuCompat popup = PopupMenuCompat.newInstance(activity, v);
+            popup.inflate(R.menu.discus_menu);
+            popup.getMenu().removeItem(R.id.icAnswer);
+            popup.getMenu().removeItem(R.id.icUpdate);
+            popup.setOnMenuItemClickListener(new PopupMenuCompat.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.icDelete) {
+                        deleteDialod((int) v.getTag(), (View) v.getParent().getParent());
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            popup.show();
+        }
+    }
+
+    private void deleteDialod(final int position, final View parent) {
+        ItemNewsUserShiki item = (ItemNewsUserShiki) getAllList().get(position);
+        ProjectTool.deleteItem(activity, ShikiApi.getUrl(ShikiPath.MESSAGESPRIVATE_ID, item.id),
+                parent, new BaseAnimationListener(){
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        UserNewsFragment.this.removeItem(position);
+                        invalidate();
+                    }
+                });
+    }
+
 }

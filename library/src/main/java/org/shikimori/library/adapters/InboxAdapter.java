@@ -101,11 +101,7 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
         // this is user
         ItemDialogs item = getItem((int) v.getTag());
         if (v.getId() == R.id.ivPoster) {
-            Intent intent = new Intent(getContext(), ShowPageActivity.class);
-            intent.putExtra(Constants.USER_ID, item.message.from.id);
-            intent.putExtra(Constants.DISSCUSION_TYPE, Constants.TYPE_USER);
-            intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.USER_PROFILE);
-            getContext().startActivity(intent);
+            ProjectTool.goToUser(getContext(), item.message.from.id);
         } else if (v.getId() == R.id.tvRead) {
             item.message.read = ReadMessageController.getInstance().setRead(v, item.message.read, item.message.id);
         }

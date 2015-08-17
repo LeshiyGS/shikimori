@@ -21,6 +21,7 @@ import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import java.util.List;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.h;
 
 /**
  * Created by Феофилактов on 04.04.2015.
@@ -30,9 +31,14 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
     private final BodyBuild bodyBuild;
     private String type;
     private Query query;
+    private View.OnClickListener settingsClickListener;
 
     public NewsUserAdapter(BaseKitActivity<ShikiAC> context, Query query, List list) {
-        super(context, list, R.layout.item_shiki_message_list, MessageHolder.class);
+        this(context, R.layout.item_shiki_message_list, query, list);
+    }
+
+    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, int layout,  Query query, List list) {
+        super(context, list, layout, MessageHolder.class);
         this.query = query;
         bodyBuild = ProjectTool.getBodyBuilder(context, BodyBuild.CLICKABLETYPE.NOT);
     }
@@ -43,8 +49,12 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         holder.ivPoster.setOnTouchListener(hs.getImageHighlight);
         holder.tvRead.setOnClickListener(this);
         holder.ivUser.setOnClickListener(this);
-        holder.bGoTo.setOnClickListener(this);
-        holder.bComment.setOnClickListener(this);
+        if(holder.bGoTo!=null){
+            holder.bGoTo.setOnClickListener(this);
+            holder.bComment.setOnClickListener(this);
+        }
+        if(holder.icSettings!=null && settingsClickListener!=null)
+            holder.icSettings.setOnClickListener(settingsClickListener);
     }
 
     @Override
@@ -54,16 +64,14 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         holder.tvRead = find(v, R.id.tvRead);
         holder.bGoTo = find(v, R.id.bGoTo);
         holder.bComment = find(v, R.id.bComment);
+        holder.tvStatus = find(v, R.id.tvSection);
+        holder.icSettings = find(v, R.id.icSettings);
         return holder;
     }
 
     @Override
     public void setValues(MessageHolder holder, ItemNewsUserShiki item, int position) {
-        if (item.from != null)
-            holder.tvName.setText(item.from.nickname);
-
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
-
         holder.llBodyHtml.removeAllViews();
 //        initDescription(item, holder.llBodyHtml);
         if (item.parsedContent.getParent() != null)
@@ -71,18 +79,49 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
 
         holder.llBodyHtml.addView(item.parsedContent);
 
-        holder.ivUser.setTag(item);
-        ShikiImage.show(item.from.img148, holder.ivUser, true);
-        if (item.linked != null && item.linked.image != null)
-            ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
-        else
-            hs.setVisibleGone(holder.ivPoster);
+        if(type.equals(Constants.NEWS)){
+            h.setVisible(holder.tvStatus);
+            holder.tvStatus.setText(ProjectTool.getStatus(getContext(), item.kind));
+            ProjectTool.setTypeColorFromKind(getContext(), holder.tvStatus, item.kind);
+        } else
+            h.setVisibleGone(holder.tvStatus);
 
+        if(item.linked != null && item.linked.type !=null){
+            showUser(item, holder);
+        } else {
+            ShikiImage.show(item.from.img148, holder.ivUser, true);
+        }
+        holder.tvName.setText(getTitle(item));
+        holder.ivUser.setTag(item);
         holder.tvRead.setTag(position);
-        holder.bComment.setTag(position);
-        holder.bGoTo.setTag(position);
+        if(holder.bGoTo!=null){
+            holder.bComment.setTag(position);
+            holder.bGoTo.setTag(position);
+        }
+        if(holder.icSettings!=null)
+            holder.icSettings.setTag(position);
+
         hs.setVisible(holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
+    }
+
+    private String getTitle(ItemNewsUserShiki item){
+        if(item.linked!=null && (Constants.ANIME.equalsIgnoreCase(item.linked.type) || Constants.MANGA.equalsIgnoreCase(item.linked.type)))
+            return item.linked.name;
+        else if (item.from!=null)
+            return item.from.nickname;
+        return null;
+    }
+
+    private void showUser(ItemNewsUserShiki item, MessageHolder holder){
+        if(Constants.ANIME.equalsIgnoreCase(item.linked.type) || Constants.MANGA.equalsIgnoreCase(item.linked.type)){
+            h.setVisibleGone(holder.ivUser);
+            if(item.linked.image != null)
+                ShikiImage.show(item.linked.image.x96, holder.ivPoster, true);
+        } else {
+            ShikiImage.show(item.from.img148, holder.ivUser, true);
+            h.setVisibleGone(holder.ivPoster);
+        }
     }
 
     @Override
@@ -102,7 +141,8 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             ItemNewsUserShiki item = getItem((int) v.getTag());
             Intent i = new Intent(getContext(), ShowPageActivity.class);
             i.putExtra(Constants.TREAD_ID, item.linked.threadId);
-            i.putExtra(Constants.ACTION_BAR_TITLE, item.id);
+            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.DISCUSSION);
+            i.putExtra(Constants.ACTION_BAR_TITLE, getContext().getString(R.string.comments));
             getContext().startActivity(i);
         }
     }
@@ -125,5 +165,9 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
                 return id;
         }
         return id;
+    }
+
+    public void setOnSettingsListener(View.OnClickListener clickListener) {
+        this.settingsClickListener = clickListener;
     }
 }
