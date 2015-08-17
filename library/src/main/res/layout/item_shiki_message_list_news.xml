@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/defaultPadding4"
     android:paddingLeft="@dimen/defaultPaddingMini"
     android:paddingRight="@dimen/defaultPaddingMini"
-    android:paddingTop="@dimen/defaultPadding4"
-    android:paddingBottom="@dimen/defaultPadding4">
+    android:paddingTop="@dimen/defaultPadding4">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -46,7 +46,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/defaultPaddingMini"
             android:layout_marginRight="@dimen/defaultPaddingMini"
-            android:animateLayoutChanges="true"
             android:layout_toRightOf="@+id/wrapImage"
             android:orientation="vertical">
 
@@ -94,39 +93,7 @@
                 android:layout_below="@+id/tvDate"
                 android:orientation="vertical" />
 
-            <LinearLayout
-                android:id="@+id/llActions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:layout_below="@+id/llBodyHtml"
-                android:visibility="gone"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/bComment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:text="@string/comment"
-                    android:textSize="@dimen/guTextSize12"
-                    />
-
-                <Button
-                    android:id="@+id/bGoTo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:layout_marginLeft="@dimen/defaultPaddingMini"
-                    android:layout_marginStart="@dimen/defaultPaddingMini"
-                    android:text="@string/go_to"
-                    android:textSize="@dimen/guTextSize12"
-                    />
-
-            </LinearLayout>
-
         </RelativeLayout>
+
     </RelativeLayout>
 </FrameLayout>

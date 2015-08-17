@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.daimajia.androidanimations.library.BaseViewAnimator;
+import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
@@ -21,6 +23,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.UserRate.Status;
+import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
@@ -71,6 +74,29 @@ public class ProjectTool {
             return context.getString(R.string.ongoing);
         }
         return "";
+    }
+
+    public static String getStatus(Context context, String status){
+        switch (status){
+            case "released": return context.getString(R.string.relize);
+            case "SiteNews": return context.getString(R.string.site);
+            case "episode":
+            case "ongoing": return context.getString(R.string.ongoing);
+            default: return status;
+        }
+    }
+
+    public static void setTypeColorFromKind(Context context, View v, String type){
+        int color = R.color.done;
+        if(type != null){
+            switch (type.toLowerCase()){
+                case "released": color = R.color.black_owerlay_40; break;
+                case "SiteNews": color = R.color.darkBlue; break;
+                case "episode":
+                case "ongoing": color = R.color.greenColor; break;
+            }
+        }
+        v.setBackgroundColor(context.getResources().getColor(color));
     }
 
     public static void setStatusColor(Context context, View v, boolean anons, boolean ongoing){
@@ -335,4 +361,20 @@ public class ProjectTool {
         return buildType.equals("debug") || buildType.equals("full");
     }
 
+
+    public static void deleteItem(final BaseKitActivity<ShikiAC> activity, String url, final View animated, final BaseAnimationListener listener){
+        activity.getLoaderController().show();
+        activity.getAC().getQuery().init(url)
+                .setMethod(Query.METHOD.DELETE)
+                .getResult(new Query.OnQuerySuccessListener() {
+                    @Override
+                    public void onQuerySuccess(StatusResult res) {
+                        activity.getLoaderController().hide();
+                        YoYo.with(Techniques.FadeOutUp)
+                                .withListener(listener)
+                                .duration(300)
+                                .playOn(animated);
+                    }
+                });
+    }
 }

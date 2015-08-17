@@ -21,7 +21,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.controllers.ApiMessageController;
+import org.shikimori.library.tool.controllers.api.ApiMessageController;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.controllers.SendMessageController;
 import org.shikimori.library.tool.hs;

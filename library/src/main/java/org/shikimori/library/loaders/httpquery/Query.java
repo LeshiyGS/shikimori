@@ -329,7 +329,6 @@ public class Query {
         StatusResult stat = new StatusResult();
         String dataString = null;
         try {
-
             dataString = new String(bytes);
             JSONObject data = new JSONObject(dataString);
             if (data.has("error")) {

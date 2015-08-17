@@ -37,6 +37,7 @@ public class Constants {
     public static final String CLUBS = "clubs";
     public static final String SITENEWS = "sitenews";
     public static final String GROUP_REQUEST = "GroupRequest";
+    public static final String FRIEND_REQUEST = "FriendRequest";
 
     // users
     public static final String NEWS = "news";

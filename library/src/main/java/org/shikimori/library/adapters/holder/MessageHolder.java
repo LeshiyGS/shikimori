@@ -9,5 +9,5 @@ import android.widget.TextView;
  */
 public class MessageHolder extends BaseHolder{
     public ImageView ivPoster;
-    public View tvRead, bComment, bGoTo;
+    public View tvRead, bComment, bGoTo,icSettings;
 }

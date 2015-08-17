@@ -118,24 +118,12 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     private void deleteDialod(final int dialogposition, final View parent) {
         ItemDialogs item = adptr.getItem(dialogposition);
-        activity.getLoaderController().show();
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS) + "/" + item.message.from.nickname)
-                .setMethod(Query.METHOD.DELETE)
-                .getResult(new Query.OnQuerySuccessListener() {
+        ProjectTool.deleteItem(activity, ShikiApi.getUrl(ShikiPath.DIALOGS) + "/" + item.message.from.nickname,
+                parent, new BaseAnimationListener(){
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
-                        activity.getLoaderController().hide();
-                        YoYo.with(Techniques.FadeOutUp)
-                                .withListener(new BaseAnimationListener() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        InboxFragment.this.removeItem(dialogposition);
-                                        clearData();
-                                    }
-                                })
-                                .duration(300)
-                                .playOn(parent);
+                    public void onAnimationEnd(Animator animation) {
+                        InboxFragment.this.removeItem(dialogposition);
+                        clearData();
                     }
                 });
     }

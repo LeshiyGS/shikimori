@@ -19,7 +19,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.controllers.ApiRatesController;
+import org.shikimori.library.tool.controllers.api.ApiRatesController;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 
@@ -211,7 +211,13 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         setButtonName();
     }
 
-    public void setEpisodes(int maxValue) {
-        this.maxEpisodes = maxValue;
+    public void setEpisodes(String maxValue) {
+        if(!maxValue.equals("?")){
+            try {
+                this.maxEpisodes = Integer.valueOf(maxValue);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

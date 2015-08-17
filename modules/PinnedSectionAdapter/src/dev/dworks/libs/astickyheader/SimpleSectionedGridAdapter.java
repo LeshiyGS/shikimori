@@ -59,7 +59,7 @@ public class SimpleSectionedGridAdapter extends BaseAdapter implements PinnedSec
 	private int mStrechMode;
 	private int requestedColumnWidth;
 	private int requestedHorizontalSpacing;
-	private GridView mGridView;
+	private PinnedSectionGridView mGridView;
 	private int mHeaderLayoutResId;
 	private int mHeaderTextViewResId;
 
@@ -102,7 +102,7 @@ public class SimpleSectionedGridAdapter extends BaseAdapter implements PinnedSec
         });
     }
     
-    public void setGridView(GridView gridView){
+    public void setGridView(PinnedSectionGridView gridView){
     	if(!(gridView instanceof PinnedSectionGridView)){
     		throw new IllegalArgumentException("Does your grid view extends PinnedSectionGridView?");
     	}
@@ -137,9 +137,9 @@ public class SimpleSectionedGridAdapter extends BaseAdapter implements PinnedSec
     	if(mWidth != mGridView.getWidth()){
 	    	mStrechMode = mGridView.getStretchMode();
 	    	mWidth = ((PinnedSectionGridView)mGridView).getAvailableWidth() - (mGridView.getPaddingLeft() + mGridView.getPaddingRight());
-	        mNumColumns = ((PinnedSectionGridView)mGridView).getNumColumns();
-	        requestedColumnWidth = ((PinnedSectionGridView)mGridView).getColumnWidth();
-	    	requestedHorizontalSpacing = ((PinnedSectionGridView)mGridView).getHorizontalSpacing();
+	        mNumColumns = mGridView.getNumColumns();
+	        requestedColumnWidth = mGridView.getColumnWidth();
+	    	requestedHorizontalSpacing = mGridView.getHorizontalSpacing();
     	}
     	
         int spaceLeftOver = mWidth - (mNumColumns * requestedColumnWidth) -
@@ -329,18 +329,14 @@ public class SimpleSectionedGridAdapter extends BaseAdapter implements PinnedSec
 					convertView = mLayoutInflater.inflate(mSectionResourceId, parent, false);
 				}
 			}
-			switch (mSections.get(position).type) {
+            int type = mSections.get(position).type;
+			switch (type) {
 			case TYPE_HEADER:
-				header = (HeaderLayout) convertView.findViewById(mHeaderLayoutResId);
-				view = (TextView) convertView.findViewById(mHeaderTextViewResId);
-				view.setText(mSections.get(position).title);
-				header.setHeaderWidth(getHeaderSize());
-				break;
 			case TYPE_HEADER_FILLER:
 				header = (HeaderLayout) convertView.findViewById(mHeaderLayoutResId);
 				view = (TextView) convertView.findViewById(mHeaderTextViewResId);
 				view.setText(mSections.get(position).title);
-				header.setHeaderWidth(0);
+				header.setHeaderWidth(type == TYPE_HEADER ? getHeaderSize() : 0);
 				break;
 			default:
 				convertView = getFillerView(mLastViewSeen);

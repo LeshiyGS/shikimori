@@ -1,12 +1,12 @@
-package org.shikimori.library.tool.controllers;
+package org.shikimori.library.tool.controllers.api;
 
 import android.view.View;
 
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ProjectTool;
+import org.shikimori.library.tool.controllers.BaseApiController;
 
 /**
  * Created by Владимир on 03.07.2015.
@@ -41,6 +41,10 @@ public class ApiMessageController extends BaseApiController<ApiMessageController
                 .addParam("message[body]", text);
 
         send(listener);
+    }
+
+    public void deleteMessage(){
+
     }
 
     public void sendComment(String treadId, String userId, String mesType, String text, Query.OnQuerySuccessListener listener){

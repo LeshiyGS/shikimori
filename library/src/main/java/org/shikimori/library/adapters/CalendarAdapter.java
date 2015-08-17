@@ -26,12 +26,8 @@ public class CalendarAdapter extends BaseCardGridAdapter<ItemCaclendarShiki> {
         holder.tvTitle.setText(item.name);
         holder.tvTitleRus.setText(item.russianName);
 
-        if(item.ongoing){
-            holder.tvEpisode.setText(getContext().getString(R.string.serie_name) + " " + item.nextEpisode);
-            hs.setVisible(holder.tvEpisode, true);
-        }else{
-            hs.setVisibleGone(holder.tvEpisode);
-        }
+        hs.setVisibleGone(!item.ongoing, holder.tvEpisode);
+        holder.tvEpisode.setText(getContext().getString(R.string.serie_name) + " " + item.nextEpisode);
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivImage.setImageDrawable(null);
         ImageLoader.getInstance().displayImage(ShikiApi.getUrl(item.imgOrigin), holder.ivImage);
