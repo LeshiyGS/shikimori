@@ -155,6 +155,10 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 //                if (linksToBrowser && isUrlAllowedForLoad(url)) {
                 Log.d("weblink", "" + url);
+                if(url.contains("image=1")){
+                    activity.getAC().getThumbToImage().showInActivity(url);
+                    return true;
+                }
                 LinkHelper.goToUrl(activity, url);
 //                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 //                    startActivity(intent);

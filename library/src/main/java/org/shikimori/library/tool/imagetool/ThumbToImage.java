@@ -415,7 +415,7 @@ public class ThumbToImage {
         return true;
     }
 
-    private void showInActivity(String url) {
+    public void showInActivity(String url) {
         Intent intent = new Intent(mContext, ImageShowActivity.class);
         intent.putExtra(ImageShowActivity.IMAGE_URL, url);
         mContext.startActivity(intent);

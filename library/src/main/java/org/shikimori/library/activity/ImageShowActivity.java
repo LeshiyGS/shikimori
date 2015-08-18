@@ -8,15 +8,19 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.tool.hs;
+
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ImageShowActivity extends Activity {
 
     public static String IMAGE_URL = "image";
     public static String IMAGE_FULL_PATH = "image_full_path";
     public View loader;
+    private PhotoViewAttacher mAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +38,8 @@ public class ImageShowActivity extends Activity {
         } else {
             if (hs.getConnection(this)) {
                 ImageView iv = (ImageView) findViewById(R.id.ivBigImage);
-                hs.initImageLoader(this).displayImage(url, iv, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-
-                    }
-
+                mAttacher = new PhotoViewAttacher(iv);
+                hs.initImageLoader(this).displayImage(url, iv, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                         hs.setVisibleGone(loader);
@@ -48,11 +48,7 @@ public class ImageShowActivity extends Activity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         hs.setVisibleGone(loader);
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-
+                        mAttacher.update();
                     }
                 });
             } else {
