@@ -25,7 +25,6 @@ dependencies {
     compile 'com.koushikdutta.ion:ion:2.1.3'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
-    compile 'org.jsoup:jsoup:1.8.1'
     compile project(":modules:PhotoView")
     compile project(":modules:ratingbar")
 }
