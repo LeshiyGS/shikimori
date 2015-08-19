@@ -88,8 +88,8 @@
         <receiver android:name=".receives.OnBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <!--<action android:name="android.intent.action.PACKAGE_INSTALL" />-->
+                <!--<action android:name="android.intent.action.PACKAGE_ADDED" />-->
                 <action android:name="${applicationId}.LAUNCH_FROM_APP" />
             </intent-filter>
         </receiver>
