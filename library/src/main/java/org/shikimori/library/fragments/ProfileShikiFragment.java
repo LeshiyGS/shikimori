@@ -51,6 +51,7 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.DialogCompat;
 
 /**
  * Created by Владимир on 30.03.2015.
@@ -135,7 +136,14 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             return true;
         }
         if (item.getItemId() == R.id.ic_logout) {
-            ((LogouUserListener) activity).logoutTrigger();
+            new DialogCompat(activity)
+                    .setNegativeListener(null)
+                    .setPositiveListener(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ((LogouUserListener) activity).logoutTrigger();
+                        }
+                    }).showConfirm(activity.getString(R.string.logout));
             return true;
         } else if (item.getItemId() == R.id.ic_send_message) {
             activity.loadPage(ChatFragment.newInstance(userDetails.user.nickname, getFC().getUserId()));
@@ -206,6 +214,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
                 @Override
                 public void run() {
                     if(actionMenu!=null && !isSelfProfile()){
+                        if(actionMenu == null)
+                            return;
                         MenuItem item = actionMenu.findItem(R.id.ic_add_friend);
                         MenuItem item_ignore = actionMenu.findItem(R.id.ic_ignore);
                         if(!userDetails.inFriends){

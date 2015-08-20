@@ -233,4 +233,5 @@
     <string name="updateanibreak">Необходимо обновить Anibreak</string>
     <string name="relize">Релиз</string>
     <string name="unknow">Не известно</string>
+    <string name="logout">Выйти?</string>
 </resources>
