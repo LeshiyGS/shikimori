@@ -1,5 +1,9 @@
 package org.shikimori.library.tool.controllers;
 
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import org.shikimori.library.R;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -32,6 +36,12 @@ public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
     @Override
     public void onCreate() {
         super.onCreate();
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        if(toolbar!=null)
+            activity.setSupportActionBar(toolbar);
+
+
+
         query = new Query(activity);
         query.setLoader(new LoaderController(activity));
         shikiUser = new ShikiUser(activity);

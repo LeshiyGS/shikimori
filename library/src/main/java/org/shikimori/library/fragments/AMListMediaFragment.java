@@ -26,6 +26,11 @@ public class AMListMediaFragment extends AMBaseListFragment implements FiltersDi
         return newInstance(type, null);
     }
 
+    @Override
+    protected boolean isOptionsMenu() {
+        return true;
+    }
+
     public static Fragment newInstance(String type, String userId) {
         Bundle b = new Bundle();
         b.putString(Constants.TYPE, type);

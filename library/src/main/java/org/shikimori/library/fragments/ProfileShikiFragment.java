@@ -96,6 +96,31 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_shiki_profile, null);
+        llBody = v.findViewById(R.id.llBody);
+        aboutHtml = v.findViewById(R.id.aboutHtml);
+        ivWebShow = v.findViewById(R.id.ivWebShow);
+        avatar = (ImageView) v.findViewById(R.id.ava);
+        tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+        tvLastOnline = (TextView) v.findViewById(R.id.tvLastOnline);
+        tvMiniDetails = (TextView) v.findViewById(R.id.tvMiniDetails);
+        tvAnimeProgress = (TextView) v.findViewById(R.id.tvAnimeProgress);
+        tvMangaProgress = (TextView) v.findViewById(R.id.tvMangaProgress);
+        sbAnimeProgress = (SeekBar) v.findViewById(R.id.sbAnimeProgress);
+        sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
+        gvBodyProfile = (GridView) v.findViewById(R.id.gvBodyProfile);
+
+        v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
+        v.findViewById(R.id.ivMangaListShow).setOnClickListener(this);
+        ivWebShow.setOnClickListener(this);
+        sbAnimeProgress.setOnTouchListener(disableScrolling);
+        sbMangaProgress.setOnTouchListener(disableScrolling);
+
+        return v;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.user_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -213,30 +238,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
         return getFC().getUserId().equals(activity.getAC().getShikiUser().getId());
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_shiki_profile, null);
-        llBody = v.findViewById(R.id.llBody);
-        aboutHtml = v.findViewById(R.id.aboutHtml);
-        ivWebShow = v.findViewById(R.id.ivWebShow);
-        avatar = (ImageView) v.findViewById(R.id.ava);
-        tvUserName = (TextView) v.findViewById(R.id.tvUserName);
-        tvLastOnline = (TextView) v.findViewById(R.id.tvLastOnline);
-        tvMiniDetails = (TextView) v.findViewById(R.id.tvMiniDetails);
-        tvAnimeProgress = (TextView) v.findViewById(R.id.tvAnimeProgress);
-        tvMangaProgress = (TextView) v.findViewById(R.id.tvMangaProgress);
-        sbAnimeProgress = (SeekBar) v.findViewById(R.id.sbAnimeProgress);
-        sbMangaProgress = (SeekBar) v.findViewById(R.id.sbMangaProgress);
-        gvBodyProfile = (GridView) v.findViewById(R.id.gvBodyProfile);
-
-        v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
-        v.findViewById(R.id.ivMangaListShow).setOnClickListener(this);
-        ivWebShow.setOnClickListener(this);
-        sbAnimeProgress.setOnTouchListener(disableScrolling);
-        sbMangaProgress.setOnTouchListener(disableScrolling);
-
-        return v;
-    }
 
     View.OnTouchListener disableScrolling = new View.OnTouchListener() {
         @Override

@@ -19,12 +19,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.pagecontroller.ExTabs;
 import ru.altarix.ui.ExSlidingTabLayout;
 
 /**
  * Wrapper pages wizard
  * Created by Владимир on 15.07.2014.
  */
+@ExTabs
 public class PagerAdapterFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements PageNextlistener, ViewPager.OnPageChangeListener {
 
     /**
@@ -83,7 +85,6 @@ public class PagerAdapterFragment extends BaseFragment<BaseKitActivity<ShikiAC>>
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.view_shiki_pager_fragment, container, false);
-        pagerStrip = (ExSlidingTabLayout)v.findViewById(R.id.pagerStrip);
         pager = (ViewPager) v.findViewById(R.id.viewPager);
         return v;
     }
@@ -91,6 +92,7 @@ public class PagerAdapterFragment extends BaseFragment<BaseKitActivity<ShikiAC>>
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        pagerStrip = activity.getTabs();
         showPages();
     }
 

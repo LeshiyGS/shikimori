@@ -44,6 +44,11 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
     }
 
     @Override
+    protected boolean isOptionsMenu() {
+        return true;
+    }
+
+    @Override
     public int getActionBarTitle() {
         return R.string.news;
     }

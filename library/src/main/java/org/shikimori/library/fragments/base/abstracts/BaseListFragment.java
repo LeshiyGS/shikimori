@@ -46,7 +46,7 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     List<Object> allList = new ArrayList<>();
 
     protected boolean isOptionsMenu() {
-        return true;
+        return false;
     }
 
     @Override
@@ -101,15 +101,18 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     }
 
     protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.animes_menu, menu);
-        inflateSearch(menu);
+        if(isOptionsMenu()){
+            inflater.inflate(R.menu.animes_menu, menu);
+            inflateSearch(menu);
+        }
         return menu;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(getActionBarMenu(menu, inflater), inflater);
-        activity.supportInvalidateOptionsMenu();
+//        if(activity!=null)
+//            activity.supportInvalidateOptionsMenu();
     }
 
     protected void inflateSearch(Menu menu) {

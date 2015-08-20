@@ -214,6 +214,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     }
 
     private String getTypeTranslate(String type) {
+        if(type==null)
+            return activity.getString(R.string.unknow);
         switch (type) {
             case "tv":
                 return activity.getString(R.string.tv);

@@ -37,9 +37,8 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+    protected boolean isOptionsMenu() {
+        return false;
     }
 
     @Override

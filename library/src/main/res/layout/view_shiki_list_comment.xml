@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxHeight="200dp"
             android:background="@null"
             android:hint="@string/message" />
 
@@ -56,5 +57,12 @@
             android:divider="@null" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_above="@+id/llComment"
+        android:background="@drawable/toolbarshadowtop"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
 
 </RelativeLayout>

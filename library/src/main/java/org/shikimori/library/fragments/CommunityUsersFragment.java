@@ -21,6 +21,7 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemUserListShiki;
 import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.objects.one.ItemUser;
+
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 import org.shikimori.library.tool.ProjectTool;
@@ -38,6 +39,11 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     ObjectBuilder builder = new ObjectBuilder();
     boolean friendList;
 
+    @Override
+    protected boolean isOptionsMenu() {
+        return true;
+    }
+
     public static CommunityUsersFragment newInstance() {
         return new CommunityUsersFragment();
     }
@@ -45,11 +51,12 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
     public static CommunityUsersFragment newInstance(boolean friendList) {
         return newInstance(friendList, null);
     }
+
     public static CommunityUsersFragment newInstance(boolean friendList, String userId) {
         Bundle b = new Bundle();
         b.putBoolean(FRIENDLIST, friendList);
         b.putInt(Constants.ACTION_BAR_TITLE, R.string.friends);
-        if(userId!=null)
+        if (userId != null)
             b.putString(Constants.USER_ID, userId);
 
         CommunityUsersFragment frag = new CommunityUsersFragment();
@@ -63,7 +70,7 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 //    }
 
     protected String getLoadPath() {
-        if(friendList)
+        if (friendList)
             return ShikiApi.getUrl(ShikiPath.FRIENDS, getFC().getUserId());
         return ShikiApi.getUrl(ShikiPath.GET_USERS_LIST);
     }
@@ -117,10 +124,10 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 
         Adapter adp = parent.getAdapter();
 
-        if(position < 0 || position >= adp.getCount())
+        if (position < 0 || position >= adp.getCount())
             return;
 
-        ItemUser item = (ItemUser)adp.getItem(position);
+        ItemUser item = (ItemUser) adp.getItem(position);
         ProjectTool.goToUser(activity, item.id);
     }
 }

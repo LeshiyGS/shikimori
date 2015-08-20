@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="AltarixUiTeme">
+    <style name="AppTheme" parent="AltarixUiTeme.NoActionBar">
         <item name="pullColor">@color/greenColor</item>
+        <item name="colorControlHighlight">@color/colorAccent2</item>
+        <item name="colorPrimaryDark">#333</item>
         <item name="android:textColorLink">@color/lightBlue</item>
         <item name="altarixUiAttrDividerColor">@color/lightBlue</item>
         <item name="altarixUiAttrTabBackgroundColor">@android:color/white</item>
@@ -11,8 +13,6 @@
 
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowActionBar" tools:ignore="NewApi">false</item>
-        <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:textColorHint">@color/greenColor</item>
     </style>

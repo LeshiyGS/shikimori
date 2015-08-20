@@ -61,7 +61,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_deatales, null);
+        View v = inflater.inflate(R.layout.view_shiki_detales, null);
         setBaseView(v);
         svMain = find(R.id.svMain);
         tvTitle = find(R.id.tvTitle);

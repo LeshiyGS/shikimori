@@ -13,7 +13,7 @@ public class ProjectActivity extends BaseActivity implements LogouUserListener {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.view_simple_content;
+        return R.layout.basekit_simple_activity;
     }
 
     @Override

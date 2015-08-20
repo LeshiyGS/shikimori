@@ -70,8 +70,9 @@ public class ShowPageActivity extends PageActivity {
             addPageFragment(ClubDetailsFragment.newInstance(params), R.string.description);
             addPageFragment(DiscusionFragment.newInstance(params), R.string.discusion);
         } else if (page == FORUMS_PAGE) {
-            addPageFragment(UserClubsFragment.newInstance(params), R.string.clubs);
-            //addPageFragment(blablablaFragment.newInstance(), R.string.topics);
+            loadPage(UserClubsFragment.newInstance(params));
+            setTitle(R.string.clubs);
+            return;
         }
         showPages();
     }

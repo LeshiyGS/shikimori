@@ -26,7 +26,7 @@ public class PostSpanRenderer implements AwesomeTextHandler.ViewSpanRenderer {
     }
 
     String getName(String text){
-        Pattern p = Pattern.compile("\\[message=([0-9]+)\\](.+?)\\[");
+        Pattern p = Pattern.compile("\\[.+?=([0-9]+)\\](.+?)\\[");
         Matcher matcher = p.matcher(text);
 
         while (matcher.find()) {

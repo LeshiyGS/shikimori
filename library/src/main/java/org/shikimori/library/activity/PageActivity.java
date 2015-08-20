@@ -1,7 +1,5 @@
 package org.shikimori.library.activity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -84,6 +82,6 @@ public class PageActivity extends BaseActivity implements ExtraLoadInterface {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.view_simple_content;
+        return R.layout.basekit_simple_activity;
     }
 }
