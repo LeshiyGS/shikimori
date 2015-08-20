@@ -20,11 +20,11 @@ public class PushHelperShiki extends PushHelper {
 
     public void sendNewNews(int message){
         String messe = String.format(context.getString(R.string.new_news), message);
-        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.new_title), messe);
+        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.newsnya), messe);
     }
 
     public void sendNewNotify(int message){
-        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.new_title), String.format(context.getString(R.string.new_notify),message));
+        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.notifynya), String.format(context.getString(R.string.new_notify),message));
     }
 
     public void sendNewVersion(String message){

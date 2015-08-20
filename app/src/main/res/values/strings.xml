@@ -24,5 +24,7 @@
     <string name="video">Видео</string>
     <string name="video_rate_update">Автообновление просмотра</string>
     <string name="video_rate_update_desc">Обновлять номер серии при просмотре видео в других приложениях</string>
+    <string name="newsnya">Новостяшка</string>
+    <string name="notifynya">Уведомляшка</string>
 
 </resources>
