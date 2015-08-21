@@ -1,10 +1,13 @@
 package org.shikimori.library.objects;
 
+import com.mcgars.imagefactory.objects.Thumb;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.abstracts.AMDetails;
 import org.shikimori.library.objects.one.RatesStatusesStats;
 import org.shikimori.library.objects.one.Studio;
+import org.shikimori.library.tool.ProjectTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
 public class ItemAnimeDetails extends AMDetails {
 
     public List<Studio> studios;
-
+    public List<Thumb> screenshots;
 
     @Override
     public ItemAnimeDetails createFromJson(JSONObject json) {
@@ -27,6 +30,16 @@ public class ItemAnimeDetails extends AMDetails {
                 JSONObject item = arrayStudios.optJSONObject(i);
                 if(item.optBoolean("real"))
                     studios.add(new Studio(item));
+            }
+        }
+        JSONArray images = json.optJSONArray("screenshots");
+        screenshots = new ArrayList<>();
+        if(images!=null){
+            for (int i = 0; i < images.length(); i++) {
+                JSONObject item = images.optJSONObject(i);
+                screenshots.add(new Thumb(
+                        ProjectTool.fixUrl(item.optString("preview")),
+                        ProjectTool.fixUrl(item.optString("original"))));
             }
         }
 

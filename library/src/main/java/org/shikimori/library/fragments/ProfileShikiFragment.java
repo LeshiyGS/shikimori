@@ -40,7 +40,8 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
-import org.shikimori.library.tool.imagetool.ThumbToImage;
+import com.mcgars.imagefactory.ThumbToImage;
+import com.mcgars.imagefactory.objects.Thumb;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.ListPopup;
@@ -528,11 +529,11 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             @Override
             public void imageClick(PostImage image) {
 
-                List<ThumbToImage.Thumb> list = new ArrayList<ThumbToImage.Thumb>();
-                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-                list.add(new ThumbToImage.Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                List<Thumb> list = new ArrayList<Thumb>();
+                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
 
 //                activity.getThumbToImage().zoom(image.getImage(), 2, list);
                 activity.getAC().getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));

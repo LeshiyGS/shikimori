@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.gars.verticalratingbar.VerticalRatingBar;
+import com.mcgars.imagefactory.cutomviews.ImageFactoryView;
 import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -56,7 +57,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     protected ExpandableHeightGridView llStudios;
     protected ApiRatesController apiRateController;
     protected CustomAddRateView llWrapAddList;
-    protected View bScreens, bSimilar;
+    protected ImageFactoryView imageFactory;
+    protected View bSimilar;
     protected FloatingActionButton fbPlay;
 
     @Override
@@ -73,13 +75,12 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         llStudios = find(R.id.llStudios);
         llWanted = find(R.id.llWanted);
         llWrapAddList = find(R.id.llWrapAddList);
-        bScreens = find(R.id.bScreens);
         bSimilar = find(R.id.bSimilar);
         fbPlay = find(R.id.fbPlay);
+        imageFactory = find(R.id.imageFactory);
 
         ivPoster.setOnTouchListener(hs.getImageHighlight);
         ivPoster.setOnClickListener(this);
-        bScreens.setOnClickListener(this);
         bSimilar.setOnClickListener(this);
         fbPlay.setOnClickListener(this);
         hs.setVisible(false, svMain);
@@ -95,6 +96,10 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
     public abstract ProjectTool.TYPE getType();
 
+    protected void beforeLoadDate(){
+
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -105,6 +110,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         initArgiments();
         if (itemId == null)
             return;
+        beforeLoadDate();
         showRefreshLoader();
         loadDataFromServer();
 

@@ -118,6 +118,7 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     protected void inflateSearch(Menu menu) {
         MenuItem searchItem = menu.findItem(R.id.anime_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(activity.getString(R.string.search));
         searchView.setOnQueryTextListener(this);
     }
 

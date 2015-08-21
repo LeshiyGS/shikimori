@@ -26,7 +26,9 @@ import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
+import ru.altarix.basekit.library.tools.h;
 
 import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 
@@ -34,7 +36,7 @@ import static org.shikimori.library.tool.ProjectTool.TYPE.ANIME;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class AnimeDeatailsFragment extends AMDeatailsFragment {
+public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKitActivity.OnFragmentBackListener {
 
     private ItemAnimeDetails details;
     public static boolean UPDATE_AUTO_SERIES = true;
@@ -65,14 +67,24 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         prepareData();
     }
 
+    @Override
+    protected void beforeLoadDate() {
+        super.beforeLoadDate();
+        imageFactory.setZoom(true);
+        imageFactory.setRightOffset(.3f);
+        imageFactory.setVisibilityPagging(false);
+        InitScreenShootMoreBtn();
+        activity.setOnFragmentBackListener(this);
+    }
+
     private void prepareData() {
 
         if (details.id == null)
             return;
 
-        hs.setVisible(bScreens, fbPlay);
+        hs.setVisible(fbPlay);
 
-        if(ProjectTool.isFullVersion()){
+        if (ProjectTool.isFullVersion()) {
             hs.setVisible(fbPlay);
         }
 
@@ -103,6 +115,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         llWrapAddList.setRate(details.id, details.userRate, ANIME);
         llWrapAddList.setEpisodes(details.episodes);
 
+        setImages();
+
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
 
@@ -119,21 +133,25 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
             });
     }
 
+    private void setImages() {
+        if (details.screenshots != null && details.screenshots.size() > 0) {
+            imageFactory.setList(details.screenshots);
+        } else
+            h.setVisibleGone(imageFactory);
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        if (v.getId() == R.id.ivPoster && details.image != null)
+        if (v.getId() == R.id.ivPoster && details.image != null) {
             activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
-        else if (v.getId() == R.id.bScreens){
-            activity.getPageController()
-                    .startActivity(ScreenShootsFragment.class, itemId);
-        } else if(v.getId() == R.id.fbPlay) {
+        } else if (v.getId() == R.id.fbPlay) {
             if (ProjectTool.isFullVersion()) {
-                if(!hs.appInstalledOrNot(activity, "com.videogars.anime")){
+                if (!hs.appInstalledOrNot(activity, "com.videogars.anime")) {
                     instalAnibreakDialog(R.string.downloadanibreak);
                 } else {
                     int versionAniBreak = hs.appVersionCode(activity, "com.videogars.anime");
-                    if(versionAniBreak < 402159){
+                    if (versionAniBreak < 402159) {
                         instalAnibreakDialog(R.string.updateanibreak);
                         return;
                     }
@@ -145,7 +163,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
                     intent.putExtra("serie_name", String.valueOf(llWrapAddList.getRateUser().episodes));
                     intent.putExtra("shiki_anime_name", details.name);
                     intent.putExtra("shiki_anime_name_rus", details.russianName);
-                    if(UPDATE_AUTO_SERIES)
+                    if (UPDATE_AUTO_SERIES)
                         intent.putExtra("shiki_anime_rate_id", details.userRate.id);
 
                     try {
@@ -159,7 +177,19 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         }
     }
 
-    void instalAnibreakDialog(int str){
+    private void InitScreenShootMoreBtn() {
+        View v = activity.getLayoutInflater().inflate(R.layout.item_more_btn, null);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.getPageController()
+                        .startActivity(ScreenShootsFragment.class, itemId);
+            }
+        });
+        imageFactory.setEndView(v);
+    }
+
+    void instalAnibreakDialog(int str) {
         new DialogCompat(activity)
                 .setPositiveListener(new DialogInterface.OnClickListener() {
                     @Override
@@ -173,13 +203,13 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 777){
+        if (requestCode == 777) {
             Log.d("shikiresult", "777");
             startRefresh();
         }
     }
 
-    private void startLoadAniBreak(){
+    private void startLoadAniBreak() {
         activity.getAC().getLoaderController().show();
         new UpdateApp(activity)
                 .setProgresListener(new UpdateApp.UpdateApkProgressListener() {
@@ -214,7 +244,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
     }
 
     private String getTypeTranslate(String type) {
-        if(type==null)
+        if (type == null)
             return activity.getString(R.string.unknow);
         switch (type) {
             case "tv":
@@ -249,4 +279,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment {
         }
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return imageFactory.closeImage();
+    }
 }

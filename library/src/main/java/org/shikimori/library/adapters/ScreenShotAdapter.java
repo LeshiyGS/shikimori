@@ -19,7 +19,7 @@ import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
 /**
  * Created by Владимир on 06.08.2015.
  */
-public class ScreenShotAdapter extends SimpleBaseAdapter<ItemScreenShot, ScreenShotAdapter.Holder> implements View.OnClickListener {
+public class ScreenShotAdapter extends SimpleBaseAdapter<ItemScreenShot, ScreenShotAdapter.Holder> {
 
     public ScreenShotAdapter(Context context, List<ItemScreenShot> list) {
         super(context, list, R.layout.view_shiki_screenshot);
@@ -29,7 +29,6 @@ public class ScreenShotAdapter extends SimpleBaseAdapter<ItemScreenShot, ScreenS
     public void setListeners(Holder holder) {
         super.setListeners(holder);
         holder.img.setOnTouchListener(hs.getImageHighlight);
-        holder.img.setOnClickListener(this);
     }
 
     @Override
@@ -43,14 +42,6 @@ public class ScreenShotAdapter extends SimpleBaseAdapter<ItemScreenShot, ScreenS
         Holder holder = new Holder();
         holder.img = find(view, R.id.ivBigImage);
         return holder;
-    }
-
-    @Override
-    public void onClick(View v) {
-        ItemScreenShot item = getItem((int) v.getTag());
-        if (item.getOriginal() != null)
-            ((BaseKitActivity<ShikiAC>)getContext()).getAC().getThumbToImage()
-                    .zoom((ImageView) v, ProjectTool.fixUrl(item.getOriginal()));
     }
 
     public class Holder {

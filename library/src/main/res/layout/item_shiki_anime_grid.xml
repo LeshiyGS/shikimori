@@ -29,23 +29,23 @@
             android:textColor="@color/white_overlay_80"
             />
         <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            style="@style/altarixUiText.TextNormal"
-            android:textColor="@color/white_overlay_85"
-            android:text="test"
-            />
-
-        <TextView
             android:id="@+id/tvTitleRus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:textColor="@color/white_overlay_80"
+            style="@style/altarixUiText.TextNormal"
+            android:textColor="@android:color/white"
             android:text="test"
             />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:textColor="@color/white_overlay_85"
+            android:text="test"
+            />
+
     </LinearLayout>
 
 </FrameLayout>

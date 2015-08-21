@@ -7,7 +7,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.imagetool.ThumbToImage;
+import com.mcgars.imagefactory.ThumbToImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;

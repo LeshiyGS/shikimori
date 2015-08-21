@@ -83,6 +83,12 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/defaultPaddingMini"/>
 
+            <com.mcgars.imagefactory.cutomviews.ImageFactoryView
+                android:id="@+id/imageFactory"
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/defaultPaddingMini"
+                android:layout_height="150dp" />
+            
             <TextView
                 android:id="@+id/tvMenuInfo"
                 style="@style/altarixUiText.TextTitle"
@@ -107,18 +113,6 @@
                 android:paddingLeft="@dimen/defaultPaddingMini"
                 android:paddingRight="@dimen/defaultPaddingMini"
                 android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/bScreens"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/see_screens"
-                    android:theme="@style/altarixUiButtonTheme"
-                    android:layout_marginRight="@dimen/defaultPadding"
-                    android:textSize="@dimen/guTextSize12"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    />
 
                 <Button
                     android:id="@+id/bSimilar"
