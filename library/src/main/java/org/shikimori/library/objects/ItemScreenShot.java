@@ -1,6 +1,7 @@
 package org.shikimori.library.objects;
 
 import org.json.JSONObject;
+import org.shikimori.library.tool.ProjectTool;
 
 import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
@@ -15,8 +16,8 @@ public class ItemScreenShot extends JsonParseable<ItemScreenShot>{
     @Override
     public ItemScreenShot createFromJson(JSONObject json) {
         if(json != null){
-            original = HelperObj.getString(json, "original");
-            preview = HelperObj.getString(json, "preview");
+            original = ProjectTool.fixUrl(HelperObj.getString(json, "original"));
+            preview = ProjectTool.fixUrl(HelperObj.getString(json, "preview"));
         }
         return this;
     }

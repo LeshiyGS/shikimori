@@ -69,6 +69,10 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseKitActiv
         state = null;
     }
 
+    public PaggingGridView2 getGridView(){
+        return gvList;
+    }
+
     /**
      * Показываем лоадер если есть еще что подгружать
      *
