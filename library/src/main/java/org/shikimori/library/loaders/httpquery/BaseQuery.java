@@ -17,30 +17,26 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
 import org.apache.http.Header;
-import org.json.JSONObject;
-import org.shikimori.library.R;
-import org.shikimori.library.interfaces.LogouUserListener;
-import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.hs;
 
 import ru.altarix.basekit.library.tools.LoaderController;
 
 /**
  * Created by Феофилактов on 30.10.2014.
  */
-public abstract class BaseQuery<T extends BaseQuery> {
+public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
+
+    private static boolean isDebug = false;
 
     public static final long HALFHOUR = 1800000L; // 30 минут
     public static final long HOUR = 3600000L;
     public static final long DAY = 86400000L;
     public static final long FIVE_MIN = 300000L;
-    private static final String TAG = "httpquery";
+    protected static final String TAG = "httpquery";
 
     static AsyncHttpClient client;
     AsyncHttpClient clientSync;
     RequestParams params;
-    private Context context;
+    protected Context context;
     private OnQueryErrorListener errorListener;
     // url for request
     private String prefix;
@@ -58,6 +54,10 @@ public abstract class BaseQuery<T extends BaseQuery> {
 
     public enum METHOD {
         GET, POST, DELETE, PUT
+    }
+
+    public static void setIsDebug(boolean debug){
+        isDebug = debug;
     }
 
     // cancell all request
@@ -205,7 +205,7 @@ public abstract class BaseQuery<T extends BaseQuery> {
             if (cur.moveToFirst()) {
                 String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
                 data = data.replace("__|__", "'");
-                if (ShikiApi.isDebug)
+                if (isDebug)
                     Log.d(TAG, "cache: " + data);
                 StatusResult res = new StatusResult(data, type);
                 res.setSuccess();
@@ -229,8 +229,10 @@ public abstract class BaseQuery<T extends BaseQuery> {
         getResult(successListener);
     }
 
+    public abstract void rezultDebug(OnQuerySuccessListener successListener);
+
     public void getResult(final OnQuerySuccessListener successListener) {
-        if (ShikiApi.isDebug) {
+        if (isDebug) {
             String p = params.toString();
             if (method == METHOD.GET) {
                 Log.d(TAG, "request: " + prefix + "?" + p);
@@ -238,15 +240,14 @@ public abstract class BaseQuery<T extends BaseQuery> {
                 Log.d(TAG, "request: " + prefix);
                 Log.d(TAG, "params: " + p);
             }
-            Log.d(TAG, "X-User-Nickname: " + ShikiUser.USER_NAME);
-            Log.d(TAG, "X-User-Api-Access-Token: " + ShikiUser.getToken());
+            rezultDebug(successListener);
         }
         if (getCache(successListener))
             return;
 
-        if (!hs.getConnection(context)) {
+        if (!getConnection(context)) {
             StatusResult res = new StatusResult();
-            res.setMsg(context.getString(R.string.error_connection));
+            res.setMsg(context.getString(getConnectErrorMessage()));
             showError(res);
             hideLoaders();
             return;
@@ -285,29 +286,21 @@ public abstract class BaseQuery<T extends BaseQuery> {
         return new MyAsyncHandler(getRequestData(), successListener);
     }
 
+    public abstract boolean fail(StatusResult stat, String data);
+
     void failResult(byte[] bytes) {
         StatusResult stat = new StatusResult();
         String dataString = null;
         try {
             dataString = new String(bytes);
-            JSONObject data = new JSONObject(dataString);
-            if (data.has("error")) {
-                String errorMessage = data.optString("error");
-                if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
-                    if ((context instanceof LogouUserListener)) {
-                        ((LogouUserListener) context).logoutTrigger();
-                        return;
-                    }
-                }
-                stat.setError();
-                stat.setMsg(data.optString("error"));
-            }
+            if(fail(stat, dataString))
+                return;
         } catch (Exception e) {
             stat.setServerError();
             e.printStackTrace();
         }
         showError(stat);
-        if (ShikiApi.isDebug)
+        if (isDebug)
             Log.d(TAG, "server not response: " + dataString);
     }
 
@@ -348,16 +341,19 @@ public abstract class BaseQuery<T extends BaseQuery> {
             loaderSwipe.setRefreshing(false);
     }
 
+    public abstract int getConnectErrorMessage();
+    public abstract int getServerErrorMessage();
+
     boolean showError(StatusResult res) {
         if (context == null)
             return true;
         if (!res.isSuccess()) {
             hideLoaders();
             if (TextUtils.isEmpty(res.getMsg())) {
-                if (!hs.getConnection(context))
-                    res.setMsg(context.getString(R.string.error_connection));
+                if (!getConnection(context))
+                    res.setMsg(context.getString(getConnectErrorMessage()));
                 else
-                    res.setMsg(context.getString(R.string.error_server));
+                    res.setMsg(context.getString(getServerErrorMessage()));
             }
             if (errorListener != null)
                 errorListener.onQueryError(res);
@@ -392,7 +388,7 @@ public abstract class BaseQuery<T extends BaseQuery> {
                 return;
             }
         }
-        hs.showMsg(context, res.getMsg());
+        showMsg(context, res.getMsg());
     }
 
 
@@ -426,12 +422,12 @@ public abstract class BaseQuery<T extends BaseQuery> {
         @Override
         public void onSuccess(int i, Header[] headers, byte[] bytes) {
             if (context == null) {
-                if (ShikiApi.isDebug)
+                if (isDebug)
                     Log.d(TAG, "response success but context is null (no ui return)");
                 return;
             }
             String data = bytes == null ? null : new String(bytes);
-            if (ShikiApi.isDebug)
+            if (isDebug)
                 Log.d(TAG, "response: " + data);
 
             StatusResult res = new StatusResult(data, reqData.type);
