@@ -85,6 +85,8 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
         bodyBuilder.parceAsync(item.htmlBody, new BodyBuild.ParceDoneListener() {
             @Override
             public void done(ViewGroup view) {
+                if (activity == null)
+                    return;
                 activity.getLoaderController().hide();
                 hs.setVisible(llRoot, true);
                 item.parsedContent = view;

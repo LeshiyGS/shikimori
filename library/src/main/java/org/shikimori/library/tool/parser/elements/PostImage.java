@@ -49,7 +49,7 @@ public class PostImage extends ImageController{
 //        params.height = h.pxToDp(150, context);
         image.setLayoutParams(params);
         image.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
+        image.setTag(this);
         image.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("InlinedApi")
             @Override

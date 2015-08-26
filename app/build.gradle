@@ -10,8 +10,8 @@ android {
         applicationId "org.shikimori.client"
         minSdkVersion 10
         targetSdkVersion 22
-        versionCode 6
-        versionName "0.4.2 alpha"
+        versionCode 7
+        versionName "0.4.3 alpha"
     }
 
     signingConfigs {

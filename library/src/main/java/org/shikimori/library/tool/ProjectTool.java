@@ -7,14 +7,17 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.mcgars.imagefactory.objects.Thumb;
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
+import org.shikimori.library.custom.CustomGridlayout;
 import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
@@ -30,6 +33,9 @@ import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.TextPopup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import ru.altarix.basekit.library.activity.BaseKitActivity;
@@ -328,6 +334,24 @@ public class ProjectTool {
         bodyBuilder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
             @Override
             public void imageClick(PostImage image) {
+                ViewGroup parent = (ViewGroup) image.getImage().getParent();
+                if(parent instanceof CustomGridlayout){
+                    int count = parent.getChildCount();
+                    if(count > 1){
+                        List<Thumb> list = new ArrayList<>();
+                        int selected = 0;
+                        for (int i = 0; i < count; i++) {
+                            PostImage img = (PostImage) parent.getChildAt(i).getTag();
+                            if(image.equals(img))
+                                selected = i;
+                            String url = ProjectTool.fixUrl(img.getImageData().getOriginal());
+                            list.add(new Thumb(url,url));
+                        }
+                        activity.getAC().getThumbToImage()
+                                .zoom(image.getImage(), selected, list);
+                        return;
+                    }
+                }
                 activity.getAC().getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
             }
         });

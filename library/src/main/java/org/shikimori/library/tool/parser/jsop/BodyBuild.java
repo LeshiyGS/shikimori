@@ -14,6 +14,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,6 +35,7 @@ import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
 import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.LinkHelper;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.ImageController;
@@ -47,6 +49,7 @@ import org.shikimori.library.tool.parser.elements.VideoImage;
 import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
 import org.shikimori.library.tool.popup.BasePopup;
 import org.shikimori.library.tool.popup.ListPopup;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -219,8 +222,8 @@ public class BodyBuild {
                 if (html.length() == 0)
                     continue;
 
-                if (checkSimpleHtml(html))
-                    setSimpleText(elemnt, parent);
+//                if (checkSimpleHtml(html))
+//                    setSimpleText(elemnt, parent);
 
                 else checkTag((Element) elemnt, parent);
             }
@@ -268,7 +271,10 @@ public class BodyBuild {
                 buildViewAni(elemnt, parent);
                 break;
             case "img":
-                addImage(elemnt, parent, getImageType(elemnt));
+                if(!checkAvaOrSmiles(elemnt.outerHtml().trim()))
+                    addImage(elemnt, parent, getImageType(elemnt));
+                else
+                    setSimpleText(elemnt, parent);
                 break;
             case "blockquote":
                 buildBlockquote(elemnt, parent);
@@ -299,8 +305,32 @@ public class BodyBuild {
     }
 
     private void buildReplies(Element elemnt, ViewGroup parent) {
-        elemnt.prepend("<b>Ответы:</b> ");
-        setSimpleText(elemnt,parent);
+//        elemnt.prepend("<b>Ответы:</b> ");
+
+
+        TextView text = new TextView(context);
+        text.setLayoutParams(getDefaultParams());
+        text.setTypeface(null, Typeface.ITALIC);
+        text.setTextColor(context.getResources().getColor(R.color.altarixUiLabelColor));
+        text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        text.setText("Ответы");
+        text.setPadding(0,16,0,0);
+        parent.addView(text);
+        parent.addView(new View(context));
+//        LinearLayout wr = new LinearLayout(context);
+//        wr.setOrientation(LinearLayout.HORIZONTAL);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//        params.gravity = Gravity.RIGHT;
+//        wr.setLayoutParams(params);
+//
+//        for (int i = 0; i < elemnt.childNodeSize(); i++) {
+//            Element chaild = elemnt.child(i);
+//            TextView text = new TextView(context);
+//
+//        }
+        setSimpleText(elemnt, parent);
     }
 
     IMAGETYPE getImageType(Element elemnt){

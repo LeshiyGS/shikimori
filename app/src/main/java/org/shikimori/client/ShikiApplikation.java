@@ -74,8 +74,8 @@ public class ShikiApplikation extends Application {
         }
 
         PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(MESSAGES_ID));
-        PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(NEWS_ID));
-        PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(NOTIFY_ID));
+        PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(NOTIFY_ID));
+        PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(NEWS_ID));
         PushHelperReceiver.addAction(NEW_VERSION, getMessgesPushAction(VERSION_ID));
 
         PageController.baseActivityController = ShikiAC.class;
@@ -104,14 +104,6 @@ public class ShikiApplikation extends Application {
         return hs.initImageLoader(c);
     }
 
-    public static DisplayImageOptions getImageLoaderOptions() {
-        return hs.getImageLoaderOptionsBuilder().build();
-    }
-
-    public static DisplayImageOptions.Builder getImageLoaderOptionsBuilder() {
-        return hs.getImageLoaderOptionsBuilder();
-    }
-
     public PushHelperReceiver.PushAction getMessgesPushAction(final int id) {
         return new PushHelperReceiver.PushActionSimple() {
 
@@ -129,6 +121,7 @@ public class ShikiApplikation extends Application {
                     newIntent = new Intent(ShikiApplikation.this, MainActivity.class);
                     newIntent.putExtra(OPEN_PAGE, id);
                 }
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 return newIntent;
             }
 

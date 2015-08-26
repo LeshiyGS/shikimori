@@ -18,15 +18,12 @@ import org.shikimori.library.tool.constpack.Constants;
  */
 public class MainActivity extends DrawerActivity {
 
-    private boolean drawerNoSelect;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Fragment anotherFrag = getExtraPage();
         if(anotherFrag !=null){
-            drawerNoSelect =true;
             loadPage(anotherFrag);
             drawerTool.setSelected(DrawerAdapter.NON_SELECTED);
             return;
