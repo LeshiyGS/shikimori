@@ -20,6 +20,7 @@ public class Constants {
     public static final String ITEM_OBJECT = "item_object";
     public static final String PAGE_EXTRA_LOAD = "page_extra_load";
     public static final String INIT_TITLE_AFTER = "init_title_after";
+    public static final String ROLE_CLUB = "role_club";
 
     public static final String DISSCUSION_TYPE = "disscusion_type";
     public static final String TYPE_ENTRY = "Entry";

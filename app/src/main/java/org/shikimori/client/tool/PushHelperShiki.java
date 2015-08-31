@@ -24,7 +24,7 @@ public class PushHelperShiki extends PushHelper {
     }
 
     public void sendNewNotify(int message){
-        sendBroadCast(ShikiApplikation.NEW_NEWS, context.getString(R.string.notifynya), String.format(context.getString(R.string.new_notify),message));
+        sendBroadCast(ShikiApplikation.NEW_NOTIFY, context.getString(R.string.notifynya), String.format(context.getString(R.string.new_notify),message));
     }
 
     public void sendNewVersion(String message){

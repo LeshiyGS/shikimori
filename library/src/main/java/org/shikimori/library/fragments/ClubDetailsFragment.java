@@ -15,11 +15,14 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.mcgars.imagefactory.cutomviews.ImageFactoryView;
+
 import org.shikimori.library.R;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemClubDescriptionShiki;
@@ -33,13 +36,14 @@ import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.h;
 
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener {
+public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
 
-    TextView tvTitle;
+    TextView tvTitle,tvMenuImages;
     ImageView ivPoster;
     ViewGroup llInfo,tvReview;
     View tvAnimes, tvMangas;
@@ -48,7 +52,8 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     private String itemId;
     private ItemClubDescriptionShiki item;
     private BodyBuild bodyBuilder;
-    private View iLoader, bImages;
+    private View iLoader;
+    ImageFactoryView imageFactory;
     private WebView webView;
 
     public static ClubDetailsFragment newInstance(Bundle b) {
@@ -63,21 +68,30 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         setBaseView(v);
         svMain   = find(R.id.svMain);
         tvTitle   = find(R.id.tvTitle);
+        tvMenuImages   = find(R.id.tvMenuImages);
         tvReview  = find(R.id.llReview);
         ivPoster  = find(R.id.ivPoster);
         iLoader  = find(R.id.iLoader);
-        bImages  = find(R.id.bImages);
+        imageFactory  = find(R.id.imageFactory);
         webView  = find(R.id.wvWeb);
 
         ivPoster.setOnClickListener(this);
-        bImages.setOnClickListener(this);
         return v;
+    }
+
+    private void initImageFactory(){
+        imageFactory.setZoom(true);
+        imageFactory.setRightOffset(.3f);
+        imageFactory.setVisibilityPagging(false);
+        InitScreenShootMoreBtn();
+        activity.setOnFragmentBackListener(this);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initArgiments();
+        initImageFactory();
         showRefreshLoader();
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         loadData();
@@ -114,32 +128,41 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         stopRefresh();
         item = new ItemClubDescriptionShiki().create(res.getResultObject());
 
+        setImages();
         activity.setTitle(item.name);
-
-//        bodyBuilder.parceAsync(item.descriptionHtml, new BodyBuild.ParceDoneListener() {
-//            @Override
-//            public void done(ViewGroup view) {
-//                if (activity == null || getView() == null)
-//                    return;
-//                hs.setVisibleGone(iLoader);
-//                tvReview.removeAllViews();
-//                tvReview.addView(view);
-//                bodyBuilder.loadPreparedImages();
-//                svMain.scrollTo(0,0);
-//            }
-//        });
-
         loadHtml(item.descriptionHtml);
-
         if(item.original!=null)
             ShikiImage.show(item.original, ivPoster);
 
-        if (activity instanceof ExtraLoadInterface)
-            ((ExtraLoadInterface) activity).extraLoad(item.threadId);
+        if (activity instanceof ExtraLoadInterface){
+            Bundle b = new Bundle();
+            b.putString(Constants.ROLE_CLUB, item.user_role);
+            ((ExtraLoadInterface) activity).extraLoad(item.threadId, b);
+        }
+    }
+
+    private void setImages() {
+        if (item.getImages() != null && item.getImages().size() > 0) {
+            h.setVisible(imageFactory,tvMenuImages);
+            imageFactory.setList(item.getImages());
+        } else
+            h.setVisibleGone(imageFactory,tvMenuImages);
+    }
+
+    private void InitScreenShootMoreBtn() {
+        View v = activity.getLayoutInflater().inflate(R.layout.item_more_btn, null);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.getPageController()
+                        .addParam(Constants.CUSTOM_URL, ShikiApi.getUrl(ShikiPath.CLUB_IMAGES, itemId))
+                        .startActivity(ScreenShootsFragment.class, itemId);
+            }
+        });
+        imageFactory.setEndView(v);
     }
 
     private void loadHtml(String html){
-//        webView.getSettings().setBuiltInZoomControls(true);
         webView.getSettings().setJavaScriptEnabled(true);
         if (android.os.Build.VERSION.SDK_INT >= 16) {
             webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
@@ -147,28 +170,16 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         }
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
-//                webView.getSettings().setUseWideViewPort(true);  слишком большое растягивание
-//        webView.getSettings().setSupportMultipleWindows(true);
-//        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.setHorizontalScrollBarEnabled(false);
         webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                if (linksToBrowser && isUrlAllowedForLoad(url)) {
                 Log.d("weblink", "" + url);
                 if(url.contains("image=1")){
                     activity.getAC().getThumbToImage().showInActivity(url);
                     return true;
                 }
                 LinkHelper.goToUrl(activity, url);
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                    startActivity(intent);
                 return true;
-//                }
-//
-//                if (pageListener != null)
-//                    if (pageListener.onPageFinished(view, url))
-//                        return true;
-//                return false;
             }
 
             @Override
@@ -177,9 +188,6 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
                 if (activity != null)
                     activity.getLoaderController().hide();
                 hs.setVisibleGone(iLoader);
-
-//                String javascript="javascript: document.getElementsByClassName('prgrph').innerHTML='Hello WORLD!';";
-//                view.loadUrl(javascript);
             }
         });
 
@@ -205,10 +213,13 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         if(v.getId() == R.id.ivPoster){
             if(item.original!=null)
                 activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.original));
-        } else if (v.getId() == R.id.bImages){
-            activity.getPageController()
-                    .addParam(Constants.CUSTOM_URL, ShikiApi.getUrl(ShikiPath.CLUB_IMAGES, itemId))
-                    .startActivity(ScreenShootsFragment.class, itemId);
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if(imageFactory.closeImage())
+            return true;
+        return false;
     }
 }

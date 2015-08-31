@@ -283,7 +283,10 @@ public class BodyBuild {
                 if(elemnt.hasClass("c-video")){
                     addVideo(elemnt, parent);
                 } else if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
-                    addImage(elemnt.child(0), parent, getImageType(elemnt.child(0)));
+                    if(!checkAvaOrSmiles(elemnt.outerHtml().trim()))
+                        addImage(elemnt.child(0), parent, getImageType(elemnt.child(0)));
+                    else
+                        setSimpleText(elemnt, parent);
                 } else {
                     String comment = elemnt.attr("data-href");
                     if(comment.contains("comments") || comment.contains("message")){
@@ -307,6 +310,8 @@ public class BodyBuild {
     private void buildReplies(Element elemnt, ViewGroup parent) {
 //        elemnt.prepend("<b>Ответы:</b> ");
 
+        if(elemnt.childNodeSize() < 2)
+            return;
 
         TextView text = new TextView(context);
         text.setLayoutParams(getDefaultParams());

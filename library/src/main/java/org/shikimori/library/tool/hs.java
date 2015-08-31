@@ -739,6 +739,9 @@ public class hs extends h {
 
             long epoch = d.getTime();
 
+            if(epoch > System.currentTimeMillis())
+                epoch = System.currentTimeMillis();
+
             return (String) DateUtils.getRelativeTimeSpanString(epoch, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         } catch (ParseException e) {
             e.printStackTrace();

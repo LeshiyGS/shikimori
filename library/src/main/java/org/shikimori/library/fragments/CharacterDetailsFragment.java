@@ -155,7 +155,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
             });
 
         if (activity instanceof ExtraLoadInterface)
-            ((ExtraLoadInterface) activity).extraLoad(item.threadId);
+            ((ExtraLoadInterface) activity).extraLoad(item.threadId, null);
     }
 
     /**

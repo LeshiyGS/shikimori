@@ -32,6 +32,40 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tvMenuImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/images"
+                style="@style/altarixUiText"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold"
+                android:padding="@dimen/defaultPadding"
+                android:background="@color/white_overlay_85" />
+
+
+            <com.mcgars.imagefactory.cutomviews.ImageFactoryView
+                android:id="@+id/imageFactory"
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/defaultPaddingMini"
+                android:layout_height="150dp" />
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<Button-->
+                    <!--android:id="@+id/bImages"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/images"-->
+                    <!--android:theme="@style/altarixUiButtonTheme"-->
+                    <!--android:textSize="@dimen/guTextSize12"-->
+                    <!--/>-->
+
+            <!--</LinearLayout>-->
+
+            <TextView
                 android:id="@+id/tvMenuRewiew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,24 +75,6 @@
                 android:textStyle="bold"
                 android:padding="@dimen/defaultPadding"
                 android:background="@color/white_overlay_85" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/bImages"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/images"
-                    android:theme="@style/altarixUiButtonTheme"
-                    android:textSize="@dimen/guTextSize12"
-                    />
-
-            </LinearLayout>
-
-
             <include
                 android:id="@+id/iLoader"
                 layout="@layout/loading_view"/>

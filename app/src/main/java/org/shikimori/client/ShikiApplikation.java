@@ -115,7 +115,7 @@ public class ShikiApplikation extends Application {
             @Override
             public Intent getNotifyIntent() {
                 Intent newIntent;
-                if(id == 6){
+                if(id == VERSION_ID){
                     newIntent = new Intent(ShikiApplikation.this, AboutActivity.class);
                 } else {
                     newIntent = new Intent(ShikiApplikation.this, MainActivity.class);

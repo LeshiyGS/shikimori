@@ -88,4 +88,6 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
         }
         return null;
     }
+
+
 }

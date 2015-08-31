@@ -94,7 +94,14 @@ public class VerticalRatingBar extends FrameLayout {
 
     private int getFullProgress(List<Rates> mRates){
         int fullStateProgress = 0;
-        Rates maxValue = Collections.max(mRates, new Comparator<Rates>() {
+        if(mRates == null || mRates.size() < 2)
+            return 0;
+        Rates maxValue;
+
+        if(mRates.size() < 2)
+            maxValue = mRates.get(0);
+        else
+            maxValue = Collections.max(mRates, new Comparator<Rates>() {
             @Override
             public int compare(Rates lhs, Rates rhs) {
                 return lhs.getValue() - rhs.getValue();

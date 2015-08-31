@@ -82,7 +82,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
         if (details.id == null)
             return;
 
-        hs.setVisible(fbPlay);
+        hs.setVisible(!details.anons, fbPlay);
 
         if (ProjectTool.isFullVersion()) {
             hs.setVisible(fbPlay);
@@ -118,7 +118,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
         setImages();
 
         if (activity instanceof ExtraLoadInterface)
-            ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
+            ((ExtraLoadInterface) activity).extraLoad(details.thread_id, null);
 
         // poster
         if (getView() != null)

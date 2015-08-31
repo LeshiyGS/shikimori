@@ -146,7 +146,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        loadAsyncBuild(bodyBuild, res.getResultArray(), 300, ItemNewsUserShiki.class);
+        loadAsyncBuild(bodyBuild, res.getResultArray(), 600, ItemNewsUserShiki.class);
     }
 
     @Override

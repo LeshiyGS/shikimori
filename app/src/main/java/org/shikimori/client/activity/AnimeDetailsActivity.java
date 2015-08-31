@@ -39,9 +39,9 @@ public class AnimeDetailsActivity extends BaseDetailsActivity implements ExtraLo
     }
 
     @Override
-    public void extraLoad(String itemId) {
+    public void extraLoad(String itemId, Bundle params) {
         pageList.get(1);
         ExtraLoadInterface frag = (ExtraLoadInterface) pageList.get(1);
-        frag.extraLoad(itemId);
+        frag.extraLoad(itemId, params);
     }
 }

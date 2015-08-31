@@ -49,6 +49,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     private SendMessageController messageController;
     private CommentsAdapter adaptr;
     private ApiMessageController apiController;
+    private boolean adminRole;
 
     @Override
     protected int getLayoutId() {
@@ -166,8 +167,11 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     @Override
-    public void extraLoad(String itemId) {
+    public void extraLoad(String itemId, Bundle params) {
         this.treadId = itemId;
+        if(params!=null){
+            adminRole = "admin".equals(params.getString(Constants.ROLE_CLUB));
+        }
         // Ждем пока фрагмент присасется к активити и не инициализируеться
         Thread mythread = new Thread() {
             public void run() {
@@ -241,7 +245,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
             @Override
             public boolean isOwner() {
-                return DiscusionFragment.this.getFC().getUserId().equals(obj.user_id);
+                return DiscusionFragment.this.getFC()
+                        .getUserId().equals(obj.user_id);
             }
 
             @Override

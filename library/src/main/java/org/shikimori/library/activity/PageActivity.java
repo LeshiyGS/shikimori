@@ -54,13 +54,13 @@ public class PageActivity extends BaseActivity implements ExtraLoadInterface {
     }
 
     @Override
-    public void extraLoad(String treadId) {
+    public void extraLoad(String treadId, Bundle params) {
         if (pageList != null)
             for (int i = 0; i < pageList.size(); i++) {
                 Fragment fragment = pageList.get(i);
                 boolean insof = fragment instanceof ExtraLoadInterface;
                 if ((extraLoad < 0 && insof) || (extraLoad == i && insof))
-                    ((ExtraLoadInterface) fragment).extraLoad(treadId);
+                    ((ExtraLoadInterface) fragment).extraLoad(treadId,params);
             }
     }
 

@@ -82,7 +82,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         setStatus(details.anons, details.ongoing);
         // load comments
         if (activity instanceof ExtraLoadInterface)
-            ((ExtraLoadInterface) activity).extraLoad(details.thread_id);
+            ((ExtraLoadInterface) activity).extraLoad(details.thread_id, null);
 
         getView().post(new Runnable() {
             @Override
@@ -93,7 +93,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
     }
 
     @Override
-    public void extraLoad(String itemId) {
+    public void extraLoad(String itemId, Bundle params) {
 
     }
 
