@@ -15,6 +15,8 @@ import org.shikimori.library.objects.ItemMangaDetails;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.hs;
 
+import ru.altarix.basekit.library.tools.h;
+
 import static org.shikimori.library.tool.ProjectTool.TYPE.MANGA;
 
 
@@ -52,6 +54,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
 
     private void prepareData() {
 
+        h.setVisibleGone(imageFactory);
         if (details.id == null)
             return;
         // название аниме в карточке

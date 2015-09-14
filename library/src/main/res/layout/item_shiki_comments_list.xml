@@ -64,8 +64,7 @@
                 style="@style/altarixUiLabel.mini"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvName"
-                android:text="test" />
+                android:layout_below="@+id/tvName" />
 
         </RelativeLayout>
 

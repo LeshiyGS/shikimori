@@ -123,6 +123,16 @@
                     android:textSize="@dimen/guTextSize12"
                     />
 
+                <Button
+                    android:id="@+id/bLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/link"
+                    android:theme="@style/altarixUiButtonTheme"
+                    android:layout_marginLeft="@dimen/defaultPaddingMini"
+                    android:textSize="@dimen/guTextSize12"
+                    />
+
             </LinearLayout>
 
 

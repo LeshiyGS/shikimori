@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import org.shikimori.library.R;
 import org.shikimori.library.custom.CustomAddRateView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.fragments.LinkedListFragment;
 import org.shikimori.library.fragments.SimilarFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -39,6 +40,7 @@ import org.shikimori.library.tool.hs;
 import java.util.List;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.pagecontroller.Page;
 import ru.altarix.ui.CustomTextView;
 
 
@@ -58,7 +60,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     protected ApiRatesController apiRateController;
     protected CustomAddRateView llWrapAddList;
     protected ImageFactoryView imageFactory;
-    protected View bSimilar;
+    protected View bSimilar,bLink;
     protected FloatingActionButton fbPlay;
 
     @Override
@@ -76,12 +78,14 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         llWanted = find(R.id.llWanted);
         llWrapAddList = find(R.id.llWrapAddList);
         bSimilar = find(R.id.bSimilar);
+        bLink = find(R.id.bLink);
         fbPlay = find(R.id.fbPlay);
         imageFactory = find(R.id.imageFactory);
 
         ivPoster.setOnTouchListener(hs.getImageHighlight);
         ivPoster.setOnClickListener(this);
         bSimilar.setOnClickListener(this);
+        bLink.setOnClickListener(this);
         fbPlay.setOnClickListener(this);
         hs.setVisible(false, svMain);
         return v;
@@ -210,6 +214,11 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
                     .startActivity(SimilarFragment.class,
                             getType() == ProjectTool.TYPE.ANIME ? Constants.ANIME : Constants.MANGA,
                             itemId);
+        } else if (v.getId() == R.id.bLink) {
+            activity.getPageController()
+                    .startActivity(LinkedListFragment.class,
+                            itemId,
+                            getType() == ProjectTool.TYPE.ANIME ? Constants.ANIME : Constants.MANGA);
         }
     }
 }

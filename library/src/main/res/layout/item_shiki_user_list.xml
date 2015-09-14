@@ -64,7 +64,6 @@
             android:layout_toRightOf="@+id/ivPoster"
             android:layout_below="@+id/tvName"
             android:layout_marginLeft="@dimen/defaultPaddingMini"
-            android:text="rusname"
             android:ellipsize="end"
             android:lines="1"/>
 

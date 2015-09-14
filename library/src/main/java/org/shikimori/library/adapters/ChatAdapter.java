@@ -61,9 +61,9 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
     @Override
     public void setValues(SettingsHolder holder, ItemNewsUserShiki item, int position) {
         holder.tvName.setText(item.from.nickname);
-        Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.createdAt);
-        String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
-        holder.tvDate.setText(sdate);
+//        Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.createdAt);
+//        String sdate = formatDate(date.getTime(), "dd MMMM yyyy HH:mm");
+        holder.tvDate.setText(hs.getTimeAgo(item.createdAt));
 //        HtmlText text = new HtmlText(getContext(), false);
 //        text.setText(item.html_body, holder.tvText);
         holder.llBodyHtml.removeAllViews();

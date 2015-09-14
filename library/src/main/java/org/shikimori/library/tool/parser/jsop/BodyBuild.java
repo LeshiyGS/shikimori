@@ -254,7 +254,10 @@ public class BodyBuild {
     boolean checkTag(Element elemnt, ViewGroup parent) {
         switch (elemnt.tagName()) {
             case "div":
-                if (elemnt.hasClass("b-spoiler")) {
+                if(elemnt.hasClass("c-video")){
+                    addVideo(elemnt, parent);
+                    break;
+                }else if (elemnt.hasClass("b-spoiler")) {
                     createSpoiler(elemnt, parent);
                     break;
                 } else if (elemnt.hasClass("b-quote")) {
@@ -584,15 +587,24 @@ public class BodyBuild {
      ***********************************************************/
     private void addVideo(Element element, ViewGroup parent) {
 
-        Element img = element.child(0);
-        Element marker = element.select("span").get(0);
+        Elements links = element.select("a");
+        String href = "", marker = "", image = "";
+        for (Element a : links) {
+            if(a.hasClass("video-link")){
+                href = a.attr("href");
+                Element img = a.select("img").get(0);
+                image = img.attr("src");
+            }
+            else if (a.hasClass("marker"))
+                marker = a.html();
+        }
 
         ItemImageShiki item = new ItemImageShiki();
-        item.setThumb(img.attr("src"));
-        item.setOriginal(img.attr("src"));
+        item.setThumb(image);
+        item.setOriginal(image);
 
-        VideoImage video = new VideoImage(context, item, element.attr("href"));
-        video.setMarker(marker.html());
+        VideoImage video = new VideoImage(context, item, href);
+        video.setMarker(marker);
         images.add(video);
 
         View view = getLastView(parent);

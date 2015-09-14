@@ -12,10 +12,12 @@ public interface ShikiPath {
     public String MESSAGESPRIVATE_ID = "api/messages/:id";
     public String ANIMES = "api/animes";
     public String ANIME_SIMILAR = "api/animes/:id/similar";
+    public String ANIME_LINK = "api/animes/:id/related";
     public String SCREENSHOTS = "api/animes/:id/screenshots";
     public String ANIMES_ID = "api/animes/";
     public String MANGAS = "api/mangas";
     public String MANGA_SIMILAR = "api/mangas/:id/similar";
+    public String MANGA_LINK = "api/mangas/:id/related";
     public String MANGAS_ID = "api/mangas/";
     public String TOPICS = "api/topics";
     public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
