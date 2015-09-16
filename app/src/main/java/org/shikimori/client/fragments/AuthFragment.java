@@ -94,6 +94,8 @@ public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> impleme
      */
     @Override
     public void onQuerySuccess(StatusResult res) {
+        if(activity == null)
+            return;
         activity.getAC().getLoaderController().hide();
         // success auth
         if(res.isSuccess() && activity.getAC().getShikiUser().getId()!=null){

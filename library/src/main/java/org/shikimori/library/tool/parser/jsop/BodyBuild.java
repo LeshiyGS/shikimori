@@ -368,7 +368,8 @@ public class BodyBuild {
                 Element user = title.select("a").get(0);
                 quote.setUserName(user.attr("title"));
                 quote.setUserIdFromImage(user.html());
-                quote.setUserImage(user.child(0).attr("src"));
+                if(user.childNodeSize() > 0)
+                    quote.setUserImage(user.child(0).attr("src"));
                 images.add(quote);
                 title.remove();
             }
