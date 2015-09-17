@@ -161,7 +161,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.bAddToList) {
-                addToListPopup(v, R.menu.add_to_list_anime_menu, new OnNewMenuListener() {
+                addToListPopup(v, type == ProjectTool.TYPE.ANIME ?
+                        R.menu.add_to_list_anime_menu : R.menu.add_to_list_manga_menu,
+                        new OnNewMenuListener() {
 
                     @Override
                     public boolean onMenuItemClick(PopupMenu menu, MenuItem menuItem) {
