@@ -16,8 +16,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
-import org.apache.http.Header;
-
+import cz.msebera.android.httpclient.Header;
 import ru.altarix.basekit.library.tools.LoaderController;
 
 /**
