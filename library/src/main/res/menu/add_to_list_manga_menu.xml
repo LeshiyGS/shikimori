@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:library="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/watching"
-        android:title="@string/reading"
+        android:title="@string/reading_title"
         library:showAsAction="always" />
     <item android:id="@+id/planned"
         android:title="@string/planned"
