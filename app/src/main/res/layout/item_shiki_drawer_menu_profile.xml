@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         style="@style/altarixUiText"
         android:layout_marginLeft="@dimen/defaultPaddingMini"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white_overlay_85"
         android:enabled="false"
         android:layout_weight="1"
         android:ellipsize="end" />

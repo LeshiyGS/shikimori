@@ -261,6 +261,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
     }
 
     private String getRaitingTranslate(String type) {
+        if(type == null)
+            return activity.getString(R.string.rating_unknown);
         switch (type) {
             case "g":
                 return activity.getString(R.string.rating_g);

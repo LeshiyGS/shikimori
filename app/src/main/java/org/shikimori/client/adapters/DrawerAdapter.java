@@ -49,6 +49,7 @@ public class DrawerAdapter extends BaseDrawerAdapter<DrawerAdapter.Item, DrawerA
                 ImageLoader.getInstance().displayImage(shikiUser.getAvatar(), holder.icon);
             // set user name
             holder.tvTitle.setText(shikiUser.getNickname());
+            holder.tvTitle.setTextColor(getContext().getResources().getColor(R.color.white_overlay_85));
             h.setVisible(holder.tvNotifyCount, countnotification > 0);
             holder.tvNotifyCount.setText(String.valueOf(countnotification));
 
