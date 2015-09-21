@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.ChatAdapter;
+import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -100,6 +101,10 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 //        activity.setTitle(toUserNickname);
         messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.MESSAGE);
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        QuotePartCallback actionMode = new QuotePartCallback();
+        actionMode.setEditText(etMessage);
+        actionMode.setTyle(QuotePartCallback.TYPE.MESSAGE);
+        bodyBuilder.setActionClick(actionMode);
         showRefreshLoader();
         loadData();
     }

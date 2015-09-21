@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.ProfileMangaAnimeNameAdapter;
+import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
@@ -540,6 +541,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             }
         });
 
+        builder.setActionClick(new QuotePartCallback());
         builder.setClickType(BodyBuild.CLICKABLETYPE.INTEXT);
         builder.setUrlTextListener(new BodyBuild.UrlTextListener() {
             @Override

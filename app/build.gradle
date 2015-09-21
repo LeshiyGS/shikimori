@@ -71,8 +71,8 @@ android {
 
 dependencies {
     compile project(":library")
-    compile 'com.loopj.android:android-async-http:1.4.6'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     compile project(":modules:PinnedSectionAdapter")
-    compile project(":modules:PhotoView")
+//    compile project(":modules:PhotoView")
 }
 

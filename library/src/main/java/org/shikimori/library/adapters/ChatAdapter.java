@@ -11,6 +11,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
+import org.shikimori.library.objects.ActionQuote;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -67,6 +68,7 @@ public class ChatAdapter extends BaseListAdapter<ItemNewsUserShiki, SettingsHold
 //        HtmlText text = new HtmlText(getContext(), false);
 //        text.setText(item.html_body, holder.tvText);
         holder.llBodyHtml.removeAllViews();
+        holder.llBodyHtml.setTag(R.id.icQuote, new ActionQuote(item.from.id, item.from.nickname, item.id));
         if (item.parsedContent.getParent() != null)
             ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
         holder.llBodyHtml.addView(item.parsedContent);

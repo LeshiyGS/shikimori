@@ -22,8 +22,9 @@ public class QuoteEditText {
         this.editText = editText;
         awesomeTextViewHandler = new AwesomeTextHandler();
         awesomeTextViewHandler
-                .addViewSpanRenderer("(\\[message.+?message])", new PostSpanRenderer())
-                .addViewSpanRenderer("(\\[comment.+?comment])", new PostSpanRenderer())
+                .addViewSpanRenderer("(\\[message.+?message\\])", new PostSpanRenderer())
+                .addViewSpanRenderer("(\\[comment.+?comment\\])", new PostSpanRenderer())
+                .addViewSpanRenderer("(\\[quote.+?quote\\])", new QuoteSpanRenderer())
                 .setView(editText);
         addChangeListener();
     }

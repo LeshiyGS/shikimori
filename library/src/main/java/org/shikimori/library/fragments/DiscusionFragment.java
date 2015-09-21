@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.CommentsAdapter;
+import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
@@ -104,6 +105,10 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     private void initBodyBuilder() {
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        QuotePartCallback action = new QuotePartCallback();
+        action.setEditText(etMessage);
+        action.setTyle(QuotePartCallback.TYPE.COMMENT);
+        bodyBuilder.setActionClick(action);
     }
 
     private void initParams() {

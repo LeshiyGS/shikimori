@@ -14,7 +14,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.util.TypedValue;
-import android.view.Gravity;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,6 +31,8 @@ import org.shikimori.library.R;
 import org.shikimori.library.adapters.AniPostGaleryAdapter;
 import org.shikimori.library.custom.CustomGridlayout;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.custom.actionmode.BaseQuoteCallback;
+import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
 import org.shikimori.library.objects.one.ItemImageShiki;
@@ -75,6 +77,7 @@ public class BodyBuild {
         SYMPLE, POSTER, BIGIMAGE
     }
 
+    private BaseQuoteCallback actionMode;
     private final Point screensize;
     private BaseKitActivity<ShikiAC> context;
     private TextView lastTv;
@@ -90,6 +93,10 @@ public class BodyBuild {
 
     public void setOnImageClickListener(ImageClickListener imageClickListener){
         this.imageClickListener = imageClickListener;
+    }
+
+    public void setActionClick(BaseQuoteCallback actionClick) {
+        this.actionMode = actionClick;
     }
 
     /**
@@ -194,6 +201,7 @@ public class BodyBuild {
         builder.setClickLinkInPopup(popupClick);
         builder.setClickType(clicktype);
         builder.setUrlTextListener(urlTextListener);
+        builder.setActionClick(actionMode);
     }
 
     /**
@@ -475,6 +483,18 @@ public class BodyBuild {
                 return;
             insertText();
             lastTv = new TextView(context);
+            if(Build.VERSION.SDK_INT > 10 && actionMode!=null){
+                lastTv.setTextIsSelectable(true);
+                lastTv.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        actionMode.setTextView((TextView) v);
+                        ((TextView)v).setCustomSelectionActionModeCallback(actionMode);
+//                        context.startActionMode(actionMode);
+                        return false;
+                    }
+                });
+            }
             lastTv.setLayoutParams(getDefaultParams());
             if (parent.getId() == R.id.llQuoteBody) {
                 lastTv.setTypeface(null, Typeface.ITALIC);

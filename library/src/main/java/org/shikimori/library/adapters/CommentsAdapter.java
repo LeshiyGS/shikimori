@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
+import org.shikimori.library.objects.ActionQuote;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.hs;
@@ -59,6 +60,7 @@ public class CommentsAdapter extends BaseListAdapter<ItemCommentsShiki, Settings
 //        HtmlText text = new HtmlText(getContext(), false);
 //        text.setText(item.html_body, holder.tvText);
         holder.llBodyHtml.removeAllViews();
+        holder.llBodyHtml.setTag(R.id.icQuote, new ActionQuote(item.user_id, item.nickname, item.id));
 //        initDescription(item, holder.llBodyHtml);
         if (item.parsedContent.getParent() != null)
             ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
