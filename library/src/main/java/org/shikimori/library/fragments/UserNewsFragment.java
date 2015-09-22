@@ -1,9 +1,12 @@
 package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,12 @@ import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.InvalidateTool;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -41,6 +46,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.DialogCompat;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
@@ -68,7 +74,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
 
     @Override
     protected boolean isOptionsMenu() {
-        return false;
+        return true;
     }
 
     @Override
@@ -77,13 +83,55 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
         initParams();
     }
 
+    @Override
+    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.read_all_menu, menu);
+        return menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.icReadAll){
+            new DialogCompat(activity)
+                .setNegativeListener(null)
+                .setPositiveListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getFC().getQuery().in(ShikiPath.READ_ALL)
+                               .setMethod(BaseQuery.METHOD.POST)
+                               .addParam("profile_id", ShikiUser.USER_ID)
+                               .addParam("type", type)
+                               .getResult(new BaseQuery.OnQuerySuccessListener() {
+                                   @Override
+                                   public void onQuerySuccess(StatusResult res) {
+                                       invalidate();
+                                   }
+                               });
+
+                        readAll();
+                    }
+                }).showConfirm(activity.getString(R.string.read_all) + "?");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void readAll() {
+        List<Object> list = getAllList();
+        for (int i = 0; i < list.size(); i++) {
+            ItemNewsUserShiki item = (ItemNewsUserShiki) list.get(i);
+            item.read = true;
+        }
+        getAdapter().notifyDataSetChanged();
+    }
+
     private void initParams() {
         Bundle b = getArguments();
         type = b.getString(Constants.TYPE);
         switch (type) {
-            case Constants.INBOX:
-                title = R.string.inbox;
-                break;
+//            case Constants.INBOX:
+//                title = R.string.inbox;
+//                break;
             case Constants.NEWS:
                 title = R.string.news;
                 break;

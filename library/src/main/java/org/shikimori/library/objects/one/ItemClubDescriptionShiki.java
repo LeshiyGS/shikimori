@@ -21,6 +21,8 @@ public class ItemClubDescriptionShiki extends JsonParseable<ItemClubDescriptionS
     protected HelperObj helper;
     protected List<Thumb> imgList;
 
+    protected boolean animeExist, mangaExist, characterExist;
+
     @Override
     public ItemClubDescriptionShiki createFromJson(JSONObject json) {
         allData = json;
@@ -53,7 +55,31 @@ public class ItemClubDescriptionShiki extends JsonParseable<ItemClubDescriptionS
             }
         }
 
+        JSONArray mangas = json.optJSONArray("mangas");
+        if(mangas!=null && mangas.length() > 0)
+            mangaExist = true;
+
+        JSONArray animes = json.optJSONArray("animes");
+        if(animes!=null && animes.length() > 0)
+            animeExist = true;
+
+        JSONArray characters = json.optJSONArray("characters");
+        if(characters!=null && characters.length() > 0)
+            characterExist = true;
+
         return this;
+    }
+
+    public boolean isAnimeExist() {
+        return animeExist;
+    }
+
+    public boolean isMangaExist() {
+        return mangaExist;
+    }
+
+    public boolean isCharacterExist() {
+        return characterExist;
     }
 
     public List<Thumb> getImages(){

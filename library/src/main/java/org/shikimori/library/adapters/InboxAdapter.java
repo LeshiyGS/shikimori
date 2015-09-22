@@ -12,6 +12,7 @@ import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.InboxHolder;
 import org.shikimori.library.objects.one.ItemDialogs;
+import org.shikimori.library.tool.InvalidateTool;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
@@ -27,6 +28,7 @@ import java.util.List;
 public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> implements View.OnClickListener {
 
     private View.OnClickListener clickListener;
+    private ReadMessageController.OnUpdateReadListener updateListener;
 
     public InboxAdapter(Context context, List<ItemDialogs> list) {
         super(context, list, R.layout.item_shiki_inbox_list, InboxHolder.class);
@@ -104,6 +106,8 @@ public class InboxAdapter extends BaseListAdapter<ItemDialogs, InboxHolder> impl
             ProjectTool.goToUser(getContext(), item.message.from.id);
         } else if (v.getId() == R.id.tvRead) {
             item.message.read = ReadMessageController.getInstance().setRead(v, item.message.read, item.message.id);
+            InvalidateTool.invalidateMessages(InvalidateTool.getQuery(getContext()));
         }
     }
+
 }

@@ -240,4 +240,8 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
         if (backBuilder != null)
             backBuilder.cancelLoad();
     }
+
+    public BaseAdapter getAdapter() {
+        return adapter;
+    }
 }

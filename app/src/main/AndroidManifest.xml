@@ -76,7 +76,7 @@
             android:launchMode="singleInstance"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <action android:name="ru.altarix.mos.reception.SEND_LOG" />
+                <action android:name="ru.altarix.mos.shikimory.SEND_LOG" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

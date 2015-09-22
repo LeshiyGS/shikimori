@@ -22,6 +22,7 @@ public interface ShikiPath {
     public String TOPICS = "api/topics";
     public String UNREAD_MESSAGES = "api/users/:id/unread_messages";
     public String READ_MESSAGE = "/api/messages/mark_read";
+    public String READ_ALL = "api/messages/read_all";
     public String MESSAGES = "api/users/:id/messages";
     public String FRIENDS = "api/users/:id/friends";
     public String HISTORY = "api/users/:id/history";
@@ -33,6 +34,9 @@ public interface ShikiPath {
     public String TOPICS_ID = "api/topics/";
     public String CHARACTER_ID = "api/characters/";
     public String CLUB_ID = "api/clubs/:id";
+    public String CLUB_ANIME = "api/clubs/:id/animes";
+    public String CLUB_MANGA = "api/clubs/:id/mangas";
+    public String CLUB_CHACTERS = "api/clubs/:id/characters";
     //    public String AUTH = "users/sign_in";
 //    public String AUTH = "api/sessions";
     public String AUTH = "api/access_token";

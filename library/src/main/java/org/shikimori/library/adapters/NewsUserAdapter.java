@@ -10,6 +10,7 @@ import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.MessageHolder;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.InvalidateTool;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiImage;
 import org.shikimori.library.tool.constpack.Constants;
@@ -130,6 +131,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             int position = (int) v.getTag();
             ItemNewsUserShiki item = getItem(position);
             item.read = ReadMessageController.getInstance().setRead(v, item.read, item.id);
+            InvalidateTool.invalidateNotificationList(query, type);
         } else if (v.getId() == R.id.ivUser) {
             if (type.equals(Constants.INBOX) || type.equals(Constants.NOTIFYING)) {
                 ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();

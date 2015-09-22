@@ -37,6 +37,7 @@ import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.h;
+import ru.altarix.basekit.library.tools.pagecontroller.PageController;
 
 /**
  * Created by Владимир on 17.04.2015.
@@ -46,7 +47,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     TextView tvTitle,tvMenuImages;
     ImageView ivPoster;
     ViewGroup llInfo,tvReview;
-    View tvAnimes, tvMangas;
+    View bManga, bAnime, bCharacter;
     ScrollView svMain;
     ExpandableHeightGridView pageAnime, pageManga;
     private String itemId;
@@ -74,8 +75,14 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         iLoader  = find(R.id.iLoader);
         imageFactory  = find(R.id.imageFactory);
         webView  = find(R.id.wvWeb);
+        bAnime  = find(R.id.bAnime);
+        bManga  = find(R.id.bManga);
+        bCharacter  = find(R.id.bCharacter);
 
         ivPoster.setOnClickListener(this);
+        bAnime.setOnClickListener(this);
+        bManga.setOnClickListener(this);
+        bCharacter.setOnClickListener(this);
         return v;
     }
 
@@ -127,6 +134,10 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
         item = new ItemClubDescriptionShiki().create(res.getResultObject());
+
+        h.setVisibleGone(!item.isAnimeExist(), bAnime);
+        h.setVisibleGone(!item.isMangaExist(), bManga);
+        h.setVisibleGone(!item.isMangaExist(), bCharacter);
 
         setImages();
         activity.setTitle(item.name);
@@ -210,10 +221,26 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
 
     @Override
     public void onClick(View v) {
+        String customUrl = null;
         if(v.getId() == R.id.ivPoster){
             if(item.original!=null)
                 activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.original));
+            return;
         }
+
+        PageController pc = activity.getPageController();
+
+        if (v.getId() == R.id.bAnime){
+            pc.setTitle(R.string.anime);
+            customUrl = ShikiPath.CLUB_ANIME;
+        }else if (v.getId() == R.id.bManga){
+            pc.setTitle(R.string.manga);
+            customUrl = ShikiPath.CLUB_MANGA;
+        } else if (v.getId() == R.id.bCharacter) {
+            pc.setTitle(R.string.characters);
+            customUrl = ShikiPath.CLUB_CHACTERS;
+        }
+        pc.startActivity(LinkedListClubFragment.class, ShikiApi.getUrl(customUrl, item.id));
     }
 
     @Override

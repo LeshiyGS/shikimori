@@ -47,4 +47,8 @@ public class ReadMessageController {
         return read;
     }
 
+    public interface OnUpdateReadListener{
+        public void updateRead();
+    }
+
 }

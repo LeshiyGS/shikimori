@@ -4,18 +4,17 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/svMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/svMain"
-        android:fillViewport="true"
-        android:layout_margin="@dimen/defaultPaddingMini">
+        android:layout_margin="@dimen/defaultPaddingMini"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,70 +30,109 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvMenuImages"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/images"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/defaultPaddingMini"
+                android:paddingRight="@dimen/defaultPaddingMini">
+
+                <Button
+                    android:id="@+id/bAnime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/anime"
+                    android:visibility="gone"
+                    android:textSize="@dimen/guTextSize12"
+                    android:theme="@style/altarixUiButtonTheme" />
+
+                <Button
+                    android:id="@+id/bManga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/defaultPaddingMini"
+                    android:text="@string/manga"
+                    android:visibility="gone"
+                    android:textSize="@dimen/guTextSize12"
+                    android:theme="@style/altarixUiButtonTheme" />
+
+                <Button
+                    android:id="@+id/bCharacter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/defaultPaddingMini"
+                    android:text="@string/characters"
+                    android:visibility="gone"
+                    android:textSize="@dimen/guTextSize12"
+                    android:theme="@style/altarixUiButtonTheme" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMenuImages"
                 style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/images"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
 
 
             <com.mcgars.imagefactory.cutomviews.ImageFactoryView
                 android:id="@+id/imageFactory"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/defaultPaddingMini"
-                android:layout_height="150dp" />
+                android:layout_height="150dp"
+                android:paddingLeft="@dimen/defaultPaddingMini" />
 
             <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal">-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-                <!--<Button-->
-                    <!--android:id="@+id/bImages"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/images"-->
-                    <!--android:theme="@style/altarixUiButtonTheme"-->
-                    <!--android:textSize="@dimen/guTextSize12"-->
-                    <!--/>-->
+            <!--<Button-->
+            <!--android:id="@+id/bImages"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/images"-->
+            <!--android:theme="@style/altarixUiButtonTheme"-->
+            <!--android:textSize="@dimen/guTextSize12"-->
+            <!--/>-->
 
             <!--</LinearLayout>-->
 
             <TextView
                 android:id="@+id/tvMenuRewiew"
+                style="@style/altarixUiText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/description"
-                style="@style/altarixUiText"
-                android:textColor="@color/title_black_transparent"
-                android:textStyle="bold"
+                android:background="@color/white_overlay_85"
                 android:padding="@dimen/defaultPadding"
-                android:background="@color/white_overlay_85" />
+                android:text="@string/description"
+                android:textColor="@color/title_black_transparent"
+                android:textStyle="bold" />
+
             <include
                 android:id="@+id/iLoader"
-                layout="@layout/loading_view"/>
+                layout="@layout/loading_view" />
 
             <!--<LinearLayout-->
-                <!--android:id="@+id/llReview"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:padding="@dimen/defaultPadding" />-->
+            <!--android:id="@+id/llReview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:padding="@dimen/defaultPadding" />-->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/defaultPaddingMini"
-                android:background="@android:color/white">
+                android:background="@android:color/white"
+                android:padding="@dimen/defaultPaddingMini">
 
                 <WebView
                     android:id="@+id/wvWeb"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </FrameLayout>
         </LinearLayout>
 

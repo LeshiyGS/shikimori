@@ -86,14 +86,13 @@ public class ShikiApplikation extends Application {
 
     public void handleUncaughtException(Thread thread, Throwable e) {
         e.printStackTrace(); // not all Android versions will print the stack trace automatically
-        e.printStackTrace();
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
 
         Intent intent = new Intent();
         intent.putExtra(SendLogActivity.MSG, sw.toString());
-        intent.setAction("ru.altarix.mos.reception.SEND_LOG"); // see step 5.
+        intent.setAction("ru.altarix.mos.shikimory.SEND_LOG"); // see step 5.
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // required when starting from Application
         startActivity(intent);
 

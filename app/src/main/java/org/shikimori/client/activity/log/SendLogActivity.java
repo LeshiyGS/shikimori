@@ -2,6 +2,7 @@ package org.shikimori.client.activity.log;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,8 +10,25 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+
+import org.shikimori.client.R;
+import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
+import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.controllers.api.ApiMessageController;
+import org.shikimori.library.tool.hs;
+
+import ru.altarix.basekit.library.tools.DialogCompat;
+import ru.altarix.basekit.library.tools.h;
+import ru.altarix.ui.CustomEditText;
 
 /**
  * Created by Феофилактов on 02.12.2014.
@@ -22,6 +40,8 @@ public class SendLogActivity extends Activity {
     private String device;
     private String androidVersion;
     private String appName;
+    private Query query;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +50,70 @@ public class SendLogActivity extends Activity {
 
         extractLogToFile();
 
+        ShikiUser user = new ShikiUser(this);
+        if(TextUtils.isEmpty(user.getId()))
+            showStandartError();
+        else {
+            showAdvansedError();
+        }
+
+    }
+
+    private void showAdvansedError() {
+        query = new Query(this);
+        View v = getLayoutInflater().inflate(R.layout.error_log_advansed, null);
+        final EditText cetErrorLog = h.find(v, R.id.cetErrorLog);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Error")
+                .setView(v)
+                .setCancelable(false)
+                .setPositiveButton(R.string.send_message, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendErrorToShikimory(cetErrorLog.getText().toString());
+                    }
+                })
+                  .setNegativeButton("Показать на экране", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(SendLogActivity.this, ShowErrorLogActivity.class);
+                            i.putExtra("error", getErrorText());
+                            startActivity(i);
+                        }
+                  }).show();
+    }
+
+    private void sendErrorToShikimory(String text) {
+        StringBuilder str = new StringBuilder(text);
+
+        if(str.length() > 0)
+            str.append("\n");
+        // [spoiler=спойлер][/spoiler]
+        str.append("[spoiler=error]")
+           .append(getErrorText())
+           .append("[/spoiler]");
+
+        ApiMessageController apiController = new ApiMessageController(query);
+        apiController.init().sendComment("108922", ShikiUser.USER_ID, "Entry", str.toString(), new Query.OnQuerySuccessListener() {
+            @Override
+            public void onQuerySuccess(StatusResult res) {
+                clearData();
+                hs.toggleKeyboard(SendLogActivity.this);
+                finish();
+            }
+        });
+    }
+
+
+    void clearData() {
+        ContentValues cv = new ContentValues();
+        cv.put("commentable_id", "108922");
+        cv.put("commentable_type", "Entry");
+        query.invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
+    }
+
+    void showStandartError(){
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(
                 this);
         builderSingle.setTitle("Выбор");
@@ -63,7 +147,6 @@ public class SendLogActivity extends Activity {
                     }
                 });
         builderSingle.show();
-
     }
 
     private String extractLogToFile() {

@@ -239,4 +239,5 @@
     <string name="link">Связь</string>
     <string name="rating_unknown">Неизвестно</string>
     <string name="citata">Цитрировать</string>
+    <string name="read_all">Прочитать все</string>
 </resources>
