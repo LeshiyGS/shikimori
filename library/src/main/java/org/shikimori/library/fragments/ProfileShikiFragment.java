@@ -530,11 +530,11 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             @Override
             public void imageClick(PostImage image) {
 
-                List<Thumb> list = new ArrayList<Thumb>();
-                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+//                List<Thumb> list = new ArrayList<Thumb>();
+//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
+//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
 
 //                activity.getThumbToImage().zoom(image.getImage(), 2, list);
                 activity.getAC().getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));

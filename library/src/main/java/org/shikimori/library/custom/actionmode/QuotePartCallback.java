@@ -82,6 +82,8 @@ public class QuotePartCallback extends BaseQuoteCallback {
             ActionQuote obj = (ActionQuote) parent.getTag(R.id.icQuote);
             if(obj!=null)
                 return obj;
+            if(!(parent.getParent() instanceof View))
+                break;
         }while ((parent = (View) parent.getParent())!=null);
 
 

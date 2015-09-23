@@ -13,8 +13,8 @@ import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.text.util.Linkify;
 import android.util.TypedValue;
-import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,12 +32,10 @@ import org.shikimori.library.adapters.AniPostGaleryAdapter;
 import org.shikimori.library.custom.CustomGridlayout;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.custom.actionmode.BaseQuoteCallback;
-import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
 import org.shikimori.library.objects.one.ItemImageShiki;
 import org.shikimori.library.tool.LinkHelper;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.ImageController;
@@ -51,7 +49,6 @@ import org.shikimori.library.tool.parser.elements.VideoImage;
 import org.shikimori.library.tool.parser.htmlutil.TextHtmlUtils;
 import org.shikimori.library.tool.popup.BasePopup;
 import org.shikimori.library.tool.popup.ListPopup;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,11 +66,11 @@ public class BodyBuild {
     private OnClickLinkInPopup popupClick;
     private ImageClickListener imageClickListener;
 
-    public enum CLICKABLETYPE{
+    public enum CLICKABLETYPE {
         NOT, INTEXT, POPUP
     }
 
-    public enum IMAGETYPE{
+    public enum IMAGETYPE {
         SYMPLE, POSTER, BIGIMAGE
     }
 
@@ -82,6 +79,7 @@ public class BodyBuild {
     private BaseKitActivity<ShikiAC> context;
     private TextView lastTv;
     List<ImageController> images = new ArrayList<>();
+    List<TextView> textViews = new ArrayList<>();
     CopyOnWriteArrayList<View> gallerys = new CopyOnWriteArrayList<>();
     CLICKABLETYPE clicktype = CLICKABLETYPE.NOT;
     // check reach maxLenth
@@ -91,7 +89,7 @@ public class BodyBuild {
         screensize = hs.getScreenSize(context);
     }
 
-    public void setOnImageClickListener(ImageClickListener imageClickListener){
+    public void setOnImageClickListener(ImageClickListener imageClickListener) {
         this.imageClickListener = imageClickListener;
     }
 
@@ -104,25 +102,28 @@ public class BodyBuild {
      * и в setUrlTextListener возвращаеться ссылка
      * Если type = POPUP показываеться диалог со списком всех урлов
      * и setClickLinkInPopup возвращаются данные
+     *
      * @param type
      */
-    public void setClickType(CLICKABLETYPE type){
+    public void setClickType(CLICKABLETYPE type) {
         clicktype = type;
     }
 
     /**
      * urlTextListener = INTEXT
+     *
      * @param urlTextListener
      */
-    public void setUrlTextListener(UrlTextListener urlTextListener){
+    public void setUrlTextListener(UrlTextListener urlTextListener) {
         this.urlTextListener = urlTextListener;
     }
 
     /**
      * urlTextListener = POPUP
+     *
      * @param popupClick
      */
-    public void setClickLinkInPopup(OnClickLinkInPopup popupClick){
+    public void setClickLinkInPopup(OnClickLinkInPopup popupClick) {
         this.popupClick = popupClick;
     }
 
@@ -134,7 +135,7 @@ public class BodyBuild {
         if (text == null)
             return null;
 //        text = text.replace("<br><br>", "\n");
-        if(maxLenght > 0 && text.length() > maxLenght)
+        if (maxLenght > 0 && text.length() > maxLenght)
             text = text.substring(0, maxLenght) + "...";
         viewBody.removeAllViews();
         Document doc = Jsoup.parse(text);
@@ -161,19 +162,20 @@ public class BodyBuild {
     /**
      * Click в тексте
      */
-    public interface UrlTextListener{
+    public interface UrlTextListener {
         public void textLink(String url, URLSpan span, View view);
     }
 
     /**
      * Попап лист
      */
-    public interface OnClickLinkInPopup{
+    public interface OnClickLinkInPopup {
         public void popup(BasePopup popup);
+
         public void clickLink(String link);
     }
 
-    public interface ImageClickListener{
+    public interface ImageClickListener {
         public void imageClick(PostImage image);
     }
 
@@ -196,7 +198,7 @@ public class BodyBuild {
         viewsLoader.forceLoad();
     }
 
-    void prepareAsyncBuilder(BodyBuild builder){
+    void prepareAsyncBuilder(BodyBuild builder) {
         builder.setOnImageClickListener(imageClickListener);
         builder.setClickLinkInPopup(popupClick);
         builder.setClickType(clicktype);
@@ -206,6 +208,7 @@ public class BodyBuild {
 
     /**
      * Проверяет все ноды для строительства вьюх
+     *
      * @param elemnts
      * @param parent
      */
@@ -262,10 +265,10 @@ public class BodyBuild {
     boolean checkTag(Element elemnt, ViewGroup parent) {
         switch (elemnt.tagName()) {
             case "div":
-                if(elemnt.hasClass("c-video")){
+                if (elemnt.hasClass("c-video")) {
                     addVideo(elemnt, parent);
                     break;
-                }else if (elemnt.hasClass("b-spoiler")) {
+                } else if (elemnt.hasClass("b-spoiler")) {
                     createSpoiler(elemnt, parent);
                     break;
                 } else if (elemnt.hasClass("b-quote")) {
@@ -282,7 +285,7 @@ public class BodyBuild {
                 buildViewAni(elemnt, parent);
                 break;
             case "img":
-                if(!checkAvaOrSmiles(elemnt.outerHtml().trim()))
+                if (!checkAvaOrSmiles(elemnt.outerHtml().trim()))
                     addImage(elemnt, parent, getImageType(elemnt));
                 else
                     setSimpleText(elemnt, parent);
@@ -291,16 +294,16 @@ public class BodyBuild {
                 buildBlockquote(elemnt, parent);
                 break;
             case "a":
-                if(elemnt.hasClass("c-video")){
+                if (elemnt.hasClass("c-video")) {
                     addVideo(elemnt, parent);
                 } else if (elemnt.children().size() > 0 && elemnt.child(0).tagName().equals("img")) {
-                    if(!checkAvaOrSmiles(elemnt.outerHtml().trim()))
+                    if (!checkAvaOrSmiles(elemnt.outerHtml().trim()))
                         addImage(elemnt.child(0), parent, getImageType(elemnt.child(0)));
                     else
                         setSimpleText(elemnt, parent);
                 } else {
                     String comment = elemnt.attr("data-href");
-                    if(comment.contains("comments") || comment.contains("message")){
+                    if (comment.contains("comments") || comment.contains("message")) {
                         elemnt.attr("href", comment);
                     }
 
@@ -321,7 +324,7 @@ public class BodyBuild {
     private void buildReplies(Element elemnt, ViewGroup parent) {
 //        elemnt.prepend("<b>Ответы:</b> ");
 
-        if(elemnt.childNodeSize() < 2)
+        if (elemnt.childNodeSize() < 2)
             return;
 
         TextView text = new TextView(context);
@@ -330,7 +333,7 @@ public class BodyBuild {
         text.setTextColor(context.getResources().getColor(R.color.altarixUiLabelColor));
         text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         text.setText("Ответы");
-        text.setPadding(0,16,0,0);
+        text.setPadding(0, 16, 0, 0);
         parent.addView(text);
         parent.addView(new View(context));
 //        LinearLayout wr = new LinearLayout(context);
@@ -349,8 +352,8 @@ public class BodyBuild {
         setSimpleText(elemnt, parent);
     }
 
-    IMAGETYPE getImageType(Element elemnt){
-        if(elemnt.hasClass("b-poster"))
+    IMAGETYPE getImageType(Element elemnt) {
+        if (elemnt.hasClass("b-poster"))
             return IMAGETYPE.POSTER;
         else if (elemnt.hasAttr("width") || elemnt.hasAttr("width"))
             return IMAGETYPE.SYMPLE;
@@ -372,11 +375,11 @@ public class BodyBuild {
             Element title = (Element) firstChild;
             Elements a = title.select("a");
             quote = new Quote(context, false);
-            if(a.size() > 0){
+            if (a.size() > 0) {
                 Element user = title.select("a").get(0);
                 quote.setUserName(user.attr("title"));
                 quote.setUserIdFromImage(user.html());
-                if(user.childNodeSize() > 0)
+                if (user.childNodeSize() > 0)
                     quote.setUserImage(user.child(0).attr("src"));
                 images.add(quote);
                 title.remove();
@@ -386,6 +389,7 @@ public class BodyBuild {
 //        elemnt.remove();
         parent.addView(quote.getQuote());
     }
+
     /**
      * **********************************************************
      * Work simple Anime and Manga preview
@@ -396,7 +400,7 @@ public class BodyBuild {
         Element a = elemnt.select("a").first();
 
         Element imageSrc = a.select("img").first();
-        if(imageSrc == null)
+        if (imageSrc == null)
             return;
 
         AMShiki item = new AMShiki().create(null);
@@ -407,7 +411,7 @@ public class BodyBuild {
         item.url = a.attr("href");
         item.id = elemnt.id();
 
-        if(Build.VERSION.SDK_INT > 10){
+        if (Build.VERSION.SDK_INT > 10) {
             ExpandableHeightGridView exGrid;
             View view = getLastView(parent);
             if (view == null || !(view instanceof ExpandableHeightGridView)) {
@@ -424,10 +428,10 @@ public class BodyBuild {
                 exGrid = (ExpandableHeightGridView) view;
             }
 
-            if(exGrid.getAdapter() == null)
+            if (exGrid.getAdapter() == null)
                 exGrid.setAdapter(new AniPostGaleryAdapter(context, new ArrayList<AMShiki>()));
 
-            ((AniPostGaleryAdapter)exGrid.getAdapter()).add(item);
+            ((AniPostGaleryAdapter) exGrid.getAdapter()).add(item);
         } else {
             ItemImageShiki imageData = new ItemImageShiki(item.image.preview, item.image.original);
             imageData.setOnClickListener(new View.OnClickListener() {
@@ -462,7 +466,7 @@ public class BodyBuild {
             text = elemnt.outerHtml();
         }
 
-        if(text.length() < 2)
+        if (text.length() < 2)
             return;
 
 //        if(text.equals("<br><br>"))
@@ -479,22 +483,11 @@ public class BodyBuild {
                 lastTv.setTag(builder);
             }
         } else {
-            if(text.equals("<br>"))
+            if (text.equals("<br>"))
                 return;
             insertText();
-            lastTv = new TextView(context);
-            if(Build.VERSION.SDK_INT > 10 && actionMode!=null){
-                lastTv.setTextIsSelectable(true);
-                lastTv.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        actionMode.setTextView((TextView) v);
-                        ((TextView)v).setCustomSelectionActionModeCallback(actionMode);
-//                        context.startActionMode(actionMode);
-                        return false;
-                    }
-                });
-            }
+            textViews.add(new TextView(context));
+            lastTv = textViews.get(textViews.size() - 1);
             lastTv.setLayoutParams(getDefaultParams());
             if (parent.getId() == R.id.llQuoteBody) {
                 lastTv.setTypeface(null, Typeface.ITALIC);
@@ -503,8 +496,8 @@ public class BodyBuild {
             lastTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             builder = new StringBuilder();
             lastTv.setTag(builder);
-            if(lastTv.getParent()!=null)
-                ((ViewGroup)lastTv.getParent()).removeView(lastTv);
+            if (lastTv.getParent() != null)
+                ((ViewGroup) lastTv.getParent()).removeView(lastTv);
             parent.addView(lastTv);
         }
 
@@ -516,27 +509,29 @@ public class BodyBuild {
         if (lastTv == null)
             return;
         StringBuilder builder = (StringBuilder) lastTv.getTag();
-        if(builder == null){
+        if (builder == null) {
             lastTv = null;
             return;
         }
         Spanned _text = ParcerTool.fromHtml(builder.toString(),
                 new UILImageGetter(lastTv, context), null);
         SpannableStringBuilder spanBuilder = new SpannableStringBuilder(_text);
-        if(clicktype == CLICKABLETYPE.INTEXT){
+        if (clicktype == CLICKABLETYPE.INTEXT) {
             URLSpan[] urls = _text.getSpans(0, _text.length(), URLSpan.class);
             for (URLSpan span : urls) {
                 makeLinkClickable(spanBuilder, span);
             }
-            if(lastTv!=null && urls.length > 0)
+            if (lastTv != null && urls.length > 0){
                 lastTv.setMovementMethod(LinkMovementMethod.getInstance());
-        } else if(clicktype == CLICKABLETYPE.POPUP){
+                lastTv.setAutoLinkMask(Linkify.ALL);
+            }
+        } else if (clicktype == CLICKABLETYPE.POPUP) {
             List<String> listUrl = new ArrayList<>();
             URLSpan[] urls = _text.getSpans(0, _text.length(), URLSpan.class);
             for (URLSpan span : urls) {
                 listUrl.add(span.getURL());
             }
-            if(listUrl.size() > 0){
+            if (listUrl.size() > 0) {
                 lastTv.setTag(R.id.spanned_urls, listUrl);
                 lastTv.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -544,12 +539,12 @@ public class BodyBuild {
                         List<String> listUrl = (List<String>) v.getTag(R.id.spanned_urls);
                         ListPopup popup = new ListPopup((Activity) context);
                         popup.setList(listUrl);
-                        if(popupClick!= null)
+                        if (popupClick != null)
                             popupClick.popup(popup);
                         popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                if(popupClick!= null){
+                                if (popupClick != null) {
                                     String item = (String) parent.getAdapter().getItem(position);
                                     popupClick.clickLink(item);
                                 }
@@ -560,7 +555,7 @@ public class BodyBuild {
                 });
             }
         }
-        if(lastTv!=null)
+        if (lastTv != null)
             lastTv.setText(spanBuilder);
         lastTv = null;
     }
@@ -571,7 +566,7 @@ public class BodyBuild {
         int flags = strBuilder.getSpanFlags(span);
         ClickableSpan clickable = new ClickableSpan() {
             public void onClick(View view) {
-                if(urlTextListener!=null)
+                if (urlTextListener != null)
                     urlTextListener.textLink(span.getURL(), span, view);
                 else
                     LinkHelper.goToUrl(context, span.getURL(), BodyBuild.this);
@@ -603,6 +598,7 @@ public class BodyBuild {
     /**
      * **********************************************************
      * Work whith video
+     *
      * @param element
      * @param parent
      ***********************************************************/
@@ -611,12 +607,11 @@ public class BodyBuild {
         Elements links = element.select("a");
         String href = "", marker = "", image = "";
         for (Element a : links) {
-            if(a.hasClass("video-link")){
+            if (a.hasClass("video-link")) {
                 href = a.attr("href");
                 Element img = a.select("img").get(0);
                 image = img.attr("src");
-            }
-            else if (a.hasClass("marker"))
+            } else if (a.hasClass("marker"))
                 marker = a.html();
         }
 
@@ -636,8 +631,9 @@ public class BodyBuild {
     /**
      * **********************************************************
      * Work whith images
+     *
      * @param element
-     * @param parent  **********************************************************
+     * @param parent    **********************************************************
      * @param typeImage
      */
     void addImage(Element element, ViewGroup parent, IMAGETYPE typeImage) {
@@ -651,7 +647,7 @@ public class BodyBuild {
         }
 
         final PostImage postImg = new PostImage(context, item);
-        if(imageClickListener!=null){
+        if (imageClickListener != null) {
             postImg.getImage().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -676,8 +672,8 @@ public class BodyBuild {
         }
     }
 
-    private void addToGallery(ViewGroup parent, View lastView, View v){
-        if(!(lastView instanceof CustomGridlayout)){
+    private void addToGallery(ViewGroup parent, View lastView, View v) {
+        if (!(lastView instanceof CustomGridlayout)) {
             insertText();
             lastView = createImageGallery(parent);
             gallerys.add(lastView);
@@ -720,7 +716,7 @@ public class BodyBuild {
         return false;
     }
 
-    public void  loadPreparedImages(){
+    public void loadPreparedImages() {
 
 //        if(images.size() == 0)
 //            return;
@@ -750,6 +746,22 @@ public class BodyBuild {
             images.get(i).loadImage();
         }
         images.clear();
+
+        for (int i = 0; i < textViews.size(); i++) {
+            if (Build.VERSION.SDK_INT > 10 && actionMode != null) {
+                TextView tv = textViews.get(i);
+                tv.setTextIsSelectable(true);
+                tv.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        actionMode.setTextView((TextView) v);
+                        ((TextView) v).setCustomSelectionActionModeCallback(actionMode);
+                        return false;
+                    }
+                });
+            }
+        }
+        textViews.clear();
     }
 
     /**
