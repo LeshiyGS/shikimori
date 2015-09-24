@@ -85,7 +85,7 @@ public abstract class BaseGridViewFragment extends BaseListFragment<BaseKitActiv
     }
 
     @Override
-    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+    public void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
         super.prepareData(list, removeLastItem, limitOver);
         if(page == DEFAULT_FIRST_PAGE)
             gvList.scrollTo(0,0);

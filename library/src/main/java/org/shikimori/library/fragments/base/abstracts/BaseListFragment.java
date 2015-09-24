@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments.base.abstracts;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -24,6 +25,7 @@ import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import java.util.ArrayList;
@@ -34,7 +36,9 @@ import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 /**
  * Created by Владимир on 02.04.2015.
  */
-public abstract class BaseListFragment<T extends AppCompatActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
+public abstract class BaseListFragment<T extends AppCompatActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener,
+        AdapterView.OnItemClickListener, SearchView.OnQueryTextListener,
+        OnBaseListListener {
     public static final int DEFAULT_FIRST_PAGE = 1;
     public static final int LIMIT = 20;
     protected int page = DEFAULT_FIRST_PAGE;
@@ -44,6 +48,7 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     BaseAdapter adapter;
     private BackGroubdLoader<? extends JsonParseable> backBuilder;
     List<Object> allList = new ArrayList<>();
+    private LoadAsyncBuildHelper lah;
 
     protected boolean isOptionsMenu() {
         return false;
@@ -73,6 +78,12 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     @Override
     public void onStartRefresh() {
         page = DEFAULT_FIRST_PAGE;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        lah = new LoadAsyncBuildHelper(activity, this);
     }
 
     public abstract void loadData();
@@ -143,7 +154,8 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
 
     public abstract BaseAdapter getAdapter(List<?> list);
 
-    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+    @Override
+    public void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
 
         if (activity == null)
             return;
@@ -199,29 +211,15 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     }
 
     public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, Class<? extends JsonParseable> cl) {
-        loadAsyncBuild(bodyBuild, array, 0, cl, null);
+        lah.loadAsyncBuild(bodyBuild, array, 0, cl, null);
     }
 
     public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends JsonParseable> cl) {
-        loadAsyncBuild(bodyBuild, array, maxLenght, cl, null);
+        lah.loadAsyncBuild(bodyBuild, array, maxLenght, cl, null);
     }
 
     public void loadAsyncBuild(final BodyBuild bodyBuild, JSONArray array, int maxLenght, Class<? extends JsonParseable> cl, OnAdvancedCheck listener) {
-        if (activity == null)
-            return;
-        backBuilder = new BackGroubdLoader<JsonParseable>(activity, bodyBuild, maxLenght, array, (Class<JsonParseable>) cl) {
-            @Override
-            public void deliverResult(List data) {
-                if (activity == null)
-                    return;
-                super.deliverResult(data);
-                stopRefresh();
-                prepareData(data, true, true);
-                bodyBuild.loadPreparedImages();
-            }
-        };
-        backBuilder.setAdvancedCheck(listener);
-        backBuilder.forceLoad();
+        lah.loadAsyncBuild(bodyBuild, array, maxLenght, cl, listener);
     }
 
     public List<Object> getAllList() {

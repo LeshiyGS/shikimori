@@ -3,6 +3,7 @@ package org.shikimori.library.fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +14,18 @@ import android.widget.LinearLayout;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.ChatAdapter;
+import org.shikimori.library.adapters.ChatRecyclerAdapter;
 import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
+import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewFragment;
+import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
+import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.api.ApiMessageController;
@@ -36,31 +42,27 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 /**
  * Created by Феофилактов on 06.05.2015.
  */
-public class ChatFragment extends BaseListViewFragment implements View.OnClickListener {
+public class ChatFragment extends BaseRecycleViewFragment implements View.OnClickListener, BaseQuery.OnQuerySuccessListener {
 
     private EditText etMessage;
     private View ivSend;
     private String toUserNickname;
     private SendMessageController messageController;
-    private ChatAdapter adptr;
+    private ChatRecyclerAdapter adptr;
     private String toUserId;
     private BodyBuild bodyBuilder;
     private ApiMessageController apiController;
+    private LoadAsyncBuildHelper lah;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.view_shiki_list_comment;
+        return R.layout.view_shiki_list_comment_recycle;
     }
 
-    @Override
-    public int getWrapperId() {
-        return R.id.swipeLayout;
-    }
-
-    @Override
-    protected boolean isOptionsMenu() {
-        return false;
-    }
+//    @Override
+//    protected boolean isOptionsMenu() {
+//        return false;
+//    }
 
     public static ChatFragment newInstance(String toUserNickName, String toUserId) {
         Bundle b = new Bundle();
@@ -93,6 +95,7 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ReadMessageController.newInstance(getFC().getQuery());
+        lah = new LoadAsyncBuildHelper(activity, this);
         apiController = new ApiMessageController(getFC().getQuery());
         apiController.setErrorListener(this);
         toUserNickname = getParam(Constants.USER_NICKNAME);
@@ -130,12 +133,12 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        loadAsyncBuild(bodyBuilder, res.getResultArray(),ItemNewsUserShiki.class);
+        lah.loadAsyncBuild(bodyBuilder, res.getResultArray(),ItemNewsUserShiki.class);
     }
 
     @Override
-    public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        adptr = new ChatAdapter(activity, list);
+    public ListRecycleAdapter getAdapter(List<?> list) {
+        adptr = new ChatRecyclerAdapter(activity, (List<ItemNewsUserShiki>) list);
         adptr.setOnSettingsListener(this);
         return adptr;
     }
@@ -220,13 +223,13 @@ public class ChatFragment extends BaseListViewFragment implements View.OnClickLi
 
             @Override
             public void removeItem() {
-                Parcelable state = null;
-                if(page == DEFAULT_FIRST_PAGE)
-                    state = getListView().onSaveInstanceState();
+//                Parcelable state = null;
+//                if(page == DEFAULT_FIRST_PAGE)
+//                    state = getListView().onSaveInstanceState();
                 ChatFragment.this.removeItem(position);
                 clearData();
-                if(state!=null)
-                    getListView().onRestoreInstanceState(state);
+//                if(state!=null)
+//                    getListView().onRestoreInstanceState(state);
             }
 
             @Override

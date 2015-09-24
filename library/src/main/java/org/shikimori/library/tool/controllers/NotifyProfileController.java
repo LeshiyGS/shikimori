@@ -13,6 +13,7 @@ import org.shikimori.library.adapters.NotifyProfileAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.CommunityUsersFragment;
 import org.shikimori.library.fragments.InboxFragment;
+import org.shikimori.library.fragments.InboxFragment2;
 import org.shikimori.library.fragments.UserHistoryFragment;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -131,7 +132,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
         } else if (item.id == NOTIFYING)
             mContext.loadPage(UserNewsFragment.newInstance(Constants.NOTIFYING));
         else if (item.id == INBOX)
-            mContext.loadPage(InboxFragment.newInstance());
+            mContext.loadPage(InboxFragment2.newInstance());
         else if (item.id == HISTORY)
             mContext.loadPage(UserHistoryFragment.newInstance(currentUserId));
         else if (item.id == FORUMS){

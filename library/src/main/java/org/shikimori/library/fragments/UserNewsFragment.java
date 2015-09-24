@@ -215,7 +215,7 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
 
         ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
         if (type.equals(Constants.INBOX)) {
-            activity.loadPage(InboxFragment.newInstance());
+            activity.loadPage(InboxFragment2.newInstance());
         } else if (type.equals(Constants.NEWS)) {
             Intent intent = ProjectTool.getSimpleIntentDetails(activity, item.linked.type);
             if (intent != null) {

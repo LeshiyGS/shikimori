@@ -74,16 +74,17 @@ public class SendMessageController {
                     @Override
                     public void onQuerySuccess(StatusResult res) {
                         loader.hide();
-                        YoYo.with(Techniques.FadeOutUp)
-                                .withListener(new BaseAnimationListener(){
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        data.removeItem();
-                                    }
-                                })
-                                .duration(300)
-                                .playOn(data.getParent());
+                        data.removeItem();
+//                        YoYo.with(Techniques.FadeOutUp)
+//                                .withListener(new BaseAnimationListener(){
+//                                    @Override
+//                                    public void onAnimationEnd(Animator animation) {
+//                                        super.onAnimationEnd(animation);
+//                                        data.removeItem();
+//                                    }
+//                                })
+//                                .duration(300)
+//                                .playOn(data.getParent());
                     }
                 });
     }

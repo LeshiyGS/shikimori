@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.shikimori.library.R;
+import org.shikimori.library.adapters.holder.InboxHolder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +27,7 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
     public static final int TYPE_HEADER = 111;
     public static final int TYPE_FOOTER = 222;
     public static final int TYPE_ITEM = 333;
+    private OnItemClickRecycleListener<T> onItemClickListener;
 
     public HeaderRecyclerAdapter(Context context, List<T> items, int layout){
         this.context = context;
@@ -33,6 +37,8 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
     }
 
     public abstract H getViewHolder(View var1);
+
+    public abstract void setListeners(H holder);
 
     protected int getLayout(int viewType) {
         return this.layout;
@@ -49,9 +55,23 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
             return new HeaderFooterViewHolder(frameLayout);
         } else {
             View view = inflater.inflate(getLayout(type), viewGroup, false);
-            return getViewHolder(view);
+            if(onItemClickListener!=null){
+                view.setOnClickListener(itemClickListener);
+            }
+
+            H h = getViewHolder(view);
+            setListeners(h);
+            return h;
         }
     }
+
+    View.OnClickListener itemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.id.item_position);
+            onItemClickListener.onItemClick(items.get(position), position);
+        }
+    };
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder vh, int position) {
@@ -66,7 +86,10 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
             prepareHeaderFooter((HeaderFooterViewHolder) vh, v);
         } else {
             //it's one of our items, display as required
-            prepareGeneric((H) vh, position - headers.size());
+            int fixPos = position - headers.size();
+            T item = items.get(fixPos);
+            vh.itemView.setTag(R.id.item_position, fixPos);
+            setValues((H) vh, item, fixPos);
         }
     }
 
@@ -82,7 +105,7 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
         vh.base.addView(view);
     }
 
-    public abstract void prepareGeneric(H h, int position);
+    public abstract void setValues(H h, T item, int position);
 
     @Override
     public int getItemViewType(int position) {
@@ -113,6 +136,12 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
         }
     }
 
+    public void removeItem(int position){
+        int fixPos = position + headers.size();
+        items.remove(position);
+        notifyItemRemoved(fixPos);
+    }
+
     //add a footer to the adapter
     public void addFooter(View footer) {
         if (!footers.contains(footer)) {
@@ -131,6 +160,10 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
         }
     }
 
+    public void setOnItemClickListener(OnItemClickRecycleListener<T> onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public Context getContext() {
         return context;
     }
@@ -143,5 +176,11 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
             super(itemView);
             this.base = (FrameLayout) itemView;
         }
+    }
+
+
+
+    public T getItem(int position){
+        return items.get(position);
     }
 }

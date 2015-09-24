@@ -4,19 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
-import com.paging.listview.PagingListView;
 
 import org.shikimori.library.R;
+import org.shikimori.library.fragments.base.abstracts.OnBaseListListener;
+import org.shikimori.library.fragments.base.abstracts.recycleview.listeners.PauseOnScrollRecycleListener;
 import org.shikimori.library.pull.PullableFragment;
 
 import java.util.ArrayList;
@@ -27,21 +23,23 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
 /**
  * Created by Владимир on 22.09.2015.
  */
-public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitActivity> {
+public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitActivity> implements OnBaseListListener {
     protected LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
     private boolean hasMoreItems;
     private boolean isLoading;
     private ListRecycleAdapter adapter;
     List<Object> allList = new ArrayList<>();
+    protected boolean pauseOnScroll = true; // or true
+    protected boolean pauseOnFling = true; // or false
 
-    public static final int DEFAULT_FIRST_PAGE = 1;
-    public static final int LIMIT = 20;
+    public static int DEFAULT_FIRST_PAGE = 1;
+    public static int LIMIT = 20;
     protected int page = DEFAULT_FIRST_PAGE;
 
     public abstract void loadData();
 
-    public int getLayoutId() {
+    protected int getLayoutId() {
         return R.layout.basekit_fragment_base_recycle_view;
     }
 
@@ -49,6 +47,7 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(getLayoutId(), null);
         mRecyclerView = find(v, R.id.recycleView);
+        mRecyclerView.addOnScrollListener(pauseImageLoading);
         return v;
     }
 
@@ -56,6 +55,11 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
     public int pullableViewId() {
         return 0;
     }
+
+    /**
+     * При быстрой прокрутке ставим паузу загрузки картинок, что б не тормозило
+     */
+    PauseOnScrollRecycleListener pauseImageLoading = new PauseOnScrollRecycleListener(ImageLoader.getInstance(), pauseOnScroll, pauseOnFling);
 
     @Override
     public int getWrapperId() {
@@ -112,20 +116,35 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
 
     public void hasMoreItems(boolean b) {
         isLoading = false;
+        hasMoreItems = b;
         adapter.showLoader(b);
     }
 
-    public abstract ListRecycleAdapter getAdapter(List list);
+    public abstract ListRecycleAdapter getAdapter(List<?> list);
 
     @Override
     public void onStartRefresh() {
         page = DEFAULT_FIRST_PAGE;
     }
 
-    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+    @Override
+    public void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
 
         if (activity == null)
             return;
+
+        boolean moreItems = false;
+        int size = list.size();
+        // повышать на +1 или нет
+        int limit = limitOver ? (LIMIT + 1) : LIMIT;
+        // если предыдущее количество кратно limit+1
+        // значит есть еще данные
+        if (size != 0 && size % (limit) == 0) {
+            moreItems = true;
+            // удаляем последний элемент
+            if (removeLastItem)
+                list.remove(size - 1);
+        }
 
         if (page == DEFAULT_FIRST_PAGE)
             allList.clear();
@@ -140,24 +159,13 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
             adapter.notifyDataSetChanged();
         }
 
-        int size = list.size();
-        // повышать на +1 или нет
-        int limit = limitOver ? (LIMIT + 1) : LIMIT;
-        // если предыдущее количество кратно limit+1
-        // значит есть еще данные
-        if (size != 0 && size % (limit) == 0) {
-            hasMoreItems(true);
-            // удаляем последний элемент
-            if (removeLastItem)
-                list.remove(size - 1);
-        } else
-            hasMoreItems(false);
+        hasMoreItems(moreItems);
     }
 
     protected void removeItem(int position) {
         if (allList != null && allList.size() > position) {
-            allList.remove(position);
-            adapter.notifyItemRemoved(position);
+//            allList.remove(position);
+            adapter.removeItem(position);
         }
     }
 
@@ -167,5 +175,15 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
 
     public RecyclerView getRecyclerView() {
         return mRecyclerView;
+    }
+
+    public ListRecycleAdapter getAdapter() {
+        return adapter;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        adapter = null;
     }
 }

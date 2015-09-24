@@ -159,7 +159,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     @Override
-    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+    public void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
         super.prepareData(list, removeLastItem, limitOver);
         hs.setVisibleGone(getAllList().size() != 0, tvEmptyView);
     }
@@ -177,7 +177,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if(params!=null){
             adminRole = "admin".equals(params.getString(Constants.ROLE_CLUB));
         }
-        // Ждем пока фрагмент присасется к активити и не инициализируеться
+        // Ждем пока фрагмент присасется к активити и не инициализируется
         Thread mythread = new Thread() {
             public void run() {
                 try {

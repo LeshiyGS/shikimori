@@ -90,7 +90,7 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseKitActiv
     }
 
     @Override
-    protected void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
+    public void prepareData(List<?> list, boolean removeLastItem, boolean limitOver) {
         state = lvList.onSaveInstanceState();
         super.prepareData(list, removeLastItem, limitOver);
         if(page == DEFAULT_FIRST_PAGE)

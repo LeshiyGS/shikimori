@@ -9,6 +9,7 @@ import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.library.fragments.InboxFragment;
+import org.shikimori.library.fragments.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -40,7 +41,7 @@ public class MainActivity extends DrawerActivity {
             if(idExtraPge == 0)
                 return null;
             switch (idExtraPge){
-                case ShikiApplikation.MESSAGES_ID: return InboxFragment.newInstance();
+                case ShikiApplikation.MESSAGES_ID: return InboxFragment2.newInstance();
                 case ShikiApplikation.NEWS_ID: return UserNewsFragment.newInstance(Constants.NEWS);
                 case ShikiApplikation.NOTIFY_ID: return UserNewsFragment.newInstance(Constants.NOTIFYING);
             }
