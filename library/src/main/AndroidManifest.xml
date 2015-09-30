@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.shikimori.library" >
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Add the following meta-data for devices running Google Play service. -->
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
     <application android:allowBackup="true">
         <activity
             android:name=".activity.ShowPageActivity"

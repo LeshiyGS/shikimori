@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.webkit.WebView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -42,6 +44,8 @@ public class ShikiApplikation extends Application {
     public static final int NEWS_ID = 4;
     public static final int NOTIFY_ID = 5;
     public static final int VERSION_ID = 6;
+    private GoogleAnalytics analytics;
+    private Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -53,6 +57,13 @@ public class ShikiApplikation extends Application {
             // ignored
         }
 
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker("UA-39194517-2"); // Replace with actual tracker/property Id
+        tracker.enableExceptionReporting(true);
+//        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableAutoActivityTracking(true);
 
         // Setup handler for uncaught exceptions.
         if (!BuildConfig.DEBUG) {

@@ -32,4 +32,5 @@ dependencies {
     compile 'com.github.msgars:ImageFactory:1.0.1'
 //    compile project(":modules:PhotoView")
     compile project(":modules:ratingbar")
+
 }
