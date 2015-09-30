@@ -122,7 +122,8 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
             ItemNewsUserShiki item = (ItemNewsUserShiki) list.get(i);
             item.read = true;
         }
-        getAdapter().notifyDataSetChanged();
+        if(getAdapter() != null)
+            getAdapter().notifyDataSetChanged();
     }
 
     private void initParams() {
