@@ -4,6 +4,7 @@ import android.os.Build;
 import android.widget.ImageView;
 
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.AnimateGifMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -27,7 +28,12 @@ public class ShikiImage {
             url = ShikiApi.HTTP_SERVER + url;
 
         if(url.contains(".gif") && Build.VERSION.SDK_INT > 13){
-            Ion.with(imageView).placeholder(R.drawable.ic_loading).load(url);
+            Ion.with(imageView)
+                    .animateGif(AnimateGifMode.ANIMATE)
+//                    .animateLoad(R.anim.spin_animation)
+                    .smartSize(true)
+                    .error(R.drawable.missing_preview)
+                    .load(url);
             if(listener!=null)
                 listener.onLoadingComplete(null,null,null);
         }

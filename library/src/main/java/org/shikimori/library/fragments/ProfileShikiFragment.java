@@ -125,6 +125,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
         inflater.inflate(R.menu.user_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         actionMenu = menu;
@@ -541,14 +542,13 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             }
         });
 
-        builder.setActionClick(new QuotePartCallback());
         builder.setClickType(BodyBuild.CLICKABLETYPE.INTEXT);
-        builder.setUrlTextListener(new BodyBuild.UrlTextListener() {
-            @Override
-            public void textLink(String url, URLSpan span, View view) {
-                url.length();
-            }
-        });
+//        builder.setUrlTextListener(new BodyBuild.UrlTextListener() {
+//            @Override
+//            public void textLink(String url, URLSpan span, View view) {
+//                url.length();
+//            }
+//        });
 //        builder.parce(test == null ? text : test, (ViewGroup) aboutHtml);
 //        builder.loadPreparedImages();
         builder.parceAsync(test, new BodyBuild.ParceDoneListener() {

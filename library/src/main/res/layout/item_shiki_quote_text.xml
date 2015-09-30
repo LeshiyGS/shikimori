@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/altarixUiText"
-        android:text="spoiler"
         android:textStyle="italic"
         android:textColor="?attr/altarixUiAttrLabelColor"
         />

@@ -2,6 +2,7 @@ package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -105,6 +106,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     private void initBodyBuilder() {
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
+        if(Build.VERSION.SDK_INT < 11)
+            return;
         QuotePartCallback action = new QuotePartCallback();
         action.setEditText(etMessage);
         action.setTyle(QuotePartCallback.TYPE.COMMENT);

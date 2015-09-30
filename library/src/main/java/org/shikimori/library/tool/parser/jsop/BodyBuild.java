@@ -371,19 +371,24 @@ public class BodyBuild {
         if (firstChild instanceof TextNode) {
             quote = new Quote(context, true);
             looper(elemnt.childNodes(), quote.getQuote());
+
         } else {
             Element title = (Element) firstChild;
-            Elements a = title.select("a");
-            quote = new Quote(context, false);
-            if (a.size() > 0) {
-                Element user = title.select("a").get(0);
-                quote.setUserName(user.attr("title"));
-                Elements img = user.select("img");
-                if (img.size() > 0)
-                    quote.setUserImage(img.get(0).attr("src"));
-                quote.setUserIdFromImage(user.html());
-                images.add(quote);
-                title.remove();
+            if(title.hasClass("quoteable")){
+                Elements a = title.select("a");
+                quote = new Quote(context, false);
+                if (a.size() > 0) {
+                    Element user = title.select("a").get(0);
+                    quote.setUserName(user.attr("title"));
+                    Elements img = user.select("img");
+                    if (img.size() > 0)
+                        quote.setUserImage(img.get(0).attr("src"));
+                    quote.setUserIdFromImage(user.html());
+                    images.add(quote);
+                    title.remove();
+                }
+            } else {
+                quote = new Quote(context, true);
             }
             looper(elemnt.childNodes(), quote.getContent());
         }

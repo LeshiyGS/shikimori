@@ -3,6 +3,7 @@ package org.shikimori.library.tool.parser;
 import android.widget.ImageView;
 
 import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.AnimateGifMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
@@ -40,7 +41,9 @@ public class ImageController {
 
         if(imageData.getThumb().contains(".gif")){
             Ion.with(image)
-                    .animateLoad(R.anim.spin_animation)
+                    .animateGif(AnimateGifMode.ANIMATE)
+//                    .animateLoad(R.anim.spin_animation)
+                    .smartSize(true)
                     .error(R.drawable.missing_preview)
                     .load(imageData.getThumb());
         } else {
