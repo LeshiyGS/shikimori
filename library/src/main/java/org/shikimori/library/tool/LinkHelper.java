@@ -3,6 +3,7 @@ package org.shikimori.library.tool;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
 
@@ -25,6 +26,8 @@ public class LinkHelper {
         goToUrl(activity, url, null);
     }
     public static void goToUrl(BaseKitActivity<ShikiAC> activity, String url, BodyBuild bodyBuild){
+        if(TextUtils.isEmpty(url))
+            return;
 
         if(url.contains("/animes")){
             if(goToPage(activity, "animes", url, Constants.ANIME))
