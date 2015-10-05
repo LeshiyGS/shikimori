@@ -89,8 +89,10 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
 
     private void initConstructor(Context context){
         this.context = context;
-        if (client == null)
+        if (client == null){
             client = new AsyncHttpClient();
+            client.setResponseTimeout(30000);
+        }
     }
 
     public BaseQuery(Context context) {
@@ -103,8 +105,10 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
             return;
         }
         this.context = context;
-        if (clientSync == null)
+        if (clientSync == null){
             clientSync = new SyncHttpClient();
+            clientSync.setResponseTimeout(30000);
+        }
     }
 
     protected abstract T preinit(String url);
