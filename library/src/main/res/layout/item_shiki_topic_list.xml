@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/tvSection"
                 style="@style/notyfy_style_blue"
-                android:layout_width="@dimen/paddingMfcQueueTime"
+                android:layout_width="92dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -34,7 +34,7 @@
 
             <ImageView
                 android:id="@+id/ivPoster"
-                android:layout_width="@dimen/paddingMfcQueueTime"
+                android:layout_width="92dp"
                 android:layout_height="@dimen/paddingCommentDesc"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"

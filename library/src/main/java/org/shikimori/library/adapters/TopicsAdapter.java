@@ -53,6 +53,8 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
 
         holder.llBodyHtml.removeAllViews();
         if (item.parsedContent != null) {
+            if (item.parsedContent.getParent() != null)
+                ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
             hs.setVisible(holder.llBodyHtml, true);
             hs.setVisibleGone(holder.tvText);
             holder.llBodyHtml.addView(item.parsedContent);

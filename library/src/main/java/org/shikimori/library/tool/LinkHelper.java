@@ -47,6 +47,7 @@ public class LinkHelper {
             return;
         }
 
+        url = ProjectTool.fixUrl(url);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(Uri.parse(url));
