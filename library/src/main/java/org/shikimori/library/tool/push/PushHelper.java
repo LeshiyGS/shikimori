@@ -18,14 +18,22 @@ public class PushHelper {
     }
 
     public void sendBroadCast(String action, String title, String message){
+        Intent broadcastIntent = prepareIntent(action,title,message);
+        send(broadcastIntent);
+    }
+
+    public Intent prepareIntent(String action, String title, String message){
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(RECEIVE_ID);
         Bundle b = new Bundle();
         b.putString(PushHelperReceiver.ACTION, action);
         b.putString(PushHelperReceiver.MSG_TITLE, title);
         b.putString(PushHelperReceiver.MSG_BODY, message);
-        b.putString(PushHelperReceiver.MSG_BODY, message);
         broadcastIntent.putExtras(b);
+        return broadcastIntent;
+    }
+
+    public void send(Intent broadcastIntent){
         context.sendBroadcast(broadcastIntent);
     }
 

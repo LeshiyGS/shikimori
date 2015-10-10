@@ -5,21 +5,31 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.objects.one.ItemDialogs;
 import org.shikimori.library.objects.one.Notification;
+import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
+import org.shikimori.library.tool.controllers.api.ApiMessageController;
 import org.shikimori.library.tool.hs;
 
 /**
@@ -52,7 +62,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
         timerHandler.postDelayed(timerRunnable, 0);
     }
 
-    void initQuery(){
+    void initQuery() {
         query = new Query(this)
                 .init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
                 .setErrorListener(this);
@@ -76,13 +86,13 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     protected void getMessages() {
         if (!isNotifyEnable())
             return;
-        if(user==null)
+        if (user == null)
             user = new ShikiUser(this);
-        if(!user.isAutorize())
+        if (!user.isAutorize())
             return;
         if (ShikiUser.USER_ID == null || !hs.getConnection(this))
             return;
-        if(query == null)
+        if (query == null)
             initQuery();
         query.getResult(this);
     }
@@ -115,8 +125,10 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
             phelp.sendNewNotify(notify.notifications);
         if (userNotify.news < notify.news && PreferenceHelper.getNotifyNews(this))
             phelp.sendNewNews(notify.news);
-        if (userNotify.messages < notify.messages && PreferenceHelper.getNotifyMessage(this))
-            phelp.sendNewMessages(notify.messages);
+        if (userNotify.messages < notify.messages && PreferenceHelper.getNotifyMessage(this)) {
+            notifyMessage();
+//            phelp.sendNewMessages(notify.messages);
+        }
 
         // change data
         if (userNotify.notifications != notify.notifications ||
@@ -126,6 +138,37 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
             user.setNotification(notify);
         }
 
+    }
+
+    private void notifyMessage() {
+        new ApiMessageController(query).getLastDialog(new BaseQuery.OnQuerySuccessListener() {
+            @Override
+            public void onQuerySuccess(StatusResult res) {
+
+                JSONArray rezult = res.getResultArray();
+                if(rezult!=null){
+                    final ItemDialogs item = new ItemDialogs().createFromJson(rezult.optJSONObject(0));
+
+//                     if message from self
+                    if(item.message!=null && item.message.from!=null){
+                        if(ShikiUser.USER_ID.equals(item.message.from.id))
+                            return;
+                    }
+                    // load user avatar
+                    if(item.user!=null && item.user.img148!=null){
+                        ImageLoader.getInstance().loadImage(ProjectTool.fixUrl(item.user.img148),
+                                new SimpleImageLoadingListener(){
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                        // send notify
+                                        new PushHelperShiki(NewMessagesService.this)
+                                                .sendLastMessage(item.user.nickname, item.message.body, loadedImage);
+                                    }
+                                });
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -139,7 +182,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         // TODO Auto-generated method stub
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Log.d(TAG, "onTaskRemoved NewMessagesService");
             Intent restartService = new Intent(getApplicationContext(),
                     this.getClass());
@@ -147,8 +190,8 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
             PendingIntent restartServicePI = PendingIntent.getService(
                     getApplicationContext(), 1, restartService,
                     PendingIntent.FLAG_ONE_SHOT);
-            AlarmManager alarmService = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-            alarmService.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() +10000, restartServicePI);
+            AlarmManager alarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            alarmService.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 10000, restartServicePI);
         }
     }
 }

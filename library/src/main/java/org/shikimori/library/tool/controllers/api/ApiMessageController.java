@@ -5,6 +5,7 @@ import android.view.View;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.BaseApiController;
 
@@ -69,6 +70,14 @@ public class ApiMessageController extends BaseApiController<ApiMessageController
         read = !read;
         ProjectTool.setReadOpasity(v, read);
         return read;
+    }
+
+    public void getLastDialog(Query.OnQuerySuccessListener listener){
+        query.init(ShikiApi.getUrl(ShikiPath.DIALOGS), StatusResult.TYPE.ARRAY)
+                .addParam("limit", "1")
+                .addParam("page", "1");
+
+        send(listener);
     }
 
 }

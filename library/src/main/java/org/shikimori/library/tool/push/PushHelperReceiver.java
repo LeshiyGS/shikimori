@@ -28,6 +28,7 @@ import java.util.Map;
 public class PushHelperReceiver extends BroadcastReceiver {
     public static final String ACTION = "action";
     public static final String MSG_BODY = "msgBody";
+    public static final String MSG_BODY_BIG = "msgBodyBig";
     public static final String MSG_TITLE = "msgTitle";
 
     private static final Map<String, PushAction> actions = new HashMap<>();
@@ -63,15 +64,13 @@ public class PushHelperReceiver extends BroadcastReceiver {
         boolean isAuthReq = action.isAuthRequired();
         if (!isAuthReq || ShikiUser.USER_ID != null) {
             action.onPushRecived(intent);
-            notifyUser(context, msgTitle, msgBody, action);
+            notifyUser(context, msgTitle, msgBody, action, bundle);
         }
     }
 
-    private void notifyUser(Context context, String msgTitle, String msgBody, PushAction action) {
+    private void notifyUser(Context context, String msgTitle, String msgBody, PushAction action, Bundle b) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         Intent intent = action.getNotifyIntent();
-        if (intent.hasExtra(PushAction.LARGE_ICON))
-            builder.setLargeIcon(intent.<Bitmap>getParcelableExtra(PushAction.LARGE_ICON));
         builder.setSmallIcon(intent.getIntExtra(PushAction.SMALL_ICON, R.mipmap.ic_launcher))
 //               .setWhen(System.currentTimeMillis())
                .setContentTitle(msgTitle)
@@ -80,12 +79,24 @@ public class PushHelperReceiver extends BroadcastReceiver {
                .setContentIntent(PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT))
                .setTicker(msgTitle);
 
+        if (b.containsKey(PushAction.LARGE_ICON))
+            builder.setLargeIcon(b.<Bitmap>getParcelable(PushAction.LARGE_ICON));
+        else if (intent.hasExtra(PushAction.LARGE_ICON))
+            builder.setLargeIcon(intent.<Bitmap>getParcelableExtra(PushAction.LARGE_ICON));
+
+
+        // set sound
         if(action.isSound()){
             Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             builder.setSound(alarmSound);
         }
 
-        if (msgBody.contains("/")) {
+        // big text
+        String bigText = b.getString(MSG_BODY_BIG);
+        if(bigText!=null){
+            builder.setStyle(new NotificationCompat.BigTextStyle()
+                    .bigText(bigText));
+        } else if (msgBody.contains("/")) {
             NotificationCompat.InboxStyle inboxStyle =
                     new NotificationCompat.InboxStyle();
 //            inboxStyle.setBigContentTitle(c.getString(R.string.newed) + ":");
@@ -96,6 +107,7 @@ public class PushHelperReceiver extends BroadcastReceiver {
             builder.setStyle(inboxStyle);
         }
 
+        // send notify
         NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotifyMgr.notify(action.getNotifyId(), builder.build());
     }
@@ -145,7 +157,7 @@ public class PushHelperReceiver extends BroadcastReceiver {
          * можно передать BITMAP в intent в параметре LARGE_ICON  для замены большой иконки
          */
         @DrawableRes
-        String LARGE_ICON = "PushAction.LARGE_ICON";
+        public String LARGE_ICON = "PushAction.LARGE_ICON";
 
         public enum Type {
             LOCAL
