@@ -1,7 +1,5 @@
 package org.shikimori.client.fragments;
 
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,6 +18,8 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.ShikiAC;
+import org.shikimori.library.tool.permission.BasePermissionController;
+import org.shikimori.library.tool.permission.PermissionSontroller;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -35,6 +35,7 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
     ProgressBar pbLoaderApk;
     Button bLoadApk;
     private String versionUrl;
+    private PermissionSontroller permission;
 
     public static AboutFragment newInstance() {
         return new AboutFragment();
@@ -60,6 +61,7 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         tvVersion.setText(activity.getString(R.string.app_version_template, BuildConfig.VERSION_NAME));
+        permission = new PermissionSontroller(activity);
         checkVersion();
     }
 
@@ -80,10 +82,27 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
             h.setVisible(pbLoaderApk);
             h.setVisibleGone(bLoadApk);
 
-            new UpdateApp(activity)
-                    .setProgresListener(this)
-                    .startLoad(versionUrl);
+            permission.checkPermission(PermissionSontroller.WRITE_EXTERNAL_STORAGE, new BasePermissionController.OnRequestPermission() {
+                @Override
+                public void requestDone(boolean allow) {
+                    if(allow){
+                        new UpdateApp(activity)
+                                .setProgresListener(AboutFragment.this)
+                                .startLoad(versionUrl);
+                    } else {
+                        h.setVisibleGone(pbLoaderApk);
+                        h.setVisible(bLoadApk);
+                        h.showMsg(activity, R.string.access_sd);
+                    }
+                }
+            });
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        permission.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

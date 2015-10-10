@@ -13,6 +13,8 @@ import org.shikimori.library.fragments.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
+import java.util.List;
+
 
 /**
  * Created by Владимир on 20.06.2014.
@@ -47,5 +49,19 @@ public class MainActivity extends DrawerActivity {
             }
         }
         return null;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List fragments = this.getSupportFragmentManager().getFragments();
+        if(fragments != null) {
+            for(int i = fragments.size() - 1; i >= 0; --i) {
+                Fragment fragment = (Fragment)fragments.get(i);
+                if(fragment != null && !fragment.isDetached()) {
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            }
+        }
     }
 }

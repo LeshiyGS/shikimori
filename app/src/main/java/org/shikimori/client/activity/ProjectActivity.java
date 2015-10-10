@@ -1,10 +1,14 @@
 package org.shikimori.client.activity;
 
+import android.support.v4.app.Fragment;
+
 import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
 import org.shikimori.client.tool.AuthMasterShiki;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.interfaces.LogouUserListener;
+
+import java.util.List;
 
 /**
  * Created by me on 30.03.2015.

@@ -26,5 +26,6 @@
     <string name="video_rate_update_desc">Обновлять номер серии при просмотре видео в других приложениях</string>
     <string name="newsnya">Новостяшка</string>
     <string name="notifynya">Уведомляшка</string>
+    <string name="access_sd">Необходим доступ к карте памяти</string>
 
 </resources>
