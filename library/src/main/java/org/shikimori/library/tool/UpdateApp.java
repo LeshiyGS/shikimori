@@ -123,16 +123,18 @@ public class UpdateApp extends AsyncTask<String, Integer, String> {
             return;
 
         if (path == null) {
-            h.showMsg(context, "Ошибка загрузка apk");
+            h.showMsg(context, "Ошибка загрузка файла");
             return;
         }
 
         if (update_listener != null)
-            update_listener.finish();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
-        context.startActivity(intent);
+            update_listener.finish(path);
+        if(path.contains(".apk")){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(new File(path)), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // without this flag android returned a intent error!
+            context.startActivity(intent);
+        }
         loading = false;
     }
 
@@ -146,6 +148,6 @@ public class UpdateApp extends AsyncTask<String, Integer, String> {
     public interface UpdateApkProgressListener {
         public void update(int progress);
 
-        public void finish();
+        public void finish(String patch);
     }
 }

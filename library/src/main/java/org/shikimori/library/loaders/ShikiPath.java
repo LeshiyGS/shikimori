@@ -51,4 +51,5 @@ public interface ShikiPath {
     public String SET_USER_RATE = "api/user_rates";
     public String USER_RATE_ID = "api/user_rates/:id";
     public String CLUB_IMAGES = "api/clubs/:id/images";
+    public String USER_IMAGES = "api/user_images";
 }

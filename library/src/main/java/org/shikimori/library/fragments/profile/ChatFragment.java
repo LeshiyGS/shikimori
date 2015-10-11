@@ -1,22 +1,17 @@
-package org.shikimori.library.fragments;
+package org.shikimori.library.fragments.profile;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.ChatAdapter;
 import org.shikimori.library.adapters.ChatRecyclerAdapter;
 import org.shikimori.library.custom.actionmode.QuotePartCallback;
-import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewFragment;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
 import org.shikimori.library.loaders.ShikiApi;

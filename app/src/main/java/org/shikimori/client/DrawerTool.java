@@ -1,7 +1,6 @@
 package org.shikimori.client;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -12,16 +11,14 @@ import org.shikimori.client.fragments.AboutFragment;
 import org.shikimori.client.fragments.AnimesShikiFragment;
 import org.shikimori.client.fragments.CalendarShikiFragment;
 import org.shikimori.client.fragments.MangasShikiFragment;
-import org.shikimori.client.fragments.PreferenceShikiPragment;
 import org.shikimori.library.fragments.CommunityClubsFragment;
 import org.shikimori.library.fragments.CommunityUsersFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
-import org.shikimori.library.fragments.ProfileShikiFragment;
+import org.shikimori.library.fragments.profile.ProfileShikiFragment;
 import org.shikimori.library.fragments.TopicsFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.controllers.ShikiAC;
 
 import java.util.ArrayList;
 

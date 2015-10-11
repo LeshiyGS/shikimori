@@ -1,15 +1,11 @@
 package org.shikimori.client;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
-import org.shikimori.client.tool.PushHelperShiki;
-import org.shikimori.library.fragments.InboxFragment;
-import org.shikimori.library.fragments.InboxFragment2;
+import org.shikimori.library.fragments.profile.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 

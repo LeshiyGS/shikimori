@@ -16,6 +16,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cz.msebera.android.httpclient.Header;
 import ru.altarix.basekit.library.tools.LoaderController;
 
@@ -31,6 +34,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
     public static final long DAY = 86400000L;
     public static final long FIVE_MIN = 300000L;
     protected static final String TAG = "httpquery";
+    List<OnProgressListener> progresListeners;
 
     static AsyncHttpClient client;
     AsyncHttpClient clientSync;
@@ -85,6 +89,22 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
 
     public interface OnQuerySuccessListener {
         public void onQuerySuccess(StatusResult res);
+    }
+
+    public interface OnProgressListener {
+        public void progress(int progress);
+    }
+
+    public void addUpdateListener(OnProgressListener progressListener) {
+        if(progresListeners == null)
+            progresListeners = new ArrayList<>();
+        if(!progresListeners.contains(progressListener))
+            progresListeners.add(progressListener);
+    }
+
+    public void removeProgressListener(OnProgressListener progressListener){
+        if(progresListeners!= null)
+            progresListeners.remove(progressListener);
     }
 
     private void initConstructor(Context context){
@@ -446,6 +466,21 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
 
             if (successListener != null)
                 successListener.onQuerySuccess(res);
+        }
+
+        @Override
+        public void onProgress(long bytesWritten, long totalSize) {
+            super.onProgress(bytesWritten, totalSize);
+
+            if(progresListeners!=null){
+                if(totalSize == 0)
+                    return;
+
+                int procents = (int) (bytesWritten * 100 / totalSize);
+                for (OnProgressListener l : progresListeners) {
+                    l.progress(procents);
+                }
+            }
         }
 
         @Override

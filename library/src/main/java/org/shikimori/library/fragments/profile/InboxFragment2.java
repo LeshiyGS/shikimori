@@ -1,18 +1,14 @@
-package org.shikimori.library.fragments;
+package org.shikimori.library.fragments.profile;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.InboxAdapter;
 import org.shikimori.library.adapters.InboxRecycleAdapter;
-import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewFragment;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
 import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;

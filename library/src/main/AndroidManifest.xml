@@ -18,5 +18,9 @@
             android:name=".activity.ImageShowActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
             android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".activity.AddItemActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:configChanges="orientation|screenSize" />
     </application>
 </manifest>

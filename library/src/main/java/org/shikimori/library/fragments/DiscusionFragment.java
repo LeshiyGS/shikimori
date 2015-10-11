@@ -1,6 +1,7 @@
 package org.shikimori.library.fragments;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.CommentsAdapter;
+import org.shikimori.library.custom.EditTextSender;
 import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
@@ -52,6 +54,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     private CommentsAdapter adaptr;
     private ApiMessageController apiController;
     private boolean adminRole;
+    private EditTextSender etSender;
 
     @Override
     protected int getLayoutId() {
@@ -67,8 +70,9 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         setBaseView(v);
-        etMessage = find(R.id.etMessage);
-        ivSend = find(R.id.ivSend);
+        etSender = find(R.id.etSender);
+        etMessage = etSender.getEtText();
+        ivSend = etSender.getIvSend();
         tvEmptyView = find(R.id.tvEmptyView);
         ivSend.setOnClickListener(this);
 
@@ -92,6 +96,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initBodyBuilder();
+        etSender.setQuery(getFC().getQuery());
+        etSender.setType(SendMessageController.Type.COMMENT);
         apiController = new ApiMessageController(getFC().getQuery());
         apiController.setErrorListener(this);
         messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.COMMENT);
@@ -331,5 +337,11 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void onQueryError(StatusResult res) {
         super.onQueryError(res);
         etMessage.setEnabled(true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        etSender.onActivityResult(requestCode,resultCode,data);
     }
 }

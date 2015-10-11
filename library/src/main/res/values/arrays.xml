@@ -32,5 +32,16 @@
         <item>@string/dropped</item>
     </string-array>
 
+    <string-array name="select_for_add">
+        <item>@string/anime</item>
+        <item>@string/manga</item>
+        <!--<item>@string/character</item>-->
+    </string-array>
+
+    <string-array name="select_for_add_image">
+        <item>@string/gallery</item>
+        <item>@string/camera</item>
+        <!--<item>@string/character</item>-->
+    </string-array>
 
 </resources>

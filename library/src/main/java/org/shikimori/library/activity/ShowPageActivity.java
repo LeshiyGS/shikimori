@@ -9,7 +9,7 @@ import org.shikimori.library.fragments.ClubDetailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.FavoriteFragment;
 import org.shikimori.library.fragments.MangaDeatailsFragment;
-import org.shikimori.library.fragments.ProfileShikiFragment;
+import org.shikimori.library.fragments.profile.ProfileShikiFragment;
 import org.shikimori.library.fragments.TopicMainCommentFragment;
 import org.shikimori.library.fragments.UserClubsFragment;
 import org.shikimori.library.tool.constpack.Constants;
@@ -29,6 +29,7 @@ public class ShowPageActivity extends PageActivity {
     public static final int CLUB_PAGE = 8;
     public static final int FORUMS_PAGE = 9;
     public static final int DISCUSSION = 10;
+    public static final int ADD_ELEMENT = 11;
     protected Bundle params;
 
     @Override

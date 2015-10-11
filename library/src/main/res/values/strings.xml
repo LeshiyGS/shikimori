@@ -240,4 +240,11 @@
     <string name="rating_unknown">Неизвестно</string>
     <string name="citata">Цитрировать</string>
     <string name="read_all">Прочитать все</string>
+    <string name="add_title">Добавить</string>
+    <string name="add_photo_title">Добавить изображение</string>
+
+    <string name="gallery">Галлерея</string>
+    <string name="camera">Камера</string>
+    <string name="error_add_image">Ошибка добавления фото</string>
+    <string name="access_sd">Необходим доступ к sd карте</string>
 </resources>

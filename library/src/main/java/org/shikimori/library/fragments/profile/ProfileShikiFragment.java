@@ -1,10 +1,9 @@
-package org.shikimori.library.fragments;
+package org.shikimori.library.fragments.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +23,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.ProfileMangaAnimeNameAdapter;
-import org.shikimori.library.custom.actionmode.QuotePartCallback;
+import org.shikimori.library.fragments.AnimeUserListFragment;
+import org.shikimori.library.fragments.MangaUserListFragment;
 import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
@@ -41,13 +41,10 @@ import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.NotifyProfileController;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
-import com.mcgars.imagefactory.ThumbToImage;
-import com.mcgars.imagefactory.objects.Thumb;
 import org.shikimori.library.tool.parser.elements.PostImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.popup.ListPopup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;

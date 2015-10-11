@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ProgressBar
+        android:id="@+id/pbLoaderImage"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    <ImageView
+        android:id="@+id/ivSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackground"
+        android:src="@mipmap/ic_action_send" />
+
+    <EditText
+        android:id="@+id/etText"
+        android:layout_toLeftOf="@+id/ivSend"
+        android:background="@null"
+        android:hint="@string/message"
+        android:paddingLeft="@dimen/defaultPaddingMini"
+        android:paddingRight="@dimen/defaultPaddingMini"
+        android:paddingTop="@dimen/defaultPaddingMini"
+        android:maxHeight="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/llBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etText"
+        android:layout_toLeftOf="@+id/ivSend"
+        android:paddingBottom="@dimen/defaultPaddingMini"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivAddAnime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginRight="@dimen/defaultPaddingMini"
+            android:src="@drawable/ic_action_note_add"/>
+
+        <ImageView
+            android:id="@+id/ivAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_action_add_image"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

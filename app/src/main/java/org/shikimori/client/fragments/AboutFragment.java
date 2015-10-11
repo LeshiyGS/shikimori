@@ -121,7 +121,7 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
     }
 
     @Override
-    public void finish() {
+    public void finish(String path) {
         h.setVisibleGone(pbLoaderApk);
     }
 }

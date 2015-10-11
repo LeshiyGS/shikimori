@@ -7,13 +7,11 @@ import android.widget.AdapterView;
 
 import org.json.JSONObject;
 import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NotifyProfileAdapter;
 import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.CommunityUsersFragment;
-import org.shikimori.library.fragments.InboxFragment;
-import org.shikimori.library.fragments.InboxFragment2;
+import org.shikimori.library.fragments.profile.InboxFragment2;
 import org.shikimori.library.fragments.UserHistoryFragment;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.loaders.ShikiApi;

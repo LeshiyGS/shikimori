@@ -219,7 +219,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
                     }
 
                     @Override
-                    public void finish() {
+                    public void finish(String patch) {
                         activity.getAC().getLoaderController().hide();
                     }
                 }).startLoad(activity.getString(R.string.anibreak_url) + "uploads/app-release.apk");
