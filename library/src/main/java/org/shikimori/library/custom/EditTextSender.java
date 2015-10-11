@@ -50,6 +50,7 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
     private SendMessageController.Type type;
     private PermissionSontroller permission;
     private ProgressBar pbLoaderImage;
+    private View ivSmails;
 
     public EditTextSender(Context context) {
         this(context, null);
@@ -71,10 +72,6 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
         init();
     }
 
-    public void setQuery(Query query){
-        this.query = query;
-    }
-
     public void setType(SendMessageController.Type type){
         this.type = type;
     }
@@ -83,12 +80,13 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
         imageCreator = new ImageCreator((Activity) getContext());
         permission = new PermissionSontroller((AppCompatActivity) getContext());
-
+        query = new Query(getContext());
 
         View v = LayoutInflater.from(getContext()).inflate(R.layout.view_edit_text_sender, null);
 
         etText = h.find(v, R.id.etText);
         ivSend = h.find(v, R.id.ivSend);
+        ivSmails = h.find(v, R.id.ivSmails);
         pbLoaderImage = h.find(v, R.id.pbLoaderImage);
         ivAddAnime = h.find(v, R.id.ivAddAnime);
         ivAddImage = h.find(v, R.id.ivAddImage);
@@ -144,13 +142,13 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
         if(patch != null){
 
             query.in(ShikiPath.USER_IMAGES)
-                 .setMethod(BaseQuery.METHOD.POST)
-                 .addParam("linked_type", type);
+                    .setMethod(BaseQuery.METHOD.POST)
+                    .addParam("linked_type", "Comment");
 
-            if(type == SendMessageController.Type.COMMENT)
-                query.addParam("linked_type", "comment");
-            else
-                query.addParam("linked_type", "message");
+//            if(type == SendMessageController.Type.COMMENT)
+//                query.addParam("linked_type", "Comment");
+//            else
+//                query.addParam("linked_type", "message");
 
             if(!patch.startsWith("http")){
                 uploadImage(patch);
@@ -186,6 +184,12 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
         try {
             RequestParams params = query.getParams();
             params.put("image", new File(patch));
+            query.setErrorListener(new BaseQuery.OnQueryErrorListener() {
+                @Override
+                public void onQueryError(StatusResult res) {
+                    h.showMsg(getContext(), R.string.error_add_image);
+                }
+            });
             query.addUpdateListener(progressListener);
             h.setVisible(pbLoaderImage);
             query.getResultObject(new BaseQuery.OnQuerySuccessListener() {

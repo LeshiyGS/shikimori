@@ -96,7 +96,6 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initBodyBuilder();
-        etSender.setQuery(getFC().getQuery());
         etSender.setType(SendMessageController.Type.COMMENT);
         apiController = new ApiMessageController(getFC().getQuery());
         apiController.setErrorListener(this);

@@ -19,14 +19,20 @@
         android:background="?attr/selectableItemBackground"
         android:src="@mipmap/ic_action_send" />
 
+    <ImageView
+        android:id="@+id/ivSmails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/ivSend"
+        android:background="?attr/selectableItemBackground"
+        android:src="@mipmap/ic_action_smail" />
+
     <EditText
         android:id="@+id/etText"
         android:layout_toLeftOf="@+id/ivSend"
         android:background="@null"
         android:hint="@string/message"
-        android:paddingLeft="@dimen/defaultPaddingMini"
-        android:paddingRight="@dimen/defaultPaddingMini"
-        android:paddingTop="@dimen/defaultPaddingMini"
+        android:padding="@dimen/defaultPaddingMini"
         android:maxHeight="200dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
