@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -141,9 +142,9 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
         final String patch = imageCreator.getPathFromActivityResult(requestCode, resultCode, data);
         if(patch != null){
 
-            query.in(ShikiPath.USER_IMAGES)
-                    .setMethod(BaseQuery.METHOD.POST)
-                    .addParam("linked_type", "Comment");
+            query.in(ShikiPath.USER_IMAGES + "?linked_type=Comment")
+                    .setMethod(BaseQuery.METHOD.POST);
+//                    .addParam("linked_type", "Comment");
 
 //            if(type == SendMessageController.Type.COMMENT)
 //                query.addParam("linked_type", "Comment");
@@ -182,12 +183,14 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
     private void uploadImage(String patch){
         try {
+            Log.d("file" , patch);
             RequestParams params = query.getParams();
-            params.put("image", new File(patch));
+            params.put("image", new File(patch), "image/*");
             query.setErrorListener(new BaseQuery.OnQueryErrorListener() {
                 @Override
                 public void onQueryError(StatusResult res) {
                     h.showMsg(getContext(), R.string.error_add_image);
+                    h.setVisibleGone(pbLoaderImage);
                 }
             });
             query.addUpdateListener(progressListener);
