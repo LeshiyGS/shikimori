@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
-import org.shikimori.library.fragments.profile.InboxFragment2;
+import org.shikimori.library.features.profile.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 

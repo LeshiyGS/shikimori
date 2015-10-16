@@ -20,7 +20,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
-import org.shikimori.library.fragments.profile.InboxFragment2;
+import org.shikimori.library.features.profile.InboxFragment2;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;

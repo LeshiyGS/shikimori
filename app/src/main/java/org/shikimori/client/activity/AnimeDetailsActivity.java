@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 
 import org.shikimori.client.R;
 import org.shikimori.client.activity.base.BaseDetailsActivity;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
+import org.shikimori.library.features.anime.AnimeDeatailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;

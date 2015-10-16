@@ -1,4 +1,4 @@
-package org.shikimori.library.fragments;
+package org.shikimori.library.features.comminity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,15 +8,14 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
-import org.shikimori.library.features.comminity.ClubCardStyleAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
+
 import org.shikimori.library.objects.one.ItemClubShiki;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -26,31 +25,24 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class CommunityClubsFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
-    private String userId;
+    public static CommunityClubsFragment newInstance() {
+        return new CommunityClubsFragment();
+    }
     ObjectBuilder builder = new ObjectBuilder();
-    public static UserClubsFragment newInstance() {
-        return new UserClubsFragment();
-    }
-
-    public static UserClubsFragment newInstance(Bundle b) {
-        UserClubsFragment frag = new UserClubsFragment();
-        frag.setArguments(b);
-        return frag;
-    }
-
-    private void initArgiments() {
-        userId = getParam(Constants.USER_ID);
-    }
-
     @Override
     protected boolean isOptionsMenu() {
         return false;
     }
 
+//    @Override
+//    public int getActionBarTitle() {
+//        return R.string.community;
+//    }
+
     protected String getLoadPath() {
-        return ShikiApi.getUrl(ShikiPath.GET_USER_CLUBS_LIST, userId);
+        return ShikiApi.getUrl(ShikiPath.GET_CLUBS_LIST);
     }
 
     @Override
@@ -63,8 +55,6 @@ public class UserClubsFragment extends BaseGridViewFragment implements Query.OnQ
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        activity.setTitle(R.string.forums);
-        initArgiments();
         StartFirstLoad();
     }
 

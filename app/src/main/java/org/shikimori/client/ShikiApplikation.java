@@ -8,13 +8,12 @@ import android.webkit.WebView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.client.activity.AboutActivity;
 import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.tool.PreferenceHelper;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
+import org.shikimori.library.features.anime.AnimeDeatailsFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.ProjectTool;

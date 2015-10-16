@@ -81,6 +81,7 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
         imageCreator = new ImageCreator((Activity) getContext());
         permission = new PermissionSontroller((AppCompatActivity) getContext());
+//        emoji = new Popup
         query = new Query(getContext());
 
         View v = LayoutInflater.from(getContext()).inflate(R.layout.view_edit_text_sender, null);

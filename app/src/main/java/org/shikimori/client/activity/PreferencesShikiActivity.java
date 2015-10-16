@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 
 import org.shikimori.client.R;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
+import org.shikimori.library.features.anime.AnimeDeatailsFragment;
 import org.shikimori.library.tool.ProjectTool;
 
 /**

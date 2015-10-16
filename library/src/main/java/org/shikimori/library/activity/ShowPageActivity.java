@@ -3,14 +3,14 @@ package org.shikimori.library.activity;
 import android.os.Bundle;
 
 import org.shikimori.library.R;
-import org.shikimori.library.fragments.AnimeDeatailsFragment;
+import org.shikimori.library.features.anime.AnimeDeatailsFragment;
+import org.shikimori.library.features.comminity.ClubDetailsFragment;
+import org.shikimori.library.features.profile.FavoriteFragment;
 import org.shikimori.library.fragments.CharacterDetailsFragment;
-import org.shikimori.library.fragments.ClubDetailsFragment;
 import org.shikimori.library.fragments.DiscusionFragment;
-import org.shikimori.library.fragments.FavoriteFragment;
-import org.shikimori.library.fragments.MangaDeatailsFragment;
-import org.shikimori.library.fragments.profile.ProfileShikiFragment;
-import org.shikimori.library.fragments.TopicMainCommentFragment;
+import org.shikimori.library.features.manga.MangaDeatailsFragment;
+import org.shikimori.library.features.profile.ProfileShikiFragment;
+import org.shikimori.library.features.topic.TopicMainCommentFragment;
 import org.shikimori.library.fragments.UserClubsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 

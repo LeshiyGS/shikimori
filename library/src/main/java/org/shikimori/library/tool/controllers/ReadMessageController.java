@@ -2,6 +2,7 @@ package org.shikimori.library.tool.controllers;
 
 import android.view.View;
 
+import org.shikimori.library.features.profile.controllers.NotifyProfileController;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.Query;

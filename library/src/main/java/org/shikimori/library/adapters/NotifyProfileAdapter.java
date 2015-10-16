@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.shikimori.library.R;
-import org.shikimori.library.tool.controllers.NotifyProfileController;
+import org.shikimori.library.features.profile.controllers.NotifyProfileController;
 import org.shikimori.library.tool.hs;
 
 import java.util.List;

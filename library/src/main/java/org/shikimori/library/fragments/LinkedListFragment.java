@@ -31,7 +31,7 @@ import ru.altarix.basekit.library.tools.pagecontroller.Page;
 @Page(key1 = Constants.ITEM_ID, key2 = Constants.TYPE, key3 = Constants.CUSTOM_URL)
 public class LinkedListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
 
-    ObjectBuilder builder = new ObjectBuilder();
+    protected ObjectBuilder builder = new ObjectBuilder();
     private String type,itemId,customUrl;
 
     @Override

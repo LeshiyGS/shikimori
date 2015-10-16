@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,19 +17,29 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/toolbar" />
-
-            <FrameLayout
+            <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/coordinatorLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <FrameLayout
-                    android:id="@+id/content_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    >
 
-                <include layout="@layout/toolbarshadow" />
-            </FrameLayout>
+                    <FrameLayout
+                        android:id="@+id/content_frame"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <include layout="@layout/toolbarshadow" />
+                </FrameLayout>
+
+                <include layout="@layout/toolbar" />
+
+            </android.support.design.widget.CoordinatorLayout>
+
         </LinearLayout>
 
         <!-- The navigation drawer -->
@@ -37,10 +48,10 @@
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:background="@drawable/drawer_background"
             android:choiceMode="singleChoice"
-            android:dividerHeight="0dp"
             android:divider="#22FFFFFF"
-            android:background="@drawable/drawer_background" />
+            android:dividerHeight="0dp" />
     </android.support.v4.widget.DrawerLayout>
 
 </FrameLayout>

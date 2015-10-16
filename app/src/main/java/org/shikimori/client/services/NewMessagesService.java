@@ -25,7 +25,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.objects.one.ItemDialogs;
+import org.shikimori.library.features.profile.model.ItemDialogs;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;

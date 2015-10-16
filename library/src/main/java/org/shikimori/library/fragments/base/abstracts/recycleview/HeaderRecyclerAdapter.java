@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.shikimori.library.R;
-import org.shikimori.library.adapters.holder.InboxHolder;
 
 import java.util.ArrayList;
 import java.util.List;
