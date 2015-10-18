@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.gars.emoji.library.BaseEmojiPage;
 
@@ -27,11 +28,13 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     private Query query;
     private EditText etText;
     ObjectBuilder builder = new ObjectBuilder();
+    private ImageView smileBtn;
 
-    public EmojiView(Context context, Query query, EditText etText) {
+    public EmojiView(Context context, Query query, EditText etText, ImageView ivSmails) {
         super(context);
         this.query = query;
         this.etText = etText;
+        this.smileBtn = ivSmails;
     }
 
     @Override
@@ -54,6 +57,10 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
                      .getResultArray(this);
             }
         }
+
+        if(smileBtn!=null){
+            smileBtn.setImageResource(show ? R.mipmap.ic_action_keyboard : R.mipmap.ic_action_smail);
+        }
     }
 
     @Override
@@ -66,6 +73,6 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         SmileItem item = adapter.getItem(position);
-        hs.insertTextEditText(etText, item.bbcode);
+        hs.insertTextEditText(etText, item.bbcode + " ");
     }
 }

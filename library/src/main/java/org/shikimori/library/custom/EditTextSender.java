@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.gars.emoji.library.PopupEmoji;
@@ -193,7 +194,7 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
     private void initEmoji(){
         emoji = new PopupEmoji((FragmentActivity) getContext(), etText);
         List<View> pages = new ArrayList<>();
-        pages.add(new EmojiView(getContext(), query, etText));
+        pages.add(new EmojiView(getContext(), query, etText, (ImageView) ivSmails));
         emoji.setPages(pages);
     }
 
