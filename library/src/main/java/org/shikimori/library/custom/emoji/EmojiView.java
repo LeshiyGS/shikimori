@@ -18,6 +18,8 @@ import org.shikimori.library.tool.hs;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.h;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 /**
@@ -57,6 +59,9 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
                      .getResultArray(this);
             }
         }
+
+        if(getContext() instanceof BaseKitActivity)
+            ((BaseKitActivity) getContext()).showTabs(!show);
 
         if(smileBtn!=null){
             smileBtn.setImageResource(show ? R.mipmap.ic_action_keyboard : R.mipmap.ic_action_smail);
