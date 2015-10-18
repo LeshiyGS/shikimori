@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.gars.emoji.library.PopupEmoji;
 
 import org.shikimori.client.tool.AuthMasterShiki;
 import org.shikimori.library.tool.FontCache;
@@ -24,7 +25,6 @@ public class LoadScreen extends FragmentActivity {
         setContentView(R.layout.view_shiki_splash_screen);
 
         hs.setFont(LoadScreen.this, findViewById(R.id.tvLogo), FontCache.FONT.STYLO);
-
         animateLogo();
         pauseBeforeLoad();
     }

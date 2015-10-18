@@ -3,4 +3,5 @@
     <color name="colorAccent">#03A9F4</color>
     <color name="colorAccent2">#40B9EE</color>
     <color name="altarixUiLabelColor">#959595</color>
+    <color name="emojiColorPressed">#03A9F4</color>
 </resources>

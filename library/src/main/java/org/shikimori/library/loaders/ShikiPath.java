@@ -52,4 +52,5 @@ public interface ShikiPath {
     public String USER_RATE_ID = "api/user_rates/:id";
     public String CLUB_IMAGES = "api/clubs/:id/images";
     public String USER_IMAGES = "api/user_images";
+    public String SMILEY = "api/constants/smileys";
 }

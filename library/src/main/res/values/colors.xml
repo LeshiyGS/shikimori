@@ -12,15 +12,15 @@
     <color name="drawerBackground">#546e7a</color>
     <color name="gray_black">#333333</color>
     <color name="title_black_transparent">#aa000000</color>
-    <color name="black_owerlay_10">#1A000000</color>
-    <color name="black_owerlay_20">#33000000</color>
-    <color name="black_owerlay_40">#66000000</color>
-    <color name="black_owerlay_60">#99000000</color>
-    <color name="black_owerlay_80">#CC000000</color>
-    <color name="white_overlay_40">#66ffffff</color>
-    <color name="white_overlay_60">#99ffffff</color>
-    <color name="white_overlay_80">#CCffffff</color>
-    <color name="white_overlay_85">#d9ffffff</color>
+    <!--<color name="black_owerlay_10">#1A000000</color>-->
+    <!--<color name="black_owerlay_20">#33000000</color>-->
+    <!--<color name="black_owerlay_40">#66000000</color>-->
+    <!--<color name="black_owerlay_60">#99000000</color>-->
+    <!--<color name="black_owerlay_80">#CC000000</color>-->
+    <!--<color name="white_overlay_40">#66ffffff</color>-->
+    <!--<color name="white_overlay_60">#99ffffff</color>-->
+    <!--<color name="white_overlay_80">#CCffffff</color>-->
+    <!--<color name="white_overlay_85">#d9ffffff</color>-->
     <!-- button style-->
     <color name="button_background_default">#333333</color>
     <color name="button_background_selected">#000000</color>

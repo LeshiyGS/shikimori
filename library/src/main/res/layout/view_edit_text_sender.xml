@@ -21,15 +21,16 @@
 
     <ImageView
         android:id="@+id/ivSmails"
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/ivSend"
+
         android:background="?attr/selectableItemBackground"
         android:src="@mipmap/ic_action_smail" />
 
     <EditText
         android:id="@+id/etText"
-        android:layout_toLeftOf="@+id/ivSend"
+        android:layout_toLeftOf="@+id/ivSmails"
         android:background="@null"
         android:hint="@string/message"
         android:padding="@dimen/defaultPaddingMini"

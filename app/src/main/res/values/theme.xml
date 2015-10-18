@@ -10,6 +10,7 @@
         <item name="altarixUiAttrDividerColor">@color/lightBlue</item>
         <item name="altarixUiAttrTabBackgroundColor">@android:color/white</item>
         <item name="altarixUiAttrLabelColor">@color/altarixUiLabelColor</item>
+        <item name="emojiColorPressed">@color/colorAccent</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -15,11 +16,13 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.gars.emoji.library.PopupEmoji;
 import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.AddItemActivity;
 import org.shikimori.library.activity.ShowPageActivity;
+import org.shikimori.library.custom.emoji.EmojiView;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
@@ -34,6 +37,8 @@ import org.shikimori.library.tool.permission.PermissionSontroller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
@@ -52,6 +57,7 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
     private PermissionSontroller permission;
     private ProgressBar pbLoaderImage;
     private View ivSmails;
+    private PopupEmoji emoji;
 
     public EditTextSender(Context context) {
         this(context, null);
@@ -81,7 +87,6 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
         imageCreator = new ImageCreator((Activity) getContext());
         permission = new PermissionSontroller((AppCompatActivity) getContext());
-//        emoji = new Popup
         query = new Query(getContext());
 
         View v = LayoutInflater.from(getContext()).inflate(R.layout.view_edit_text_sender, null);
@@ -95,7 +100,8 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
         ivAddAnime.setOnClickListener(this);
         ivAddImage.setOnClickListener(this);
-
+        ivSmails.setOnClickListener(this);
+        initEmoji();
         addView(v);
     }
 
@@ -127,6 +133,8 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
         } else if (v.getId() == R.id.ivAddImage){
             imageCreator.addPhoto();
+        } else if (v.getId() == R.id.ivSmails){
+            emoji.show(!emoji.isShowing());
         }
     }
 
@@ -180,6 +188,13 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
                 });
             }
         }
+    }
+
+    private void initEmoji(){
+        emoji = new PopupEmoji((FragmentActivity) getContext(), etText);
+        List<View> pages = new ArrayList<>();
+        pages.add(new EmojiView(getContext(), query, etText));
+        emoji.setPages(pages);
     }
 
     private void uploadImage(String patch){
