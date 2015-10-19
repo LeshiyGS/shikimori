@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class UserDetails extends JsonParseable<UserDetails> {
+public class UserDetails implements JsonParseable<UserDetails> {
 
     public String name, sex, fullYears, lastOnline,
             website, location, about, aboutHtml;
@@ -25,7 +25,7 @@ public class UserDetails extends JsonParseable<UserDetails> {
     public boolean banned, isIgnored, showComments, hasAnime, hasManga, inFriends;
 
     @Override
-    public UserDetails createFromJson(JSONObject json) {
+    public UserDetails create(JSONObject json) {
         if(json == null)
             return this;
 

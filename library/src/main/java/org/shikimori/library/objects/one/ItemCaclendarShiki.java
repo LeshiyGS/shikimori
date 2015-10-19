@@ -8,7 +8,7 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by Владимир on 27.08.2014.
  */
-public class ItemCaclendarShiki extends JsonParseable<ItemCaclendarShiki> {
+public class ItemCaclendarShiki implements JsonParseable<ItemCaclendarShiki> {
     public String id, name, russianName, nextEpisode, episodesIired, nextEpisodeAt, imgPreview, imgOrigin;
     public boolean ongoing;
     private JSONObject allData;
@@ -22,7 +22,7 @@ public class ItemCaclendarShiki extends JsonParseable<ItemCaclendarShiki> {
     }
 
     @Override
-    public ItemCaclendarShiki createFromJson(JSONObject json) {
+    public ItemCaclendarShiki create(JSONObject json) {
         allData = json;
         if (json == null)
             return null;

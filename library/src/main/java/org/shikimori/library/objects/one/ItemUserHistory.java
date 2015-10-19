@@ -7,12 +7,12 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by Феофилактов on 25.04.2015.
  */
-public class ItemUserHistory extends JsonParseable<ItemUserHistory> {
+public class ItemUserHistory implements JsonParseable<ItemUserHistory> {
     public String id, createdAt, description;
     public AMShiki target;
 
     @Override
-    public ItemUserHistory createFromJson(JSONObject json) {
+    public ItemUserHistory create(JSONObject json) {
         if(json == null)
             return this;
 

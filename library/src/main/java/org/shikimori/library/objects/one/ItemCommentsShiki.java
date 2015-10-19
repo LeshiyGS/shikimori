@@ -11,7 +11,7 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class ItemCommentsShiki extends JsonParseable implements OnViewBuildLister {
+public class ItemCommentsShiki implements JsonParseable<ItemCommentsShiki>, OnViewBuildLister {
     public String id, user_id, commentable_id, commentable_type, body, html_body, created_at, updated_at;
     public String nickname, avatar, image_x160, image_x148, last_online_at;
     public boolean offtopic, review, viewed,  can_be_edited;
@@ -26,7 +26,7 @@ public class ItemCommentsShiki extends JsonParseable implements OnViewBuildListe
     }
 
     @Override
-    public ItemCommentsShiki createFromJson(JSONObject json) {
+    public ItemCommentsShiki create(JSONObject json) {
         allData = json;
         if (json == null)
             return null;

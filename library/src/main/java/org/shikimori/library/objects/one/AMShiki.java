@@ -9,7 +9,7 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by LeshiyGS on 30.08.2014.
  */
-public class AMShiki extends JsonParseable<AMShiki> {
+public class AMShiki implements JsonParseable<AMShiki> {
     public String id, name,russianName, nextEpisodeAt, url ,episodes, episodesAired;
     public boolean ongoing, anons;
     protected JSONObject allData;
@@ -26,7 +26,7 @@ public class AMShiki extends JsonParseable<AMShiki> {
     }
 
     @Override
-    public AMShiki createFromJson(JSONObject json) {
+    public AMShiki create(JSONObject json) {
         allData = json;
         if (json == null)
             return this;

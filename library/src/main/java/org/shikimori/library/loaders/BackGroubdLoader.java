@@ -43,7 +43,7 @@ public class BackGroubdLoader<T extends JsonParseable> extends AsyncTaskLoader<L
     @Override
     public List<T> loadInBackground() {
         return builder.getDataList(array, tClass,
-                new ObjectBuilder.AdvanceCheck<T>() {
+                new ObjectBuilder.AdvanceChecker<T>() {
                     @Override
                     public boolean check(T item, int position) {
                         if (onAdvancesCheck(item, position))

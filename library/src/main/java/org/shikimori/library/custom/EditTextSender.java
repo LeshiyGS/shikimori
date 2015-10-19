@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.gars.emoji.library.PopupEmoji;
+import com.gars.emoji.library.listeners.OnEmojiKeyboardListener;
 import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.R;
@@ -41,13 +42,14 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
 
 /**
  * Created by Феофилактов on 11.10.2015.
  */
-public class EditTextSender extends FrameLayout implements View.OnClickListener {
+public class EditTextSender extends FrameLayout implements View.OnClickListener, OnEmojiKeyboardListener {
 
     public static final int ADD_ELEMENT_CODE = 957;
     Query query;
@@ -154,7 +156,6 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
             query.in(ShikiPath.USER_IMAGES + "?linked_type=Comment")
                     .setMethod(BaseQuery.METHOD.POST);
-//                    .addParam("linked_type", "Comment");
 
 //            if(type == SendMessageController.Type.COMMENT)
 //                query.addParam("linked_type", "Comment");
@@ -193,6 +194,7 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
     private void initEmoji(){
         emoji = new PopupEmoji((FragmentActivity) getContext(), etText);
+        emoji.setOnEmojiKeyboardListener(this);
         List<View> pages = new ArrayList<>();
         pages.add(new EmojiView(getContext(), query, etText, (ImageView) ivSmails));
         emoji.setPages(pages);
@@ -234,5 +236,24 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener 
 
     public View getIvSend() {
         return ivSend;
+    }
+
+    enum TABS_STATE {
+        NONE, VISIBLE, HIDDEN
+    }
+    TABS_STATE tabState;
+    @Override
+    public void onOpenKeyboard(boolean b) {
+        if(getContext() instanceof BaseKitActivity){
+            if(tabState == null){
+                tabState = ((BaseKitActivity) getContext()).isTabsVisible()?
+                        TABS_STATE.VISIBLE :
+                        TABS_STATE.HIDDEN
+                ;
+            }
+            if(tabState == TABS_STATE.VISIBLE){
+                ((BaseKitActivity) getContext()).showTabs(b);
+            }
+        }
     }
 }

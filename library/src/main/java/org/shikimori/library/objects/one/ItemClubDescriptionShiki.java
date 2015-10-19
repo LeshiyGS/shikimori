@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemClubDescriptionShiki extends JsonParseable<ItemClubDescriptionShiki> {
+public class ItemClubDescriptionShiki implements JsonParseable<ItemClubDescriptionShiki> {
     public String description, descriptionHtml, threadId;
     public String id, name, original, main, user_role;
     protected JSONObject allData;
@@ -24,7 +24,7 @@ public class ItemClubDescriptionShiki extends JsonParseable<ItemClubDescriptionS
     protected boolean animeExist, mangaExist, characterExist;
 
     @Override
-    public ItemClubDescriptionShiki createFromJson(JSONObject json) {
+    public ItemClubDescriptionShiki create(JSONObject json) {
         allData = json;
         if (json == null)
             return this;

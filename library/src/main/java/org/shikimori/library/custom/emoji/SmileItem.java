@@ -9,11 +9,11 @@ import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 /**
  * Created by Феофилактов on 18.10.2015.
  */
-public class SmileItem extends JsonParseable<SmileItem> {
+public class SmileItem implements JsonParseable<SmileItem> {
     public String path, bbcode;
 
     @Override
-    public SmileItem createFromJson(JSONObject jsonObject) {
+    public SmileItem create(JSONObject jsonObject) {
         if(jsonObject!=null){
             path = ProjectTool.fixUrl(HelperObj.getString(jsonObject, "path"));
             bbcode = HelperObj.getString(jsonObject, "bbcode");

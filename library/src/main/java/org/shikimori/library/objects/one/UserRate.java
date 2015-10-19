@@ -7,17 +7,16 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by Владимир on 07.07.2015.
  */
-public class UserRate extends JsonParseable<UserRate> {
-    public String id, text, chapters, volumes, textHtml;
-    public int score, rewatches,statusInt,episodes;
+public class UserRate implements JsonParseable<UserRate> {
+    public String id, text, volumes, textHtml;
+    public int score, rewatches,statusInt,episodes,chapters;
     public Status status = Status.NONE;
 
     @Override
-    public UserRate createFromJson(JSONObject json) {
+    public UserRate create(JSONObject json) {
         if(json!=null){
             id = HelperObj.getString(json, "id");
             text = HelperObj.getString(json, "text");
-            chapters = HelperObj.getString(json, "chapters");
             volumes = HelperObj.getString(json, "volumes");
             textHtml = HelperObj.getString(json, "text_html");
 
@@ -25,6 +24,7 @@ public class UserRate extends JsonParseable<UserRate> {
             episodes = json.optInt("episodes");
             rewatches = json.optInt("rewatches");
             statusInt = json.optInt("status");
+            chapters = json.optInt("chapters");
 
             status = Status.fromInt(json.optInt("status"));
         }

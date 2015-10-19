@@ -147,7 +147,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
 
                 JSONArray rezult = res.getResultArray();
                 if(rezult!=null){
-                    final ItemDialogs item = new ItemDialogs().createFromJson(rezult.optJSONObject(0));
+                    final ItemDialogs item = new ItemDialogs().create(rezult.optJSONObject(0));
 
 //                     if message from self
                     if(item.message!=null && item.message.from!=null){

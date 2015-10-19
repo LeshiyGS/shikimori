@@ -96,7 +96,7 @@ public class ScreenShootsFragment extends BaseGridViewFragment implements ViewPa
     public void onQuerySuccess(StatusResult res) {
         super.onQuerySuccess(res);
         bigArray.clear();
-        prepareData(builder.getDataList(res.getResultArray(), ItemScreenShot.class, new ObjectBuilder.AdvanceCheck<ItemScreenShot>() {
+        prepareData(builder.getDataList(res.getResultArray(), ItemScreenShot.class, new ObjectBuilder.AdvanceChecker<ItemScreenShot>() {
             @Override
             public boolean check(ItemScreenShot itemScreenShot, int i) {
                 bigArray.add(new Thumb(itemScreenShot.getPreview(), itemScreenShot.getOriginal()));

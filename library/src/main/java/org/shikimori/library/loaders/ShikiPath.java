@@ -33,10 +33,11 @@ public interface ShikiPath {
     public String SET_IGNORES = "api/ignores/:id";
     public String TOPICS_ID = "api/topics/";
     public String CHARACTER_ID = "api/characters/";
-    public String CLUB_ID = "api/clubs/:id";
-    public String CLUB_ANIME = "api/clubs/:id/animes";
-    public String CLUB_MANGA = "api/clubs/:id/mangas";
-    public String CLUB_CHACTERS = "api/clubs/:id/characters";
+    public String CLUB = "api/clubs/:id";
+//    public String CLUB_ID = "api/clubs/:id";
+//    public String CLUB_ANIME = "api/clubs/:id/animes";
+//    public String CLUB_MANGA = "api/clubs/:id/mangas";
+//    public String CLUB_CHACTERS = "api/clubs/:id/characters";
     //    public String AUTH = "users/sign_in";
 //    public String AUTH = "api/sessions";
     public String AUTH = "api/access_token";
@@ -53,4 +54,13 @@ public interface ShikiPath {
     public String CLUB_IMAGES = "api/clubs/:id/images";
     public String USER_IMAGES = "api/user_images";
     public String SMILEY = "api/constants/smileys";
+
+    public interface Prefix {
+        public String JOIN = "join";
+        public String LEAVE = "leave";
+        public String ANIMES = "animes";
+        public String MANGAS = "mangas";
+        public String CHARACTERS = "characters";
+
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Феофилактов on 17.04.2015.
  */
-public class ItemCharacter extends JsonParseable<ItemCharacter> {
+public class ItemCharacter implements JsonParseable<ItemCharacter> {
 
     public String id, name, russian, altname, japanese, descriptionHtml, threadId;
     public ItemImage image;
@@ -21,7 +21,7 @@ public class ItemCharacter extends JsonParseable<ItemCharacter> {
     public List<AMShiki> mangas = new ArrayList<>();
 
     @Override
-    public ItemCharacter createFromJson(JSONObject json) {
+    public ItemCharacter create(JSONObject json) {
         if(json == null)
             return this;
 

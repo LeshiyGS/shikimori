@@ -1,6 +1,7 @@
 package org.shikimori.library.loaders.httpquery;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -28,8 +29,18 @@ public class Query extends BaseQuery<Query> {
         return this;
     }
 
+    public Query inp(String path, String prefix) {
+        init(ShikiApi.getUrlPrefix(path, prefix));
+        return this;
+    }
+
     public Query in(String path, String id) {
         init(ShikiApi.getUrl(path, id));
+        return this;
+    }
+
+    public Query in(String path, String id, String prefix) {
+        init(ShikiApi.getUrl(path, id, prefix));
         return this;
     }
 
@@ -51,17 +62,25 @@ public class Query extends BaseQuery<Query> {
     @Override
     public boolean fail(StatusResult stat, String dataString) {
         try {
-            JSONObject data = new JSONObject(dataString);
-            if (data.has("error")) {
-                String errorMessage = data.optString("error");
-                if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
-                    if ((context instanceof LogouUserListener)) {
-                        ((LogouUserListener) context).logoutTrigger();
-                        return true;
+            if(dataString != null){
+                if(dataString.startsWith("{")){
+                    JSONObject data = new JSONObject(dataString);
+                    int code = data.optInt("code");
+                    if(code > 0){
+                        stat.setError();
+                        stat.setMsg(data.optString("message"));
+                    } else if (data.has("error")){
+                        String errorMessage = data.optString("error");
+                        if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
+                            if ((context instanceof LogouUserListener)) {
+                                ((LogouUserListener) context).logoutTrigger();
+                                return true;
+                            }
+                        }
+                        stat.setError();
+                        stat.setMsg(data.optString("error"));
                     }
                 }
-                stat.setError();
-                stat.setMsg(data.optString("error"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

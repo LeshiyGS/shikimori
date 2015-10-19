@@ -12,8 +12,8 @@ public class ItemMangaShiki extends AMShiki {
     public String nextEpisode,volumes,chapters;
 
     @Override
-    public ItemMangaShiki createFromJson(JSONObject json) {
-        super.createFromJson(json);
+    public ItemMangaShiki create(JSONObject json) {
+        super.create(json);
         if (json == null)
             return null;
         HelperObj helper = new HelperObj(json);

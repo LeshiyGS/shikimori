@@ -14,8 +14,8 @@ public class ItemMangaDetails extends AMDetails {
     public String volumes, chapters;
 
     @Override
-    public ItemMangaDetails createFromJson(JSONObject json) {
-        super.createFromJson(json);
+    public ItemMangaDetails create(JSONObject json) {
+        super.create(json);
         helper.setData(json);
         volumes = helper.addString("volumes");
         chapters = helper.addString("chapters");

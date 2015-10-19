@@ -1,5 +1,6 @@
 package org.shikimori.library.tool.controllers;
 
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -34,8 +35,8 @@ public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
         if(toolbar!=null)
             activity.setSupportActionBar(toolbar);

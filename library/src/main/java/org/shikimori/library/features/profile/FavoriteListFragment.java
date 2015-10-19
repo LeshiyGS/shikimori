@@ -78,7 +78,7 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
         if(data == null)
             return;
 
-        List<AMShiki> list = builder.getDataList(data.optJSONArray(getType()), AMShiki.class, new ObjectBuilder.AdvanceCheck<AMShiki>() {
+        List<AMShiki> list = builder.getDataList(data.optJSONArray(getType()), AMShiki.class, new ObjectBuilder.AdvanceChecker<AMShiki>() {
             @Override
             public boolean check(AMShiki item, int position) {
                 item.poster = item.poster.replace("x64", "preview");

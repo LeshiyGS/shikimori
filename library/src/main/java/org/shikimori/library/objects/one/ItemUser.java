@@ -7,11 +7,11 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemUser extends JsonParseable<ItemUser> {
+public class ItemUser implements JsonParseable<ItemUser> {
     public String id, nickname, img64, img148, avatar, lastOnlineAt;
 
     @Override
-    public ItemUser createFromJson(JSONObject json) {
+    public ItemUser create(JSONObject json) {
         if(json == null)
             return this;
         id = HelperObj.getString(json, "id");

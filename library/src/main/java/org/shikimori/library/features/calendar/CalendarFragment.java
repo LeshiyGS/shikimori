@@ -81,7 +81,7 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
     @Override
     public void onQuerySuccess(StatusResult res) {
         List<ItemCaclendarShiki> list = builder.getDataList(res.getResultArray(), ItemCaclendarShiki.class,
-                new ObjectBuilder.AdvanceCheck<ItemCaclendarShiki>() {
+                new ObjectBuilder.AdvanceChecker<ItemCaclendarShiki>() {
             @Override
             public boolean check(ItemCaclendarShiki item, int position) {
                 Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.nextEpisodeAt);

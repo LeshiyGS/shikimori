@@ -25,10 +25,10 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
     public Document doc;
 
     @Override
-    public ItemTopicsShiki createFromJson(JSONObject json) {
+    public ItemTopicsShiki create(JSONObject json) {
         if(json == null)
             return this;
-        super.createFromJson(json);
+        super.create(json);
         jsonObject = json.toString();
         commentsCount = json.optInt("comments_count");
         section = new Section(json.optJSONObject("section"));

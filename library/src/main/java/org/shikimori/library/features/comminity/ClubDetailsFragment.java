@@ -1,9 +1,14 @@
 package org.shikimori.library.features.comminity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -20,6 +25,7 @@ import org.shikimori.library.fragments.ScreenShootsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemClubDescriptionShiki;
@@ -33,6 +39,7 @@ import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
 import ru.altarix.basekit.library.tools.pagecontroller.PageController;
 
@@ -53,11 +60,19 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     private View iLoader;
     ImageFactoryView imageFactory;
     private WebView webView;
+    private ApiClubs api;
+    private MenuItem menuAdd;
 
     public static ClubDetailsFragment newInstance(Bundle b) {
         ClubDetailsFragment frag = new ClubDetailsFragment();
         frag.setArguments(b);
         return frag;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -94,6 +109,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        api = new ApiClubs(getFC().getQuery());
         initArgiments();
         initImageFactory();
         showRefreshLoader();
@@ -102,7 +118,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     }
 
     String getUrl(){
-        return ShikiApi.getUrl(ShikiPath.CLUB_ID, itemId);
+        return ShikiApi.getUrl(ShikiPath.CLUB, itemId);
     }
 
     @Override
@@ -141,6 +157,8 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         loadHtml(item.descriptionHtml);
         if(item.original!=null)
             ShikiImage.show(item.original, ivPoster);
+
+        initFavorite(!TextUtils.isEmpty(item.user_role));
 
         if (activity instanceof ExtraLoadInterface){
             Bundle b = new Bundle();
@@ -229,15 +247,15 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
 
         if (v.getId() == R.id.bAnime){
             pc.setTitle(R.string.anime);
-            customUrl = ShikiPath.CLUB_ANIME;
+            customUrl = ShikiPath.Prefix.ANIMES;
         }else if (v.getId() == R.id.bManga){
             pc.setTitle(R.string.manga);
-            customUrl = ShikiPath.CLUB_MANGA;
+            customUrl = ShikiPath.Prefix.MANGAS;
         } else if (v.getId() == R.id.bCharacter) {
             pc.setTitle(R.string.characters);
-            customUrl = ShikiPath.CLUB_CHACTERS;
+            customUrl = ShikiPath.Prefix.CHARACTERS;
         }
-        pc.startActivity(LinkedListClubFragment.class, ShikiApi.getUrl(customUrl, item.id));
+        pc.startActivity(LinkedListClubFragment.class, ShikiApi.getUrl(ShikiPath.CLUB, item.id, customUrl));
     }
 
     @Override
@@ -245,5 +263,47 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         if(imageFactory.closeImage())
             return true;
         return false;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.club_menu, menu);
+        menuAdd = menu.findItem(R.id.ic_add);
+        if(item!=null)
+            initFavorite(!TextUtils.isEmpty(item.user_role));
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.ic_add){
+            if(this.item == null){
+                h.showMsg(activity, R.string.wait_load_data);
+                return true;
+            }
+
+            if(this.item.user_role == null){
+                api.join(this.item.id);
+                initFavorite(true);
+            } else {
+                new DialogCompat(activity)
+                    .setPositiveListener(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            initFavorite(false);
+                            api.leave(ClubDetailsFragment.this.item.id);
+                        }
+                    }).setNegativeListener(null)
+                .showConfirm(activity.getString(R.string.leave_group));
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void initFavorite(boolean favorite){
+        if(menuAdd!=null)
+            menuAdd.setIcon(favorite ? R.drawable.ic_action_favorite_blue : R.drawable.ic_action_favorite_white);
     }
 }

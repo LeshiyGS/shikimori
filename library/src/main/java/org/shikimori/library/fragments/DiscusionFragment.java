@@ -307,7 +307,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
                 clearData();
                 hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");
-                ItemCommentsShiki item = new ItemCommentsShiki().createFromJson(res.getResultObject());
+                ItemCommentsShiki item = new ItemCommentsShiki().create(res.getResultObject());
                 // парсим заного сообщение и отображаем
                 if (!TextUtils.isEmpty(item.getHtml())) {
                     ItemCommentsShiki inList = adaptr.getItemById(item.id);

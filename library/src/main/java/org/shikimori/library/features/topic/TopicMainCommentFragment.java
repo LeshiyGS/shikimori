@@ -65,7 +65,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
                 .getResultObject(this);
         } else {
             try {
-                buildView(new ItemTopicsShiki().createFromJson(new JSONObject(itemCashed)));
+                buildView(new ItemTopicsShiki().create(new JSONObject(itemCashed)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -74,7 +74,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        final ItemTopicsShiki item = new ItemTopicsShiki().createFromJson(res.getResultObject());
+        final ItemTopicsShiki item = new ItemTopicsShiki().create(res.getResultObject());
         buildView(item);
     }
 

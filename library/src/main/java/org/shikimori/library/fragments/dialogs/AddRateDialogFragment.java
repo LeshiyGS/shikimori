@@ -92,7 +92,10 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
             csRating.setSelection(rate.score);
             cetComment.setText(rate.text);
             cetRewatching.setText(String.valueOf(rate.rewatches));
-            cetEpisodes.setText(String.valueOf(rate.episodes));
+            if(type == ProjectTool.TYPE.ANIME)
+                cetEpisodes.setText(String.valueOf(rate.episodes));
+            else
+                cetEpisodes.setText(String.valueOf(rate.chapters));
         }
 
     }
@@ -131,7 +134,11 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
         // count rewatch
         rate.rewatches = getIntValue(cetRewatching.getText());
         // episodes
-        rate.episodes = getIntValue(cetEpisodes.getText());
+        if(type == ProjectTool.TYPE.ANIME)
+            rate.episodes = getIntValue(cetEpisodes.getText());
+        else
+            rate.chapters = getIntValue(cetEpisodes.getText());
+
     }
 
     private int getIntValue(String text) {

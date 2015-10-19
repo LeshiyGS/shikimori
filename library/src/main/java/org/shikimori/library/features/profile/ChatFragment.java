@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import org.shikimori.library.R;
+import org.shikimori.library.custom.EditTextSender;
 import org.shikimori.library.features.profile.adapter.ChatRecyclerAdapter;
 import org.shikimori.library.custom.actionmode.QuotePartCallback;
 import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewFragment;
@@ -48,6 +49,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
     private BodyBuild bodyBuilder;
     private ApiMessageController apiController;
     private LoadAsyncBuildHelper lah;
+    private EditTextSender etSender;
 
     @Override
     protected int getLayoutId() {
@@ -73,8 +75,9 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         setBaseView(v);
-        etMessage = find(R.id.etMessage);
-        ivSend = find(R.id.ivSend);
+        etSender = find(R.id.etSender);
+        etMessage = etSender.getEtText();
+        ivSend = etSender.getIvSend();
 
         ivSend.setOnClickListener(this);
 
@@ -98,6 +101,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
 
 //        activity.setTitle(toUserNickname);
         messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.MESSAGE);
+        etSender.setType(SendMessageController.Type.MESSAGE);
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
         QuotePartCallback actionMode = new QuotePartCallback();
         actionMode.setEditText(etMessage);
@@ -179,7 +183,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
                 clearData();
                 hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");
-                ItemNewsUserShiki item = new ItemNewsUserShiki().createFromJson(res.getResultObject());
+                ItemNewsUserShiki item = new ItemNewsUserShiki().create(res.getResultObject());
                 // парсим заного сообщение и отображаем
                 if (!TextUtils.isEmpty(item.getHtml())) {
                     ItemNewsUserShiki inList = adptr.getItemById(item.id);

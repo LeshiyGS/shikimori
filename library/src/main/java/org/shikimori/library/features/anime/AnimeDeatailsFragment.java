@@ -64,7 +64,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
         super.onQuerySuccess(res);
         if (activity == null)
             return;
-        details = new ItemAnimeDetails().createFromJson(res.getResultObject());
+        details = new ItemAnimeDetails().create(res.getResultObject());
         prepareData();
     }
 

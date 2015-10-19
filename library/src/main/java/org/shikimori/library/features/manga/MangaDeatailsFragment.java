@@ -43,7 +43,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         super.onQuerySuccess(res);
         if (activity == null)
             return;
-        details = new ItemMangaDetails().createFromJson(res.getResultObject());
+        details = new ItemMangaDetails().create(res.getResultObject());
         prepareData();
     }
 

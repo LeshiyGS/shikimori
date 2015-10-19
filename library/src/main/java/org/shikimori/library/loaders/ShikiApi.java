@@ -11,8 +11,17 @@ public class ShikiApi {
         return HTTP_SERVER + "/" + aniApi;
     }
 
+    public static String getUrlPrefix(String aniApi, String preffix) {
+        return HTTP_SERVER + "/" + aniApi + "/"+preffix;
+    }
+
     public static String getUrl(String aniApi, String userId) {
-        return getUrl(aniApi).replace(ShikiPath.ID, userId);
+        return getUrl(aniApi, userId, null);
+    }
+
+    public static String getUrl(String aniApi, String userId, String preffix) {
+        String url = getUrl(aniApi).replace(ShikiPath.ID, userId);
+        return preffix == null ? url : url+"/"+preffix;
     }
 
     public static void setIsDebug(boolean isDebug) {

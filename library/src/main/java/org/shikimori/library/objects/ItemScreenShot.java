@@ -9,12 +9,12 @@ import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 /**
  * Created by Владимир on 06.08.2015.
  */
-public class ItemScreenShot extends JsonParseable<ItemScreenShot>{
+public class ItemScreenShot implements JsonParseable<ItemScreenShot>{
 
     String original, preview;
 
     @Override
-    public ItemScreenShot createFromJson(JSONObject json) {
+    public ItemScreenShot create(JSONObject json) {
         if(json != null){
             original = ProjectTool.fixUrl(HelperObj.getString(json, "original"));
             preview = ProjectTool.fixUrl(HelperObj.getString(json, "preview"));

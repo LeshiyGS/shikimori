@@ -7,12 +7,12 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class AnimeManga extends JsonParseable<AnimeManga> {
+public class AnimeManga implements JsonParseable<AnimeManga> {
     public String id, groupedId, name;
     public int counted;
 
     @Override
-    public AnimeManga createFromJson(JSONObject json) {
+    public AnimeManga create(JSONObject json) {
         if (json == null)
             return this;
 

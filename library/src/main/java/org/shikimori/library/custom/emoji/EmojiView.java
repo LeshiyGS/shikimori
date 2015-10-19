@@ -60,9 +60,6 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
             }
         }
 
-        if(getContext() instanceof BaseKitActivity)
-            ((BaseKitActivity) getContext()).showTabs(!show);
-
         if(smileBtn!=null){
             smileBtn.setImageResource(show ? R.mipmap.ic_action_keyboard : R.mipmap.ic_action_smail);
         }

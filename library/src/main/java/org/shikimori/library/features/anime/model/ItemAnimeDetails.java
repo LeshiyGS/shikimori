@@ -20,8 +20,8 @@ public class ItemAnimeDetails extends AMDetails {
     public List<Thumb> screenshots;
 
     @Override
-    public ItemAnimeDetails createFromJson(JSONObject json) {
-        super.createFromJson(json);
+    public ItemAnimeDetails create(JSONObject json) {
+        super.create(json);
         JSONArray arrayStudios = json.optJSONArray("studios");
         studios = new ArrayList<>();
         if(arrayStudios!=null){

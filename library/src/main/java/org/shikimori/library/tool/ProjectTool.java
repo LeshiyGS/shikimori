@@ -368,7 +368,7 @@ public class ProjectTool {
                 .getResultObject(new Query.OnQuerySuccessListener() {
                     @Override
                     public void onQuerySuccess(StatusResult res) {
-                        ItemCommentsShiki comment = new ItemCommentsShiki().createFromJson(res.getResultObject());
+                        ItemCommentsShiki comment = new ItemCommentsShiki().create(res.getResultObject());
                         bodyBuild.parceAsync(comment.html_body, new BodyBuild.ParceDoneListener() {
                             @Override
                             public void done(ViewGroup view) {

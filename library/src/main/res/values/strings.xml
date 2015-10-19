@@ -247,4 +247,5 @@
     <string name="camera">Камера</string>
     <string name="error_add_image">Ошибка добавления фото</string>
     <string name="access_sd">Необходим доступ к sd карте</string>
+    <string name="leave_group">Покинуть группу?</string>
 </resources>

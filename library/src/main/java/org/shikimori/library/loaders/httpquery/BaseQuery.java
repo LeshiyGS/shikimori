@@ -454,9 +454,10 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
                 Log.d(TAG, "response: " + data);
 
             StatusResult res = new StatusResult(data, reqData.type);
+
             res.setHeaders(headers);
-            // TODO Сделать обработчик ошибок от shikimori
             res.setSuccess();
+            fail(res, data);
             if (showError(res))
                 return;
 

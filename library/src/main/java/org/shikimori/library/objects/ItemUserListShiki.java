@@ -12,7 +12,7 @@ import org.shikimori.library.objects.one.AMShiki;
 /**
  * Created by LeshiyGS on 30.08.2014.
  */
-public class ItemUserListShiki extends JsonParseable<ItemUserListShiki> {
+public class ItemUserListShiki implements JsonParseable<ItemUserListShiki> {
     public String id, score, status, status_name, text, episodes, chapters, volumes, text_html, rewatches;
     protected JSONObject allData;
 
@@ -26,7 +26,7 @@ public class ItemUserListShiki extends JsonParseable<ItemUserListShiki> {
     }
 
     @Override
-    public ItemUserListShiki createFromJson(JSONObject json) {
+    public ItemUserListShiki create(JSONObject json) {
         allData = json;
         if (json == null)
             return null;
@@ -46,9 +46,9 @@ public class ItemUserListShiki extends JsonParseable<ItemUserListShiki> {
         JSONObject anime = json.optJSONObject("anime");
         JSONObject manga = json.optJSONObject("manga");
         if(anime!=null)
-            amDetails = new ItemAMDetails().createFromJson(anime);
+            amDetails = new ItemAMDetails().create(anime);
         else if(manga!=null)
-            amDetails = new ItemAMDetails().createFromJson(manga);
+            amDetails = new ItemAMDetails().create(manga);
 
         return this;
     }

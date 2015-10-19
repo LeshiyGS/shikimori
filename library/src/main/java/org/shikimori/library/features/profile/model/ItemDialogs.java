@@ -12,18 +12,18 @@ import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemDialogs extends JsonParseable implements OnViewBuildLister {
+public class ItemDialogs implements JsonParseable<ItemDialogs>, OnViewBuildLister {
 
     public ItemUser user;
     public ItemNewsUserShiki message;
 
     @Override
-    public ItemDialogs createFromJson(JSONObject json) {
+    public ItemDialogs create(JSONObject json) {
         if(json == null)
             return this;
 
-        user = new ItemUser().createFromJson(json.optJSONObject("target_user"));
-        message = new ItemNewsUserShiki().createFromJson(json.optJSONObject("message"));
+        user = new ItemUser().create(json.optJSONObject("target_user"));
+        message = new ItemNewsUserShiki().create(json.optJSONObject("message"));
         return this;
     }
 

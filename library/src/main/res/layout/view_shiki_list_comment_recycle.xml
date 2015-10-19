@@ -26,14 +26,10 @@
         android:paddingLeft="@dimen/defaultPaddingMini"
         android:paddingRight="@dimen/defaultPaddingMini">
 
-        <EditText
-            android:id="@+id/etMessage"
+        <org.shikimori.library.custom.EditTextSender
+            android:id="@+id/etSender"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxHeight="200dp"
-            android:background="@null"
-            android:hint="@string/message" />
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/ivSend"

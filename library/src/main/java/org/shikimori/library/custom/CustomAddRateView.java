@@ -91,7 +91,7 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         } else if (rate.status == UserRate.Status.WATCHING || rate.status == UserRate.Status.REWATCHING) {
             StringBuilder str = new StringBuilder(name)
                     .append(" - ")
-                    .append(rate.episodes);
+                    .append(type == ProjectTool.TYPE.ANIME ? rate.episodes : rate.chapters);
             name = str.toString();
             hs.setVisible(bListSettings, bListPlus);
         }  else {
@@ -130,7 +130,7 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
             apiRateController.createRate(userId, itemId, type, new Query.OnQuerySuccessListener() {
                 @Override
                 public void onQuerySuccess(StatusResult res) {
-                    rate.createFromJson(res.getResultObject());
+                    rate.create(res.getResultObject());
                     query.getLoader().hide();
                 }
             });
@@ -178,9 +178,13 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
                 frag.setMaxEpisodes(maxEpisodes);
                 frag.show(activity.getFragmentManagerLocal(), "");
             } else if (v.getId() == R.id.bListPlus) {
-                if(maxEpisodes>0 && maxEpisodes <= rate.episodes)
-                    return;
-                rate.episodes++;
+                if(type == ProjectTool.TYPE.ANIME){
+                    if(maxEpisodes>0 && maxEpisodes <= rate.episodes)
+                        return;
+                    rate.episodes++;
+                } else {
+                    rate.chapters++;
+                }
                 updateRateFromDialog();
             }
         }

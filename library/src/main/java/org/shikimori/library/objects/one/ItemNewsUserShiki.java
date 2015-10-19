@@ -10,7 +10,7 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class ItemNewsUserShiki extends JsonParseable<ItemNewsUserShiki> implements OnViewBuildLister {
+public class ItemNewsUserShiki implements JsonParseable<ItemNewsUserShiki>, OnViewBuildLister {
 
     public String id, kind, body, htmlBody, createdAt;
     public Linked linked;
@@ -19,7 +19,7 @@ public class ItemNewsUserShiki extends JsonParseable<ItemNewsUserShiki> implemen
     public ViewGroup parsedContent;
 
     @Override
-    public ItemNewsUserShiki createFromJson(JSONObject json) {
+    public ItemNewsUserShiki create(JSONObject json) {
         if(json == null)
             return this;
 

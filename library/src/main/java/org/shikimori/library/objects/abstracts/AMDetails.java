@@ -26,10 +26,10 @@ public class AMDetails extends AMShiki {
     public List<VerticalRatingBar.Rates> scoreStats;
 
     @Override
-    public AMDetails createFromJson(JSONObject json) {
+    public AMDetails create(JSONObject json) {
         if(json == null)
             return this;
-        super.createFromJson(json);
+        super.create(json);
 
         HelperObj helper = new HelperObj(json);
         rating = helper.addString("rating");
