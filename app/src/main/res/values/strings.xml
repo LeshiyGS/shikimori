@@ -1,4 +1,5 @@
 <resources>
+    <string name="gcm_defaultSenderId">16304581798</string>
     <string name="app_name">Shikimori</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>

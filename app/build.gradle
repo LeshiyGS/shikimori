@@ -73,6 +73,7 @@ dependencies {
     compile project(":library")
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile project(":modules:PinnedSectionAdapter")
+    compile 'com.google.android.gms:play-services-gcm:8.1.0'
 //    compile project(":modules:PhotoView")
 }
 
