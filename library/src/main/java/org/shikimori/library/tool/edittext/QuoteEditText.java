@@ -25,8 +25,10 @@ public class QuoteEditText {
                 .addViewSpanRenderer("(\\[message.+?message\\])", new PostSpanRenderer())
                 .addViewSpanRenderer("(\\[comment.+?comment\\])", new PostSpanRenderer())
                 .addViewSpanRenderer("(\\[quote.+?quote\\])", new QuoteSpanRenderer())
+                .addViewSpanRenderer("(:.+?:)", new SmileSpanRenderer())
                 .setView(editText);
         addChangeListener();
+        editText.setTag(this);
     }
 
     private void addChangeListener() {

@@ -13,9 +13,11 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.tool.edittext.QuoteEditText;
 import org.shikimori.library.tool.hs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
@@ -31,6 +33,7 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     private EditText etText;
     ObjectBuilder builder = new ObjectBuilder();
     private ImageView smileBtn;
+    public static HashMap<String, String> cash = new HashMap<>();
 
     public EmojiView(Context context, Query query, EditText etText, ImageView ivSmails) {
         super(context);
@@ -68,6 +71,11 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     @Override
     public void onQuerySuccess(StatusResult res) {
         List<SmileItem> list = builder.getDataList(res.getResultArray(), SmileItem.class);
+        if(cash.size() == 0){
+            for (SmileItem sm : list) {
+                cash.put(sm.bbcode, sm.path);
+            }
+        }
         adapter = new SmileAdapter(getContext(), list);
         gridView.setAdapter(adapter);
     }
@@ -76,5 +84,6 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         SmileItem item = adapter.getItem(position);
         hs.insertTextEditText(etText, item.bbcode + " ");
+        ((QuoteEditText) etText.getTag()).setText(etText.getText().toString());
     }
 }
