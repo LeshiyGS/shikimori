@@ -271,6 +271,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
         if (!getConnection(context)) {
             StatusResult res = new StatusResult();
             res.setMsg(context.getString(getConnectErrorMessage()));
+            res.setError();
             showError(res);
             hideLoaders();
             return;

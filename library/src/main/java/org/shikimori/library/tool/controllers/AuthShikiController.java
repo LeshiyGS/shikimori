@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ShikiUser;
@@ -35,7 +36,7 @@ public class AuthShikiController {
 
     void auth() {
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-                .setMethod(method)
+                .setMethod(BaseQuery.METHOD.GET)
                 .addParam("nickname", login)
                 .addParam("password", password)
                 .getResult(new Query.OnQuerySuccessListener() {
