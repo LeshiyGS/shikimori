@@ -84,6 +84,6 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         SmileItem item = adapter.getItem(position);
         hs.insertTextEditText(etText, item.bbcode + " ");
-        ((QuoteEditText) etText.getTag()).setText(etText.getText().toString());
+//        ((QuoteEditText) etText.getTag()).setText(etText.getText().toString());
     }
 }

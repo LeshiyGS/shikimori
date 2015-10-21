@@ -44,4 +44,13 @@
         <!--<item>@string/character</item>-->
     </string-array>
 
+    <string-array name="select_answers">
+        <item>@string/answer</item>
+        <item>@string/delete</item>
+        <item>@string/edit</item>
+    </string-array>
+    <string-array name="select_answer">
+        <item>@string/answer</item>
+    </string-array>
+
 </resources>

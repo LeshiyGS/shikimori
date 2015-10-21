@@ -1,12 +1,17 @@
 package org.shikimori.library.tool.controllers;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
+import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.LoaderController;
 import com.nineoldandroids.animation.Animator;
 
@@ -91,34 +96,56 @@ public class SendMessageController {
 
     public void showPopup(View v, final MessageData data) {
         this.data = data;
-        PopupMenuCompat popup = PopupMenuCompat.newInstance(context, v);
-        popup.inflate(R.menu.discus_menu);
+
+        AlertDialog.Builder dialog = new DialogCompat((Activity) context)
+                .getDialog();
+
+//        PopupMenuCompat popup = PopupMenuCompat.newInstance(context, v);
+//        popup.inflate(R.menu.discus_menu);
 
         if(!data.isOwner()){
-            popup.getMenu().removeItem(R.id.icDelete);
-            popup.getMenu().removeItem(R.id.icUpdate);
+            dialog.setItems(R.array.select_answer, answerClickDialog);
+//            popup.getMenu().removeItem(R.id.icDelete);
+//            popup.getMenu().removeItem(R.id.icUpdate);
+        } else {
+            dialog.setItems(R.array.select_answers, answerClickDialog);
         }
-
-        popup.setOnMenuItemClickListener(new PopupMenuCompat.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                updateId = null;
-                if (item.getItemId() == R.id.icAnswer) {
-                    answer(data.getMessageId(), data.getNickName());
-                    return true;
-                } else if (item.getItemId() == R.id.icDelete) {
-                    deleteMessage();
-                    return true;
-                } else if (item.getItemId() == R.id.icUpdate) {
-                    updateId = data.getMessageId();
-                    quoteTool.setText(data.getMessagetext());
-                    return true;
-                }
-                return false;
-            }
-        });
-        popup.show();
+        dialog.show();
+//        popup.setOnMenuItemClickListener(new PopupMenuCompat.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                updateId = null;
+//                if (item.getItemId() == R.id.icAnswer) {
+//                    answer(data.getMessageId(), data.getNickName());
+//                    return true;
+//                } else if (item.getItemId() == R.id.icDelete) {
+//                    deleteMessage();
+//                    return true;
+//                } else if (item.getItemId() == R.id.icUpdate) {
+//                    updateId = data.getMessageId();
+//                    quoteTool.setText(data.getMessagetext());
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
+//        popup.show();
     }
+
+    DialogInterface.OnClickListener answerClickDialog = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            updateId = null;
+            if (which == 0) {
+                answer(data.getMessageId(), data.getNickName());
+            } else if (which == 1) {
+                deleteMessage();
+            } else if (which == 2) {
+                updateId = data.getMessageId();
+                quoteTool.setText(data.getMessagetext());
+            }
+        }
+    };
 
     public String getUpdateId() {
         return updateId;
