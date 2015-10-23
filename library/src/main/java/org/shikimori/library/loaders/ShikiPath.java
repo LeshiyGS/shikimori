@@ -54,6 +54,7 @@ public interface ShikiPath {
     public String CLUB_IMAGES = "api/clubs/:id/images";
     public String USER_IMAGES = "api/user_images";
     public String SMILEY = "api/constants/smileys";
+    public String DEVICES  = "api/devices";
 
     public interface Prefix {
         public String JOIN = "join";

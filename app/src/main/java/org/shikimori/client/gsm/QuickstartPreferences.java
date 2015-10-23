@@ -16,9 +16,49 @@
 
 package org.shikimori.client.gsm;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
 public class QuickstartPreferences {
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
+
+    public static void sendGsmToken(Activity context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if(!sharedPreferences.getBoolean(SENT_TOKEN_TO_SERVER, false) && checkPlayServices(context)){
+//        if(checkPlayServices(context)){
+            Intent intent = new Intent(context, RegistrationIntentService.class);
+            context.startService(intent);
+        }
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    public static boolean checkPlayServices(Activity context) {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(context, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(QuickstartPreferences.class.getSimpleName(), "This device is not supported.");
+            }
+            return false;
+        }
+        return true;
+    }
 }

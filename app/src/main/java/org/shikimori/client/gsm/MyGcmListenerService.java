@@ -51,6 +51,9 @@ public class MyGcmListenerService extends GcmListenerService {
         Log.d(TAG, "Message: " + message);
         Log.d(TAG, "action: " + action);
 
+        //{"action":}
+
+
         if (from.startsWith("/topics/")) {
             // message received from some topic.
         } else {
