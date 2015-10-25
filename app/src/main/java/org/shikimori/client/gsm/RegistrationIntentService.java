@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmPubSub;
@@ -42,6 +43,8 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
+    private SharedPreferences sharedPreferences;
+    private ShikiUser user;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -49,8 +52,8 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        user = new ShikiUser(RegistrationIntentService.this);
         if(ShikiUser.USER_ID!=null){
             try {
                 // [START register_for_gcm]
@@ -96,17 +99,31 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
-        new Query(this, false).in(ShikiPath.DEVICES)
-                .setMethod(BaseQuery.METHOD.POST)
-                .addParam("user_id", ShikiUser.USER_ID)
-                .addParam("token", token)
-                .addParam("platform", "android")
-                .addParam("name", h.getDeviceName())
+        String deviceId = user.getDeviceId();
+
+        Query query = new Query(this, false);
+        //if(TextUtils.isEmpty(deviceId)){
+            query.in(ShikiPath.DEVICES);
+
+        //}
+//        else{
+//            query.in(ShikiPath.DEVICES_ID, deviceId);
+//
+//        }
+
+//        query.in(ShikiPath.DEVICES)
+        query.setMethod(BaseQuery.METHOD.POST)
+                .addParam("device[user_id]", ShikiUser.USER_ID)
+                .addParam("device[token]", token)
+                .addParam("device[platform]", "android")
+                .addParam("device[name]", h.getDeviceName())
                 .setErrorListener(this)
                 .getResultObject(new BaseQuery.OnQuerySuccessListener() {
                     @Override
                     public void onQuerySuccess(StatusResult res) {
-
+                        String tokenId = res.getParameter("id");
+                        new ShikiUser(RegistrationIntentService.this)
+                                .setDeviceId(tokenId);
                     }
                 });
     }
@@ -127,7 +144,6 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
     // [END subscribe_topics]
     @Override
     public void onQueryError(StatusResult res) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
     }
 

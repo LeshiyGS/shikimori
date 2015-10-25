@@ -17,6 +17,7 @@ public class ShikiUser {
     public static String USER_ID;
     public static String USER_NAME;
     private static final String COOKIE = "cookie";
+    private static final String DEVICE_ID = "device_id";
     private static final String NICKNAME = "nickname";
     private static final String AVATAR = "avatar";
     private static final String ID = "id";
@@ -120,5 +121,17 @@ public class ShikiUser {
 
     public static boolean isAuthorized() {
         return !TextUtils.isEmpty(getToken());
+    }
+
+    public void setDeviceId(String tokenId) {
+        prefs.edit().putString(DEVICE_ID, tokenId).apply();
+    }
+
+    public boolean isDeviceIdCreated(){
+        return !TextUtils.isEmpty(prefs.getString(DEVICE_ID, null));
+    }
+
+    public String getDeviceId(){
+        return prefs.getString(DEVICE_ID, null);
     }
 }

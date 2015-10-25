@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import org.shikimori.library.loaders.ShikiApi;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -128,7 +130,7 @@ public class DbCache extends HttpCache {
 
     public void invalidateCache(String prefix) {
         Core.init().delete()
-            .where(QUERY_ROW, LIKE, prefix)
+            .where(QUERY_ROW, LIKE, prefix.replace("'", "__|__"))
                 .execute();
     }
 
@@ -137,10 +139,11 @@ public class DbCache extends HttpCache {
         Set<Map.Entry<String, Object>> s=cv.valueSet();
         Iterator itr = s.iterator();
 
-        Log.d("DatabaseSync", "ContentValue Length :: " + cv.size());
+        if(ShikiApi.isDebug)
+            Log.d("DatabaseSync", "ContentValue Length :: " + cv.size());
 
         SQLBuilder sql = Core.init().delete()
-                .where(QUERY_ROW, LIKE, prefix);
+                .where(QUERY_ROW, LIKE, prefix.replace("'", "__|__"));
         // clear by params
         while(itr.hasNext())
         {

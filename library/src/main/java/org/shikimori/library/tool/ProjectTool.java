@@ -72,6 +72,8 @@ public class ProjectTool {
     }
 
     public static String getStatus(Context context, boolean anons, boolean ongoing){
+        if(context==null)
+            return "";
         if (!anons && !ongoing){
             return context.getString(R.string.incoming);
         }else if(anons){
