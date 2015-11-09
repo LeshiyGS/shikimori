@@ -137,7 +137,11 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener,
         } else if (v.getId() == R.id.ivAddImage){
             imageCreator.addPhoto();
         } else if (v.getId() == R.id.ivSmails){
-            emoji.show(!emoji.isShowing());
+            if(Build.VERSION.SDK_INT > 10)
+                emoji.show(!emoji.isShowing());
+            else {
+                h.showMsg(getContext(), R.string.not_for_this_sdk);
+            }
         }
     }
 
@@ -193,11 +197,13 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener,
     }
 
     private void initEmoji(){
-        emoji = new PopupEmoji((FragmentActivity) getContext(), etText);
-        emoji.setOnEmojiKeyboardListener(this);
-        List<View> pages = new ArrayList<>();
-        pages.add(new EmojiView(getContext(), query, etText, (ImageView) ivSmails));
-        emoji.setPages(pages);
+        if(Build.VERSION.SDK_INT > 10){
+            emoji = new PopupEmoji((FragmentActivity) getContext(), etText);
+            emoji.setOnEmojiKeyboardListener(this);
+            List<View> pages = new ArrayList<>();
+            pages.add(new EmojiView(getContext(), query, etText, (ImageView) ivSmails));
+            emoji.setPages(pages);
+        }
     }
 
     private void uploadImage(String patch){

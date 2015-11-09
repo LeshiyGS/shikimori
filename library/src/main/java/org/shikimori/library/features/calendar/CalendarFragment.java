@@ -80,6 +80,8 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
 
     @Override
     public void onQuerySuccess(StatusResult res) {
+        if(activity == null)
+            return;
         List<ItemCaclendarShiki> list = builder.getDataList(res.getResultArray(), ItemCaclendarShiki.class,
                 new ObjectBuilder.AdvanceChecker<ItemCaclendarShiki>() {
             @Override

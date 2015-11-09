@@ -218,6 +218,10 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
                             return;
                         MenuItem item = actionMenu.findItem(R.id.ic_add_friend);
                         MenuItem item_ignore = actionMenu.findItem(R.id.ic_ignore);
+
+                        if(item_ignore ==null || item == null)
+                            return;
+
                         if(!userDetails.inFriends){
                             item.setIcon(R.drawable.ic_action_favorite_white);
                         } else

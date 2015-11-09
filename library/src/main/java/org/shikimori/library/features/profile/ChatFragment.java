@@ -1,5 +1,6 @@
 package org.shikimori.library.features.profile;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -103,10 +104,12 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
         messageController = new SendMessageController(activity, getFC().getQuery(), etMessage, SendMessageController.Type.MESSAGE);
         etSender.setType(SendMessageController.Type.MESSAGE);
         bodyBuilder = ProjectTool.getBodyBuilder(activity, BodyBuild.CLICKABLETYPE.INTEXT);
-        QuotePartCallback actionMode = new QuotePartCallback();
-        actionMode.setEditText(etMessage);
-        actionMode.setTyle(QuotePartCallback.TYPE.MESSAGE);
-        bodyBuilder.setActionClick(actionMode);
+        if(Build.VERSION.SDK_INT > 10){
+            QuotePartCallback actionMode = new QuotePartCallback();
+            actionMode.setEditText(etMessage);
+            actionMode.setTyle(QuotePartCallback.TYPE.MESSAGE);
+            bodyBuilder.setActionClick(actionMode);
+        }
         showRefreshLoader();
         loadData();
     }
