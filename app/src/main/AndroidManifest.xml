@@ -149,6 +149,9 @@
             android:exported="false">
         </service>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e536b996b581bd2f94d20cb3d222a02efc497d0b" />
     </application>
 
 </manifest>

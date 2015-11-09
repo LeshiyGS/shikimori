@@ -1,4 +1,19 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 apply from: "../params.gradle"
 apply from: "../../shikimori.gradle"
 
@@ -75,5 +90,8 @@ dependencies {
     compile project(":modules:PinnedSectionAdapter")
     compile 'com.google.android.gms:play-services-gcm:8.1.0'
 //    compile project(":modules:PhotoView")
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+        transitive = true;
+    }
 }
 

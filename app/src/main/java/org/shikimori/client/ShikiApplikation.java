@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.webkit.WebView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import io.fabric.sdk.android.Fabric;
 import org.shikimori.client.activity.AboutActivity;
 import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.tool.PreferenceHelper;
@@ -49,6 +51,7 @@ public class ShikiApplikation extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         try {
             Class.forName("android.os.AsyncTask");
             Class.forName("android.support.v7.internal.view.menu.MenuBuilder");
@@ -65,14 +68,14 @@ public class ShikiApplikation extends Application {
         tracker.enableAutoActivityTracking(true);
 
         // Setup handler for uncaught exceptions.
-        if (!BuildConfig.DEBUG) {
-            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                @Override
-                public void uncaughtException(Thread thread, Throwable e) {
-                    handleUncaughtException(thread, e);
-                }
-            });
-        }
+//        if (!BuildConfig.DEBUG) {
+//            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//                @Override
+//                public void uncaughtException(Thread thread, Throwable e) {
+//                    handleUncaughtException(thread, e);
+//                }
+//            });
+//        }
 
         new ShikiUser(this);
         ShikiApi.setIsDebug(BuildConfig.DEBUG);
