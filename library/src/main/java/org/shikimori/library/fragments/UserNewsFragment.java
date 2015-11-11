@@ -3,6 +3,7 @@ package org.shikimori.library.fragments;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -21,6 +22,9 @@ import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.features.profile.InboxFragment2;
+import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewFragment;
+import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
+import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
@@ -28,6 +32,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.LinkHelper;
+import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import ru.altarix.basekit.library.actionmode.ActionDescription;
@@ -49,12 +54,13 @@ import ru.altarix.basekit.library.tools.DialogCompat;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseListViewFragment implements BaseKitActivity.OnFragmentBackListener, AdapterView.OnItemLongClickListener, View.OnClickListener {
+public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKitActivity.OnFragmentBackListener, View.OnClickListener, BaseQuery.OnQuerySuccessListener, OnItemClickRecycleListener<ItemNewsUserShiki> {
 
     private String type;
     private int title;
     private TextPopup popup;
     private BodyBuild bodyBuild;
+    private LoadAsyncBuildHelper lah;
 
     public static UserNewsFragment newInstance(String type) {
         Bundle b = new Bundle();
@@ -71,20 +77,16 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
     }
 
     @Override
-    protected boolean isOptionsMenu() {
-        return true;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initParams();
+        setHasOptionsMenu(true);
     }
 
     @Override
-    protected Menu getActionBarMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.read_all_menu, menu);
-        return menu;
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -151,11 +153,14 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        lah = new LoadAsyncBuildHelper(activity, this);
         ReadMessageController.newInstance(getFC().getQuery());
         activity.setOnFragmentBackListener(this);
         bodyBuild = new BodyBuild(activity);
-        if (type.equals(Constants.INBOX))
-            getListView().setOnItemLongClickListener(this);
+//        if(Build.VERSION.SDK_INT >= 21)
+//            getListView().setNestedScrollingEnabled(false);
+//        if (type.equals(Constants.INBOX))
+//            getListView().setOnItemLongClickListener(this);
         showRefreshLoader();
         loadData();
     }
@@ -193,26 +198,20 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
 
     @Override
     public void onQuerySuccess(StatusResult res) {
-        loadAsyncBuild(bodyBuild, res.getResultArray(), 600, ItemNewsUserShiki.class);
+        lah.loadAsyncBuild(bodyBuild, res.getResultArray(), 600, ItemNewsUserShiki.class);
     }
 
     @Override
-    public ArrayAdapter<ItemNewsUserShiki> getAdapter(List list) {
-        NewsUserAdapter adptr = new NewsUserAdapter(activity, getAdapterLayout(),getFC().getQuery(), list);
+    public ListRecycleAdapter getAdapter(List list) {
+        NewsUserAdapter adptr = new NewsUserAdapter(activity, getAdapterLayout(), getFC().getQuery(), list);
         adptr.setType(type);
         adptr.setOnSettingsListener(this);
+        adptr.setOnItemClickListener(this);
         return adptr;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        super.onItemClick(parent, view, position, id);
-
-        Adapter adp = parent.getAdapter();
-        if (adp == null)
-            return;
-
-        ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
+    public void onItemClick(ItemNewsUserShiki item, int posotion) {
         if (type.equals(Constants.INBOX)) {
             activity.loadPage(InboxFragment2.newInstance());
         } else if (type.equals(Constants.NEWS)) {
@@ -241,11 +240,54 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
             }
             if(item.linked == null || item.linked.id == null)
                 return;
-            View btn = view.findViewById(R.id.llActions);
-            hs.setGoneToggle(btn);
 
+            item.isExpandedBtns = !item.isExpandedBtns;
+            getAdapter().notifyItem(posotion);
         }
     }
+
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        super.onItemClick(parent, view, position, id);
+//
+//        Adapter adp = parent.getAdapter();
+//        if (adp == null)
+//            return;
+//
+//        ItemNewsUserShiki item = (ItemNewsUserShiki) adp.getItem(position);
+//        if (type.equals(Constants.INBOX)) {
+//            activity.loadPage(InboxFragment2.newInstance());
+//        } else if (type.equals(Constants.NEWS)) {
+//            Intent intent = ProjectTool.getSimpleIntentDetails(activity, item.linked.type);
+//            if (intent != null) {
+//                intent.putExtra(Constants.ITEM_ID, item.linked.id);
+//                activity.startActivity(intent);
+//                return;
+//            }
+//
+//            if (item.kind.toLowerCase().equals(Constants.SITENEWS)) {
+//                intent = new Intent(activity, ShowPageActivity.class);
+//                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
+//                intent.putExtra(Constants.TREAD_ID, item.linked.id);
+//                activity.startActivity(intent);
+//
+//                return;
+//            }
+//        } else if (type.equals(Constants.NOTIFYING)) {
+//            if(item.kind.equalsIgnoreCase(Constants.GROUP_REQUEST)){
+//                LinkHelper.goToUrl(activity, item.htmlBody);
+//                return;
+//            } else if(item.kind.equalsIgnoreCase(Constants.FRIEND_REQUEST)){
+//                ProjectTool.goToUser(activity, item.from.id);
+//                return;
+//            }
+//            if(item.linked == null || item.linked.id == null)
+//                return;
+//            View btn = view.findViewById(R.id.llActions);
+//            hs.setGoneToggle(btn);
+//
+//        }
+//    }
 
     void showPopupText(String html) {
         popup = new TextPopup(activity);
@@ -274,27 +316,27 @@ public class UserNewsFragment extends BaseListViewFragment implements BaseKitAct
         return false;
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        ActionDescription confirmDeleteAction = new ActionDescription() {
-
-            @Override
-            public void act(int[] selectedItems) {
-                List<Object> lists = getAllList();
-                CopyOnWriteArrayList<String> ids = new CopyOnWriteArrayList<>();
-                for (int i = 0; i < selectedItems.length; i++) {
-                    ItemNewsUserShiki obj = (ItemNewsUserShiki) lists.get(selectedItems[i]);
-                    ids.add(obj.id);
-                }
-                if (ids.size() > 0) {
-                    String strIds = TextUtils.join(",", ids);
-                    // TODO delete collections messages
-                }
-            }
-        };
-        showDeleteFromListInterface(confirmDeleteAction);
-        return true;
-    }
+//    @Override
+//    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//        ActionDescription confirmDeleteAction = new ActionDescription() {
+//
+//            @Override
+//            public void act(int[] selectedItems) {
+//                List<Object> lists = getAllList();
+//                CopyOnWriteArrayList<String> ids = new CopyOnWriteArrayList<>();
+//                for (int i = 0; i < selectedItems.length; i++) {
+//                    ItemNewsUserShiki obj = (ItemNewsUserShiki) lists.get(selectedItems[i]);
+//                    ids.add(obj.id);
+//                }
+//                if (ids.size() > 0) {
+//                    String strIds = TextUtils.join(",", ids);
+//                    // TODO delete collections messages
+//                }
+//            }
+//        };
+//        showDeleteFromListInterface(confirmDeleteAction);
+//        return true;
+//    }
 
     public int getAdapterLayout() {
         if(type.equals(Constants.NEWS))

@@ -52,7 +52,7 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
             //make sure it fills the space
             frameLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             return new HeaderFooterViewHolder(frameLayout);
-        } else {
+        } else if (type == TYPE_ITEM){
             View view = inflater.inflate(getLayout(type), viewGroup, false);
             if(onItemClickListener!=null){
                 view.setOnClickListener(itemClickListener);
@@ -62,18 +62,21 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
             setListeners(h);
             return h;
         }
+
+        return null;
     }
 
     View.OnClickListener itemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int position = (int) v.getTag(R.id.item_position);
-            onItemClickListener.onItemClick(items.get(position), position);
+            RecyclerView.ViewHolder vh = (RecyclerView.ViewHolder) v.getTag(R.id.item_position);
+            int fixPos = vh.getAdapterPosition() - headers.size();
+            onItemClickListener.onItemClick(items.get(fixPos), fixPos);
         }
     };
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder vh, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder vh, int position) {
         //check what type of view our position is
         if (position < headers.size()) {
             View v = headers.get(position);
@@ -83,11 +86,11 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
             View v = footers.get(position - items.size() - headers.size());
             //add oru view to a footer view and display it
             prepareHeaderFooter((HeaderFooterViewHolder) vh, v);
-        } else {
+        } else  {
             //it's one of our items, display as required
             int fixPos = position - headers.size();
             T item = items.get(fixPos);
-            vh.itemView.setTag(R.id.item_position, fixPos);
+            vh.itemView.setTag(R.id.item_position, vh);
             setValues((H) vh, item, fixPos);
         }
     }
@@ -135,10 +138,38 @@ public abstract class HeaderRecyclerAdapter<T, H extends RecyclerView.ViewHolder
         }
     }
 
+
     public void removeItem(int position){
         int fixPos = position + headers.size();
         items.remove(position);
         notifyItemRemoved(fixPos);
+    }
+
+    public void removeItem(T item){
+        int position = items.indexOf(item);
+        if(position>=0){
+            int fixPos = position + headers.size();
+            items.remove(position);
+            notifyItemRemoved(fixPos);
+        }
+    }
+
+    public void notifyItem(int position) {
+        int fixPos = position + headers.size();
+        notifyItemChanged(fixPos);
+    }
+
+    public void addItem(T item){
+        items.add(item);
+        int position = items.indexOf(item);
+        int fixPos = position + headers.size();
+        notifyItemInserted(fixPos);
+    }
+
+    public void addItem(int position, T item){
+        int fixPos = position + headers.size();
+        items.add(position, item);
+        notifyItemInserted(fixPos);
     }
 
     //add a footer to the adapter

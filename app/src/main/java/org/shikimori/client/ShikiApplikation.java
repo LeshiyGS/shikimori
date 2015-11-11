@@ -51,12 +51,14 @@ public class ShikiApplikation extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        final Fabric fabric = new Fabric.Builder(this)
-                .kits(new Crashlytics())
-                .debuggable(ProjectTool.isFullVersion())
-                .build();
+        if(!BuildConfig.DEBUG){
+            final Fabric fabric = new Fabric.Builder(this)
+                    .kits(new Crashlytics())
+                    .debuggable(ProjectTool.isFullVersion())
+                    .build();
+            Fabric.with(fabric);
+        }
 
-        Fabric.with(fabric);
         try {
             Class.forName("android.os.AsyncTask");
             Class.forName("android.support.v7.internal.view.menu.MenuBuilder");

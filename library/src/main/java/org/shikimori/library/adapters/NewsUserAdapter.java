@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.base.BaseListAdapter;
-import org.shikimori.library.adapters.holder.MessageHolder;
+import org.shikimori.library.adapters.holder.MessageRecycleHolder;
+import org.shikimori.library.adapters.holder.MessageRecycleHolder;
+import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.InvalidateTool;
@@ -27,26 +29,25 @@ import ru.altarix.basekit.library.tools.h;
 /**
  * Created by Феофилактов on 04.04.2015.
  */
-public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageHolder> implements View.OnClickListener {
+public class NewsUserAdapter extends ListRecycleAdapter<ItemNewsUserShiki, MessageRecycleHolder> implements View.OnClickListener {
 
     private final BodyBuild bodyBuild;
     private String type;
     private Query query;
     private View.OnClickListener settingsClickListener;
 
-    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, Query query, List list) {
+    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, Query query, List<ItemNewsUserShiki> list) {
         this(context, R.layout.item_shiki_message_list, query, list);
     }
 
-    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, int layout,  Query query, List list) {
-        super(context, list, layout, MessageHolder.class);
+    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, int layout,  Query query, List<ItemNewsUserShiki> list) {
+        super(context, list, layout);
         this.query = query;
         bodyBuild = ProjectTool.getBodyBuilder(context, BodyBuild.CLICKABLETYPE.NOT);
     }
 
     @Override
-    public void setListeners(MessageHolder holder) {
-        super.setListeners(holder);
+    public void setListeners(MessageRecycleHolder holder) {
         holder.ivPoster.setOnTouchListener(hs.getImageHighlight);
         holder.tvRead.setOnClickListener(this);
         holder.ivUser.setOnClickListener(this);
@@ -54,24 +55,17 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
             holder.bGoTo.setOnClickListener(this);
             holder.bComment.setOnClickListener(this);
         }
-        if(holder.icSettings!=null && settingsClickListener!=null)
-            holder.icSettings.setOnClickListener(settingsClickListener);
+        if(holder.ivSettings!=null && settingsClickListener!=null)
+            holder.ivSettings.setOnClickListener(settingsClickListener);
     }
 
     @Override
-    public MessageHolder getViewHolder(View v) {
-        MessageHolder holder = super.getViewHolder(v);
-        holder.ivPoster = find(v, R.id.ivPoster);
-        holder.tvRead = find(v, R.id.tvRead);
-        holder.bGoTo = find(v, R.id.bGoTo);
-        holder.bComment = find(v, R.id.bComment);
-        holder.tvStatus = find(v, R.id.tvSection);
-        holder.icSettings = find(v, R.id.icSettings);
-        return holder;
+    public MessageRecycleHolder getViewHolder(View v) {
+        return  new MessageRecycleHolder(v);
     }
 
     @Override
-    public void setValues(MessageHolder holder, ItemNewsUserShiki item, int position) {
+    public void setValues(MessageRecycleHolder holder, ItemNewsUserShiki item, int position) {
         holder.tvDate.setText(ProjectTool.formatDatePost(item.createdAt));
         holder.llBodyHtml.removeAllViews();
 //        initDescription(item, holder.llBodyHtml);
@@ -96,11 +90,12 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         holder.ivUser.setTag(item);
         holder.tvRead.setTag(position);
         if(holder.bGoTo!=null){
+            h.setVisibleGone(!item.isExpandedBtns, holder.llActions);
             holder.bComment.setTag(position);
             holder.bGoTo.setTag(position);
         }
-        if(holder.icSettings!=null)
-            holder.icSettings.setTag(position);
+        if(holder.ivSettings!=null)
+            holder.ivSettings.setTag(position);
 
         hs.setVisible(holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
@@ -114,7 +109,7 @@ public class NewsUserAdapter extends BaseListAdapter<ItemNewsUserShiki, MessageH
         return null;
     }
 
-    private void showUser(ItemNewsUserShiki item, MessageHolder holder){
+    private void showUser(ItemNewsUserShiki item, MessageRecycleHolder holder){
         if(Constants.ANIME.equalsIgnoreCase(item.linked.type) || Constants.MANGA.equalsIgnoreCase(item.linked.type)){
             h.setVisibleGone(holder.ivUser);
             if(item.linked.image != null)

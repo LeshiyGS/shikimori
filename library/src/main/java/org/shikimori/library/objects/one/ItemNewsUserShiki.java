@@ -17,6 +17,7 @@ public class ItemNewsUserShiki implements JsonParseable<ItemNewsUserShiki>, OnVi
     public ItemUser from, to;
     public boolean read;
     public ViewGroup parsedContent;
+    public boolean isExpandedBtns;
 
     @Override
     public ItemNewsUserShiki create(JSONObject json) {
