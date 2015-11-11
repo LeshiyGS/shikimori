@@ -88,7 +88,11 @@ public class ShikiApplikation extends Application {
         initImageLoader(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(ShikiApi.isDebug);
+            try {
+                WebView.setWebContentsDebuggingEnabled(ShikiApi.isDebug);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         PushHelperReceiver.addAction(NEW_MESSAGES, getMessgesPushAction(MESSAGES_ID));

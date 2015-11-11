@@ -43,14 +43,15 @@ public class PageActivity extends BaseActivity implements ExtraLoadInterface {
 
     protected void showPages() {
 
-        String[] titles = new String[titleList.size()];
-        titleList.toArray(titles); // fill the array
+        if(titleList != null){
+            String[] titles = new String[titleList.size()];
+            titleList.toArray(titles); // fill the array
 
-        loadPage(PagerAdapterFragment.newInstance(
-                pageList,
-                titles
-        ));
-
+            loadPage(PagerAdapterFragment.newInstance(
+                    pageList,
+                    titles
+            ));
+        }
     }
 
     @Override

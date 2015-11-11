@@ -71,11 +71,11 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     @Override
     public void onQuerySuccess(StatusResult res) {
         List<SmileItem> list = builder.getDataList(res.getResultArray(), SmileItem.class);
-        if(cash.size() == 0){
-            for (SmileItem sm : list) {
-                cash.put(sm.bbcode, sm.path);
-            }
-        }
+//        if(cash.size() == 0){
+//            for (SmileItem sm : list) {
+//                cash.put(sm.bbcode, sm.path);
+//            }
+//        }
         adapter = new SmileAdapter(getContext(), list);
         gridView.setAdapter(adapter);
     }

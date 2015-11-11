@@ -186,4 +186,8 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
         super.onDestroyView();
         adapter = null;
     }
+
+    public List<Object> getAllList() {
+        return allList;
+    }
 }
