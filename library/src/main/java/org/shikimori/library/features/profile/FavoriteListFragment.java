@@ -17,6 +17,7 @@ import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.AMShiki;
+import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -105,17 +106,20 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         super.onItemClick(parent, view, position, id);
         AMShiki item = (AMShiki) parent.getAdapter().getItem(position);
-        ProjectTool.TYPE type = ProjectTool.getTypeFromUrl(item.url);
+//        ProjectTool.TYPE type = ProjectTool.getTypeFromUrl(item.url);
+//
+//        Intent i = new Intent(activity, ShowPageActivity.class);
+//        if(type == ProjectTool.TYPE.ANIME) {
+//            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
+//        }else if(type == ProjectTool.TYPE.MANGA){
+//            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
+//        }else if(type == ProjectTool.TYPE.CHARACTER)
+//            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CHARACTER_PAGE);
+//        i.putExtra(Constants.ITEM_ID, item.id);
 
-        Intent i = new Intent(activity, ShowPageActivity.class);
-        if(type == ProjectTool.TYPE.ANIME) {
-            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-        }else if(type == ProjectTool.TYPE.MANGA){
-            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
-        }else if(type == ProjectTool.TYPE.CHARACTER)
-            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CHARACTER_PAGE);
-        i.putExtra(Constants.ITEM_ID, item.id);
-        activity.startActivity(i);
+        LinkHelper.goToUrl(activity, item.url);
+
+//        activity.startActivity(i);
     }
 
     public String getType() {

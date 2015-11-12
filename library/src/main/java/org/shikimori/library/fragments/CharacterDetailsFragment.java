@@ -196,13 +196,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
      * @param pages
      */
     void showHistory(boolean show, View title, View pages){
-        if(!show){
-            hs.setVisibleGone(title);
-            hs.setVisibleGone(pages);
-        } else {
-            hs.setVisible(title, true);
-            hs.setVisible(pages, true);
-        }
+        hs.setVisibleGone(!show, title, pages);
     }
 
     // инфа справа от фото
@@ -216,7 +210,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.ivPoster){
-            if(item.image!=null)
+            if(item!=null && item.image!=null)
                 activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.image.original));
         }
     }

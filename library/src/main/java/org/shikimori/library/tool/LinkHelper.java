@@ -41,6 +41,8 @@ public class LinkHelper {
         } else if(url.contains("/clubs")){
             if(goToPage(activity, "clubs", url, Constants.CLUBS))
                 return;
+        } else if(url.contains("/people")){
+            // TODO make people in app
         } else if(bodyBuild!=null && url.contains("/comments")){
             String id = getItemId("comments", url);
             ProjectTool.showComment(activity.getAC().getQuery(), id, bodyBuild);
