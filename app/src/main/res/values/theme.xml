@@ -2,7 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="AltarixUiTeme.NoActionBar">
-        <item name="windowActionModeOverlay">true</item>
         <item name="pullColor">@color/greenColor</item>
         <item name="colorControlHighlight">@color/colorAccent2</item>
         <item name="colorPrimaryDark">#333</item>

@@ -16,6 +16,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -283,17 +284,21 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
     private void requestToServer(final OnQuerySuccessListener successListener) {
         AsyncHttpClient tempClient = clientSync != null ? clientSync : client;
         if (method == METHOD.POST)
-            tempClient.post(prefix, params, getSuccessListener(successListener));
+            tempClient.post(encodeUrl(prefix), params, getSuccessListener(successListener));
         else if (method == METHOD.GET)
-            tempClient.get(prefix, params, getSuccessListener(successListener));
+            tempClient.get(encodeUrl(prefix), params, getSuccessListener(successListener));
         else if (method == METHOD.DELETE){
             String _paramStr = params.toString();
             if(_paramStr.length() > 0)
                 _paramStr = "?" + _paramStr;
-            tempClient.delete(prefix + _paramStr, getSuccessListener(successListener));
+            tempClient.delete(encodeUrl(prefix) + _paramStr, getSuccessListener(successListener));
         } else if (method == METHOD.PUT){
-            tempClient.put(prefix, params, getSuccessListener(successListener));
+            tempClient.put(encodeUrl(prefix), params, getSuccessListener(successListener));
         }
+    }
+
+    private String encodeUrl(String url){
+        return URLEncoder.encode(url);
     }
 
     RequestData getRequestData() {

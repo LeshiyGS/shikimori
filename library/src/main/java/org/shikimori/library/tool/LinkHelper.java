@@ -2,11 +2,15 @@ package org.shikimori.library.tool;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
 
+import org.shikimori.library.R;
 import org.shikimori.library.activity.BaseActivity;
 import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.constpack.Constants;
@@ -22,6 +26,9 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
  * Created by Владимир on 18.06.2015.
  */
 public class LinkHelper {
+    private static final String EXTRA_CUSTOM_TABS_SESSION = "android.support.customtabs.extra.SESSION";
+    private static final String EXTRA_CUSTOM_TABS_TOOLBAR_COLOR = "android.support.customtabs.extra.TOOLBAR_COLOR";
+
     public static void goToUrl(BaseKitActivity<ShikiAC> activity, String url){
         goToUrl(activity, url, null);
     }
@@ -50,10 +57,17 @@ public class LinkHelper {
         }
 
         url = ProjectTool.fixUrl(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse(url));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        Bundle extras = new Bundle();
+        if(Build.VERSION.SDK_INT >= 18)
+            extras.putBinder(EXTRA_CUSTOM_TABS_SESSION, null/* Set to null for no session */);
+        intent.putExtra(EXTRA_CUSTOM_TABS_TOOLBAR_COLOR, Color.DKGRAY);
+
+        intent.putExtras(extras);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
+
+
     }
 
     static boolean goToPage(Context contenx, String name, String url, String type){
