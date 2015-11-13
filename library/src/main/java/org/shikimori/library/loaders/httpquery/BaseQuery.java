@@ -259,9 +259,9 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
         if (isDebug) {
             String p = params.toString();
             if (method == METHOD.GET) {
-                Log.d(TAG, "request: " + prefix + "?" + p);
+                Log.d(TAG, "request: " + encodeUrl(prefix) + "?" + p);
             } else {
-                Log.d(TAG, "request: " + prefix);
+                Log.d(TAG, "request: " + encodeUrl(prefix));
                 Log.d(TAG, "params: " + p);
             }
             rezultDebug(successListener);
@@ -282,6 +282,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
     }
 
     private void requestToServer(final OnQuerySuccessListener successListener) {
+
         AsyncHttpClient tempClient = clientSync != null ? clientSync : client;
         if (method == METHOD.POST)
             tempClient.post(encodeUrl(prefix), params, getSuccessListener(successListener));
@@ -298,7 +299,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
     }
 
     private String encodeUrl(String url){
-        return URLEncoder.encode(url);
+        return url.replace(" ", "+");
     }
 
     RequestData getRequestData() {
