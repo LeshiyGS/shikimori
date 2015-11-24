@@ -249,7 +249,12 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     }
 
     boolean isSelfProfile(){
-        return getFC().getUserId().equals(activity.getAC().getShikiUser().getId());
+        try {
+            return getFC().getUserId().equals(activity.getAC().getShikiUser().getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

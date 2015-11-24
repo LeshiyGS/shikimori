@@ -610,6 +610,10 @@ public class hs extends h {
     }
 
     public static void setTextViewHTML(BaseKitActivity<ShikiAC> activity, TextView text, String html, boolean clickable) {
+        if(html == null){
+            text.setText(html);
+            return;
+        }
         CharSequence sequence = Html.fromHtml(html);
         SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
         URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);

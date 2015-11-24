@@ -222,7 +222,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
                 return;
             }
 
-            if (item.kind.toLowerCase().equals(Constants.SITENEWS)) {
+            if (Constants.SITENEWS.equalsIgnoreCase(item.kind)) {
                 intent = new Intent(activity, ShowPageActivity.class);
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
                 intent.putExtra(Constants.TREAD_ID, item.linked.id);
@@ -355,7 +355,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     if (item.getItemId() == R.id.icDelete) {
-                        deleteDialod((int) v.getTag(), (View) v.getParent().getParent());
+                        deleteDialod((ItemNewsUserShiki) v.getTag());
                         return true;
                     }
                     return false;
@@ -365,16 +365,9 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
         }
     }
 
-    private void deleteDialod(final int position, final View parent) {
-        ItemNewsUserShiki item = (ItemNewsUserShiki) getAllList().get(position);
-        ProjectTool.deleteItem(activity, ShikiApi.getUrl(ShikiPath.MESSAGESPRIVATE_ID, item.id),
-                parent, new BaseAnimationListener(){
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        UserNewsFragment.this.removeItem(position);
-                        invalidate();
-                    }
-                });
+    private void deleteDialod(ItemNewsUserShiki item) {
+        ProjectTool.deleteItem(activity, ShikiApi.getUrl(ShikiPath.MESSAGESPRIVATE_ID, item.id));
+        UserNewsFragment.this.removeItem(item);
     }
 
 }

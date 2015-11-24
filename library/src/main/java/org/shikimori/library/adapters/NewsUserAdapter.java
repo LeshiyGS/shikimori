@@ -88,14 +88,14 @@ public class NewsUserAdapter extends ListRecycleAdapter<ItemNewsUserShiki, Messa
         }
         holder.tvName.setText(getTitle(item));
         holder.ivUser.setTag(item);
-        holder.tvRead.setTag(position);
+        holder.tvRead.setTag(item);
         if(holder.bGoTo!=null){
             h.setVisibleGone(!item.isExpandedBtns, holder.llActions);
-            holder.bComment.setTag(position);
-            holder.bGoTo.setTag(position);
+            holder.bComment.setTag(item);
+            holder.bGoTo.setTag(item);
         }
         if(holder.ivSettings!=null)
-            holder.ivSettings.setTag(position);
+            holder.ivSettings.setTag(item);
 
         hs.setVisible(holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
@@ -122,20 +122,17 @@ public class NewsUserAdapter extends ListRecycleAdapter<ItemNewsUserShiki, Messa
 
     @Override
     public void onClick(final View v) {
+        ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();
         if (v.getId() == R.id.tvRead) {
-            int position = (int) v.getTag();
-            ItemNewsUserShiki item = getItem(position);
             item.read = ReadMessageController.getInstance().setRead(v, item.read, item.id);
             InvalidateTool.invalidateNotificationList(query, type);
         } else if (v.getId() == R.id.ivUser) {
             if (type.equals(Constants.INBOX) || type.equals(Constants.NOTIFYING)) {
-                ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();
                 ProjectTool.goToUser(getContext(), item.from.id);
             }
         } else if (v.getId() == R.id.bComment) {
-            showCooment(getItem((int) v.getTag()));
+            showCooment(item);
         } else if (v.getId() == R.id.bGoTo) {
-            ItemNewsUserShiki item = getItem((int) v.getTag());
             Intent i = new Intent(getContext(), ShowPageActivity.class);
             i.putExtra(Constants.TREAD_ID, item.linked.threadId);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.DISCUSSION);
