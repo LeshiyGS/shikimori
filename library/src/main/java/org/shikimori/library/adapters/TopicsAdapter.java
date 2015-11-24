@@ -35,6 +35,7 @@ public class TopicsAdapter extends BaseListAdapter<ItemTopicsShiki, TopicHolder>
         holder.tvTitle = (TextView) v.findViewById(R.id.tvTitle);
         holder.tvText = (TextView) v.findViewById(R.id.tvText);
         holder.llBodyHtml = (ViewGroup) v.findViewById(R.id.llBodyHtml);
+
         return holder;
     }
 

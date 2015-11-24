@@ -125,7 +125,7 @@ public class DbCache extends HttpCache {
         cv.put(QUERY_ROW, queryRow.replace("'", "__|__"));
         cv.put(QUERY_DATA, queryData);
         cv.put(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache));
-        getDb().insert(DATABASE_NAME, null, cv);
+        getDb().insert(TABLE, null, cv);
 
 //        Core.init().insert()
 //            .set(QUERY_ROW, queryRow.replace("'", "__|__"))

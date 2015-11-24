@@ -34,7 +34,7 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
         section = new Section(json.optJSONObject("section"));
         user = new ItemUser().create(json.optJSONObject("user"));
 
-        title = HelperObj.getString(json, "title");
+        title = HelperObj.getString(json, "topic_title");
         type = HelperObj.getString(json, "type");
         linkedType = HelperObj.getString(json, "linked_type");
         linkedId = HelperObj.getString(json, "linked_id");
