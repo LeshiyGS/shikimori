@@ -1,14 +1,14 @@
-package org.shikimori.library.loaders.httpquery;
+package org.shikimori.library.loaders;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserListener;
-import org.shikimori.library.loaders.ShikiApi;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
+import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ShikiUser;
 
 /**

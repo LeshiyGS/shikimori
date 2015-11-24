@@ -3,24 +3,18 @@ package org.shikimori.library.fragments;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
-import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.features.profile.InboxFragment2;
 import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewFragment;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
@@ -28,25 +22,22 @@ import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRec
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
-import ru.altarix.basekit.library.actionmode.ActionDescription;
 
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
-import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import org.shikimori.library.tool.pmc.PopupMenuCompat;
 import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;

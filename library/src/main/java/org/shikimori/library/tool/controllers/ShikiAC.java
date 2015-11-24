@@ -2,10 +2,9 @@ package org.shikimori.library.tool.controllers;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import org.shikimori.library.R;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import com.mcgars.imagefactory.ThumbToImage;

@@ -17,7 +17,7 @@ import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
 import org.shikimori.library.tool.controllers.AuthShikiController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;

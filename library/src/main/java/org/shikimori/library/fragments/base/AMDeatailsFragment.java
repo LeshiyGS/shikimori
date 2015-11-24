@@ -24,7 +24,7 @@ import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.LinkedListFragment;
 import org.shikimori.library.fragments.SimilarFragment;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.Blur;
@@ -40,7 +40,6 @@ import org.shikimori.library.tool.hs;
 import java.util.List;
 
 import ru.altarix.basekit.library.activity.BaseKitActivity;
-import ru.altarix.basekit.library.tools.pagecontroller.Page;
 import ru.altarix.ui.CustomTextView;
 
 

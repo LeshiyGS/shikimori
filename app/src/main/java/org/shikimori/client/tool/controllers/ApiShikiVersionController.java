@@ -3,10 +3,9 @@ package org.shikimori.client.tool.controllers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.client.BuildConfig;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.controllers.BaseApiController;
 

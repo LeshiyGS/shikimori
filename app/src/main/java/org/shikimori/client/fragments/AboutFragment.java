@@ -14,7 +14,7 @@ import org.shikimori.client.R;
 import org.shikimori.library.tool.UpdateApp;
 import org.shikimori.client.tool.controllers.ApiShikiVersionController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.ShikiAC;

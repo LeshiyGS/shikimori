@@ -19,16 +19,13 @@ import android.widget.EditText;
 import org.shikimori.client.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.api.ApiMessageController;
 import org.shikimori.library.tool.hs;
 
-import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
-import ru.altarix.ui.CustomEditText;
 
 /**
  * Created by Феофилактов on 02.12.2014.

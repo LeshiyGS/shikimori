@@ -17,7 +17,7 @@ import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.features.anime.AnimeDeatailsFragment;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ShikiAC;

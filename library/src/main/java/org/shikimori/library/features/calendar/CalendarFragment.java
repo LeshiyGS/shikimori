@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;

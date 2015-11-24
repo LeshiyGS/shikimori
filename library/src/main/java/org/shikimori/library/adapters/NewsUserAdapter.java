@@ -6,11 +6,9 @@ import android.view.ViewGroup;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
-import org.shikimori.library.adapters.base.BaseListAdapter;
-import org.shikimori.library.adapters.holder.MessageRecycleHolder;
 import org.shikimori.library.adapters.holder.MessageRecycleHolder;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.InvalidateTool;
 import org.shikimori.library.tool.ProjectTool;

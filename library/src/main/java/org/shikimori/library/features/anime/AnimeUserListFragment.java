@@ -12,7 +12,7 @@ import org.shikimori.library.features.anime.adapter.UserListAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemUserListShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;

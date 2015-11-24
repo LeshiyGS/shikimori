@@ -16,17 +16,14 @@ import org.shikimori.library.adapters.ScreenShotAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.ItemScreenShot;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
-import org.shikimori.library.tool.controllers.ShikiAC;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import ru.altarix.basekit.library.tools.pagecontroller.Page;
 

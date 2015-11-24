@@ -7,13 +7,11 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import com.daimajia.androidanimations.library.BaseViewAnimator;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mcgars.imagefactory.objects.Thumb;
-import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
@@ -22,7 +20,7 @@ import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.UserRate.Status;

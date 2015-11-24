@@ -1,7 +1,5 @@
 package org.shikimori.library.loaders;
 
-import org.shikimori.library.loaders.httpquery.Query;
-
 public interface Queryable {
 
     /**

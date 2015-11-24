@@ -23,11 +23,10 @@ import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.R;
 import org.shikimori.library.activity.AddItemActivity;
-import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.custom.emoji.EmojiView;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ImageCreator;
 import org.shikimori.library.tool.UpdateApp;

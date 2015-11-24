@@ -1,6 +1,5 @@
 package org.shikimori.library.features.profile;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -8,17 +7,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import org.json.JSONObject;
-import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.AMAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.LinkHelper;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;

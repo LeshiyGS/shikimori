@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.client.tool.controllers.ApiShikiVersionController;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 
 import ru.altarix.basekit.library.tools.h;

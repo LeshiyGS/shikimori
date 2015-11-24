@@ -7,12 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.text.style.URLSpan;
-import android.view.View;
 
-import org.shikimori.library.R;
-import org.shikimori.library.activity.BaseActivity;
-import org.shikimori.library.loaders.httpquery.Query;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;

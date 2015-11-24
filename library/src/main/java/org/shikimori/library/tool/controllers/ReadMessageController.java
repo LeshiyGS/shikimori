@@ -5,7 +5,7 @@ import android.view.View;
 import org.shikimori.library.features.profile.controllers.NotifyProfileController;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ProjectTool;
 

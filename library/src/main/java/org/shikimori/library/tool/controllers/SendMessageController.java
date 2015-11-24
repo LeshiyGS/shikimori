@@ -4,26 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-
 import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.LoaderController;
-import com.nineoldandroids.animation.Animator;
 
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.edittext.QuoteEditText;
 import org.shikimori.library.tool.hs;
-import org.shikimori.library.tool.pmc.PopupMenuCompat;
 
 /**
  * Created by Феофилактов on 07.05.2015.

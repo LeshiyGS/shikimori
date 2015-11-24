@@ -11,17 +11,13 @@ import com.gars.emoji.library.BaseEmojiPage;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.tool.edittext.QuoteEditText;
 import org.shikimori.library.tool.hs;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
-import ru.altarix.basekit.library.tools.h;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 /**

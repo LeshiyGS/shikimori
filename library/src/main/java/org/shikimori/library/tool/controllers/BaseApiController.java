@@ -3,8 +3,7 @@ package org.shikimori.library.tool.controllers;
 
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONObject;
-import org.shikimori.library.loaders.httpquery.Query;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 
 /**
