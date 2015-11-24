@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.abstracts.OnBaseListListener;
 import org.shikimori.library.fragments.base.abstracts.recycleview.listeners.PauseOnScrollRecycleListener;
+import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.pull.PullableFragment;
 
 import java.util.ArrayList;
@@ -169,6 +170,12 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
         }
     }
 
+    public void removeItem(Object item) {
+        if (allList != null) {
+            adapter.removeItem(item);
+        }
+    }
+
     public void setAdapter(ListRecycleAdapter adapter){
         mRecyclerView.setAdapter(adapter);
     }
@@ -190,4 +197,5 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
     public List<Object> getAllList() {
         return allList;
     }
+
 }

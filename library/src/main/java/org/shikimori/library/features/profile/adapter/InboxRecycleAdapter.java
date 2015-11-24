@@ -54,6 +54,9 @@ public class InboxRecycleAdapter extends ListRecycleAdapter<ItemDialogs, InboxRe
     @Override
     public void setValues(InboxRecycleHolder holder, ItemDialogs item, int position) {
 
+        if(item.message == null || item.user == null)
+            return;
+
         boolean selfUser = item.message.from.id.equals(item.user.id);
         hs.setVisibleGone(selfUser, holder.llFromUserName);
 

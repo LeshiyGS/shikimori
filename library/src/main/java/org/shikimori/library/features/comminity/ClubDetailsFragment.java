@@ -145,8 +145,9 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     @Override
     public void onQuerySuccess(StatusResult res) {
         stopRefresh();
+        if(activity == null)
+            return;
         item = new ItemClubDescriptionShiki().create(res.getResultObject());
-
         h.setVisibleGone(!item.isAnimeExist(), bAnime);
         h.setVisibleGone(!item.isMangaExist(), bManga);
         h.setVisibleGone(!item.isMangaExist(), bCharacter);

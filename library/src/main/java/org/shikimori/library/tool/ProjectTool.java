@@ -20,6 +20,7 @@ import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
+import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
@@ -285,15 +286,17 @@ public class ProjectTool {
 
     public static Intent getSimpleIntentDetails(Context context, String type){
         int page = -1;
-        switch (type.toLowerCase()) {
-            case Constants.ANIME:
-                page = ShowPageActivity.ANIME_PAGE; break;
-            case Constants.MANGA:
-                page = ShowPageActivity.MANGA_PAGE; break;
-            case Constants.CHARACTER:
-                page = ShowPageActivity.CHARACTER_PAGE; break;
-            case Constants.CLUBS:
-                page = ShowPageActivity.CLUB_PAGE; break;
+        if(type != null){
+            switch (type.toLowerCase()) {
+                case Constants.ANIME:
+                    page = ShowPageActivity.ANIME_PAGE; break;
+                case Constants.MANGA:
+                    page = ShowPageActivity.MANGA_PAGE; break;
+                case Constants.CHARACTER:
+                    page = ShowPageActivity.CHARACTER_PAGE; break;
+                case Constants.CLUBS:
+                    page = ShowPageActivity.CLUB_PAGE; break;
+            }
         }
 
         if(page > -1){
@@ -335,17 +338,17 @@ public class ProjectTool {
             @Override
             public void imageClick(PostImage image) {
                 ViewGroup parent = (ViewGroup) image.getImage().getParent();
-                if(parent instanceof CustomGridlayout){
+                if (parent instanceof CustomGridlayout) {
                     int count = parent.getChildCount();
-                    if(count > 1){
+                    if (count > 1) {
                         List<Thumb> list = new ArrayList<>();
                         int selected = 0;
                         for (int i = 0; i < count; i++) {
                             PostImage img = (PostImage) parent.getChildAt(i).getTag();
-                            if(image.equals(img))
+                            if (image.equals(img))
                                 selected = i;
                             String url = ProjectTool.fixUrl(img.getImageData().getOriginal());
-                            list.add(new Thumb(url,url));
+                            list.add(new Thumb(url, url));
                         }
                         activity.getAC().getThumbToImage()
                                 .zoom(image.getImage(), selected, list);
@@ -386,18 +389,28 @@ public class ProjectTool {
     }
 
 
-    public static void deleteItem(final BaseKitActivity<ShikiAC> activity, String url, final View animated, final BaseAnimationListener listener){
-        activity.getLoaderController().show();
+    public static void deleteItem(final BaseKitActivity<ShikiAC> activity, String url){
+        deleteItem(activity, url, null, null);
+    }
+
+    public static void deleteItem(BaseKitActivity<ShikiAC> activity, String url, final View animated, final BaseAnimationListener listener) {
         activity.getAC().getQuery().init(url)
                 .setMethod(Query.METHOD.DELETE)
+                .setErrorListener(new BaseQuery.OnQueryErrorListener() {
+                    @Override
+                    public void onQueryError(StatusResult res) {
+
+                    }
+                })
                 .getResult(new Query.OnQuerySuccessListener() {
                     @Override
                     public void onQuerySuccess(StatusResult res) {
-                        activity.getLoaderController().hide();
-                        YoYo.with(Techniques.FadeOutUp)
-                                .withListener(listener)
-                                .duration(300)
-                                .playOn(animated);
+                        if(animated!=null){
+                            YoYo.with(Techniques.FadeOutUp)
+                                    .withListener(listener)
+                                    .duration(300)
+                                    .playOn(animated);
+                        }
                     }
                 });
     }

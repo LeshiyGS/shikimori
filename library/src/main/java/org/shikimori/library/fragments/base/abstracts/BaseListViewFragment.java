@@ -95,7 +95,7 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseKitActiv
         super.prepareData(list, removeLastItem, limitOver);
         if(page == DEFAULT_FIRST_PAGE)
             lvList.setSelectionAfterHeaderView();
-        else
+        else if (state!=null)
             lvList.onRestoreInstanceState(state);
         state = null;
     }

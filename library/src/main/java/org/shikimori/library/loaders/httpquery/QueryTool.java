@@ -29,7 +29,7 @@ public class QueryTool {
 
     public static void showMsg(Context context, String msg) {
         if(context != null) {
-            Toast m = Toast.makeText(context, msg, 0);
+            Toast m = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
             m.setGravity(48, 0, 60);
             m.show();
         }
