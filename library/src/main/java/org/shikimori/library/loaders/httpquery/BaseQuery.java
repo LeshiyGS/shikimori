@@ -227,8 +227,10 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
         if (cache) {
             Cursor cur = getDbCache().getData(prefix + params.toString());
             if (cur.moveToFirst()) {
-                String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
-                data = data.replace("__|__", "'");
+                byte[] bData = cur.getBlob(cur.getColumnIndex(DbCache.QUERY_DATA));
+                String data = new String(bData);
+//                String data = DbCache.getValue(cur, DbCache.QUERY_DATA);
+//                data = data.replace("__|__", "'");
                 if (isDebug)
                     Log.d(TAG, "cache: " + data);
                 StatusResult res = new StatusResult(data, type);
@@ -436,7 +438,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
         public long timeCache;
         public StatusResult.TYPE type;
         public String requestRow;
-        public String requestData;
+        public byte[] requestData;
     }
 
     class MyAsyncHandler extends AsyncHttpResponseHandler{
@@ -468,7 +470,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
             if (showError(res))
                 return;
 
-            reqData.requestData = data;
+            reqData.requestData = bytes;
             if(data != null)
                 saveCache(reqData);
 

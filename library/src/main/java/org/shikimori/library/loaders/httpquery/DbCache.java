@@ -49,7 +49,7 @@ public class DbCache extends HttpCache {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" +
                         ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         QUERY_ROW + " TEXT, " +
-                        QUERY_DATA + " TEXT, " +
+                        QUERY_DATA + " BLOB, " +
                         CREATED_AT + " INTEGER, " +
                         UPDATED_AT + " INTEGER" +
                         "); "
@@ -116,22 +116,28 @@ public class DbCache extends HttpCache {
     public void delete(String queryRow){
         Core.init().delete()
             .where(QUERY_ROW, queryRow.replace("'", "__|__"))
-                .execute();
+            .execute();
     }
 
-    public void setData(String queryRow, String queryData, long timeCache) {
+    public void setData(String queryRow, byte[] queryData, long timeCache) {
         delete(queryRow);
-        Core.init().insert()
-            .set(QUERY_ROW, queryRow.replace("'", "__|__"))
-            .set(QUERY_DATA, queryData.replace("'", "__|__"))
-                .set(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache))
-            .execute();
+        ContentValues cv = new ContentValues();
+        cv.put(QUERY_ROW, queryRow.replace("'", "__|__"));
+        cv.put(QUERY_DATA, queryData);
+        cv.put(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache));
+        getDb().insert(DATABASE_NAME, null, cv);
+
+//        Core.init().insert()
+//            .set(QUERY_ROW, queryRow.replace("'", "__|__"))
+//            .set(QUERY_DATA, queryData.replace("'", "__|__"))
+//            .set(CREATED_AT, String.valueOf(System.currentTimeMillis() + timeCache))
+//            .execute();
     }
 
     public void invalidateCache(String prefix) {
         Core.init().delete()
             .where(QUERY_ROW, LIKE, prefix.replace("'", "__|__"))
-                .execute();
+            .execute();
     }
 
     public void invalidateCache(String prefix, ContentValues cv) {
