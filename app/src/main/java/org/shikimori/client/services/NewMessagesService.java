@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.shikimori.client.tool.GetMessageLastForPush;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.library.loaders.ShikiApi;
@@ -141,34 +142,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     private void notifyMessage() {
-        new ApiMessageController(query).getLastDialog(new BaseQuery.OnQuerySuccessListener() {
-            @Override
-            public void onQuerySuccess(StatusResult res) {
-
-                JSONArray rezult = res.getResultArray();
-                if(rezult!=null){
-                    final ItemDialogs item = new ItemDialogs().create(rezult.optJSONObject(0));
-
-//                     if message from self
-                    if(item.message!=null && item.message.from!=null){
-                        if(ShikiUser.USER_ID.equals(item.message.from.id))
-                            return;
-                    }
-                    // load user avatar
-                    if(item.user!=null && item.user.img148!=null){
-                        ImageLoader.getInstance().loadImage(ProjectTool.fixUrl(item.user.img148),
-                                new SimpleImageLoadingListener(){
-                                    @Override
-                                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                        // send notify
-                                        new PushHelperShiki(NewMessagesService.this)
-                                                .sendLastMessage(item.user.nickname, item.message.body, loadedImage);
-                                    }
-                                });
-                    }
-                }
-            }
-        });
+        GetMessageLastForPush.notifyMessage(query);
     }
 
     @Override

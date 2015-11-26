@@ -16,20 +16,17 @@
 
 package org.shikimori.client.gsm;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 
-import org.shikimori.client.MainActivity;
-import org.shikimori.client.R;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.shikimori.library.tool.push.PushHelperReceiver;
+
+import java.util.Iterator;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -46,19 +43,38 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
-        String action = data.getString("action");
-        Log.d(TAG, "From: " + from);
-        Log.d(TAG, "Message: " + message);
-        Log.d(TAG, "action: " + action);
+        if (!TextUtils.isEmpty(message)) {
+            if(message.startsWith("{")){
+                try {
+                    JSONObject json = new JSONObject(message);
+                    Iterator<String> iter = json.keys();
+                    while (iter.hasNext()) {
+                        String key = iter.next();
+                        String value = json.optString(key);
+                        data.putString(key, value);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            String action = data.getString("action");
+            Log.d(TAG, "From: " + from);
+            Log.d(TAG, "Message: " + message);
+            Log.d(TAG, "action: " + action);
+
+
+            PushHelperReceiver.onReceive(this, from, data);
+        }
+
 
         //{"action":}
 
 
-        if (from.startsWith("/topics/")) {
-            // message received from some topic.
-        } else {
-            // normal downstream message.
-        }
+//        if (from.startsWith("/topics/")) {
+//            // message received from some topic.
+//        } else {
+//            // normal downstream message.
+//        }
 
         // [START_EXCLUDE]
         /**
@@ -72,7 +88,7 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
-        sendNotification(message);
+        //sendNotification(message);
         // [END_EXCLUDE]
     }
     // [END receive_message]
@@ -82,24 +98,24 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("GCM Message")
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
+//    private void sendNotification(String message) {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+//                PendingIntent.FLAG_ONE_SHOT);
+//
+//        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+//                .setSmallIcon(R.mipmap.ic_launcher)
+//                .setContentTitle("GCM Message")
+//                .setContentText(message)
+//                .setAutoCancel(true)
+//                .setSound(defaultSoundUri)
+//                .setContentIntent(pendingIntent);
+//
+//        NotificationManager notificationManager =
+//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+//    }
 }

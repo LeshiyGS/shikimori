@@ -88,6 +88,9 @@
         <service
             android:name=".services.NewMessagesService"
             android:enabled="true" />
+        <service
+            android:name=".services.UserNotifyService"
+            android:enabled="true" />
 
 
         <receiver android:name=".receives.OnBootReceiver">

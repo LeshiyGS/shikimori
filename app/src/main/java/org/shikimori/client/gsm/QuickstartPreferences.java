@@ -35,11 +35,12 @@ public class QuickstartPreferences {
 
     public static void sendGsmToken(Activity context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-      //  if(!sharedPreferences.getBoolean(SENT_TOKEN_TO_SERVER, false) && checkPlayServices(context)){
-//        if(checkPlayServices(context)){
-            Intent intent = new Intent(context, RegistrationIntentService.class);
-            context.startService(intent);
-      //  }
+        if(!sharedPreferences.getBoolean(SENT_TOKEN_TO_SERVER, false)) {
+            if (checkPlayServices(context)) {
+                Intent intent = new Intent(context, RegistrationIntentService.class);
+                context.startService(intent);
+            }
+        }
     }
 
     /**

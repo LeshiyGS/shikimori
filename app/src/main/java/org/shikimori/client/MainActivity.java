@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
+import org.shikimori.client.gsm.QuickstartPreferences;
 import org.shikimori.library.features.profile.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
@@ -30,7 +31,7 @@ public class MainActivity extends DrawerActivity {
         drawerTool.setSelected(DrawerAdapter.DRAWER_MENU_PROFILE_ID);
         setDowbleBackPressetToExit(true);
 
-//        QuickstartPreferences.sendGsmToken(this);
+        QuickstartPreferences.sendGsmToken(this);
     }
 
     public Fragment getExtraPage() {

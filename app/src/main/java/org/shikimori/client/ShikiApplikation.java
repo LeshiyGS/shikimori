@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.crashlytics.android.Crashlytics;
@@ -14,10 +15,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import io.fabric.sdk.android.Fabric;
 import org.shikimori.client.activity.AboutActivity;
 import org.shikimori.client.activity.log.SendLogActivity;
+import org.shikimori.client.services.UserNotifyService;
+import org.shikimori.client.tool.GetMessageLastForPush;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.features.anime.AnimeDeatailsFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.ShikiAC;
@@ -45,6 +49,7 @@ public class ShikiApplikation extends Application {
     public static final int NEWS_ID = 4;
     public static final int NOTIFY_ID = 5;
     public static final int VERSION_ID = 6;
+    public static final int UNDEFINE_ID = 6;
     private GoogleAnalytics analytics;
     private Tracker tracker;
 
@@ -101,6 +106,7 @@ public class ShikiApplikation extends Application {
         PushHelperReceiver.addAction(NEW_NOTIFY, getMessgesPushAction(NOTIFY_ID));
         PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(NEWS_ID));
         PushHelperReceiver.addAction(NEW_VERSION, getMessgesPushAction(VERSION_ID));
+        PushHelperReceiver.setNonEmpAction(getNonUndefineAction());
 
         PageController.baseActivityController = ShikiAC.class;
         ProjectTool.buildType = BuildConfig.BUILD_TYPE;
@@ -146,6 +152,60 @@ public class ShikiApplikation extends Application {
                 }
                 newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 return newIntent;
+            }
+
+            @Override
+            public void onPushRecived(Bundle bundle) {
+                Query query = new Query(ShikiApplikation.this);
+                query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
+                if(id == MESSAGES_ID){
+                    startService(new Intent(ShikiApplikation.this, UserNotifyService.class));
+                }
+            }
+
+            @Override
+            public boolean isNoNotification() {
+                return id == MESSAGES_ID;
+            }
+
+            @Override
+            public boolean isAuthRequired() {
+                return ShikiUser.USER_ID != null;
+            }
+
+            @Override
+            public boolean isSound() {
+                return PreferenceHelper.getNotifySound(getApplicationContext());
+            }
+        };
+    }
+
+    public PushHelperReceiver.PushAction getNonUndefineAction() {
+        return new PushHelperReceiver.PushActionSimple() {
+
+            @Override
+            public int getNotifyId() {
+                return super.getNotifyId() + UNDEFINE_ID;
+            }
+
+            @Override
+            public void onPushRecived(Bundle bundle) {
+                if (isAuthRequired()) {
+                    PushHelperReceiver.notifyUser(ShikiApplikation.this, this, bundle);
+                }
+            }
+
+            @Override
+            public Intent getNotifyIntent() {
+                Intent newIntent;
+                newIntent = new Intent(ShikiApplikation.this, AboutActivity.class);
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                return newIntent;
+            }
+
+            @Override
+            public boolean isAuthRequired() {
+                return ShikiUser.USER_ID != null;
             }
 
             @Override

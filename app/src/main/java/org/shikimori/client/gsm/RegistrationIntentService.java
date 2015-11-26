@@ -21,12 +21,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.shikimori.client.R;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.httpquery.BaseQuery;
@@ -35,8 +38,11 @@ import org.shikimori.library.loaders.httpquery.StatusResult;
 import org.shikimori.library.tool.ShikiUser;
 
 import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import ru.altarix.basekit.library.tools.h;
+import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 public class RegistrationIntentService extends IntentService implements BaseQuery.OnQueryErrorListener {
 
@@ -44,6 +50,7 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
     private static final String[] TOPICS = {"global"};
     private SharedPreferences sharedPreferences;
     private ShikiUser user;
+    private Query query;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -53,6 +60,8 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
     protected void onHandleIntent(Intent intent) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         user = new ShikiUser(RegistrationIntentService.this);
+        query = new Query(this, false)
+                .setErrorListener(this);
         if(ShikiUser.USER_ID!=null){
             try {
                 // [START register_for_gcm]
@@ -96,35 +105,47 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(final String token) {
         // Add custom implementation, as needed.
-        String deviceId = user.getDeviceId();
+//        String deviceId = user.getDeviceId();
 
-        Query query = new Query(this, false);
-        //if(TextUtils.isEmpty(deviceId)){
-            query.in(ShikiPath.DEVICES);
+        query.in(ShikiPath.DEVICES)
+             .getResultArray(new BaseQuery.OnQuerySuccessListener() {
+                 @Override
+                 public void onQuerySuccess(StatusResult res) {
 
-        //}
-//        else{
-//            query.in(ShikiPath.DEVICES_ID, deviceId);
-//
-//        }
+                     // Check if token already exist on server
+                     JSONArray devices = res.getResultArray();
+                     if(devices!=null){
+                         for (int i = 0; i < devices.length(); i++) {
+                             JSONObject obj = devices.optJSONObject(i);
+                             if(obj!=null){
+                                 String servToken = HelperObj.getString(obj, "token");
+                                 if(!TextUtils.isEmpty(servToken) && token.equals(servToken)){
+                                     user.setDeviceId(HelperObj.getString(obj, "id"));
+                                     return;
+                                 }
+                             }
+                         }
+                     }
 
-//        query.in(ShikiPath.DEVICES)
-        query.setMethod(BaseQuery.METHOD.POST)
-                .addParam("device[user_id]", ShikiUser.USER_ID)
-                .addParam("device[token]", token)
-                .addParam("device[platform]", "android")
-                .addParam("device[name]", h.getDeviceName())
-                .setErrorListener(this)
-                .getResultObject(new BaseQuery.OnQuerySuccessListener() {
-                    @Override
-                    public void onQuerySuccess(StatusResult res) {
-                        String tokenId = res.getParameter("id");
-                        new ShikiUser(RegistrationIntentService.this)
-                                .setDeviceId(tokenId);
-                    }
-                });
+                     // send token to server
+                     query.in(ShikiPath.DEVICES)
+                          .setMethod(BaseQuery.METHOD.POST)
+                          .addParam("device[user_id]", ShikiUser.USER_ID)
+                          .addParam("device[token]", token)
+                          .addParam("device[platform]", "android")
+                          .addParam("device[name]", h.getDeviceName())
+                          .getResultObject(new BaseQuery.OnQuerySuccessListener() {
+                              @Override
+                              public void onQuerySuccess(StatusResult res) {
+                                  String tokenId = res.getParameter("id");
+                                  user.setDeviceId(tokenId);
+                              }
+                          });
+                 }
+             });
+
     }
 
     /**

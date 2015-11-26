@@ -1,13 +1,10 @@
 package org.shikimori.library.tool.push;
 
-import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -39,36 +36,51 @@ public class PushHelperReceiver extends BroadcastReceiver {
         actions.put(actionName, pushAction);
     }
 
+    public static PushAction getAction(String actionName) {
+        return actions.get(actionName);
+    }
+
     public static void setNonEmpAction(PushAction pushAction) {
         nonEmpAction = pushAction;
     }
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
+    public static void onReceive(Context context, String from,  Bundle bundle) {
         Log.i("SERVICES", "Push Recieved");
 
-        Bundle bundle = intent.getExtras();
+        if (from.startsWith("/topics/")) {
+            // message received from some topic.
+
+        } else {
+            // normal downstream message.
+        }
+
         if (!bundle.containsKey(ACTION) && nonEmpAction != null) { //some non EMP push
-            nonEmpAction.onPushRecived(intent);
+            nonEmpAction.onPushRecived(bundle);
             return;
         }
 
         PushAction action = actions.get(bundle.getString(ACTION));
+        if (action == null && nonEmpAction != null ) { //unknown action
+            nonEmpAction.onPushRecived(bundle);
+            return;
+        }
+
         if (action == null) { //unknown action
             Log.i("SERVICES", "Unknown EMP Push");
             return;
         }
 
-        String msgBody = bundle.getString(MSG_BODY);
-        String msgTitle = bundle.getString(MSG_TITLE);
         boolean isAuthReq = action.isAuthRequired();
-        if (!isAuthReq || ShikiUser.USER_ID != null) {
-            action.onPushRecived(intent);
-            notifyUser(context, msgTitle, msgBody, action, bundle);
+        if (isAuthReq) {
+            action.onPushRecived(bundle);
+            if(!action.isNoNotification())
+                notifyUser(context, action, bundle);
         }
     }
 
-    private void notifyUser(Context context, String msgTitle, String msgBody, PushAction action, Bundle b) {
+    public static void notifyUser(Context context, PushAction action, Bundle b) {
+        String msgBody = b.getString(MSG_BODY);
+        String msgTitle = b.getString(MSG_TITLE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         Intent intent = action.getNotifyIntent();
         builder.setSmallIcon(intent.getIntExtra(PushAction.SMALL_ICON, R.mipmap.ic_launcher))
@@ -112,10 +124,20 @@ public class PushHelperReceiver extends BroadcastReceiver {
         mNotifyMgr.notify(action.getNotifyId(), builder.build());
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        onReceive(context, "", intent.getExtras());
+    }
+
     public static class PushActionSimple implements PushAction {
 
         @Override
-        public void onPushRecived(Intent intent) {
+        public boolean isNoNotification() {
+            return false;
+        }
+
+        @Override
+        public void onPushRecived(Bundle bundle) {
 
         }
 
@@ -159,6 +181,8 @@ public class PushHelperReceiver extends BroadcastReceiver {
         @DrawableRes
         public String LARGE_ICON = "PushAction.LARGE_ICON";
 
+        boolean isNoNotification();
+
         public enum Type {
             LOCAL
         }
@@ -168,7 +192,7 @@ public class PushHelperReceiver extends BroadcastReceiver {
          *
          * @param intent full push intent.
          */
-        public void onPushRecived(Intent intent);
+        public void onPushRecived(Bundle intent);
 
         /**
          * method returns intent which will be used to start activity when user tap on notification in notification bar

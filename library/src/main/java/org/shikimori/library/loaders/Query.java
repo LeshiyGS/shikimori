@@ -20,7 +20,7 @@ public class Query extends BaseQuery<Query> {
         super(context);
     }
 
-    public Query(Context context, Boolean async) {
+    public Query(Context context, boolean async) {
         super(context, async);
     }
 

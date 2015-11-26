@@ -120,7 +120,7 @@ public abstract class BaseQuery<T extends BaseQuery> extends QueryTool{
         initConstructor(context);
     }
 
-    public BaseQuery(Context context, Boolean async) {
+    public BaseQuery(Context context, boolean async) {
         if(async) {
             initConstructor(context);
             return;
