@@ -107,6 +107,8 @@ public class ProjectTool {
     }
 
     public static void setStatusColor(Context context, View v, boolean anons, boolean ongoing){
+        if(context == null)
+            return;
         if (!anons && !ongoing){
             v.setBackgroundColor(context.getResources().getColor(R.color.done));
         }else if(anons){
