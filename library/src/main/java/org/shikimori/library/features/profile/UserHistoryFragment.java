@@ -12,7 +12,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemUserHistory;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
@@ -76,7 +76,7 @@ public class UserHistoryFragment extends BaseListViewFragment {
         if (getFC().getQuery() == null)
             return;
 
-        getFC().getQuery().init(url(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(url(), MyStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("desc", "1")
@@ -85,7 +85,7 @@ public class UserHistoryFragment extends BaseListViewFragment {
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         stopRefresh();
         prepareData(builder.getDataList(res.getResultArray(), ItemUserHistory.class), true, true);
     }

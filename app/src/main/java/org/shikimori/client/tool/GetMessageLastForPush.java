@@ -11,8 +11,8 @@ import org.json.JSONArray;
 import org.shikimori.client.ShikiApplikation;
 import org.shikimori.library.features.profile.model.ItemDialogs;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import com.gars.querybuilder.BaseQuery;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.api.ApiMessageController;
@@ -23,9 +23,9 @@ import org.shikimori.library.tool.push.PushHelperReceiver;
  */
 public class GetMessageLastForPush {
     public static void notifyMessage(final Query query) {
-        new ApiMessageController(query).getLastDialog(new BaseQuery.OnQuerySuccessListener() {
+        new ApiMessageController(query).getLastDialog(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
             @Override
-            public void onQuerySuccess(StatusResult res) {
+            public void onQuerySuccess(MyStatusResult res) {
 
                 JSONArray rezult = res.getResultArray();
                 if(rezult!=null){

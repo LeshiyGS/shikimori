@@ -14,7 +14,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.Relation;
 import org.shikimori.library.tool.LinkHelper;
@@ -29,7 +29,7 @@ import ru.altarix.basekit.library.tools.pagecontroller.Page;
  * Created by Владимир on 27.03.2015.
  */
 @Page(key1 = Constants.ITEM_ID, key2 = Constants.TYPE, key3 = Constants.CUSTOM_URL)
-public class LinkedListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class LinkedListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
 
     protected ObjectBuilder builder = new ObjectBuilder();
     private String type,itemId,customUrl;
@@ -67,7 +67,7 @@ public class LinkedListFragment extends BaseGridViewFragment implements Query.On
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
 
         if (activity == null)
             return;

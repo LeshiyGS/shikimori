@@ -13,7 +13,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 import org.shikimori.library.objects.one.ItemClubShiki;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class CommunityClubsFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class CommunityClubsFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
 
     public static CommunityClubsFragment newInstance() {
         return new CommunityClubsFragment();
@@ -60,7 +60,7 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(getLoadPath(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getLoadPath(), MyStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .setCache(true, Query.FIVE_MIN)
@@ -68,7 +68,7 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         super.onQuerySuccess(res);
         List<ItemClubShiki> list = builder.getDataList(res.getResultArray(), ItemClubShiki.class);
         prepareData(list, true, true);

@@ -10,7 +10,7 @@ import com.loopj.android.http.RequestParams;
 import org.shikimori.library.adapters.AMAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.AMShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public abstract class AMBaseListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public abstract class AMBaseListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
 
     ObjectBuilder builder = new ObjectBuilder();
 
@@ -40,7 +40,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(getLoadPath(), StatusResult.TYPE.ARRAY);
+        getFC().getQuery().init(getLoadPath(), MyStatusResult.TYPE.ARRAY);
 
         RequestParams filter = getFilterParams();
         if(filter!=null)
@@ -58,7 +58,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         super.onQuerySuccess(res);
         getFC().hideLoader();
         prepareData(builder.getDataList(res.getResultArray(), AMShiki.class), true, true);

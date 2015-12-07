@@ -23,7 +23,7 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -151,7 +151,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     public void loadData() {
         if (getFC().getQuery() == null)
             return;
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.COMMENTS), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.COMMENTS), MyStatusResult.TYPE.ARRAY)
                 .addParam("commentable_id", treadId)
                 .addParam("commentable_type", disType)
                 .addParam("limit", LIMIT)
@@ -162,7 +162,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     @Override
-    public void onQuerySuccess(final StatusResult res) {
+    public void onQuerySuccess(final MyStatusResult res) {
         loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemCommentsShiki.class);
     }
 
@@ -285,9 +285,9 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         showRefreshLoader();
         etMessage.setEnabled(false);
 
-        apiController.init().sendComment(treadId, getFC().getUserId(), disType, text, new Query.OnQuerySuccessListener() {
+        apiController.init().sendComment(treadId, getFC().getUserId(), disType, text, new Query.OnQuerySuccessListener<MyStatusResult>() {
             @Override
-            public void onQuerySuccess(StatusResult res) {
+            public void onQuerySuccess(MyStatusResult res) {
                 onStartRefresh();
                 etMessage.setEnabled(true);
                 etMessage.setText("");
@@ -301,9 +301,9 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if (text == null)
             return;
 
-        apiController.updateComment(messageController.getUpdateId(), text, new Query.OnQuerySuccessListener() {
+        apiController.updateComment(messageController.getUpdateId(), text, new Query.OnQuerySuccessListener<MyStatusResult>() {
             @Override
-            public void onQuerySuccess(StatusResult res) {
+            public void onQuerySuccess(MyStatusResult res) {
                 clearData();
                 hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");
@@ -333,7 +333,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     @Override
-    public void onQueryError(StatusResult res) {
+    public void onQueryError(MyStatusResult res) {
         super.onQueryError(res);
         etMessage.setEnabled(true);
     }

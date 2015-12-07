@@ -20,7 +20,7 @@ import org.shikimori.client.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.api.ApiMessageController;
 import org.shikimori.library.tool.hs;
@@ -92,9 +92,9 @@ public class SendLogActivity extends Activity {
            .append("[/spoiler]");
 
         ApiMessageController apiController = new ApiMessageController(query);
-        apiController.init().sendComment("108922", ShikiUser.USER_ID, "Entry", str.toString(), new Query.OnQuerySuccessListener() {
+        apiController.init().sendComment("108922", ShikiUser.USER_ID, "Entry", str.toString(), new Query.OnQuerySuccessListener<MyStatusResult>() {
             @Override
-            public void onQuerySuccess(StatusResult res) {
+            public void onQuerySuccess(MyStatusResult res) {
                 clearData();
                 hs.toggleKeyboard(SendLogActivity.this);
                 finish();

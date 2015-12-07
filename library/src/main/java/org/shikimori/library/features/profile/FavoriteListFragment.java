@@ -12,7 +12,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.LinkHelper;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class FavoriteListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class FavoriteListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
 
     private int position;
     ObjectBuilder builder = new ObjectBuilder();
@@ -68,7 +68,7 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
 
         if(activity == null)
             return;

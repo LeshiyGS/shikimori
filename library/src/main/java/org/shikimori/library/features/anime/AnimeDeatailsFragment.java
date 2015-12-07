@@ -17,7 +17,7 @@ import org.shikimori.library.fragments.ScreenShootsFragment;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.features.anime.model.ItemAnimeDetails;
 import org.shikimori.library.objects.one.Studio;
 import org.shikimori.library.tool.ProjectTool;
@@ -60,7 +60,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         super.onQuerySuccess(res);
         if (activity == null)
             return;

@@ -7,11 +7,11 @@ import android.content.Intent;
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.client.tool.controllers.ApiShikiVersionController;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 
 import ru.altarix.basekit.library.tools.h;
 
-public class UpdateReceiver extends BroadcastReceiver implements Query.OnQuerySuccessListener {
+public class UpdateReceiver extends BroadcastReceiver implements Query.OnQuerySuccessListener<MyStatusResult> {
 
     private Context mContext;
 
@@ -35,7 +35,7 @@ public class UpdateReceiver extends BroadcastReceiver implements Query.OnQuerySu
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         if (res.getParametrBool("thisisnew")) {
             new PushHelperShiki(mContext)
                     .sendNewVersion(res.getParameter("version_name"));

@@ -14,8 +14,8 @@ import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAda
 import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import com.gars.querybuilder.BaseQuery;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.features.profile.model.ItemDialogs;
 import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.ProjectTool;
@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by Феофилактов on 06.05.2015.
  */
-public class InboxFragment2 extends BaseRecycleViewFragment implements View.OnClickListener, BaseQuery.OnQuerySuccessListener, OnItemClickRecycleListener<ItemDialogs> {
+public class InboxFragment2 extends BaseRecycleViewFragment implements View.OnClickListener, BaseQuery.OnQuerySuccessListener<MyStatusResult>, OnItemClickRecycleListener<ItemDialogs> {
 
     private InboxRecycleAdapter adptr;
     private BodyBuild bodyBuilder;
@@ -56,7 +56,7 @@ public class InboxFragment2 extends BaseRecycleViewFragment implements View.OnCl
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS), MyStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .getResult(this);
@@ -70,7 +70,7 @@ public class InboxFragment2 extends BaseRecycleViewFragment implements View.OnCl
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         lah.loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemDialogs.class);
     }
 

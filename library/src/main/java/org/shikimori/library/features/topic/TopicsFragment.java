@@ -19,7 +19,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -83,7 +83,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
         if (getFC().getQuery() == null)
             return;
 
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS), MyStatusResult.TYPE.ARRAY)
                 .addParam("section", section)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
@@ -97,7 +97,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
      * @param res
      */
     @Override
-    public void onQuerySuccess(final StatusResult res) {
+    public void onQuerySuccess(final MyStatusResult res) {
         loadAsyncBuild(bodyBuild, res.getResultArray(), 300, ItemTopicsShiki.class);
     }
 

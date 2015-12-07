@@ -5,38 +5,28 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.View;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.client.tool.GetMessageLastForPush;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
-import org.shikimori.library.features.profile.model.ItemDialogs;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.Notification;
-import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
-import org.shikimori.library.tool.controllers.api.ApiMessageController;
 import org.shikimori.library.tool.hs;
 
 /**
  * Created by Владимир on 15.06.2015.
  */
-public class NewMessagesService extends Service implements Query.OnQuerySuccessListener, Query.OnQueryErrorListener {
+public class NewMessagesService extends Service implements Query.OnQuerySuccessListener<MyStatusResult>, Query.OnQueryErrorListener<MyStatusResult> {
     public static final String TAG = "serviceshiki";
     private ShikiUser user;
     private Query query;
@@ -99,7 +89,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         if (user == null)
             return;
         load(res.getResultObject());
@@ -146,7 +136,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     @Override
-    public void onQueryError(StatusResult res) {
+    public void onQueryError(MyStatusResult res) {
         String errorMessage = res.getMsg();
         if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
             user.logout();

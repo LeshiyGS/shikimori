@@ -1,7 +1,7 @@
 package org.shikimori.library.features.comminity;
 
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
+import com.gars.querybuilder.BaseQuery;
 import org.shikimori.library.loaders.Query;
 import org.shikimori.library.tool.controllers.BaseApiController;
 

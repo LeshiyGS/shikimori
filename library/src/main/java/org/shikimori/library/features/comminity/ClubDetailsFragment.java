@@ -26,7 +26,7 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemClubDescriptionShiki;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.LinkHelper;
@@ -45,7 +45,7 @@ import ru.altarix.basekit.library.tools.pagecontroller.PageController;
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
+public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
 
     TextView tvTitle,tvMenuImages;
     ImageView ivPoster;
@@ -143,7 +143,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         stopRefresh();
         if(activity == null)
             return;

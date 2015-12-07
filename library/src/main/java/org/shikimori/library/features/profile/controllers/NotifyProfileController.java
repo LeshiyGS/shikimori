@@ -17,7 +17,7 @@ import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
@@ -92,9 +92,9 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
             return;
         query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
                 .setCache(true, Query.FIVE_MIN)
-                .getResult(new Query.OnQuerySuccessListener() {
+                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
                         load(res.getResultObject());
                         listener.onQuerySuccess(res);
                     }

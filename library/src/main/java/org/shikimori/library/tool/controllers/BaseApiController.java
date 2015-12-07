@@ -4,7 +4,7 @@ package org.shikimori.library.tool.controllers;
 import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 
 /**
  * Created by Владимир on 29.06.2015.
@@ -21,9 +21,9 @@ public abstract class BaseApiController<T extends BaseApiController> {
         if (listener != null)
             query.getResult(listener);
         else
-            query.getResult(new Query.OnQuerySuccessListener() {
+            query.getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                 @Override
-                public void onQuerySuccess(StatusResult res) {
+                public void onQuerySuccess(MyStatusResult res) {
 
                 }
             });

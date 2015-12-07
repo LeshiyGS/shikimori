@@ -10,9 +10,9 @@ import com.gars.emoji.library.BaseEmojiPage;
 
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
+import com.gars.querybuilder.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.hs;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 /**
  * Created by Владимир on 15.10.2015.
  */
-public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
     private SmileAdapter adapter;
     private Query query;
     private EditText etText;
@@ -65,7 +65,7 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         List<SmileItem> list = builder.getDataList(res.getResultArray(), SmileItem.class);
 //        if(cash.size() == 0){
 //            for (SmileItem sm : list) {

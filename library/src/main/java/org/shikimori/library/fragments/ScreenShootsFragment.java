@@ -17,7 +17,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.ItemScreenShot;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -90,7 +90,7 @@ public class ScreenShootsFragment extends BaseGridViewFragment implements ViewPa
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         super.onQuerySuccess(res);
         bigArray.clear();
         prepareData(builder.getDataList(res.getResultArray(), ItemScreenShot.class, new ObjectBuilder.AdvanceChecker<ItemScreenShot>() {

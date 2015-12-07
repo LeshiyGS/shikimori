@@ -3,25 +3,33 @@ package org.shikimori.library.loaders;
 import android.content.Context;
 import android.util.Log;
 
+import com.gars.querybuilder.BaseQuery;
+import com.gars.querybuilder.StatusResult;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserListener;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ShikiUser;
+import android.support.v4.widget.SwipeRefreshLayout;
+import ru.altarix.basekit.library.tools.LoaderController;
 
 /**
  * Created by Феофилактов on 30.10.2014.
  */
-public class Query extends BaseQuery<Query> {
+public class Query extends BaseQuery<Query, MyStatusResult> {
+
+    private LoaderController loaderController;
+    private SwipeRefreshLayout loaderSwipe;
 
     public Query(Context context) {
-        super(context);
+        this(context, true);
     }
 
     public Query(Context context, boolean async) {
         super(context, async);
+        setResultClass(MyStatusResult.class);
     }
 
     public Query in(String path) {
@@ -44,6 +52,17 @@ public class Query extends BaseQuery<Query> {
         return this;
     }
 
+
+    @Override
+    protected void hideLoaders() {
+        super.hideLoaders();
+        if (loaderController != null)
+            loaderController.hide();
+        if (loaderSwipe != null)
+            loaderSwipe.setRefreshing(false);
+    }
+
+
     @Override
     protected Query preinit(String url) {
         if (ShikiUser.getToken() != null) {
@@ -53,14 +72,28 @@ public class Query extends BaseQuery<Query> {
         return this;
     }
 
+    public Query setSwipeLoader(SwipeRefreshLayout loaderSwipe) {
+        this.loaderSwipe = loaderSwipe;
+        return this;
+    }
+
+    public Query setLoader(LoaderController loaderView) {
+        this.loaderController = loaderView;
+        return this;
+    }
+
+    public LoaderController getLoader() {
+        return loaderController;
+    }
+
     @Override
-    public void rezultDebug(OnQuerySuccessListener successListener) {
+    public void resultDebug(OnQuerySuccessListener successListener) {
         Log.d(TAG, "X-User-Nickname: " + ShikiUser.USER_NAME);
         Log.d(TAG, "X-User-Api-Access-Token: " + ShikiUser.getToken());
     }
 
     @Override
-    public boolean fail(StatusResult stat, String dataString) {
+    public boolean fail(MyStatusResult stat, String dataString) {
         try {
             if(dataString != null){
                 if(dataString.startsWith("{")){

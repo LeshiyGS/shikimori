@@ -15,7 +15,7 @@ import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -28,7 +28,7 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
 /**
  * Created by Gars on 18.06.2015.
  */
-public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener {
+public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult> {
 
     private TopicHolder holder;
     private TopicsAdapter adapter;
@@ -73,7 +73,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         final ItemTopicsShiki item = new ItemTopicsShiki().create(res.getResultObject());
         buildView(item);
     }

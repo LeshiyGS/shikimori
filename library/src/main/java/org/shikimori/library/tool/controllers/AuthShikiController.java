@@ -5,9 +5,8 @@ import android.text.TextUtils;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 
 /**
@@ -36,12 +35,12 @@ public class AuthShikiController {
 
     void auth() {
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-                .setMethod(BaseQuery.METHOD.GET)
+                .setMethod(Query.METHOD.GET)
                 .addParam("nickname", login)
                 .addParam("password", password)
-                .getResult(new Query.OnQuerySuccessListener() {
+                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
 
                         String token = res.getParameter("api_access_token");
                         if(!TextUtils.isEmpty(token)){
@@ -63,9 +62,9 @@ public class AuthShikiController {
      */
     void getUserData(){
         query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DATA))
-            .getResult(new Query.OnQuerySuccessListener() {
+            .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                 @Override
-                public void onQuerySuccess(StatusResult res) {
+                public void onQuerySuccess(MyStatusResult res) {
                     user.setData(res.getResultObject());
                     user.initStaticParams();
                     listener.onQuerySuccess(res);

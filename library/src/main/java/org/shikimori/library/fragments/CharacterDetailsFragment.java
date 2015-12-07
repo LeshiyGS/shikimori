@@ -20,7 +20,7 @@ import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemCharacter;
 import org.shikimori.library.pull.PullableFragment;
@@ -38,7 +38,7 @@ import ru.altarix.ui.CustomTextView;
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener {
+public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener {
 
     TextView tvTitle;
     ImageView ivPoster;
@@ -113,7 +113,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         stopRefresh();
         llInfo.removeAllViews();
         item = new ItemCharacter().create(res.getResultObject());

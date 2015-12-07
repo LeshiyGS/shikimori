@@ -15,7 +15,7 @@ import org.shikimori.library.tool.UpdateApp;
 import org.shikimori.client.tool.controllers.ApiShikiVersionController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.permission.BasePermissionController;
@@ -29,7 +29,7 @@ import ru.altarix.basekit.library.tools.h;
 /**
  * Created by Владимир on 30.07.2015.
  */
-public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, Query.OnQuerySuccessListener, UpdateApp.UpdateApkProgressListener {
+public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, Query.OnQuerySuccessListener<MyStatusResult>, UpdateApp.UpdateApkProgressListener {
 
     TextView tvVersion,tvNewVersion;
     ProgressBar pbLoaderApk;
@@ -106,7 +106,7 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         int newVersion = res.getParameterInt("version");
         versionUrl = res.getParameter("url");
         if(newVersion > BuildConfig.VERSION_CODE){

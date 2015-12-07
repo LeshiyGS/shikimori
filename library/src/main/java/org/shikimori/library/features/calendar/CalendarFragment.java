@@ -11,7 +11,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.pull.PullableFragment;
@@ -32,7 +32,7 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, AdapterView.OnItemClickListener {
+public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
 
     private PinnedSectionGridView gvList;
     private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
@@ -73,13 +73,13 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
     }
 
     private void loadCalendar() {
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), MyStatusResult.TYPE.ARRAY)
              .setCache(true, Query.DAY)
              .getResult(this);
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         if(activity == null)
             return;
         List<ItemCaclendarShiki> list = builder.getDataList(res.getResultArray(), ItemCaclendarShiki.class,

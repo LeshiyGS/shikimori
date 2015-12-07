@@ -14,7 +14,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.edittext.QuoteEditText;
 import org.shikimori.library.tool.hs;
 
@@ -68,9 +68,9 @@ public class SendMessageController {
         query.init(ShikiApi.getUrl(data.deleteUrl() == null ?
                 ShikiPath.COMMENTS : data.deleteUrl()) + "/" + data.getMessageId())
                 .setMethod(Query.METHOD.DELETE)
-                .getResult(new Query.OnQuerySuccessListener() {
+                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
                         loader.hide();
                         data.removeItem();
 //                        YoYo.with(Techniques.FadeOutUp)

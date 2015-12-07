@@ -25,9 +25,9 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.AddItemActivity;
 import org.shikimori.library.custom.emoji.EmojiView;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
+import com.gars.querybuilder.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ImageCreator;
 import org.shikimori.library.tool.UpdateApp;
 import org.shikimori.library.tool.constpack.Constants;
@@ -210,23 +210,21 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener,
             Log.d("file" , patch);
             RequestParams params = query.getParams();
             params.put("image", new File(patch), "image/*");
-            query.setErrorListener(new BaseQuery.OnQueryErrorListener() {
+            query.setErrorListener(new BaseQuery.OnQueryErrorListener<MyStatusResult>() {
                 @Override
-                public void onQueryError(StatusResult res) {
+                public void onQueryError(MyStatusResult res) {
                     h.showMsg(getContext(), R.string.error_add_image);
                     h.setVisibleGone(pbLoaderImage);
                 }
             });
-            query.addUpdateListener(progressListener);
             h.setVisible(pbLoaderImage);
-            query.getResultObject(new BaseQuery.OnQuerySuccessListener() {
+            query.getResultObject(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
                 @Override
-                public void onQuerySuccess(StatusResult res) {
+                public void onQuerySuccess(MyStatusResult res) {
                     hs.insertTextEditText(etText, res.getParameter("bbcode"));
-                    query.removeProgressListener(progressListener);
                     h.setVisibleGone(pbLoaderImage);
                 }
-            });
+            }, progressListener);
         } catch (FileNotFoundException e) {
             h.showMsg(getContext(), R.string.error_add_image);
         }

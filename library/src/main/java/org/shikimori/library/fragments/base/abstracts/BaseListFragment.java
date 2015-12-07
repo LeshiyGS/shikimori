@@ -22,7 +22,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.interfaces.OnAdvancedCheck;
 import org.shikimori.library.loaders.BackGroubdLoader;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
@@ -35,7 +35,7 @@ import ru.altarix.basekit.library.tools.objBuilder.JsonParseable;
 /**
  * Created by Владимир on 02.04.2015.
  */
-public abstract class BaseListFragment<T extends AppCompatActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener,
+public abstract class BaseListFragment<T extends AppCompatActivity> extends PullableFragment<T> implements Query.OnQuerySuccessListener<MyStatusResult>,
         AdapterView.OnItemClickListener, SearchView.OnQueryTextListener,
         OnBaseListListener {
     public static final int DEFAULT_FIRST_PAGE = 1;
@@ -88,7 +88,7 @@ public abstract class BaseListFragment<T extends AppCompatActivity> extends Pull
     public abstract void loadData();
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         stopRefresh();
     }
 

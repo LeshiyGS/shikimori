@@ -25,7 +25,7 @@ import org.shikimori.library.fragments.LinkedListFragment;
 import org.shikimori.library.fragments.SimilarFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
@@ -47,7 +47,7 @@ import ru.altarix.ui.CustomTextView;
  * Created by LeshiyGS on 31.03.2015.
  */
 public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
-        implements Query.OnQuerySuccessListener, View.OnClickListener {
+        implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener {
 
     protected String itemId;
     protected ScrollView svMain;
@@ -159,7 +159,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         hs.setVisible(svMain);
         stopRefresh();
         llInfo.removeAllViews();

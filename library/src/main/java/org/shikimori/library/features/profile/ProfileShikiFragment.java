@@ -30,7 +30,7 @@ import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.AnimeManga;
 import org.shikimori.library.features.profile.model.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
@@ -55,7 +55,7 @@ import ru.altarix.basekit.library.tools.DialogCompat;
 /**
  * Created by Владимир on 30.03.2015.
  */
-public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
+public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
 
     private ImageView avatar;
     private TextView tvUserName;
@@ -189,9 +189,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
         getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.SET_FRIEND, getFC().getUserId()))
              .setMethod(inFriends ? Query.METHOD.POST : Query.METHOD.DELETE)
-              .getResult(new Query.OnQuerySuccessListener() {
+              .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                   @Override
-                  public void onQuerySuccess(StatusResult res) {
+                  public void onQuerySuccess(MyStatusResult res) {
                       Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
                   }
               });
@@ -200,9 +200,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
         getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.SET_IGNORES, getFC().getUserId()))
              .setMethod(!showComments ? Query.METHOD.POST : Query.METHOD.DELETE)
-                .getResult(new Query.OnQuerySuccessListener() {
+                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
                         Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
                     }
                 });
@@ -308,7 +308,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
 
         if (activity == null)
             return;
@@ -372,9 +372,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     private void buildProfile() {
         if (notifyController != null){
             notifyController.updateLocalData(activity.getAC().getShikiUser().getNotification());
-            notifyController.load(new Query.OnQuerySuccessListener() {
+            notifyController.load(new Query.OnQuerySuccessListener<MyStatusResult>() {
                 @Override
-                public void onQuerySuccess(StatusResult res) {
+                public void onQuerySuccess(MyStatusResult res) {
                     updateUserUI();
                 }
             });

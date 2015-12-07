@@ -6,7 +6,7 @@ import org.shikimori.library.features.profile.controllers.NotifyProfileControlle
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ProjectTool;
 
 /**
@@ -38,9 +38,9 @@ public class ReadMessageController {
                 .setMethod(Query.METHOD.POST)
                 .addParam("is_read", read ? 0 : 1)
                 .addParam("ids", id)
-                .getResult(new Query.OnQuerySuccessListener() {
+                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
                     }
                 });
         read = !read;

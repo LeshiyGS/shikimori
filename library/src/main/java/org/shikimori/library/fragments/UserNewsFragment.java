@@ -10,8 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nineoldandroids.animation.Animator;
-
 import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.NewsUserAdapter;
@@ -21,16 +19,15 @@ import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAda
 import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
+import com.gars.querybuilder.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 
-import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ReadMessageController;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
@@ -45,7 +42,7 @@ import ru.altarix.basekit.library.tools.DialogCompat;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKitActivity.OnFragmentBackListener, View.OnClickListener, BaseQuery.OnQuerySuccessListener, OnItemClickRecycleListener<ItemNewsUserShiki> {
+public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKitActivity.OnFragmentBackListener, View.OnClickListener, BaseQuery.OnQuerySuccessListener<MyStatusResult>, OnItemClickRecycleListener<ItemNewsUserShiki> {
 
     private String type;
     private int title;
@@ -92,9 +89,9 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
                                .setMethod(BaseQuery.METHOD.POST)
                                .addParam("profile_id", ShikiUser.USER_ID)
                                .addParam("type", type)
-                               .getResult(new BaseQuery.OnQuerySuccessListener() {
+                               .getResult(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
                                    @Override
-                                   public void onQuerySuccess(StatusResult res) {
+                                   public void onQuerySuccess(MyStatusResult res) {
                                        invalidate();
                                    }
                                });
@@ -178,7 +175,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
         if (getFC().getQuery() == null)
             return;
 
-        getFC().getQuery().init(url(), StatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(url(), MyStatusResult.TYPE.ARRAY)
                 .addParam("type", type)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
@@ -188,7 +185,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
     }
 
     @Override
-    public void onQuerySuccess(StatusResult res) {
+    public void onQuerySuccess(MyStatusResult res) {
         lah.loadAsyncBuild(bodyBuild, res.getResultArray(), 600, ItemNewsUserShiki.class);
     }
 

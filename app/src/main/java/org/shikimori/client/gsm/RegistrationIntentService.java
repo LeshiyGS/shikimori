@@ -32,19 +32,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.client.R;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
+import com.gars.querybuilder.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 
 import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import ru.altarix.basekit.library.tools.h;
 import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
-import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
-public class RegistrationIntentService extends IntentService implements BaseQuery.OnQueryErrorListener {
+public class RegistrationIntentService extends IntentService implements BaseQuery.OnQueryErrorListener<MyStatusResult> {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
@@ -110,9 +108,9 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
 //        String deviceId = user.getDeviceId();
 
         query.in(ShikiPath.DEVICES)
-             .getResultArray(new BaseQuery.OnQuerySuccessListener() {
+             .getResultArray(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
                  @Override
-                 public void onQuerySuccess(StatusResult res) {
+                 public void onQuerySuccess(MyStatusResult res) {
 
                      // Check if token already exist on server
                      JSONArray devices = res.getResultArray();
@@ -136,9 +134,9 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
                           .addParam("device[token]", token)
                           .addParam("device[platform]", "android")
                           .addParam("device[name]", h.getDeviceName())
-                          .getResultObject(new BaseQuery.OnQuerySuccessListener() {
+                          .getResultObject(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
                               @Override
-                              public void onQuerySuccess(StatusResult res) {
+                              public void onQuerySuccess(MyStatusResult res) {
                                   String tokenId = res.getParameter("id");
                                   user.setDeviceId(tokenId);
                               }
@@ -163,7 +161,7 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
     }
     // [END subscribe_topics]
     @Override
-    public void onQueryError(StatusResult res) {
+    public void onQueryError(MyStatusResult res) {
         sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
     }
 

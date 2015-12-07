@@ -20,9 +20,8 @@ import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.BaseQuery;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.UserRate.Status;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
@@ -39,6 +38,8 @@ import java.util.List;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import ru.altarix.basekit.library.activity.BaseKitActivity;
 import ru.altarix.ui.tool.TextStyling;
+
+import com.gars.querybuilder.BaseQuery;
 
 import static org.shikimori.library.objects.one.UserRate.Status.*;
 
@@ -370,9 +371,9 @@ public class ProjectTool {
         popup.showLoader();
         popup.setTitle(R.string.comment);
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS_ID, id))
-                .getResultObject(new Query.OnQuerySuccessListener() {
+                .getResultObject(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
                         ItemCommentsShiki comment = new ItemCommentsShiki().create(res.getResultObject());
                         bodyBuild.parceAsync(comment.html_body, new BodyBuild.ParceDoneListener() {
                             @Override
@@ -398,15 +399,15 @@ public class ProjectTool {
     public static void deleteItem(BaseKitActivity<ShikiAC> activity, String url, final View animated, final BaseAnimationListener listener) {
         activity.getAC().getQuery().init(url)
                 .setMethod(Query.METHOD.DELETE)
-                .setErrorListener(new BaseQuery.OnQueryErrorListener() {
+                .setErrorListener(new BaseQuery.OnQueryErrorListener<MyStatusResult>() {
                     @Override
-                    public void onQueryError(StatusResult res) {
+                    public void onQueryError(MyStatusResult res) {
 
                     }
                 })
-                .getResult(new Query.OnQuerySuccessListener() {
+                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
                     @Override
-                    public void onQuerySuccess(StatusResult res) {
+                    public void onQuerySuccess(MyStatusResult res) {
                         if(animated!=null){
                             YoYo.with(Techniques.FadeOutUp)
                                     .withListener(listener)

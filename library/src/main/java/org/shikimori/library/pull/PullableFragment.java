@@ -12,7 +12,7 @@ import android.widget.AbsListView;
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 
 import ru.altarix.basekit.library.tools.WrapperUiTool;
 import ru.altarix.ui.tool.h;
@@ -20,7 +20,7 @@ import ru.altarix.ui.tool.h;
 /**
  * Created by Феофилактов on 12.12.2014.
  */
-public abstract class PullableFragment<T extends AppCompatActivity> extends BaseFragment<T> implements SwipeRefreshLayout.OnRefreshListener, Query.OnQueryErrorListener {
+public abstract class PullableFragment<T extends AppCompatActivity> extends BaseFragment<T> implements SwipeRefreshLayout.OnRefreshListener, Query.OnQueryErrorListener<MyStatusResult> {
 
     private SwipeRefreshLayout swipeLayout;
     private int color;
@@ -158,7 +158,7 @@ public abstract class PullableFragment<T extends AppCompatActivity> extends Base
 
 
     @Override
-    public void onQueryError(StatusResult res) {
+    public void onQueryError(MyStatusResult res) {
         stopRefresh();
         getFC().getQuery().showStandartError(res);
     }

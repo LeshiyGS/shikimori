@@ -15,7 +15,7 @@ import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.StatusResult;
+import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -127,9 +127,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         // create rate
         if (rate.id == null) {
             query.getLoader().show();
-            apiRateController.createRate(userId, itemId, type, new Query.OnQuerySuccessListener() {
+            apiRateController.createRate(userId, itemId, type, new Query.OnQuerySuccessListener<MyStatusResult>() {
                 @Override
-                public void onQuerySuccess(StatusResult res) {
+                public void onQuerySuccess(MyStatusResult res) {
                     rate.create(res.getResultObject());
                     query.getLoader().hide();
                 }
