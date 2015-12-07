@@ -29,7 +29,11 @@ public class Query extends BaseQuery<Query, MyStatusResult> {
 
     public Query(Context context, boolean async) {
         super(context, async);
-        setResultClass(MyStatusResult.class);
+    }
+
+    @Override
+    public Class<? extends StatusResult> getResultClass() {
+        return MyStatusResult.class;
     }
 
     public Query in(String path) {
@@ -54,7 +58,7 @@ public class Query extends BaseQuery<Query, MyStatusResult> {
 
 
     @Override
-    protected void hideLoaders() {
+    public void hideLoaders() {
         super.hideLoaders();
         if (loaderController != null)
             loaderController.hide();

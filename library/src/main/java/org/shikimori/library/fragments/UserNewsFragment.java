@@ -356,6 +356,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
     private void deleteDialod(ItemNewsUserShiki item) {
         ProjectTool.deleteItem(activity, ShikiApi.getUrl(ShikiPath.MESSAGESPRIVATE_ID, item.id));
         UserNewsFragment.this.removeItem(item);
+        invalidate();
     }
 
 }

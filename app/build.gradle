@@ -26,7 +26,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 23
         versionCode 26
-        versionName "0.6.7 beta"
+        versionName "0.6.8 beta"
     }
 
     signingConfigs {
