@@ -25,8 +25,8 @@ android {
         applicationId "org.shikimori.client"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 27
-        versionName "0.6.8 beta"
+        versionCode 28
+        versionName "1.0.0 RC1"
     }
 
     signingConfigs {
@@ -88,10 +88,10 @@ android {
 dependencies {
     compile project(":library")
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile project(":modules:PinnedSectionAdapter")
+//    compile project(":modules:PinnedSectionAdapter")
     compile 'com.google.android.gms:play-services-gcm:8.1.0'
 //    compile project(":modules:PhotoView")
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
 }

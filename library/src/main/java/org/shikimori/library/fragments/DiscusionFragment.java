@@ -57,7 +57,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     private EditTextSender etSender;
 
     @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.view_shiki_list_comment;
     }
 

@@ -40,7 +40,8 @@ public abstract class BaseRecycleViewFragment extends PullableFragment<BaseKitAc
 
     public abstract void loadData();
 
-    protected int getLayoutId() {
+    @Override
+    public int getLayoutId() {
         return R.layout.basekit_fragment_base_recycle_view;
     }
 

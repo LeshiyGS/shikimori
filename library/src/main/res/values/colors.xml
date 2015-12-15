@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="tool_background_70">#d9000000</color>
-    <color name="greenColor">#689f38</color>
+    <color name="greenColor">#7cb342</color>
     <color name="lightBlue">#03A9F4</color>
     <color name="shikiLightBlue">#79A9CF</color>
     <color name="darkBlue">#4682b4</color>

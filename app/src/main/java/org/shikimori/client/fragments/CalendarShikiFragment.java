@@ -19,12 +19,10 @@ public class CalendarShikiFragment extends CalendarFragment {
         return new CalendarShikiFragment();
     }
 
-
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        super.onItemClick(parent, view, position, id);
-
-        ItemCaclendarShiki item = (ItemCaclendarShiki) parent.getAdapter().getItem(position);
+    public void onItemClick(ItemCaclendarShiki item, int posotion) {
+        if(item.isDayHeader)
+            return;
         Intent i = new Intent(activity, AnimeDetailsActivity.class);
         i.putExtra(Constants.ITEM_ID, item.id);
         i.putExtra(Constants.ITEM_NAME, item.name);

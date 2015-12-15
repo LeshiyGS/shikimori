@@ -29,7 +29,8 @@ public abstract class BaseListViewFragment extends BaseListFragment<BaseKitActiv
     private Parcelable state;
     private ActionMode actionMode;
 
-    protected int getLayoutId(){
+    @Override
+    public int getLayoutId(){
         return R.layout.view_shiki_list;
     }
 

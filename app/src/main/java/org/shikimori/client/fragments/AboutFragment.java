@@ -107,6 +107,8 @@ public class AboutFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implem
 
     @Override
     public void onQuerySuccess(MyStatusResult res) {
+        if(activity == null)
+            return;
         int newVersion = res.getParameterInt("version");
         versionUrl = res.getParameter("url");
         if(newVersion > BuildConfig.VERSION_CODE){

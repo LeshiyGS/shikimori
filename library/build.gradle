@@ -25,11 +25,11 @@ android {
 
 dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile project(":modules:PinnedSectionAdapter")
+//    compile project(":modules:PinnedSectionAdapter")
     compile 'com.koushikdutta.ion:ion:2.1.3'
     compile 'org.jsoup:jsoup:1.8.1'
     compile 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
-    compile 'com.github.msgars:ImageFactory:1.0.1'
+    compile 'com.github.msgars:ImageFactory:1.0.3'
 //    compile project(":modules:PhotoView")
     compile project(":modules:ratingbar")
 

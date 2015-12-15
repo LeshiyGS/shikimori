@@ -2,20 +2,18 @@ package org.shikimori.library.features.calendar;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.support.v7.widget.GridLayoutManager;
 
 import org.shikimori.library.R;
+import org.shikimori.library.features.calendar.adapter.CalendarRecycleAdapter;
+import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewGridFragment;
+import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
+import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;
+import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
 import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
-import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
-import org.shikimori.library.pull.PullableFragment;
-import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 
 import java.util.ArrayList;
@@ -25,28 +23,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
-import dev.dworks.libs.astickyheader.ui.PinnedSectionGridView;
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
+public class CalendarFragment extends BaseRecycleViewGridFragment
+        implements Query.OnQuerySuccessListener<MyStatusResult>, OnItemClickRecycleListener<ItemCaclendarShiki> {
 
-    private PinnedSectionGridView gvList;
-    private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
+//    private PinnedSectionGridView gvList;
+//    private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
     ObjectBuilder builder = new ObjectBuilder();
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_shiki_calendar, null);
-        gvList = (PinnedSectionGridView) v.findViewById(R.id.gvList);
-        gvList.setOnItemClickListener(this);
-        return v;
     }
 
     @Override
@@ -63,19 +52,27 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showRefreshLoader();
-        loadCalendar();
+        initColumn();
+        loadData();
+    }
+
+    @Override
+    public ListRecycleAdapter getAdapter(List<?> list) {
+        return new CalendarRecycleAdapter(activity, (List<ItemCaclendarShiki>) list, this);
+    }
+
+    @Override
+    public void loadData() {
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), MyStatusResult.TYPE.ARRAY)
+             .setCache(true, Query.DAY)
+             .getResult(this);
     }
 
     @Override
     public void onStartRefresh() {
+        super.onStartRefresh();
         getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.CALENDAR));
-        loadCalendar();
-    }
-
-    private void loadCalendar() {
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), MyStatusResult.TYPE.ARRAY)
-             .setCache(true, Query.DAY)
-             .getResult(this);
+        loadData();
     }
 
     @Override
@@ -88,16 +85,18 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
             public boolean check(ItemCaclendarShiki item, int position) {
                 Date date = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.nextEpisodeAt);
                 item.order = date.getTime();
+                item.day = hs.getStringDate("EE", date);
                 return false;
             }
         });
+
         prepareData(list);
         stopRefresh();
     }
 
     private void prepareData(List<ItemCaclendarShiki> list) {
         CopyOnWriteArrayList<String> headers = new CopyOnWriteArrayList<>();
-        ArrayList<Object> sections = new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
         // Сортировка списка по дате
         Collections.sort(list, new Comparator<ItemCaclendarShiki>() {
             public int compare(ItemCaclendarShiki emp1, ItemCaclendarShiki emp2) {
@@ -107,21 +106,55 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
         // Строим список с загаловками
         for (int i = 0; i < list.size(); i++) {
             ItemCaclendarShiki itemCaclendarShiki = list.get(i);
-            String date = formatDate(itemCaclendarShiki.order, "EEEE - dd MMMM yyyy");
+            String date = formatDate(itemCaclendarShiki.order, "EEEE\ndd MMMM\nyyyy");
 
             if(!headers.contains(date)){
-                sections.add(new SimpleSectionedGridAdapter.Section(i, date));
+                sections.add(new Section(i== 0? i : i + sections.size(), date));
                 headers.add(date);
             }
         }
-        // создаем адаптер
-        CalendarAdapter adapter = new CalendarAdapter(activity, list);
-        simpleSectionedGridAdapter = new SimpleSectionedGridAdapter(activity, adapter,
-                R.layout.item_shiki_calendar_header, R.id.header_layout, R.id.header);
-        simpleSectionedGridAdapter.setGridView(gvList);
-        simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedGridAdapter.Section[0]));
-        gvList.setAdapter(simpleSectionedGridAdapter);
+        headers.clear();
+        headers = null;
 
+        for (Section section : sections) {
+            ItemCaclendarShiki item = new ItemCaclendarShiki();
+            item.isDayHeader = true;
+            item.name = section.getTitle().toString();
+            list.add(section.position, item);
+        }
+
+        sections = null;
+
+
+        prepareData(list, false, false);
+        hasMoreItems(false);
+        // создаем адаптер
+//        CalendarAdapter adapter = new CalendarAdapter(activity, list);
+//        simpleSectionedGridAdapter = new SimpleSectionedGridAdapter(activity, adapter,
+//                R.layout.item_shiki_calendar_header, R.id.header_layout, R.id.header);
+//        simpleSectionedGridAdapter.setGridView(gvList);
+//        simpleSectionedGridAdapter.setSections(sections.toArray(new SimpleSectionedGridAdapter.Section[0]));
+//        gvList.setAdapter(simpleSectionedGridAdapter);
+
+    }
+
+    @Override
+    public void onItemClick(ItemCaclendarShiki item, int posotion) {
+
+    }
+
+    public static class Section {
+        int position;
+        CharSequence title;
+
+        public Section(int position, CharSequence title) {
+            this.position = position;
+            this.title = title;
+        }
+
+        public CharSequence getTitle() {
+            return title;
+        }
     }
 
 //
@@ -135,15 +168,23 @@ public class CalendarFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        gvList.invalidate();
-        if(simpleSectionedGridAdapter!=null)
-            simpleSectionedGridAdapter.onConfigurationChange(activity);
+        if(hs.getOrientation(activity) == hs.ORIENTATION.LAND)
+            ((GridLayoutManager)getRecyclerView().getLayoutManager()).setSpanCount(3);
+        else
+            ((GridLayoutManager)getRecyclerView().getLayoutManager()).setSpanCount(2);
+
+//        gvList.invalidate();
+//        if(simpleSectionedGridAdapter!=null)
+//            simpleSectionedGridAdapter.onConfigurationChange(activity);
+    }
+
+    void initColumn(){
+        if(hs.getOrientation(activity) == hs.ORIENTATION.LAND)
+            ((GridLayoutManager)getRecyclerView().getLayoutManager()).setSpanCount(3);
+        else
+            ((GridLayoutManager)getRecyclerView().getLayoutManager()).setSpanCount(2);
     }
 }

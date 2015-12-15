@@ -53,7 +53,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
     private EditTextSender etSender;
 
     @Override
-    protected int getLayoutId() {
+    public int getLayoutId() {
         return R.layout.view_shiki_list_comment_recycle;
     }
 

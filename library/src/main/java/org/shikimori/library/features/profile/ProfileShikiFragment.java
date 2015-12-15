@@ -34,6 +34,7 @@ import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.objects.one.AnimeManga;
 import org.shikimori.library.features.profile.model.UserDetails;
 import org.shikimori.library.pull.PullableFragment;
+import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.AnimeStatuses;
@@ -467,7 +468,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivWebShow) {
-            hs.launchUrlLink(activity, userDetails.website);
+            LinkHelper.goToUrl(activity, userDetails.website);
         } else if (v.getId() == R.id.ivAnimeListShow) {
             showPopup(animePopupListener, ProjectTool.TYPE.ANIME, R.string.lists_anime);
         } else if (v.getId() == R.id.ivMangaListShow) {

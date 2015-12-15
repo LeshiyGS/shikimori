@@ -14,18 +14,34 @@ public abstract class BaseRecycleViewGridFragment extends BaseRecycleViewFragmen
         return 2;
     }
 
-    @Override
+//    GridLayoutManager.SpanSizeLookup lookupSize = new GridLayoutManager.SpanSizeLookup() {
+//        public int getSpanSize(int position) {
+//            if(BaseRecycleViewGridFragment.this.getAdapter() == null)
+//                return -1;
+//            switch(BaseRecycleViewGridFragment.this.getAdapter().getItemViewType(position)) {
+//                case 111:
+//                case 222:
+//                    return 2;
+//                case 333:
+//                    return 1;
+//                default:
+//                    return -1;
+//            }
+//        }
+//    };
+
     public LinearLayoutManager getLayoutManager() {
-        GridLayoutManager ml = new GridLayoutManager(activity, getColumnCount());
+        GridLayoutManager ml = new GridLayoutManager(this.activity, this.getColumnCount());
         ml.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
             public int getSpanSize(int position) {
-                switch(getAdapter().getItemViewType(position)){
-                    case HeaderRecyclerAdapter.TYPE_HEADER:
-                    case HeaderRecyclerAdapter.TYPE_FOOTER:
+                if(BaseRecycleViewGridFragment.this.getAdapter() == null)
+                    return 1;
+                switch(BaseRecycleViewGridFragment.this.getAdapter().getItemViewType(position)) {
+                    case 111:
+                    case 222:
+                        return 2;
+                    case 333:
                         return 1;
-                    case HeaderRecyclerAdapter.TYPE_ITEM:
-                        return getColumnCount(); //number of columns of the grid
                     default:
                         return -1;
                 }

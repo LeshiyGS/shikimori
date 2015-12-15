@@ -13,7 +13,7 @@
     <string name="settings">Настройки</string>
     <string name="about">О программе</string>
     <string name="one_more_back_to_exit">Для выхода нажмите еще раз</string>
-    <string name="serie_name">серия:</string>
+    <string name="serie_name">серия: %s</string>
     <string name="filter">Фильтр</string>
     <string name="search">Поиск</string>
     <string name="shiki_calendar">Календарь</string>

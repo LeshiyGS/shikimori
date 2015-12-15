@@ -664,15 +664,6 @@ public class hs extends h {
     };
 
 
-    public static void launchUrlLink(Context mContext, String url) {
-        if (url == null)
-            return;
-        if (!url.startsWith("http://") && !url.startsWith("https://"))
-            url = "http://" + url;
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        mContext.startActivity(browserIntent);
-    }
-
     public static ViewGroup.LayoutParams getDefaultParams() {
         return new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -20,7 +20,7 @@ public class ShikiApi {
     }
 
     public static String getUrl(String aniApi, String userId, String preffix) {
-        String url = getUrl(aniApi).replace(ShikiPath.ID, userId);
+        String url = getUrl(aniApi).replace(ShikiPath.ID, userId == null ? "0": userId);
         return preffix == null ? url : url+"/"+preffix;
     }
 

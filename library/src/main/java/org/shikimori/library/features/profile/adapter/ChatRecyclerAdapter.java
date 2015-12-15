@@ -13,6 +13,7 @@ import org.shikimori.library.adapters.base.BaseListAdapter;
 import org.shikimori.library.adapters.holder.SettingsHolder;
 import org.shikimori.library.adapters.holder.SettingsRecycleHolder;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
+import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;
 import org.shikimori.library.objects.ActionQuote;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.ProjectTool;
@@ -33,7 +34,6 @@ public class ChatRecyclerAdapter extends ListRecycleAdapter<ItemNewsUserShiki, S
 
     public ChatRecyclerAdapter(Context context, List<ItemNewsUserShiki> list) {
         super(context, list, R.layout.item_shiki_comments_list);
-
     }
 
     String formatDate(long date, String format) {

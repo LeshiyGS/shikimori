@@ -9,10 +9,11 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
  * Created by Владимир on 27.08.2014.
  */
 public class ItemCaclendarShiki implements JsonParseable<ItemCaclendarShiki> {
-    public String id, name, russianName, nextEpisode, episodesIired, nextEpisodeAt, imgPreview, imgOrigin;
+    public String id, name, day, russianName, nextEpisode, episodesIired, nextEpisodeAt, imgPreview, imgOrigin;
     public boolean ongoing;
     private JSONObject allData;
     public Long order;
+    public boolean isDayHeader;
 
     @Override
     public String toString() {
