@@ -11,8 +11,8 @@ import org.shikimori.library.adapters.AMAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.tool.LinkHelper;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public class FavoriteListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
+public class FavoriteListFragment extends BaseGridViewFragment implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, AdapterView.OnItemClickListener {
 
     private int position;
     ObjectBuilder builder = new ObjectBuilder();
@@ -63,12 +63,12 @@ public class FavoriteListFragment extends BaseGridViewFragment implements Query.
     @Override
    public void loadData() {
         getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.FAVOURITES, getFC().getUserId()))
-                .setCache(true, Query.DAY)
+                .setCache(true, QueryShiki.DAY)
                 .getResult(this);
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
 
         if(activity == null)
             return;

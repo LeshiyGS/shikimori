@@ -6,7 +6,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
 import org.shikimori.library.adapters.base.BaseCardGridAdapter;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.objects.one.ItemUser;
 import org.shikimori.library.tool.hs;
 
@@ -30,7 +30,7 @@ public class UserCardStyleAdapter extends BaseCardGridAdapter<ItemUser> {
     public void setValues(ViewHolder holder, ItemUser item, int position) {
         holder.tvTitle.setText(item.nickname);
         long time = hs.getDateFromString("yyyy-MM-dd'T'HH:mm:ss.SSSZ", item.lastOnlineAt).getTime();
-        long curTime = System.currentTimeMillis() - Query.FIVE_MIN;
+        long curTime = System.currentTimeMillis() - QueryShiki.FIVE_MIN;
         if(time > curTime){
             holder.tvTitleRus.setText(R.string.online);
             holder.tvTitleRus.setTextColor(online);

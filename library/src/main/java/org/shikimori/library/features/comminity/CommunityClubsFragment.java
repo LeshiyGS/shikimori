@@ -12,8 +12,8 @@ import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
 import org.shikimori.library.objects.one.ItemClubShiki;
@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class CommunityClubsFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
+public class CommunityClubsFragment extends BaseGridViewFragment implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, AdapterView.OnItemClickListener {
 
     public static CommunityClubsFragment newInstance() {
         return new CommunityClubsFragment();
@@ -60,15 +60,15 @@ public class CommunityClubsFragment extends BaseGridViewFragment implements Quer
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(getLoadPath(), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getLoadPath(), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
-                .setCache(true, Query.FIVE_MIN)
+                .setCache(true, QueryShiki.FIVE_MIN)
                 .getResult(this);
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         super.onQuerySuccess(res);
         List<ItemClubShiki> list = builder.getDataList(res.getResultArray(), ItemClubShiki.class);
         prepareData(list, true, true);

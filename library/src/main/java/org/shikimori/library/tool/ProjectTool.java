@@ -20,8 +20,8 @@ import org.shikimori.library.custom.yoyoanimation.OpacityInAnimator;
 import org.shikimori.library.custom.yoyoanimation.OpacityOutAnimator;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.ItemCommentsShiki;
 import org.shikimori.library.objects.one.UserRate.Status;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
@@ -143,6 +143,8 @@ public class ProjectTool {
     }
 
     public static String getListStatusName(Context context, String statusName, TYPE type){
+        if(context == null)
+            return null;
         switch (statusName){
             case AnimeStatuses.COMPLETED:
                 return type == TYPE.ANIME ? context.getString(R.string.completed) : context.getString(R.string.completedmanga);
@@ -302,7 +304,7 @@ public class ProjectTool {
             }
         }
 
-        if(page > -1){
+        if(page > -1 && context!=null){
             Intent intent = new Intent(context, ShowPageActivity.class);
             intent.putExtra(Constants.PAGE_FRAGMENT, page);
             return intent;
@@ -365,15 +367,15 @@ public class ProjectTool {
         return bodyBuilder;
     }
 
-    public static void showComment(Query query, String id, final BodyBuild bodyBuild){
+    public static void showComment(QueryShiki query, String id, final BodyBuild bodyBuild){
         Crouton.cancelAllCroutons();
         final TextPopup popup = new TextPopup((Activity) query.getContext());
         popup.showLoader();
         popup.setTitle(R.string.comment);
         query.init(ShikiApi.getUrl(ShikiPath.COMMENTS_ID, id))
-                .getResultObject(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .getResultObject(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
                         ItemCommentsShiki comment = new ItemCommentsShiki().create(res.getResultObject());
                         bodyBuild.parceAsync(comment.html_body, new BodyBuild.ParceDoneListener() {
                             @Override
@@ -398,16 +400,16 @@ public class ProjectTool {
 
     public static void deleteItem(BaseKitActivity<ShikiAC> activity, String url, final View animated, final BaseAnimationListener listener) {
         activity.getAC().getQuery().init(url)
-                .setMethod(Query.METHOD.DELETE)
-                .setErrorListener(new BaseQuery.OnQueryErrorListener<MyStatusResult>() {
+                .setMethod(QueryShiki.METHOD.DELETE)
+                .setErrorListener(new BaseQuery.OnQueryErrorListener<ShikiStatusResult>() {
                     @Override
-                    public void onQueryError(MyStatusResult res) {
+                    public void onQueryError(ShikiStatusResult res) {
 
                     }
                 })
-                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
                         if(animated!=null){
                             YoYo.with(Techniques.FadeOutUp)
                                     .withListener(listener)

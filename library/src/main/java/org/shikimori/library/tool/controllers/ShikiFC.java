@@ -3,7 +3,7 @@ package org.shikimori.library.tool.controllers;
 import android.os.Bundle;
 
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
 
@@ -15,7 +15,7 @@ import ru.altarix.basekit.library.fragment.FragmentController;
  */
 public class ShikiFC extends FragmentController<BaseKitFragment> {
     private ShikiAC shikiAC;
-    private Query query;
+    private QueryShiki query;
     private String userId;
 
     public ShikiFC(BaseFragment tBaseFragment, ShikiAC shikiAC) {
@@ -30,7 +30,7 @@ public class ShikiFC extends FragmentController<BaseKitFragment> {
         userId = (String) fragment.getParam(Constants.USER_ID, ShikiUser.USER_ID);
     }
 
-    public Query getQuery() {
+    public QueryShiki getQuery() {
         return query;
     }
 

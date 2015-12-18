@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import org.shikimori.library.R;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import com.mcgars.imagefactory.ThumbToImage;
@@ -20,7 +20,7 @@ import ru.altarix.basekit.library.tools.LoaderController;
  */
 public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
 
-    private Query query;
+    private QueryShiki query;
     private ShikiUser shikiUser;
     private ThumbToImage thumbToImage;
     private BodyBuild boddyBuild;
@@ -42,13 +42,13 @@ public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
 
 
 
-        query = new Query(activity);
+        query = new QueryShiki(activity);
         query.setLoader(new LoaderController(activity));
         shikiUser = new ShikiUser(activity);
         thumbToImage = new ThumbToImage(activity);
     }
 
-    public Query getQuery() {
+    public QueryShiki getQuery() {
         return query;
     }
 

@@ -1,12 +1,12 @@
 include ':app',
-        ':library',
+        ':library'
 //        ':extention',
 //        ":modules:easyAdapter",
 //        ":modules:ui_tools",
 //        ":modules:PinnedSectionAdapter",
 //        ":modules:PhotoView",
 //        ":basekit",
-        ":modules:ratingbar"
+//        ":modules:ratingbar"
 //        ":myPaggingListView"
 
 

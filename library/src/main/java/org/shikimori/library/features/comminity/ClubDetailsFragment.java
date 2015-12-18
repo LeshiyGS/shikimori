@@ -25,8 +25,8 @@ import org.shikimori.library.fragments.ScreenShootsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.ItemClubDescriptionShiki;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.LinkHelper;
@@ -45,7 +45,7 @@ import ru.altarix.basekit.library.tools.pagecontroller.PageController;
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
+public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, View.OnClickListener, BaseKitActivity.OnFragmentBackListener {
 
     TextView tvTitle,tvMenuImages;
     ImageView ivPoster;
@@ -129,7 +129,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
 
     void loadData(){
         getFC().getQuery().init(getUrl())
-                .setCache(true, Query.HOUR)
+                .setCache(true, QueryShiki.HOUR)
                 .getResult(this);
     }
 
@@ -143,7 +143,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         stopRefresh();
         if(activity == null)
             return;
@@ -238,7 +238,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
     public void onClick(View v) {
         String customUrl = null;
         if(v.getId() == R.id.ivPoster){
-            if(item.original!=null)
+            if(item!=null && item.original!=null)
                 activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(item.original));
             return;
         }
@@ -306,4 +306,5 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         if(menuAdd!=null)
             menuAdd.setIcon(favorite ? R.drawable.ic_action_favorite_blue : R.drawable.ic_action_favorite_white);
     }
+
 }

@@ -14,8 +14,8 @@ import org.shikimori.library.fragments.dialogs.AddRateDialogFragment;
 import org.shikimori.library.interfaces.OnNewMenuListener;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -32,7 +32,7 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
     private Button bAddToList;
     private View bListSettings, bListPlus;
     private ApiRatesController apiRateController;
-    private Query query;
+    private QueryShiki query;
     private String userId;
     private ProjectTool.TYPE type;
     private String itemId;
@@ -127,9 +127,9 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         // create rate
         if (rate.id == null) {
             query.getLoader().show();
-            apiRateController.createRate(userId, itemId, type, new Query.OnQuerySuccessListener<MyStatusResult>() {
+            apiRateController.createRate(userId, itemId, type, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                 @Override
-                public void onQuerySuccess(MyStatusResult res) {
+                public void onQuerySuccess(ShikiStatusResult res) {
                     rate.create(res.getResultObject());
                     query.getLoader().hide();
                 }

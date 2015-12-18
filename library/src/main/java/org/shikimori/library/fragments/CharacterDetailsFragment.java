@@ -19,8 +19,8 @@ import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemCharacter;
 import org.shikimori.library.pull.PullableFragment;
@@ -38,7 +38,7 @@ import ru.altarix.ui.CustomTextView;
 /**
  * Created by Владимир on 17.04.2015.
  */
-public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener {
+public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>> implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, View.OnClickListener {
 
     TextView tvTitle;
     ImageView ivPoster;
@@ -95,7 +95,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
 
     void loadData(){
         getFC().getQuery().init(getUrl())
-                .setCache(true, Query.HOUR)
+                .setCache(true, QueryShiki.HOUR)
                 .getResult(this);
     }
 
@@ -113,7 +113,7 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         stopRefresh();
         llInfo.removeAllViews();
         item = new ItemCharacter().create(res.getResultObject());

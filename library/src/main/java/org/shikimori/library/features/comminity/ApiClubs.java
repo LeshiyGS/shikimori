@@ -2,14 +2,14 @@ package org.shikimori.library.features.comminity;
 
 import org.shikimori.library.loaders.ShikiPath;
 import com.gars.querybuilder.BaseQuery;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.tool.controllers.BaseApiController;
 
 /**
  * Created by Владимир on 19.10.2015.
  */
 public class ApiClubs extends BaseApiController<ApiClubs> {
-    public ApiClubs(Query query) {
+    public ApiClubs(QueryShiki query) {
         super(query);
     }
 

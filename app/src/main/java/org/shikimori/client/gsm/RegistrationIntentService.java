@@ -33,8 +33,8 @@ import org.json.JSONObject;
 import org.shikimori.client.R;
 import org.shikimori.library.loaders.ShikiPath;
 import com.gars.querybuilder.BaseQuery;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 
 import java.io.IOException;
@@ -42,13 +42,13 @@ import java.io.IOException;
 import ru.altarix.basekit.library.tools.h;
 import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 
-public class RegistrationIntentService extends IntentService implements BaseQuery.OnQueryErrorListener<MyStatusResult> {
+public class RegistrationIntentService extends IntentService implements BaseQuery.OnQueryErrorListener<ShikiStatusResult> {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
     private SharedPreferences sharedPreferences;
     private ShikiUser user;
-    private Query query;
+    private QueryShiki query;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -58,7 +58,7 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
     protected void onHandleIntent(Intent intent) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         user = new ShikiUser(RegistrationIntentService.this);
-        query = new Query(this, false)
+        query = new QueryShiki(this, false)
                 .setErrorListener(this);
         if(ShikiUser.USER_ID!=null){
             try {
@@ -108,9 +108,9 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
 //        String deviceId = user.getDeviceId();
 
         query.in(ShikiPath.DEVICES)
-             .getResultArray(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
+             .getResultArray(new BaseQuery.OnQuerySuccessListener<ShikiStatusResult>() {
                  @Override
-                 public void onQuerySuccess(MyStatusResult res) {
+                 public void onQuerySuccess(ShikiStatusResult res) {
 
                      // Check if token already exist on server
                      JSONArray devices = res.getResultArray();
@@ -134,9 +134,9 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
                           .addParam("device[token]", token)
                           .addParam("device[platform]", "android")
                           .addParam("device[name]", h.getDeviceName())
-                          .getResultObject(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
+                          .getResultObject(new BaseQuery.OnQuerySuccessListener<ShikiStatusResult>() {
                               @Override
-                              public void onQuerySuccess(MyStatusResult res) {
+                              public void onQuerySuccess(ShikiStatusResult res) {
                                   String tokenId = res.getParameter("id");
                                   user.setDeviceId(tokenId);
                               }
@@ -161,7 +161,7 @@ public class RegistrationIntentService extends IntentService implements BaseQuer
     }
     // [END subscribe_topics]
     @Override
-    public void onQueryError(MyStatusResult res) {
+    public void onQueryError(ShikiStatusResult res) {
         sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
     }
 

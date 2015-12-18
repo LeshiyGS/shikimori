@@ -9,10 +9,10 @@ import org.shikimori.library.features.calendar.adapter.CalendarRecycleAdapter;
 import org.shikimori.library.fragments.base.abstracts.recycleview.BaseRecycleViewGridFragment;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
 import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRecycleListener;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.ItemCaclendarShiki;
 import org.shikimori.library.tool.hs;
 
@@ -29,7 +29,7 @@ import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
  * Created by Владимир on 27.03.2015.
  */
 public class CalendarFragment extends BaseRecycleViewGridFragment
-        implements Query.OnQuerySuccessListener<MyStatusResult>, OnItemClickRecycleListener<ItemCaclendarShiki> {
+        implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, OnItemClickRecycleListener<ItemCaclendarShiki> {
 
 //    private PinnedSectionGridView gvList;
 //    private SimpleSectionedGridAdapter simpleSectionedGridAdapter;
@@ -63,8 +63,8 @@ public class CalendarFragment extends BaseRecycleViewGridFragment
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), MyStatusResult.TYPE.ARRAY)
-             .setCache(true, Query.DAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.CALENDAR), ShikiStatusResult.TYPE.ARRAY)
+             .setCache(true, QueryShiki.DAY)
              .getResult(this);
     }
 
@@ -76,7 +76,7 @@ public class CalendarFragment extends BaseRecycleViewGridFragment
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         if(activity == null)
             return;
         List<ItemCaclendarShiki> list = builder.getDataList(res.getResultArray(), ItemCaclendarShiki.class,

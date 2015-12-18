@@ -14,7 +14,7 @@ import org.shikimori.library.features.profile.adapter.InboxAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.features.profile.model.ItemDialogs;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.baselisteners.BaseAnimationListener;
@@ -57,7 +57,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.DIALOGS), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .getResult(this);
@@ -71,7 +71,7 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemDialogs.class);
     }
 

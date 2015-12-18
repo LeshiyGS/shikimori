@@ -18,8 +18,8 @@ import org.shikimori.library.adapters.TopicsAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.ItemTopicsShiki;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.constpack.Constants;
@@ -83,12 +83,12 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
         if (getFC().getQuery() == null)
             return;
 
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("section", section)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
 //                .addParam("desc", "1")
-                .setCache(true, Query.HALFHOUR)
+                .setCache(true, QueryShiki.HALFHOUR)
                 .getResult(this);
     }
 
@@ -97,7 +97,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
      * @param res
      */
     @Override
-    public void onQuerySuccess(final MyStatusResult res) {
+    public void onQuerySuccess(final ShikiStatusResult res) {
         loadAsyncBuild(bodyBuild, res.getResultArray(), 300, ItemTopicsShiki.class);
     }
 

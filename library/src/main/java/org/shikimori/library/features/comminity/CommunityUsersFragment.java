@@ -13,8 +13,8 @@ import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.ItemUser;
 
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by LeshiyGS on 31.03.2015.
  */
-public class CommunityUsersFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
+public class CommunityUsersFragment extends BaseGridViewFragment implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, AdapterView.OnItemClickListener {
 
     private static String FRIENDLIST = "FRIENDLIST";
     ObjectBuilder builder = new ObjectBuilder();
@@ -86,16 +86,16 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(getLoadPath(), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getLoadPath(), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("search", getSearchText())
-                .setCache(true, Query.FIVE_MIN)
+                .setCache(true, QueryShiki.FIVE_MIN)
                 .getResult(this);
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         super.onQuerySuccess(res);
         List<ItemUser> list = builder.getDataList(res.getResultArray(), ItemUser.class);
         prepareData(list, true, true);

@@ -19,8 +19,8 @@ import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAda
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import com.gars.querybuilder.BaseQuery;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.LoadAsyncBuildHelper;
 import org.shikimori.library.tool.ProjectTool;
@@ -39,7 +39,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 /**
  * Created by Феофилактов on 06.05.2015.
  */
-public class ChatFragment extends BaseRecycleViewFragment implements View.OnClickListener, BaseQuery.OnQuerySuccessListener<MyStatusResult> {
+public class ChatFragment extends BaseRecycleViewFragment implements View.OnClickListener, BaseQuery.OnQuerySuccessListener<ShikiStatusResult> {
 
     private EditText etMessage;
     private View ivSend;
@@ -120,7 +120,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(getUrlPath(), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(getUrlPath(), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .getResult(this);
@@ -134,7 +134,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         lah.loadAsyncBuild(bodyBuilder, res.getResultArray(),ItemNewsUserShiki.class);
     }
 
@@ -163,9 +163,9 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
         showRefreshLoader();
         etMessage.setEnabled(false);
 
-        apiController.init().sendPrivateMessage(getFC().getUserId(), toUserId, text, new Query.OnQuerySuccessListener<MyStatusResult>() {
+        apiController.init().sendPrivateMessage(getFC().getUserId(), toUserId, text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
-            public void onQuerySuccess(MyStatusResult res) {
+            public void onQuerySuccess(ShikiStatusResult res) {
                 onStartRefresh();
                 etMessage.setEnabled(true);
                 etMessage.setText("");
@@ -180,9 +180,9 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
         if (text == null)
             return;
 
-        apiController.init().updatePrivateMessage(messageController.getUpdateId(), text, new Query.OnQuerySuccessListener<MyStatusResult>() {
+        apiController.init().updatePrivateMessage(messageController.getUpdateId(), text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
-            public void onQuerySuccess(MyStatusResult res) {
+            public void onQuerySuccess(ShikiStatusResult res) {
                 clearData();
                 hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");
@@ -287,7 +287,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
     }
 
     @Override
-    public void onQueryError(MyStatusResult res) {
+    public void onQueryError(ShikiStatusResult res) {
         super.onQueryError(res);
         etMessage.setEnabled(true);
     }

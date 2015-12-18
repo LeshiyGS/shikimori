@@ -8,7 +8,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.holder.MessageRecycleHolder;
 import org.shikimori.library.fragments.base.abstracts.recycleview.ListRecycleAdapter;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.InvalidateTool;
 import org.shikimori.library.tool.ProjectTool;
@@ -31,14 +31,14 @@ public class NewsUserAdapter extends ListRecycleAdapter<ItemNewsUserShiki, Messa
 
     private final BodyBuild bodyBuild;
     private String type;
-    private Query query;
+    private QueryShiki query;
     private View.OnClickListener settingsClickListener;
 
-    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, Query query, List<ItemNewsUserShiki> list) {
+    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, QueryShiki query, List<ItemNewsUserShiki> list) {
         this(context, R.layout.item_shiki_message_list, query, list);
     }
 
-    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, int layout,  Query query, List<ItemNewsUserShiki> list) {
+    public NewsUserAdapter(BaseKitActivity<ShikiAC> context, int layout, QueryShiki query, List<ItemNewsUserShiki> list) {
         super(context, list, layout);
         this.query = query;
         bodyBuild = ProjectTool.getBodyBuilder(context, BodyBuild.CLICKABLETYPE.NOT);

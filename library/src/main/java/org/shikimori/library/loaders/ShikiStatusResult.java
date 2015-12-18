@@ -1,4 +1,6 @@
-package org.shikimori.library.loaders.httpquery;
+package org.shikimori.library.loaders;
+
+import com.gars.querybuilder.StatusResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,18 +8,18 @@ import org.json.JSONObject;
 /**
  * Created by gars on 3/20/14.
  */
-public class MyStatusResult extends com.gars.querybuilder.StatusResult{
+public class ShikiStatusResult extends StatusResult {
 
     private JSONObject jsonObject;
     private JSONArray jsonArray;
 
-    public MyStatusResult() {}
+    public ShikiStatusResult() {}
 
-    public MyStatusResult(String data) {
+    public ShikiStatusResult(String data) {
         this(data, TYPE.OBJECT);
     }
 
-    public MyStatusResult(String data, TYPE type){
+    public ShikiStatusResult(String data, TYPE type){
         super(data, type);
     }
 

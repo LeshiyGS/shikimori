@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 
 import org.json.JSONObject;
 import org.shikimori.client.BuildConfig;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.controllers.BaseApiController;
 
 /**
@@ -15,17 +15,17 @@ import org.shikimori.library.tool.controllers.BaseApiController;
 public class ApiShikiVersionController extends BaseApiController<ApiShikiVersionController> {
     private final SharedPreferences mSettings;
 
-    public ApiShikiVersionController(Query query) {
+    public ApiShikiVersionController(QueryShiki query) {
         super(query);
         mSettings = query.getContext().getSharedPreferences(query.getContext().getPackageName(), Context.MODE_PRIVATE);
     }
 
-    public void checkNewVersion(final Query.OnQuerySuccessListener listener) {
+    public void checkNewVersion(final QueryShiki.OnQuerySuccessListener listener) {
         query.init("http://anibreak.ru/v.0.3/get/shiki/version")
                 .setCache(true)
-                .getResultObject(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .getResultObject(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
                         int newVersion = res.getParameterInt("version");
                         int lastShowNewVersion = mSettings.getInt("lastShowNewVersion", 0);
 

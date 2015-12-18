@@ -19,8 +19,8 @@ import android.widget.EditText;
 import org.shikimori.client.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.api.ApiMessageController;
 import org.shikimori.library.tool.hs;
@@ -37,7 +37,7 @@ public class SendLogActivity extends Activity {
     private String device;
     private String androidVersion;
     private String appName;
-    private Query query;
+    private QueryShiki query;
 
 
     @Override
@@ -57,7 +57,7 @@ public class SendLogActivity extends Activity {
     }
 
     private void showAdvansedError() {
-        query = new Query(this);
+        query = new QueryShiki(this);
         View v = getLayoutInflater().inflate(R.layout.error_log_advansed, null);
         final EditText cetErrorLog = h.find(v, R.id.cetErrorLog);
 
@@ -92,9 +92,9 @@ public class SendLogActivity extends Activity {
            .append("[/spoiler]");
 
         ApiMessageController apiController = new ApiMessageController(query);
-        apiController.init().sendComment("108922", ShikiUser.USER_ID, "Entry", str.toString(), new Query.OnQuerySuccessListener<MyStatusResult>() {
+        apiController.init().sendComment("108922", ShikiUser.USER_ID, "Entry", str.toString(), new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
-            public void onQuerySuccess(MyStatusResult res) {
+            public void onQuerySuccess(ShikiStatusResult res) {
                 clearData();
                 hs.toggleKeyboard(SendLogActivity.this);
                 finish();

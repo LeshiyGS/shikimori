@@ -10,9 +10,9 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import org.json.JSONArray;
 import org.shikimori.client.ShikiApplikation;
 import org.shikimori.library.features.profile.model.ItemDialogs;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import com.gars.querybuilder.BaseQuery;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.controllers.api.ApiMessageController;
@@ -22,10 +22,10 @@ import org.shikimori.library.tool.push.PushHelperReceiver;
  * Created by Владимир on 26.11.2015.
  */
 public class GetMessageLastForPush {
-    public static void notifyMessage(final Query query) {
-        new ApiMessageController(query).getLastDialog(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
+    public static void notifyMessage(final QueryShiki query) {
+        new ApiMessageController(query).getLastDialog(new BaseQuery.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
-            public void onQuerySuccess(MyStatusResult res) {
+            public void onQuerySuccess(ShikiStatusResult res) {
 
                 JSONArray rezult = res.getResultArray();
                 if(rezult!=null){

@@ -5,28 +5,28 @@ import android.text.TextUtils;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 
 /**
  * Created by Феофилактов on 29.03.2015.
  */
 public class AuthShikiController {
-    private final Query query;
+    private final QueryShiki query;
     private final ShikiUser user;
     private String login;
     private String password;
-    private Query.OnQuerySuccessListener listener;
-    Query.METHOD method = Query.METHOD.POST;
+    private QueryShiki.OnQuerySuccessListener listener;
+    QueryShiki.METHOD method = QueryShiki.METHOD.POST;
 
 
-    public AuthShikiController(Query query, ShikiUser user){
+    public AuthShikiController(QueryShiki query, ShikiUser user){
         this.query = query;
         this.user = user;
     }
 
-    public void shikiAuth(String login, String password, Query.OnQuerySuccessListener listener){
+    public void shikiAuth(String login, String password, QueryShiki.OnQuerySuccessListener listener){
         this.login = login;
         this.password = password;
         this.listener = listener;
@@ -35,12 +35,12 @@ public class AuthShikiController {
 
     void auth() {
         query.init(ShikiApi.getUrl(ShikiPath.AUTH))
-                .setMethod(Query.METHOD.GET)
+                .setMethod(QueryShiki.METHOD.GET)
                 .addParam("nickname", login)
                 .addParam("password", password)
-                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
 
                         String token = res.getParameter("api_access_token");
                         if(!TextUtils.isEmpty(token)){
@@ -62,9 +62,9 @@ public class AuthShikiController {
      */
     void getUserData(){
         query.init(ShikiApi.getUrl(ShikiPath.GET_USER_DATA))
-            .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
+            .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                 @Override
-                public void onQuerySuccess(MyStatusResult res) {
+                public void onQuerySuccess(ShikiStatusResult res) {
                     user.setData(res.getResultObject());
                     user.initStaticParams();
                     listener.onQuerySuccess(res);

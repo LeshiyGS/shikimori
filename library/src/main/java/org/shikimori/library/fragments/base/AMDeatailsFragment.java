@@ -24,8 +24,8 @@ import org.shikimori.library.custom.ExpandableHeightGridView;
 import org.shikimori.library.fragments.LinkedListFragment;
 import org.shikimori.library.fragments.SimilarFragment;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.pull.PullableFragment;
 import org.shikimori.library.tool.Blur;
 import org.shikimori.library.tool.FixPauseAnimate;
@@ -47,7 +47,7 @@ import ru.altarix.ui.CustomTextView;
  * Created by LeshiyGS on 31.03.2015.
  */
 public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivity<ShikiAC>>
-        implements Query.OnQuerySuccessListener<MyStatusResult>, View.OnClickListener {
+        implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, View.OnClickListener {
 
     protected String itemId;
     protected ScrollView svMain;
@@ -132,7 +132,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
     void loadDataFromServer() {
         getFC().getQuery().init(ShikiApi.getUrl(getPatch() + itemId))
-                .setCache(true, Query.HOUR)
+                .setCache(true, QueryShiki.HOUR)
                 .getResult(this);
     }
 
@@ -159,7 +159,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         hs.setVisible(svMain);
         stopRefresh();
         llInfo.removeAllViews();

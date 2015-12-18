@@ -6,12 +6,12 @@ import android.content.Intent;
 
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.client.tool.controllers.ApiShikiVersionController;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 
 import ru.altarix.basekit.library.tools.h;
 
-public class UpdateReceiver extends BroadcastReceiver implements Query.OnQuerySuccessListener<MyStatusResult> {
+public class UpdateReceiver extends BroadcastReceiver implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult> {
 
     private Context mContext;
 
@@ -30,12 +30,12 @@ public class UpdateReceiver extends BroadcastReceiver implements Query.OnQuerySu
     }
 
     private void loadVersion() {
-        new ApiShikiVersionController(new Query(mContext))
+        new ApiShikiVersionController(new QueryShiki(mContext))
                 .checkNewVersion(this);
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         if (res.getParametrBool("thisisnew")) {
             new PushHelperShiki(mContext)
                     .sendNewVersion(res.getParameter("version_name"));

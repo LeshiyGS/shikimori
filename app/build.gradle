@@ -19,14 +19,14 @@ apply from: "../../shikimori.gradle"
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "org.shikimori.client"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 28
-        versionName "1.0.0 RC1"
+        versionCode 29
+        versionName "1.0.0 RC2"
     }
 
     signingConfigs {

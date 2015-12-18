@@ -17,8 +17,8 @@ import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.client.tool.PushHelperShiki;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.hs;
@@ -26,17 +26,17 @@ import org.shikimori.library.tool.hs;
 /**
  * Created by Владимир on 15.06.2015.
  */
-public class NewMessagesService extends Service implements Query.OnQuerySuccessListener<MyStatusResult>, Query.OnQueryErrorListener<MyStatusResult> {
+public class NewMessagesService extends Service implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, QueryShiki.OnQueryErrorListener<ShikiStatusResult> {
     public static final String TAG = "serviceshiki";
     private ShikiUser user;
-    private Query query;
+    private QueryShiki query;
     Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
 
         @Override
         public void run() {
             getMessages();
-            timerHandler.postDelayed(this, Query.FIVE_MIN);
+            timerHandler.postDelayed(this, QueryShiki.FIVE_MIN);
 //            timerHandler.postDelayed(this, 10000);
         }
     };
@@ -54,7 +54,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     void initQuery() {
-        query = new Query(this)
+        query = new QueryShiki(this)
                 .init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
                 .setErrorListener(this);
     }
@@ -89,7 +89,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         if (user == null)
             return;
         load(res.getResultObject());
@@ -136,7 +136,7 @@ public class NewMessagesService extends Service implements Query.OnQuerySuccessL
     }
 
     @Override
-    public void onQueryError(MyStatusResult res) {
+    public void onQueryError(ShikiStatusResult res) {
         String errorMessage = res.getMsg();
         if (errorMessage.contains("token") || errorMessage.contains("Вам необходимо войти в систему")) {
             user.logout();

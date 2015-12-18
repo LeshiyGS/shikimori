@@ -12,8 +12,8 @@ import org.shikimori.library.features.anime.adapter.UserListAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseListViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.ItemUserListShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 import org.shikimori.library.tool.constpack.Constants;
@@ -55,11 +55,11 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     }
 
     public void loadData() {
-        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getFC().getUserId()), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.GET_USER_ANIME_LIST, getFC().getUserId()), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("status", listId)
-                .setCache(true, Query.DAY)
+                .setCache(true, QueryShiki.DAY)
                 .getResult(this);
     }
 
@@ -72,7 +72,7 @@ public class AnimeUserListFragment extends BaseListViewFragment {
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         stopRefresh();
         List<ItemUserListShiki> list = builder.getDataList(res.getResultArray(), ItemUserListShiki.class);
         prepareData(list, true, true);

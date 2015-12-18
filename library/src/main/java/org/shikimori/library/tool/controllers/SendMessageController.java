@@ -13,8 +13,8 @@ import ru.altarix.basekit.library.tools.LoaderController;
 import org.shikimori.library.R;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.edittext.QuoteEditText;
 import org.shikimori.library.tool.hs;
 
@@ -27,7 +27,7 @@ public class SendMessageController {
     private String mestype;
     private final QuoteEditText quoteTool;
     private LoaderController loader;
-    private final Query query;
+    private final QueryShiki query;
     private EditText editText;
     private MessageData data;
 
@@ -37,7 +37,7 @@ public class SendMessageController {
         COMMENT, MESSAGE
     }
 
-    public SendMessageController(Context context, Query query, EditText editText, Type type) {
+    public SendMessageController(Context context, QueryShiki query, EditText editText, Type type) {
         this.context = context;
         this.type = type;
         this.loader = query.getLoader();
@@ -67,10 +67,10 @@ public class SendMessageController {
         loader.show();
         query.init(ShikiApi.getUrl(data.deleteUrl() == null ?
                 ShikiPath.COMMENTS : data.deleteUrl()) + "/" + data.getMessageId())
-                .setMethod(Query.METHOD.DELETE)
-                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .setMethod(QueryShiki.METHOD.DELETE)
+                .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
                         loader.hide();
                         data.removeItem();
 //                        YoYo.with(Techniques.FadeOutUp)

@@ -20,8 +20,8 @@ import org.shikimori.library.fragments.base.abstracts.recycleview.OnItemClickRec
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import com.gars.querybuilder.BaseQuery;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.ItemNewsUserShiki;
 import org.shikimori.library.tool.LinkHelper;
 import org.shikimori.library.tool.LoadAsyncBuildHelper;
@@ -42,7 +42,7 @@ import ru.altarix.basekit.library.tools.DialogCompat;
 /**
  * Created by LeshiyGS on 1.04.2015.
  */
-public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKitActivity.OnFragmentBackListener, View.OnClickListener, BaseQuery.OnQuerySuccessListener<MyStatusResult>, OnItemClickRecycleListener<ItemNewsUserShiki> {
+public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKitActivity.OnFragmentBackListener, View.OnClickListener, BaseQuery.OnQuerySuccessListener<ShikiStatusResult>, OnItemClickRecycleListener<ItemNewsUserShiki> {
 
     private String type;
     private int title;
@@ -89,9 +89,9 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
                                .setMethod(BaseQuery.METHOD.POST)
                                .addParam("profile_id", ShikiUser.USER_ID)
                                .addParam("type", type)
-                               .getResult(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
+                               .getResult(new BaseQuery.OnQuerySuccessListener<ShikiStatusResult>() {
                                    @Override
-                                   public void onQuerySuccess(MyStatusResult res) {
+                                   public void onQuerySuccess(ShikiStatusResult res) {
                                        invalidate();
                                    }
                                });
@@ -175,17 +175,17 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
         if (getFC().getQuery() == null)
             return;
 
-        getFC().getQuery().init(url(), MyStatusResult.TYPE.ARRAY)
+        getFC().getQuery().init(url(), ShikiStatusResult.TYPE.ARRAY)
                 .addParam("type", type)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
                 .addParam("desc", "1")
-                .setCache(true, Query.FIVE_MIN)
+                .setCache(true, QueryShiki.FIVE_MIN)
                 .getResult(this);
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         lah.loadAsyncBuild(bodyBuild, res.getResultArray(), 600, ItemNewsUserShiki.class);
     }
 

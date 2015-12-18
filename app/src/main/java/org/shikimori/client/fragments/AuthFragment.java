@@ -17,8 +17,8 @@ import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
 import org.shikimori.library.tool.controllers.AuthShikiController;
 import org.shikimori.library.fragments.base.abstracts.BaseFragment;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 
@@ -30,7 +30,7 @@ import ru.altarix.ui.CustomEditText;
 /**
  * Created by Феофилактов on 29.03.2015.
  */
-public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, Query.OnQuerySuccessListener<MyStatusResult>, TextView.OnEditorActionListener {
+public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> implements View.OnClickListener, QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, TextView.OnEditorActionListener {
 
     private CustomEditText cetLogin;
     private CustomEditText cetPassword;
@@ -93,7 +93,7 @@ public class AuthFragment extends BaseFragment<BaseKitActivity<ShikiAC>> impleme
      * @param res
      */
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         if(activity == null)
             return;
         activity.getAC().getLoaderController().hide();

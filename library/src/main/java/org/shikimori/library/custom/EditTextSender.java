@@ -26,8 +26,8 @@ import org.shikimori.library.activity.AddItemActivity;
 import org.shikimori.library.custom.emoji.EmojiView;
 import org.shikimori.library.loaders.ShikiPath;
 import com.gars.querybuilder.BaseQuery;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ImageCreator;
 import org.shikimori.library.tool.UpdateApp;
 import org.shikimori.library.tool.constpack.Constants;
@@ -51,7 +51,7 @@ import ru.altarix.basekit.library.tools.h;
 public class EditTextSender extends FrameLayout implements View.OnClickListener, OnEmojiKeyboardListener {
 
     public static final int ADD_ELEMENT_CODE = 957;
-    Query query;
+    QueryShiki query;
     EditText etText;
     private View ivSend,ivAddAnime,ivAddImage;
     ImageCreator imageCreator;
@@ -89,7 +89,7 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener,
 
         imageCreator = new ImageCreator((Activity) getContext());
         permission = new PermissionSontroller((AppCompatActivity) getContext());
-        query = new Query(getContext());
+        query = new QueryShiki(getContext());
 
         View v = LayoutInflater.from(getContext()).inflate(R.layout.view_edit_text_sender, null);
 
@@ -210,17 +210,17 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener,
             Log.d("file" , patch);
             RequestParams params = query.getParams();
             params.put("image", new File(patch), "image/*");
-            query.setErrorListener(new BaseQuery.OnQueryErrorListener<MyStatusResult>() {
+            query.setErrorListener(new BaseQuery.OnQueryErrorListener<ShikiStatusResult>() {
                 @Override
-                public void onQueryError(MyStatusResult res) {
+                public void onQueryError(ShikiStatusResult res) {
                     h.showMsg(getContext(), R.string.error_add_image);
                     h.setVisibleGone(pbLoaderImage);
                 }
             });
             h.setVisible(pbLoaderImage);
-            query.getResultObject(new BaseQuery.OnQuerySuccessListener<MyStatusResult>() {
+            query.getResultObject(new BaseQuery.OnQuerySuccessListener<ShikiStatusResult>() {
                 @Override
-                public void onQuerySuccess(MyStatusResult res) {
+                public void onQuerySuccess(ShikiStatusResult res) {
                     hs.insertTextEditText(etText, res.getParameter("bbcode"));
                     h.setVisibleGone(pbLoaderImage);
                 }

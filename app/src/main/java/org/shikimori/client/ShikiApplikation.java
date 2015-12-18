@@ -16,11 +16,10 @@ import io.fabric.sdk.android.Fabric;
 import org.shikimori.client.activity.AboutActivity;
 import org.shikimori.client.activity.log.SendLogActivity;
 import org.shikimori.client.services.UserNotifyService;
-import org.shikimori.client.tool.GetMessageLastForPush;
 import org.shikimori.client.tool.PreferenceHelper;
 import org.shikimori.library.features.anime.AnimeDeatailsFragment;
 import org.shikimori.library.loaders.ShikiApi;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
@@ -91,7 +90,7 @@ public class ShikiApplikation extends Application {
 
         new ShikiUser(this);
         ShikiApi.setIsDebug(BuildConfig.DEBUG);
-        Query.setIsDebug(BuildConfig.DEBUG);
+        QueryShiki.setIsDebug(BuildConfig.DEBUG);
         initImageLoader(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -156,7 +155,7 @@ public class ShikiApplikation extends Application {
 
             @Override
             public void onPushRecived(Bundle bundle) {
-                Query query = new Query(ShikiApplikation.this);
+                QueryShiki query = new QueryShiki(ShikiApplikation.this);
                 query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
                 if(id == MESSAGES_ID){
                     startService(new Intent(ShikiApplikation.this, UserNotifyService.class));

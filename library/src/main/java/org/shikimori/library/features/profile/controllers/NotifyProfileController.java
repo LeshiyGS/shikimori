@@ -16,8 +16,8 @@ import org.shikimori.library.features.profile.UserHistoryFragment;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.constpack.Constants;
@@ -43,7 +43,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
 
     private final BaseKitActivity<ShikiAC> mContext;
     private final boolean selfUser;
-    private Query query;
+    private QueryShiki query;
     private ShikiUser user;
     private String currentUserId;
     private final ViewGroup body;
@@ -60,7 +60,7 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
         return ref;
     }
 
-    public NotifyProfileController(BaseKitActivity<ShikiAC> mContext, Query query, ShikiUser user, String currentUserId, ViewGroup body) {
+    public NotifyProfileController(BaseKitActivity<ShikiAC> mContext, QueryShiki query, ShikiUser user, String currentUserId, ViewGroup body) {
         this.mContext = mContext;
         this.query = query;
         this.user = user;
@@ -87,14 +87,14 @@ public class NotifyProfileController implements AdapterView.OnItemClickListener 
 
     }
 
-    public void load(final Query.OnQuerySuccessListener listener) {
+    public void load(final QueryShiki.OnQuerySuccessListener listener) {
         if(!selfUser)
             return;
         query.init(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID))
-                .setCache(true, Query.FIVE_MIN)
-                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .setCache(true, QueryShiki.FIVE_MIN)
+                .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
                         load(res.getResultObject());
                         listener.onQuerySuccess(res);
                     }

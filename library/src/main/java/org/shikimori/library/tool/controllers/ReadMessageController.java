@@ -5,8 +5,8 @@ import android.view.View;
 import org.shikimori.library.features.profile.controllers.NotifyProfileController;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ProjectTool;
 
 /**
@@ -15,13 +15,13 @@ import org.shikimori.library.tool.ProjectTool;
 public class ReadMessageController {
 
     public static ReadMessageController instance;
-    private Query query;
+    private QueryShiki query;
 
-    public ReadMessageController(Query query) {
+    public ReadMessageController(QueryShiki query) {
         this.query = query;
     }
 
-    public static ReadMessageController newInstance(Query query){
+    public static ReadMessageController newInstance(QueryShiki query){
         if(instance!=null)
             return instance;
         instance = new ReadMessageController(query);
@@ -35,12 +35,12 @@ public class ReadMessageController {
     public boolean setRead(View v, boolean read, String id){
         NotifyProfileController.setNeedRefresh(true);
         query.init(ShikiApi.getUrl(ShikiPath.READ_MESSAGE))
-                .setMethod(Query.METHOD.POST)
+                .setMethod(QueryShiki.METHOD.POST)
                 .addParam("is_read", read ? 0 : 1)
                 .addParam("ids", id)
-                .getResult(new Query.OnQuerySuccessListener<MyStatusResult>() {
+                .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
-                    public void onQuerySuccess(MyStatusResult res) {
+                    public void onQuerySuccess(ShikiStatusResult res) {
                     }
                 });
         read = !read;

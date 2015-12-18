@@ -2,7 +2,7 @@ package org.shikimori.library.tool.controllers.api;
 
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.objects.one.UserRate;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.controllers.BaseApiController;
@@ -12,7 +12,7 @@ import org.shikimori.library.tool.controllers.BaseApiController;
  */
 public class ApiRatesController extends BaseApiController<ApiRatesController> {
 
-    public ApiRatesController(Query query) {
+    public ApiRatesController(QueryShiki query) {
         super(query);
     }
 
@@ -65,9 +65,9 @@ public class ApiRatesController extends BaseApiController<ApiRatesController> {
         return this;
     }
 
-    public void createRate(String userId, String targetId, ProjectTool.TYPE targetType, Query.OnQuerySuccessListener listener){
+    public void createRate(String userId, String targetId, ProjectTool.TYPE targetType, QueryShiki.OnQuerySuccessListener listener){
         query.init(ShikiApi.getUrl(ShikiPath.SET_USER_RATE));
-        query.setMethod(Query.METHOD.POST);
+        query.setMethod(QueryShiki.METHOD.POST);
         params.put("user_rate[user_id]", userId);
         params.put("user_rate[target_id]", targetId);
         params.put("user_rate[target_type]", ProjectTool.getStringFromType(targetType));
@@ -77,13 +77,13 @@ public class ApiRatesController extends BaseApiController<ApiRatesController> {
 
     public void updateRate(String id){
         query.init(ShikiApi.getUrl(ShikiPath.USER_RATE_ID, id));
-        query.setMethod(Query.METHOD.PUT);
+        query.setMethod(QueryShiki.METHOD.PUT);
         query.setParams(params);
         send(null);
     }
     public void deleteRate(String id){
         query.init(ShikiApi.getUrl(ShikiPath.USER_RATE_ID, id));
-        query.setMethod(Query.METHOD.DELETE);
+        query.setMethod(QueryShiki.METHOD.DELETE);
         send(null);
     }
 }

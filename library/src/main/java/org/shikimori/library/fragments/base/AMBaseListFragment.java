@@ -9,8 +9,8 @@ import com.loopj.android.http.RequestParams;
 
 import org.shikimori.library.adapters.AMAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
-import org.shikimori.library.loaders.Query;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
+import org.shikimori.library.loaders.QueryShiki;
+import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.objects.one.AMShiki;
 import ru.altarix.basekit.library.tools.objBuilder.ObjectBuilder;
 
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Владимир on 27.03.2015.
  */
-public abstract class AMBaseListFragment extends BaseGridViewFragment implements Query.OnQuerySuccessListener<MyStatusResult>, AdapterView.OnItemClickListener {
+public abstract class AMBaseListFragment extends BaseGridViewFragment implements QueryShiki.OnQuerySuccessListener<ShikiStatusResult>, AdapterView.OnItemClickListener {
 
     ObjectBuilder builder = new ObjectBuilder();
 
@@ -40,7 +40,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
 
     @Override
     public void loadData() {
-        getFC().getQuery().init(getLoadPath(), MyStatusResult.TYPE.ARRAY);
+        getFC().getQuery().init(getLoadPath(), ShikiStatusResult.TYPE.ARRAY);
 
         RequestParams filter = getFilterParams();
         if(filter!=null)
@@ -49,7 +49,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
         getFC().getQuery().addParam("limit", LIMIT)
             .addParam("page", page)
             .addParam("search", getSearchText())
-            .setCache(true, Query.DAY)
+            .setCache(true, QueryShiki.DAY)
             .getResult(this);
     }
 
@@ -58,7 +58,7 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
     }
 
     @Override
-    public void onQuerySuccess(MyStatusResult res) {
+    public void onQuerySuccess(ShikiStatusResult res) {
         super.onQuerySuccess(res);
         getFC().hideLoader();
         prepareData(builder.getDataList(res.getResultArray(), AMShiki.class), true, true);

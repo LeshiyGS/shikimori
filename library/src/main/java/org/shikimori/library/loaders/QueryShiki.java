@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.library.R;
 import org.shikimori.library.interfaces.LogouUserListener;
-import org.shikimori.library.loaders.httpquery.MyStatusResult;
 import org.shikimori.library.tool.ShikiUser;
 import android.support.v4.widget.SwipeRefreshLayout;
 import ru.altarix.basekit.library.tools.LoaderController;
@@ -18,40 +17,40 @@ import ru.altarix.basekit.library.tools.LoaderController;
 /**
  * Created by Феофилактов on 30.10.2014.
  */
-public class Query extends BaseQuery<Query, MyStatusResult> {
+public class QueryShiki extends BaseQuery<QueryShiki, ShikiStatusResult> {
 
     private LoaderController loaderController;
     private SwipeRefreshLayout loaderSwipe;
 
-    public Query(Context context) {
+    public QueryShiki(Context context) {
         this(context, true);
     }
 
-    public Query(Context context, boolean async) {
+    public QueryShiki(Context context, boolean async) {
         super(context, async);
     }
 
     @Override
     public Class<? extends StatusResult> getResultClass() {
-        return MyStatusResult.class;
+        return ShikiStatusResult.class;
     }
 
-    public Query in(String path) {
+    public QueryShiki in(String path) {
         init(ShikiApi.getUrl(path));
         return this;
     }
 
-    public Query inp(String path, String prefix) {
+    public QueryShiki inp(String path, String prefix) {
         init(ShikiApi.getUrlPrefix(path, prefix));
         return this;
     }
 
-    public Query in(String path, String id) {
+    public QueryShiki in(String path, String id) {
         init(ShikiApi.getUrl(path, id));
         return this;
     }
 
-    public Query in(String path, String id, String prefix) {
+    public QueryShiki in(String path, String id, String prefix) {
         init(ShikiApi.getUrl(path, id, prefix));
         return this;
     }
@@ -68,7 +67,7 @@ public class Query extends BaseQuery<Query, MyStatusResult> {
 
 
     @Override
-    protected Query preinit(String url) {
+    protected QueryShiki preinit(String url) {
         if (ShikiUser.getToken() != null) {
             addHeader("X-User-Nickname", ShikiUser.USER_NAME);
             addHeader("X-User-Api-Access-Token", ShikiUser.getToken());
@@ -76,12 +75,12 @@ public class Query extends BaseQuery<Query, MyStatusResult> {
         return this;
     }
 
-    public Query setSwipeLoader(SwipeRefreshLayout loaderSwipe) {
+    public QueryShiki setSwipeLoader(SwipeRefreshLayout loaderSwipe) {
         this.loaderSwipe = loaderSwipe;
         return this;
     }
 
-    public Query setLoader(LoaderController loaderView) {
+    public QueryShiki setLoader(LoaderController loaderView) {
         this.loaderController = loaderView;
         return this;
     }
@@ -97,7 +96,7 @@ public class Query extends BaseQuery<Query, MyStatusResult> {
     }
 
     @Override
-    public boolean fail(MyStatusResult stat, String dataString) {
+    public boolean fail(ShikiStatusResult stat, String dataString) {
         try {
             if(dataString != null){
                 if(dataString.startsWith("{")){

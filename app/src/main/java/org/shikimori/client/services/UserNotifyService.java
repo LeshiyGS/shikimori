@@ -4,7 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import org.shikimori.client.tool.GetMessageLastForPush;
-import org.shikimori.library.loaders.Query;
+import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.tool.ShikiUser;
@@ -28,7 +28,7 @@ public class UserNotifyService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Query query = new Query(this, false);
+        QueryShiki query = new QueryShiki(this, false);
         query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
         GetMessageLastForPush.notifyMessage(query);
     }
