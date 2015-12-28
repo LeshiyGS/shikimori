@@ -11,11 +11,7 @@
             <item android:id="@+id/news"
                 android:title="@string/news" />
             <item android:id="@+id/anime"
-                android:title="@string/anime" />
-            <item android:id="@+id/manga"
-                android:title="@string/manga" />
-            <item android:id="@+id/characters"
-                android:title="@string/characters" />
+                android:title="@string/anime_and_manga" />
             <item android:id="@+id/site"
                 android:title="@string/site" />
             <item android:id="@+id/offtop"
@@ -26,6 +22,12 @@
                 android:title="@string/reviews" />
             <item android:id="@+id/polls"
                 android:title="@string/polls" />
+            <item android:id="@+id/vn"
+                android:title="@string/vn" />
+            <item android:id="@+id/games"
+                android:title="@string/games" />
+            <item android:id="@+id/cosplay"
+                android:title="@string/cosplay" />
         </menu>
     </item>
 </menu>

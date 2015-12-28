@@ -31,6 +31,7 @@ import org.shikimori.library.R;
 import org.shikimori.library.adapters.AniPostGaleryAdapter;
 import org.shikimori.library.custom.CustomGridlayout;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.custom.GalleryView;
 import org.shikimori.library.custom.actionmode.BaseQuoteCallback;
 import org.shikimori.library.objects.one.AMShiki;
 import org.shikimori.library.objects.one.ItemImage;
@@ -62,6 +63,7 @@ import ru.altarix.basekit.library.activity.BaseKitActivity;
  */
 public class BodyBuild {
 
+    private final boolean isLarge;
     private UrlTextListener urlTextListener;
     private OnClickLinkInPopup popupClick;
     private ImageClickListener imageClickListener;
@@ -87,6 +89,7 @@ public class BodyBuild {
     public BodyBuild(BaseKitActivity<ShikiAC> context) {
         this.context = context;
         screensize = hs.getScreenSize(context);
+        isLarge = context.getResources().getBoolean(R.bool.islarge);
     }
 
     public void setOnImageClickListener(ImageClickListener imageClickListener) {
@@ -355,7 +358,7 @@ public class BodyBuild {
     IMAGETYPE getImageType(Element elemnt) {
         if (elemnt.hasClass("b-poster"))
             return IMAGETYPE.POSTER;
-        else if (elemnt.hasAttr("width") || elemnt.hasAttr("width"))
+        else if (elemnt.hasAttr("width") || elemnt.hasAttr("height"))
             return IMAGETYPE.SYMPLE;
         return IMAGETYPE.BIGIMAGE;
     }
@@ -646,6 +649,10 @@ public class BodyBuild {
 
         ItemImageShiki item = new ItemImageShiki();
         item.setThumb(element.attr("src"));
+        if(element.hasAttr("data-width"))
+            item.setWidth(Integer.valueOf(element.attr("data-width")));
+        if(element.hasAttr("data-height"))
+            item.setHeight(Integer.valueOf(element.attr("data-height")));
 
         Element parentNode = element.parent();
         if (parentNode.tagName().equals("a")) {
@@ -653,6 +660,7 @@ public class BodyBuild {
         }
 
         final PostImage postImg = new PostImage(context, item);
+        postImg.setLarge(isLarge);
         if (imageClickListener != null) {
             postImg.getImage().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -668,23 +676,33 @@ public class BodyBuild {
         // получаем последнюю добавленную вьюху
         View view = getLastView(parent);
 
-        if (typeImage == IMAGETYPE.BIGIMAGE) {
-            postImg.setIsGallery();
-            addToGallery(parent, view, postImg.getImage());
-        } else {
+        if(!isLarge && postImg.isLand() || typeImage == IMAGETYPE.SYMPLE){
             insertText();
             postImg.initMargin();
             parent.addView(postImg.getImage());
+        } else {
+            postImg.setIsGallery();
+            addToGallery(parent, view, postImg.getImage());
         }
+
+//        if (typeImage == IMAGETYPE.BIGIMAGE) {
+//            postImg.setIsGallery();
+//            addToGallery(parent, view, postImg.getImage());
+//        } else {
+//            insertText();
+//            postImg.initMargin();
+//            parent.addView(postImg.getImage());
+//        }
     }
 
     private void addToGallery(ViewGroup parent, View lastView, View v) {
-        if (!(lastView instanceof CustomGridlayout)) {
+//        if (!(lastView instanceof CustomGridlayout)) {
+        if (!(lastView instanceof GalleryView)) {
             insertText();
             lastView = createImageGallery(parent);
             gallerys.add(lastView);
         }
-        CustomGridlayout grid = (CustomGridlayout) lastView;
+        ViewGroup grid = (ViewGroup) lastView;
         grid.addView(v);
     }
 
@@ -695,12 +713,13 @@ public class BodyBuild {
         return parent.getChildAt(count - 1);
     }
 
-    private GridLayout createImageGallery(ViewGroup parent) {
-        CustomGridlayout layout = new CustomGridlayout(context);
-        layout.setColumnCount(3);
+    private GalleryView createImageGallery(ViewGroup parent) {
+//        CustomGridlayout layout = new CustomGridlayout(context);
+        GalleryView layout = new GalleryView(context);
+//        layout.setColumnCount(3);
         layout.setLayoutParams(getDefaultParams());
         layout.setPadding(0, 0, 0, 30);
-        layout.setUseDefaultMargins(true);
+//        layout.setUseDefaultMargins(true);
         parent.addView(layout);
         return layout;
     }

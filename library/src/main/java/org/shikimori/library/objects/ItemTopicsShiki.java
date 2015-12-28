@@ -31,7 +31,7 @@ public class ItemTopicsShiki extends ItemNewsUserShiki implements OnViewBuildLis
         super.create(json);
         jsonObject = json.toString();
         commentsCount = json.optInt("comments_count");
-        section = new Section(json.optJSONObject("section"));
+        section = new Section(json.optJSONObject("forum"));
         user = new ItemUser().create(json.optJSONObject("user"));
 
         title = HelperObj.getString(json, "topic_title");

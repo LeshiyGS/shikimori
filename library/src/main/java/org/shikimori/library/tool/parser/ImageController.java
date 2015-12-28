@@ -1,10 +1,13 @@
 package org.shikimori.library.tool.parser;
 
+import android.graphics.Bitmap;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.AnimateGifMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.shikimori.library.R;
 import org.shikimori.library.objects.one.ItemImageShiki;
@@ -47,7 +50,13 @@ public class ImageController {
                     .error(R.drawable.missing_preview)
                     .load(imageData.getThumb());
         } else {
-            ImageLoader.getInstance().displayImage(imageData.getThumb(), image);
+            ImageLoader.getInstance().displayImage(imageData.getThumb(), image, new SimpleImageLoadingListener(){
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    imageData.setWidth(loadedImage.getWidth());
+                    imageData.setHeight(loadedImage.getHeight());
+                }
+            });
         }
     }
 

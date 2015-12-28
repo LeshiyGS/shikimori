@@ -8,4 +8,5 @@
     <dimen name="paddingPosterH80">80dp</dimen>
     <dimen name="paddingPosterW90">90dp</dimen>
     <dimen name="paddingPosterW115">115dp</dimen>
+    <bool name="islarge">false</bool>
 </resources>

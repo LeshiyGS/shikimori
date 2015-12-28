@@ -1,7 +1,9 @@
 package org.shikimori.library.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ViewGroup;
 
 import org.shikimori.library.R;
 import org.shikimori.library.fragments.base.PagerAdapterFragment;
@@ -26,6 +28,8 @@ public class PageActivity extends BaseActivity implements ExtraLoadInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initData();
+        if(Build.VERSION.SDK_INT >=21)
+            ((ViewGroup)getToolbar().getParent()).setElevation(0);
     }
 
     protected void addPageFragment(Fragment frag, String title) {

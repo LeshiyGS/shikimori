@@ -84,7 +84,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
             return;
 
         getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS), ShikiStatusResult.TYPE.ARRAY)
-                .addParam("section", section)
+                .addParam("forum", section)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
 //                .addParam("desc", "1")
@@ -166,14 +166,15 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
 
         if (id == R.id.all) section = "all";
         else if (id == R.id.news) section = "news";
-        else if (id == R.id.anime) section = "a";
-        else if (id == R.id.manga) section = "m";
-        else if (id == R.id.characters) section = "c";
-        else if (id == R.id.site) section = "s";
-        else if (id == R.id.offtop) section = "o";
-        else if (id == R.id.group) section = "g";
+        else if (id == R.id.anime) section = "animanga";
+        else if (id == R.id.site) section = "site";
+        else if (id == R.id.offtop) section = "offtopic";
+        else if (id == R.id.group) section = "clubs";
         else if (id == R.id.reviews) section = "reviews";
-        else if (id == R.id.polls) section = "v";
+        else if (id == R.id.polls) section = "contests";
+        else if (id == R.id.vn) section = "vn";
+        else if (id == R.id.games) section = "games";
+        else if (id == R.id.cosplay) section = "cosplay";
 
         if (section != null) {
             page = DEFAULT_FIRST_PAGE;
