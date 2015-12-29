@@ -1,7 +1,9 @@
 package org.shikimori.library.tool.parser;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.koushikdutta.ion.Ion;
@@ -10,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.shikimori.library.R;
+import org.shikimori.library.custom.MosaicView;
 import org.shikimori.library.objects.one.ItemImageShiki;
 
 /**
@@ -55,9 +58,24 @@ public class ImageController {
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     imageData.setWidth(loadedImage.getWidth());
                     imageData.setHeight(loadedImage.getHeight());
+
+                    ViewGroup parent = (ViewGroup) view.getParent();
+                    if(parent instanceof MosaicView){
+                        Log.d("MosaicView rebuildViews", "onLoadingComplete: ");
+                        ((MosaicView) parent).rebuildViews();
+                    }
+                    else {
+                        invalidateSize();
+                    }
                 }
+
+
             });
         }
+    }
+
+    protected void invalidateSize() {
+
     }
 
     public ItemImageShiki getImageData() {

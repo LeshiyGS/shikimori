@@ -1,19 +1,24 @@
 package org.shikimori.library.custom;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+
+import ru.altarix.basekit.library.tools.h;
 
 /**
  * Created by Феофилактов on 28.12.2015.
  */
 public class MosaicView extends FrameLayout {
     private static final String TAG = "MosaicView";
-    private int checkWidth;
-    private int maxRightOffset = 100;
+    private int checkWidth, checkHeight;
+    private int minRightOffset = 150;
+    private int minHeight, minWidth;
 
     public MosaicView(Context context) {
         this(context, null);
@@ -25,7 +30,8 @@ public class MosaicView extends FrameLayout {
 
     public MosaicView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        minHeight = h.pxToDp(100, context);
+        minWidth = h.pxToDp(150, context);
     }
 
     @Override
@@ -38,17 +44,19 @@ public class MosaicView extends FrameLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                if (checkWidth == getWidth())
+                if (checkWidth == getWidth() && checkHeight == getHeight())
                     return;
-                buildViews();
+                rebuildViews();
             }
         });
     }
 
-    private void buildViews() {
+    public void rebuildViews() {
         checkWidth = getWidth();
+        checkHeight = getHeight();
         // если 1 элемент то ничего не делаем
         int viewCount = getChildCount();
+
 //        int column = viewCount > 3 ? 3 : viewCount;
         int gridSize = getWidth()/* == 0 ? screensize.x : getWidth()*/;
         gridSize -= (getPaddingLeft() - getPaddingRight());
@@ -63,90 +71,93 @@ public class MosaicView extends FrameLayout {
         int globalHeight = 0;
         boolean nextRow = false;
 
-        for (int i = 0; i < viewCount; i++) {
+        int i;
+        for (i = 0; i < viewCount; i++) {
             View v = getChildAt(i);
 
-            int vWidth = v.getWidth();
-            int vHeight = v.getHeight();
+            int vWidth = 0, vHeight = 0;
+            Rect rect = null;
+            if (v instanceof ImageView) {
+                Drawable draw = ((ImageView) v).getDrawable();
+                if (draw != null){
+                    rect = ((ImageView) v).getDrawable().getBounds();
+//                    vHeight = ((ImageView) v).getDrawable().getIntrinsicHeight();
+//                    vWidth = ((ImageView) v).getDrawable().getIntrinsicWidth();
+                }
+            }
 
-            if(vWidth == 0)
-                vWidth = gridSize;
-            if(vHeight == 0)
-                vHeight = 150;
+            if(rect == null || rect.width() == 0 || rect.height() == 0)
+                break;
 
-            float ration = 1;
-            ration = vWidth > vHeight ? vWidth / vHeight : vHeight / vWidth;
+            vHeight = rect.height();
+            vWidth = rect.width();
+//            Log.d(TAG, "-------------------------------------");
+//            Log.d(TAG, "drawable width: " + vWidth + " height: "+vHeight);
+
+//            if (vHeight == 0)
+//                vHeight = v.getHeight();
+//            if (vWidth == 0)
+//                vWidth = v.getWidth();
+//
+//            if (vWidth == 0)
+//                vWidth = 300;
+//            if (vHeight == 0)
+//                vHeight = minHeight;
+
+            float ration;
+            if(vWidth > vHeight){
+                ration = (float) vWidth / vHeight;
+//                Log.d(TAG, "ratio: " + ration + " vWidth: "+vWidth + " vHeight: "+vHeight);
+                if(vHeight < minHeight){
+                    vHeight = minHeight;
+                    vWidth = Math.round(vHeight * ration);
+                }
+            } else {
+                ration = (float)vHeight / vWidth;
+//                Log.d(TAG, "ratio: " + ration + " vWidth: "+vWidth + " vHeight: "+vHeight);
+                if(vWidth < minWidth){
+                    vWidth = minWidth;
+                    vHeight = Math.round(vWidth * ration);
+                }
+            }
 
             FrameLayout.LayoutParams itemParams = (FrameLayout.LayoutParams) v.getLayoutParams();
 
             if (viewHeight == 0)
-                viewHeight = (int) (vWidth / ration);
+                viewHeight = vHeight;
 
-
-            if(nextRow){
+            if (nextRow) {
                 viewWidth = 0;
-                viewHeight = (int) (vWidth / ration);
+                viewHeight = vHeight;
                 nextRow = false;
             }
 
-            itemParams.setMargins(viewWidth, globalHeight, 0,0);
-
-//            itemParams.leftMargin = viewWidth;
-//            if (viewWidth == 0 && globalHeight > 0)
-//            itemParams.topMargin = globalHeight;
+            itemParams.setMargins(viewWidth, globalHeight, 0, 0);
 
 
-//                    if(vWidth > vHeight){
-//            if (maxRightOffset > (gridSize - viewWidth)) {
-//                vWidth = gridSize - viewWidth;
-//                vHeight = viewHeight;
-//                globalHeight += vHeight;
-//                Log.d(TAG, "addView last: width-"+vWidth+" height-"+vHeight);
-//                viewWidth = 0;
-//                viewHeight = 0;
-//            } else {
+            viewWidth += vWidth;
+            vHeight = viewHeight;
 
+            int leftSize = gridSize - viewWidth;
 
-                viewWidth += vWidth;
-                vHeight = viewHeight;
+//            Log.d(TAG, i+": viewWidth: " + vWidth + ", leftSize: "+leftSize );
 
-                if(viewWidth>=gridSize){
-                    vWidth -= (gridSize - viewWidth);
-                    Log.d(TAG, "vWidth -= (gridSize - viewWidth)"+vWidth);
-                    globalHeight += vHeight;
-                    nextRow = true;
-                } else if ((viewWidth+maxRightOffset)>= gridSize){
-                    vWidth += (gridSize - viewWidth);
-                    Log.d(TAG, "vWidth += (gridSize - viewWidth)"+vWidth);
-                    globalHeight += vHeight;
-                    nextRow = true;
-                }
+            // 90 < 100
+            if(leftSize <= minRightOffset){
+                vWidth += leftSize;
+//                Log.d(TAG, "vWidth += leftSize: " + vWidth);
+                globalHeight += vHeight;
+                nextRow = true;
+            }
 
-//                if (maxRightOffset > (gridSize - viewWidth)) {
-//                    int checkWidth = gridSize - viewWidth;
-//                    vWidth = gridSize - viewWidth;
-//                    vHeight = viewHeight;
-//                    globalHeight += vHeight;
-//                    Log.d(TAG, "addView last: width-"+vWidth+" height-"+vHeight);
-//                    viewWidth = 0;
-//                    viewHeight = 0;
-//                }
-                Log.d(TAG, "addView row: width-"+vWidth+" height-"+vHeight);
-//                            vHeight = (int) (vWidth / ration);
-//            }
-//                    }
-
+//            Log.d(TAG, "addView row: width-" + vWidth + " height-" + vHeight);
 
             itemParams.width = vWidth;
             itemParams.height = vHeight;
             v.setLayoutParams(itemParams);
+
         }
 
-//        ViewGroup.LayoutParams bodyParams = getLayoutParams();
-//        if(globalHeight>0)
-//            bodyParams.height = globalHeight;
-//        setLayoutParams(bodyParams);
-        Log.d(TAG, "globalHeight: " + globalHeight);
     }
 
 

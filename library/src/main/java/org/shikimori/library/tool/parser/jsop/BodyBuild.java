@@ -661,6 +661,20 @@ public class BodyBuild {
 
         final PostImage postImg = new PostImage(context, item);
         postImg.setLarge(isLarge);
+
+        // получаем последнюю добавленную вьюху
+        View view = getLastView(parent);
+
+        if(!isLarge && postImg.isLand() || typeImage == IMAGETYPE.SYMPLE){
+            insertText();
+//            postImg.initMargin();
+            postImg.setSimple();
+            parent.addView(postImg.getImage());
+        } else {
+            postImg.setIsGallery();
+            addToGallery(parent, view, postImg.getImage());
+        }
+
         if (imageClickListener != null) {
             postImg.getImage().setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -672,18 +686,6 @@ public class BodyBuild {
         }
         // добавляем в пост обработку для отображения картинки
         images.add(postImg);
-
-        // получаем последнюю добавленную вьюху
-        View view = getLastView(parent);
-
-        if(!isLarge && postImg.isLand() || typeImage == IMAGETYPE.SYMPLE){
-            insertText();
-            postImg.initMargin();
-            parent.addView(postImg.getImage());
-        } else {
-            postImg.setIsGallery();
-            addToGallery(parent, view, postImg.getImage());
-        }
 
 //        if (typeImage == IMAGETYPE.BIGIMAGE) {
 //            postImg.setIsGallery();
