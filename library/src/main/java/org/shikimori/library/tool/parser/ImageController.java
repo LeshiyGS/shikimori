@@ -61,7 +61,7 @@ public class ImageController {
 
                     ViewGroup parent = (ViewGroup) view.getParent();
                     if(parent instanceof MosaicView){
-                        Log.d("MosaicView rebuildViews", "onLoadingComplete: ");
+//                        Log.d("MosaicView rebuildViews", "onLoadingComplete: ");
                         ((MosaicView) parent).rebuildViews();
                     }
                     else {
