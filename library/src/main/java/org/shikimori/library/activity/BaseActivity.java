@@ -29,4 +29,14 @@ public class BaseActivity extends BaseKitActivity<ShikiAC> {
     protected int getLayoutId() {
         return R.layout.basekit_simple_activity;
     }
+
+
+    @Override
+    public void onBackPressed() {
+        if(getAC().getThumbToImage().closeImage())
+            return;
+
+        super.onBackPressed();
+
+    }
 }

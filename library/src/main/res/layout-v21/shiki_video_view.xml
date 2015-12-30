@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="250dp"
     android:layout_height="150dp"
     android:gravity="center"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/vBack"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="150dp"
         android:background="@color/black_owerlay_60"
         android:scaleType="centerCrop" />
@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/defaultPaddingMini"
         android:paddingRight="@dimen/defaultPaddingMini"
-        android:text="VK"
         style="@style/altarixUiText"
         android:textColor="@color/black_owerlay_60"
         android:layout_gravity="bottom"

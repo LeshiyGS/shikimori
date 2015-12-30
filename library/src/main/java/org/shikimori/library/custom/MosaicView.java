@@ -9,12 +9,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import org.shikimori.library.R;
+
 import ru.altarix.basekit.library.tools.h;
 
 /**
  * Created by Феофилактов on 28.12.2015.
  */
 public class MosaicView extends FrameLayout {
+
     private static final String TAG = "MosaicView";
     private int checkWidth, checkHeight;
     private int minRightOffset = 150;
@@ -79,18 +82,33 @@ public class MosaicView extends FrameLayout {
             Rect rect = null;
             if (v instanceof ImageView) {
                 Drawable draw = ((ImageView) v).getDrawable();
-                if (draw != null){
+                if (draw != null) {
                     rect = ((ImageView) v).getDrawable().getBounds();
 //                    vHeight = ((ImageView) v).getDrawable().getIntrinsicHeight();
 //                    vWidth = ((ImageView) v).getDrawable().getIntrinsicWidth();
                 }
+                if (rect == null || rect.width() == 0 || rect.height() == 0)
+                    break;
+
+                vHeight = rect.height();
+                vWidth = rect.width();
+            } else {
+                DefaultSize defSize = (DefaultSize) v.getTag(R.id.defSizeView);
+                if(defSize == null){
+                    defSize = new DefaultSize(v.getWidth(), v.getHeight());
+                    v.setTag(R.id.defSizeView, defSize);
+                }
+
+                vHeight = defSize.height;
+                vWidth = defSize.width;
+
+                if (vWidth == 0)
+                    vWidth = 300;
+                if (vHeight == 0)
+                    vHeight = minHeight;
+
             }
 
-            if(rect == null || rect.width() == 0 || rect.height() == 0)
-                break;
-
-            vHeight = rect.height();
-            vWidth = rect.width();
 //            Log.d(TAG, "-------------------------------------");
 //            Log.d(TAG, "drawable width: " + vWidth + " height: "+vHeight);
 
@@ -105,17 +123,17 @@ public class MosaicView extends FrameLayout {
 //                vHeight = minHeight;
 
             float ration;
-            if(vWidth > vHeight){
+            if (vWidth > vHeight) {
                 ration = (float) vWidth / vHeight;
 //                Log.d(TAG, "ratio: " + ration + " vWidth: "+vWidth + " vHeight: "+vHeight);
-                if(vHeight < minHeight){
+                if (vHeight < minHeight) {
                     vHeight = minHeight;
                     vWidth = Math.round(vHeight * ration);
                 }
             } else {
-                ration = (float)vHeight / vWidth;
+                ration = (float) vHeight / vWidth;
 //                Log.d(TAG, "ratio: " + ration + " vWidth: "+vWidth + " vHeight: "+vHeight);
-                if(vWidth < minWidth){
+                if (vWidth < minWidth) {
                     vWidth = minWidth;
                     vHeight = Math.round(vWidth * ration);
                 }
@@ -143,7 +161,7 @@ public class MosaicView extends FrameLayout {
 //            Log.d(TAG, i+": viewWidth: " + vWidth + ", leftSize: "+leftSize );
 
             // 90 < 100
-            if(leftSize <= minRightOffset){
+            if (leftSize <= minRightOffset) {
                 vWidth += leftSize;
 //                Log.d(TAG, "vWidth += leftSize: " + vWidth);
                 globalHeight += vHeight;
@@ -158,6 +176,15 @@ public class MosaicView extends FrameLayout {
 
         }
 
+    }
+
+    private class DefaultSize{
+        int width, height;
+
+        public DefaultSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
     }
 
 

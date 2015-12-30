@@ -39,6 +39,10 @@ public class VideoImage extends ImageController{
     private void initImage() {
         //Вставляем картинку
         v = LayoutInflater.from(context).inflate(R.layout.shiki_video_view, null);
+
+        ViewGroup.LayoutParams params = hs.getDefaultParams();
+        params.width = hs.pxToDp(250, context);
+        v.setLayoutParams(params);
         image = (ImageView) v.findViewById(R.id.vBack);
         tvMarker = (TextView) v.findViewById(R.id.tvMarker);
         ImageView icon = (ImageView) v.findViewById(R.id.icon);
