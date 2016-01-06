@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -22,6 +23,7 @@ public class MosaicView extends FrameLayout {
     private int checkWidth, checkHeight;
     private int minRightOffset = 150;
     private int minHeight, minWidth;
+    private boolean useLimit = true;
 
     public MosaicView(Context context) {
         this(context, null);
@@ -33,8 +35,12 @@ public class MosaicView extends FrameLayout {
 
     public MosaicView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        minHeight = h.pxToDp(100, context);
+        minHeight = h.pxToDp(84, context);
         minWidth = h.pxToDp(150, context);
+    }
+
+    public void setUseLimitSize(boolean useLimit){
+        this.useLimit = useLimit;
     }
 
     @Override
@@ -95,7 +101,15 @@ public class MosaicView extends FrameLayout {
             } else {
                 DefaultSize defSize = (DefaultSize) v.getTag(R.id.defSizeView);
                 if(defSize == null){
-                    defSize = new DefaultSize(v.getWidth(), v.getHeight());
+
+                    ViewGroup.LayoutParams params = v.getLayoutParams();
+                    if(params!=null && params.height>0)
+                        defSize = new DefaultSize(params.width, params.height);
+                    else
+                        defSize = new DefaultSize(v.getWidth(), v.getHeight());
+
+//                    Log.d(TAG, "DefaultSize: "+defSize.width+"/"+defSize.height);
+
                     v.setTag(R.id.defSizeView, defSize);
                 }
 
@@ -103,7 +117,7 @@ public class MosaicView extends FrameLayout {
                 vWidth = defSize.width;
 
                 if (vWidth == 0)
-                    vWidth = 300;
+                    vWidth = minWidth;
                 if (vHeight == 0)
                     vHeight = minHeight;
 
@@ -123,23 +137,23 @@ public class MosaicView extends FrameLayout {
 //                vHeight = minHeight;
 
             float ration;
-            if (vWidth > vHeight) {
+            if (vWidth >= vHeight) {
                 ration = (float) vWidth / vHeight;
 //                Log.d(TAG, "ratio: " + ration + " vWidth: "+vWidth + " vHeight: "+vHeight);
-                if (vHeight < minHeight) {
+                if (useLimit && vHeight < minHeight) {
                     vHeight = minHeight;
                     vWidth = Math.round(vHeight * ration);
                 }
             } else {
                 ration = (float) vHeight / vWidth;
 //                Log.d(TAG, "ratio: " + ration + " vWidth: "+vWidth + " vHeight: "+vHeight);
-                if (vWidth < minWidth) {
+                if (useLimit && vWidth < minWidth) {
                     vWidth = minWidth;
                     vHeight = Math.round(vWidth * ration);
                 }
             }
 
-            FrameLayout.LayoutParams itemParams = (FrameLayout.LayoutParams) v.getLayoutParams();
+            LayoutParams itemParams = (LayoutParams) v.getLayoutParams();
 
             if (viewHeight == 0)
                 viewHeight = vHeight;

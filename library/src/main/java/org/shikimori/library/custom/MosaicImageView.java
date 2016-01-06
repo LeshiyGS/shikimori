@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import org.shikimori.library.tool.hs;
 
+import ru.altarix.basekit.library.tools.h;
+
 /**
  * Created by Владимир on 29.12.2015.
  */
@@ -34,8 +36,8 @@ public class MosaicImageView extends ImageView {
     }
 
     private void init() {
-        minHeight = hs.pxToDp(70, getContext());
-        minWidth = hs.pxToDp(150, getContext());
+        minHeight = h.pxToDp(70, getContext());
+        minWidth = h.pxToDp(150, getContext());
     }
 
     @Override
@@ -103,9 +105,8 @@ public class MosaicImageView extends ImageView {
             isLand = true;
             ratio = (float) bounds.width() / bounds.height();
 
-            int defHeight = hs.pxToDp(150, getContext());
             if (isLarge) {
-                finalHeight = bounds.height() < defHeight ? bounds.height() : defHeight;
+                finalHeight = bounds.height() < minWidth ? bounds.height() : minWidth;
                 params.width = Math.round(finalHeight / ratio);
             } else {
                 if(bounds.width() > (maxWidth / 2) )
