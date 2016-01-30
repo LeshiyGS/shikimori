@@ -92,6 +92,8 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
                                .getResult(new BaseQuery.OnQuerySuccessListener<ShikiStatusResult>() {
                                    @Override
                                    public void onQuerySuccess(ShikiStatusResult res) {
+                                       if(activity == null)
+                                           return;
                                        invalidate();
                                    }
                                });
@@ -186,6 +188,8 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         lah.loadAsyncBuild(bodyBuild, res.getResultArray(), 600, ItemNewsUserShiki.class);
     }
 

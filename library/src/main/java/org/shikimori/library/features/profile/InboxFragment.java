@@ -72,6 +72,8 @@ public class InboxFragment extends BaseListViewFragment implements View.OnClickL
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemDialogs.class);
     }
 

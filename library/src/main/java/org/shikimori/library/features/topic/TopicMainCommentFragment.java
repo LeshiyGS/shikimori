@@ -74,6 +74,8 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         final ItemTopicsShiki item = new ItemTopicsShiki().create(res.getResultObject());
         buildView(item);
     }

@@ -79,6 +79,8 @@ public class UserClubsFragment extends BaseGridViewFragment implements QueryShik
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         super.onQuerySuccess(res);
         List<ItemClubShiki> list = builder.getDataList(res.getResultArray(), ItemClubShiki.class);
         prepareData(list, true, true);

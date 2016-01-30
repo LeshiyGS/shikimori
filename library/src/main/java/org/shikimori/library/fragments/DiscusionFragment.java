@@ -288,6 +288,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         apiController.init().sendComment(treadId, getFC().getUserId(), disType, text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
             public void onQuerySuccess(ShikiStatusResult res) {
+                if(activity == null)
+                    return;
                 onStartRefresh();
                 etMessage.setEnabled(true);
                 etMessage.setText("");
@@ -304,6 +306,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         apiController.updateComment(messageController.getUpdateId(), text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
             public void onQuerySuccess(ShikiStatusResult res) {
+                if(activity == null)
+                    return;
                 clearData();
                 hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");

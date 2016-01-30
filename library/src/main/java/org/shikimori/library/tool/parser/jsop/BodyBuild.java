@@ -469,7 +469,7 @@ public class BodyBuild {
 
         String text;
         String style = elemnt.attr("style");
-        if (!TextUtils.isEmpty(style)) {
+        if (!TextUtils.isEmpty(style) && elemnt.childNodeSize() > 0) {
             text = elemnt.childNode(0).outerHtml();
         } else {
             text = elemnt.outerHtml();

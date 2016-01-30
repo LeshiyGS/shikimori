@@ -66,6 +66,8 @@ public class EmojiView extends BaseEmojiPage implements BaseQuery.OnQuerySuccess
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(getContext() == null)
+            return;
         List<SmileItem> list = builder.getDataList(res.getResultArray(), SmileItem.class);
 //        if(cash.size() == 0){
 //            for (SmileItem sm : list) {

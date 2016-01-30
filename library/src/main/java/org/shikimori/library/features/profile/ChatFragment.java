@@ -135,6 +135,8 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         lah.loadAsyncBuild(bodyBuilder, res.getResultArray(),ItemNewsUserShiki.class);
     }
 
@@ -166,6 +168,8 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
         apiController.init().sendPrivateMessage(getFC().getUserId(), toUserId, text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
             public void onQuerySuccess(ShikiStatusResult res) {
+                if(activity == null)
+                    return;
                 onStartRefresh();
                 etMessage.setEnabled(true);
                 etMessage.setText("");
@@ -183,6 +187,8 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
         apiController.init().updatePrivateMessage(messageController.getUpdateId(), text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
             public void onQuerySuccess(ShikiStatusResult res) {
+                if(activity == null)
+                    return;
                 clearData();
                 hs.hideKeyboard(activity, etMessage);
                 etMessage.setText("");

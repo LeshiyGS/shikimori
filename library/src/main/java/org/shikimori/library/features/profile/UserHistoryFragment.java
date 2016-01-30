@@ -86,6 +86,8 @@ public class UserHistoryFragment extends BaseListViewFragment {
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         stopRefresh();
         prepareData(builder.getDataList(res.getResultArray(), ItemUserHistory.class), true, true);
     }

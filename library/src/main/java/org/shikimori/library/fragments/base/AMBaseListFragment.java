@@ -59,6 +59,8 @@ public abstract class AMBaseListFragment extends BaseGridViewFragment implements
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         super.onQuerySuccess(res);
         getFC().hideLoader();
         prepareData(builder.getDataList(res.getResultArray(), AMShiki.class), true, true);

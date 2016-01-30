@@ -26,6 +26,7 @@ public class ApiShikiVersionController extends BaseApiController<ApiShikiVersion
                 .getResultObject(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
                     public void onQuerySuccess(ShikiStatusResult res) {
+
                         int newVersion = res.getParameterInt("version");
                         int lastShowNewVersion = mSettings.getInt("lastShowNewVersion", 0);
 

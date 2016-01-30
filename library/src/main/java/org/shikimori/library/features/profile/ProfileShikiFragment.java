@@ -193,6 +193,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
               .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                   @Override
                   public void onQuerySuccess(ShikiStatusResult res) {
+                      if(activity == null)
+                          return;
                       Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
                   }
               });
@@ -204,6 +206,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
                 .getResult(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                     @Override
                     public void onQuerySuccess(ShikiStatusResult res) {
+                        if(activity == null)
+                            return;
                         Crouton.makeText(activity, res.getParameter("notice"), Style.CONFIRM).show();
                     }
                 });
@@ -376,6 +380,8 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             notifyController.load(new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
                 @Override
                 public void onQuerySuccess(ShikiStatusResult res) {
+                    if(activity == null)
+                        return;
                     updateUserUI();
                 }
             });

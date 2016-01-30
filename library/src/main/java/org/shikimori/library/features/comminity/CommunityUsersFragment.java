@@ -96,6 +96,8 @@ public class CommunityUsersFragment extends BaseGridViewFragment implements Quer
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         super.onQuerySuccess(res);
         List<ItemUser> list = builder.getDataList(res.getResultArray(), ItemUser.class);
         prepareData(list, true, true);

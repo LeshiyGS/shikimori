@@ -75,7 +75,7 @@ public class LinkHelper {
     }
 
     static String getItemId(String pattern, String url){
-        Pattern p = Pattern.compile("\\/"+pattern+"\\/([0-9]+)");
+        Pattern p = Pattern.compile("\\/"+pattern+"\\/[A-Za-z]*([0-9]+)");
         Matcher matcher = p.matcher(url);
         if (matcher.find()){
             return matcher.group(1);

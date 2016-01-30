@@ -71,6 +71,8 @@ public class InboxFragment2 extends BaseRecycleViewFragment implements View.OnCl
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         lah.loadAsyncBuild(bodyBuilder, res.getResultArray(), ItemDialogs.class);
     }
 

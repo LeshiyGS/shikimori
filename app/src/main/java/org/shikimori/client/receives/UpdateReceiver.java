@@ -36,6 +36,8 @@ public class UpdateReceiver extends BroadcastReceiver implements QueryShiki.OnQu
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(mContext!=null)
+            return;
         if (res.getParametrBool("thisisnew")) {
             new PushHelperShiki(mContext)
                     .sendNewVersion(res.getParameter("version_name"));

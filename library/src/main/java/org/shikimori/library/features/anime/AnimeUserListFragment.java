@@ -73,6 +73,8 @@ public class AnimeUserListFragment extends BaseListViewFragment {
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         stopRefresh();
         List<ItemUserListShiki> list = builder.getDataList(res.getResultArray(), ItemUserListShiki.class);
         prepareData(list, true, true);

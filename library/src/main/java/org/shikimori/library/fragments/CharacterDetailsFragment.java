@@ -115,6 +115,10 @@ public class CharacterDetailsFragment extends PullableFragment<BaseKitActivity<S
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
         stopRefresh();
+
+        if(activity == null)
+            return;
+
         llInfo.removeAllViews();
         item = new ItemCharacter().create(res.getResultObject());
 

@@ -160,6 +160,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         hs.setVisible(svMain);
         stopRefresh();
         llInfo.removeAllViews();

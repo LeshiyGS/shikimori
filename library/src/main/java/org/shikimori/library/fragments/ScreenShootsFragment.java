@@ -91,6 +91,8 @@ public class ScreenShootsFragment extends BaseGridViewFragment implements ViewPa
 
     @Override
     public void onQuerySuccess(ShikiStatusResult res) {
+        if(activity == null)
+            return;
         super.onQuerySuccess(res);
         bigArray.clear();
         prepareData(builder.getDataList(res.getResultArray(), ItemScreenShot.class, new ObjectBuilder.AdvanceChecker<ItemScreenShot>() {
