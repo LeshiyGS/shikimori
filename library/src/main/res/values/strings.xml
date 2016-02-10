@@ -255,4 +255,8 @@
     <string name="cosplay">Косплей</string>
     <string name="videos">Видео</string>
     <string name="no_video_app">Не найдено ни одного приложения для запуска видео</string>
+    <string name="manga_not_install">Программа не установлена, скачайте ее в клубе клиента на сайте shikimori.org</string>
+    <string name="chose_video_resource">Выбирите ресурс видео</string>
+    <string name="anibreak">AniBreak</string>
+    <string name="vk">Vk</string>
 </resources>

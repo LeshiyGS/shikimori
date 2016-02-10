@@ -1,6 +1,9 @@
 package org.shikimori.library.features.manga;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,6 +18,7 @@ import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.hs;
 
+import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
 
 import static org.shikimori.library.tool.ProjectTool.TYPE.MANGA;
@@ -87,6 +91,11 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id, null);
 
+        if (ProjectTool.isFullVersion() && details.read_manga_id !=null) {
+            fbPlay.setImageResource(R.drawable.ic_book_white_48dp);
+            hs.setVisible(fbPlay);
+        }
+
         getView().post(new Runnable() {
             @Override
             public void run() {
@@ -105,6 +114,20 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         super.onClick(v);
         if (v.getId() == R.id.ivPoster && details.image != null)
             activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
+        else if (v.getId() == R.id.fbPlay) {
+            if (!hs.appInstalledOrNot(activity, "org.gsapps.gsmedia")) {
+                new DialogCompat(activity)
+                        .setNegativeListener(null)
+                        .showConfirm(activity.getString(R.string.manga_not_install));
+            } else {
+                //программа есть
+                Intent intent = new Intent();
+                intent.putExtra("type", "manga");
+                intent.putExtra("link", details.read_manga_id);
+                intent.setComponent(new ComponentName("org.gsapps.gsmedia", "org.gsapps.MainActivity"));
+                startActivity(intent);
+            }
+        }
     }
 
     String getTypeTranslate(String type){

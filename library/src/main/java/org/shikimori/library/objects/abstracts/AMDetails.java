@@ -19,7 +19,7 @@ import java.util.List;
 public class AMDetails extends AMShiki {
 
     public String rating, kind, aired_on, released_on, duration, score, description, description_html, thread_id,
-            world_art_id, myanimelist_id, ani_db_id;
+            world_art_id, myanimelist_id, ani_db_id, read_manga_id;
     public Boolean favoured;
     public List<String>  english, japanese, synonyms, genres;
     public List<VerticalRatingBar.Rates> ratesStatusesStats;
@@ -45,6 +45,7 @@ public class AMDetails extends AMShiki {
         myanimelist_id = helper.addString("myanimelist_id");
         ani_db_id = helper.addString("ani_db_id");
         favoured = json.optBoolean("favoured");
+        read_manga_id = json.optString("read_manga_id");
 
         genres  = getList(json.optJSONArray("genres"), "russian");
         // user stats

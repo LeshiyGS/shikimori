@@ -1,9 +1,11 @@
 package org.shikimori.library.features.anime;
 
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -175,33 +177,64 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
             activity.getAC().getThumbToImage().zoom(ivPoster, ProjectTool.fixUrl(details.image.original));
         } else if (v.getId() == R.id.fbPlay) {
             if (ProjectTool.isFullVersion()) {
-                if (!hs.appInstalledOrNot(activity, "com.videogars.anime")) {
-                    instalAnibreakDialog(R.string.downloadanibreak);
-                } else {
-                    int versionAniBreak = hs.appVersionCode(activity, "com.videogars.anime");
-                    if (versionAniBreak < 402159) {
-                        instalAnibreakDialog(R.string.updateanibreak);
-                        return;
-                    }
-
-                    Intent intent = new Intent();
-                    intent.setData(Uri.parse("anibreakUrl://video?anime_shiki_id=" + itemId));
-                    intent.putExtra("shiki_user_name", activity.getAC().getShikiUser().getNickname());
-                    intent.putExtra("shiki_user_token", ShikiUser.getToken());
-                    intent.putExtra("serie_name", String.valueOf(llWrapAddList.getRateUser().episodes));
-                    intent.putExtra("shiki_anime_name", details.name);
-                    intent.putExtra("shiki_anime_name_rus", details.russianName);
-                    if (UPDATE_AUTO_SERIES)
-                        intent.putExtra("shiki_anime_rate_id", details.userRate.id);
-
-                    try {
-                        startActivityForResult(intent, 777);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
+                videoResource();
             }
+        }
+    }
+
+    void videoResource() {
+        if (ProjectTool.isFullVersion()) {
+
+            new DialogCompat(activity)
+                    .setNegativeListener(R.string.anibreak, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!hs.appInstalledOrNot(activity, "com.videogars.anime")) {
+                                instalAnibreakDialog(R.string.downloadanibreak);
+                            } else {
+                                int versionAniBreak = hs.appVersionCode(activity, "com.videogars.anime");
+                                if (versionAniBreak < 402159) {
+                                    instalAnibreakDialog(R.string.updateanibreak);
+                                    return;
+                                }
+
+                                Intent intent = new Intent();
+                                intent.setData(Uri.parse("anibreakUrl://video?anime_shiki_id=" + itemId));
+                                intent.putExtra("shiki_user_name", activity.getAC().getShikiUser().getNickname());
+                                intent.putExtra("shiki_user_token", ShikiUser.getToken());
+                                intent.putExtra("serie_name", String.valueOf(llWrapAddList.getRateUser().episodes));
+                                intent.putExtra("shiki_anime_name", details.name);
+                                intent.putExtra("shiki_anime_name_rus", details.russianName);
+                                if (UPDATE_AUTO_SERIES)
+                                    intent.putExtra("shiki_anime_rate_id", details.userRate.id);
+                                try {
+                                    startActivityForResult(intent, 777);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    })
+                    .setPositiveListener(R.string.vk, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!hs.appInstalledOrNot(activity, "org.gsapps.gsmedia")) {
+                                new DialogCompat(activity)
+                                        .setNegativeListener(null)
+                                        .showConfirm(activity.getString(R.string.manga_not_install));
+                            } else {
+                                //программа есть
+                                Intent intent = new Intent();
+                                intent.putExtra("type", "video");
+                                intent.putExtra("title", details.name);
+                                intent.putExtra("episode", String.valueOf(details.userRate.episodes + 1));
+                                intent.setComponent(new ComponentName("org.gsapps.gsmedia", "org.gsapps.MainActivity"));
+                                startActivity(intent);
+                            }
+                        }
+                    })
+                    .showConfirm(activity.getString(R.string.chose_video_resource));
+
         }
     }
 
