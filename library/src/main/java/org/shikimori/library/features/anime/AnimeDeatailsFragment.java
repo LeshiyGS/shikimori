@@ -188,65 +188,66 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
         if (ProjectTool.isFullVersion()) {
 
             new DialogCompat(activity)
-                    .setNegativeListener(R.string.anibreak, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!hs.appInstalledOrNot(activity, "com.videogars.anime")) {
-                                instalAnibreakDialog(R.string.downloadanibreak);
-                            } else {
-                                int versionAniBreak = hs.appVersionCode(activity, "com.videogars.anime");
-                                if (versionAniBreak < 402159) {
-                                    instalAnibreakDialog(R.string.updateanibreak);
-                                    return;
-                                }
+                 .setTitle(R.string.chose_video_resource)
+                 .getDialog()
+                 .setItems(new CharSequence[]{
+                         activity.getString(R.string.anibreak),
+                         activity.getString(R.string.vk)
+                 }, new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                         if(which == 0){
+                             if (!hs.appInstalledOrNot(activity, "com.videogars.anime")) {
+                                 instalAnibreakDialog(R.string.downloadanibreak);
+                             } else {
+                                 int versionAniBreak = hs.appVersionCode(activity, "com.videogars.anime");
+                                 if (versionAniBreak < 402159) {
+                                     instalAnibreakDialog(R.string.updateanibreak);
+                                     return;
+                                 }
 
-                                Intent intent = new Intent();
-                                intent.setData(Uri.parse("anibreakUrl://video?anime_shiki_id=" + itemId));
-                                intent.putExtra("shiki_user_name", activity.getAC().getShikiUser().getNickname());
-                                intent.putExtra("shiki_user_token", ShikiUser.getToken());
-                                intent.putExtra("serie_name", String.valueOf(llWrapAddList.getRateUser().episodes));
-                                intent.putExtra("shiki_anime_name", details.name);
-                                intent.putExtra("shiki_anime_name_rus", details.russianName);
-                                if (UPDATE_AUTO_SERIES)
-                                    intent.putExtra("shiki_anime_rate_id", details.userRate.id);
-                                try {
-                                    startActivityForResult(intent, 777);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    })
-                    .setPositiveListener(R.string.vk, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!hs.appInstalledOrNot(activity, "org.gsapps.gsmedia")) {
-                                new DialogCompat(activity)
-                                        .setNegativeListener(null)
-                                        .setPositiveListener(new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent i = new Intent(activity, ShowPageActivity.class);
-                                                i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
-                                                i.putExtra(Constants.ACTION_BAR_TITLE, "Android клиент");
-                                                i.putExtra(Constants.ITEM_ID, "113");
-                                                activity.startActivity(i);
-                                            }
-                                        })
-                                        .showConfirm(activity.getString(R.string.manga_not_install));
-                            } else {
-                                //программа есть
-                                Intent intent = new Intent();
-                                intent.putExtra("type", "video");
-                                intent.putExtra("title", details.name);
-                                intent.putExtra("episode", String.valueOf(details.userRate.episodes + 1));
-                                intent.setComponent(new ComponentName("org.gsapps.gsmedia", "org.gsapps.MainActivity"));
-                                startActivity(intent);
-                            }
-                        }
-                    })
-                    .showConfirm(activity.getString(R.string.chose_video_resource));
-
+                                 Intent intent = new Intent();
+                                 intent.setData(Uri.parse("anibreakUrl://video?anime_shiki_id=" + itemId));
+                                 intent.putExtra("shiki_user_name", activity.getAC().getShikiUser().getNickname());
+                                 intent.putExtra("shiki_user_token", ShikiUser.getToken());
+                                 intent.putExtra("serie_name", String.valueOf(llWrapAddList.getRateUser().episodes));
+                                 intent.putExtra("shiki_anime_name", details.name);
+                                 intent.putExtra("shiki_anime_name_rus", details.russianName);
+                                 if (UPDATE_AUTO_SERIES)
+                                     intent.putExtra("shiki_anime_rate_id", details.userRate.id);
+                                 try {
+                                     startActivityForResult(intent, 777);
+                                 } catch (Exception e) {
+                                     e.printStackTrace();
+                                 }
+                             }
+                         } else if (which == 1){
+                             if (!hs.appInstalledOrNot(activity, "org.gsapps.gsmedia")) {
+                                 new DialogCompat(activity)
+                                         .setNegativeListener(null)
+                                         .setPositiveListener(new DialogInterface.OnClickListener() {
+                                             @Override
+                                             public void onClick(DialogInterface dialog, int which) {
+                                                 Intent i = new Intent(activity, ShowPageActivity.class);
+                                                 i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+                                                 i.putExtra(Constants.ACTION_BAR_TITLE, "Android клиент");
+                                                 i.putExtra(Constants.ITEM_ID, "113");
+                                                 activity.startActivity(i);
+                                             }
+                                         })
+                                         .showConfirm(activity.getString(R.string.manga_not_install));
+                             } else {
+                                 //программа есть
+                                 Intent intent = new Intent();
+                                 intent.putExtra("type", "video");
+                                 intent.putExtra("title", details.name);
+                                 intent.putExtra("episode", String.valueOf(details.userRate.episodes + 1));
+                                 intent.setComponent(new ComponentName("org.gsapps.gsmedia", "org.gsapps.MainActivity"));
+                                 startActivity(intent);
+                             }
+                         }
+                     }
+                 }).show();
         }
     }
 
