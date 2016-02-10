@@ -43,6 +43,7 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
+        Log.d(TAG, "From: " + from + " / " + data.toString());
         if (!TextUtils.isEmpty(message)) {
             if(message.startsWith("{")){
                 try {

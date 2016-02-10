@@ -225,8 +225,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
      */
     private void answerMessage(final View v) {
 
-        final int position = (int) v.getTag();
-        final ItemNewsUserShiki obj = adptr.getItem(position);
+        final ItemNewsUserShiki obj = (ItemNewsUserShiki) v.getTag();
         messageController.showPopup(v, new SendMessageController.MessageData<ItemNewsUserShiki>() {
 
             @Override
@@ -234,7 +233,7 @@ public class ChatFragment extends BaseRecycleViewFragment implements View.OnClic
 //                Parcelable state = null;
 //                if(page == DEFAULT_FIRST_PAGE)
 //                    state = getListView().onSaveInstanceState();
-                ChatFragment.this.removeItem(position);
+                ChatFragment.this.removeItem(obj);
                 clearData();
 //                if(state!=null)
 //                    getListView().onRestoreInstanceState(state);

@@ -71,15 +71,15 @@ public class ChatRecyclerAdapter extends ListRecycleAdapter<ItemNewsUserShiki, S
             ((ViewGroup) item.parsedContent.getParent()).removeAllViews();
         holder.llBodyHtml.addView(item.parsedContent);
 
-        holder.ivSettings.setTag(position);
+        holder.ivSettings.setTag(item);
 //        h.setTextViewHTML(getContext(),holder.tvText,item.html_body.toString());
 
         // очищаем картинку перед загрузкой чтобы она при прокрутке не мигала
         holder.ivPoster.setImageDrawable(null);
-        holder.ivPoster.setTag(position);
+        holder.ivPoster.setTag(item);
         ImageLoader.getInstance().displayImage(item.from.img148, holder.ivPoster);
 
-        holder.tvRead.setTag(position);
+        holder.tvRead.setTag(item);
         hs.setVisible(!ShikiUser.USER_ID.equals(item.from.id), holder.tvRead);
         ProjectTool.setReadOpasity(holder.tvRead, item.read);
     }
@@ -87,7 +87,7 @@ public class ChatRecyclerAdapter extends ListRecycleAdapter<ItemNewsUserShiki, S
     @Override
     public void onClick(View v) {
         // this is user
-        ItemNewsUserShiki item = getItem((int) v.getTag());
+        ItemNewsUserShiki item = (ItemNewsUserShiki) v.getTag();
         if (v.getId() == R.id.ivPoster) {
             Intent intent = new Intent(getContext(), ShowPageActivity.class);
             intent.putExtra(Constants.USER_ID, item.from.id);

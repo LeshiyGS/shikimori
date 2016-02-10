@@ -20,6 +20,7 @@ import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.features.anime.model.ItemAnimeDetails;
 import org.shikimori.library.objects.one.Studio;
+import org.shikimori.library.objects.one.Video;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.UpdateApp;
@@ -118,6 +119,8 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
 
         setImages();
 
+        initVideoShiki(details);
+
         if (activity instanceof ExtraLoadInterface)
             ((ExtraLoadInterface) activity).extraLoad(details.thread_id, null);
 
@@ -140,6 +143,30 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
         } else
             h.setVisibleGone(imageFactory);
     }
+
+    private void initVideoShiki(ItemAnimeDetails details) {
+        if (activity == null)
+            return;
+
+        boolean visible = details != null && details.videos != null && details.videos.size() > 0;
+        hs.setVisibleGone(!visible, tvMenuVideo, mosaicViewVideo);
+
+        if (visible) {
+            mosaicViewVideo.setOnItemClickListener(videoImageListener);
+            mosaicViewVideo.setHasMore(false);
+            mosaicViewVideo.setList(details.videos, true);
+        } else
+            mosaicViewVideo.removeAllViews();
+    }
+
+    View.OnClickListener videoImageListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Video video = (Video) v.getTag();
+            hs.showVideo(activity, video);
+        }
+    };
+
 
     @Override
     public void onClick(View v) {
@@ -221,7 +248,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
 
                     @Override
                     public void finish(String patch) {
-                        if(activity != null)
+                        if (activity != null)
                             activity.getAC().getLoaderController().hide();
                     }
                 }).startLoad(activity.getString(R.string.anibreak_url) + "uploads/app-release.apk");
@@ -263,7 +290,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
     }
 
     private String getRaitingTranslate(String type) {
-        if(type == null)
+        if (type == null)
             return activity.getString(R.string.rating_unknown);
         switch (type) {
             case "g":

@@ -90,6 +90,24 @@
                 android:layout_height="150dp" />
 
             <TextView
+                android:id="@+id/tvMenuVideo"
+                style="@style/altarixUiText.TextTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_overlay_85"
+                android:padding="@dimen/defaultPadding"
+                android:text="@string/videos"
+                android:visibility="gone"
+                android:textStyle="bold" />
+
+            <org.shikimori.library.custom.MoreMosaicView
+                android:id="@+id/mosaicViewVideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/defaultPadding"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/tvMenuInfo"
                 style="@style/altarixUiText.TextTitle"
                 android:layout_width="match_parent"

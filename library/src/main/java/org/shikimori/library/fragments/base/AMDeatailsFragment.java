@@ -21,6 +21,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import org.shikimori.library.R;
 import org.shikimori.library.custom.CustomAddRateView;
 import org.shikimori.library.custom.ExpandableHeightGridView;
+import org.shikimori.library.custom.MoreMosaicView;
 import org.shikimori.library.fragments.LinkedListFragment;
 import org.shikimori.library.fragments.SimilarFragment;
 import org.shikimori.library.loaders.ShikiApi;
@@ -51,7 +52,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
 
     protected String itemId;
     protected ScrollView svMain;
-    protected TextView tvTitle, tvReview, tvStatus;
+    protected TextView tvTitle, tvReview, tvStatus, tvMenuVideo;
     protected ImageView ivPoster;
     protected VerticalRatingBar rbTitle;
     protected ViewGroup llInfo, llWanted;
@@ -61,6 +62,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     protected ImageFactoryView imageFactory;
     protected View bSimilar,bLink;
     protected FloatingActionButton fbPlay;
+    protected MoreMosaicView mosaicViewVideo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,6 +82,8 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         bLink = find(R.id.bLink);
         fbPlay = find(R.id.fbPlay);
         imageFactory = find(R.id.imageFactory);
+        tvMenuVideo = find(R.id.tvMenuVideo);
+        mosaicViewVideo = find(R.id.mosaicViewVideo);
 
         ivPoster.setOnTouchListener(hs.getImageHighlight);
         ivPoster.setOnClickListener(this);

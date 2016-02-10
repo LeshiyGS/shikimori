@@ -39,6 +39,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import org.shikimori.library.R;
+import org.shikimori.library.objects.one.Video;
 import org.shikimori.library.tool.controllers.ShikiAC;
 
 import java.text.ParseException;
@@ -610,7 +611,7 @@ public class hs extends h {
     }
 
     public static void setTextViewHTML(BaseKitActivity<ShikiAC> activity, TextView text, String html, boolean clickable) {
-        if(html == null){
+        if (html == null) {
             text.setText(html);
             return;
         }
@@ -667,6 +668,22 @@ public class hs extends h {
     public static ViewGroup.LayoutParams getDefaultParams() {
         return new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    public static void showVideo(Context context, Video video) {
+        if (video == null || context == null)
+            return;
+
+        Intent intent = new Intent();
+        intent.setData(Uri.parse(video.getPlayerUrl()));
+        intent.setAction(Intent.ACTION_VIEW);
+
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            hs.showMsg(context, R.string.no_video_app);
+        }
     }
 
     public enum ORIENTATION {
@@ -734,7 +751,7 @@ public class hs extends h {
 
             long epoch = d.getTime();
 
-            if(epoch > System.currentTimeMillis())
+            if (epoch > System.currentTimeMillis())
                 epoch = System.currentTimeMillis();
 
             return (String) DateUtils.getRelativeTimeSpanString(epoch, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);

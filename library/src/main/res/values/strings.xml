@@ -253,4 +253,6 @@
     <string name="vn">Визуальные новеллы</string>
     <string name="games">Игры</string>
     <string name="cosplay">Косплей</string>
+    <string name="videos">Видео</string>
+    <string name="no_video_app">Не найдено ни одного приложения для запуска видео</string>
 </resources>

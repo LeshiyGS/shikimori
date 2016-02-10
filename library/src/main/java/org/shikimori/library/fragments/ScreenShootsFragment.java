@@ -55,7 +55,7 @@ public class ScreenShootsFragment extends BaseGridViewFragment implements ViewPa
         loadData();
     }
 
-    String getUrl() {
+    protected String getUrl() {
         if (!TextUtils.isEmpty(customUrl))
             return customUrl;
         return ShikiApi.getUrl(ShikiPath.SCREENSHOTS, (String) getParam(Constants.ITEM_ID));

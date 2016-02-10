@@ -6,6 +6,7 @@ import android.util.Log;
 import com.gars.querybuilder.BaseQuery;
 import com.gars.querybuilder.StatusResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.shikimori.library.R;
@@ -115,6 +116,16 @@ public class QueryShiki extends BaseQuery<QueryShiki, ShikiStatusResult> {
                         }
                         stat.setError();
                         stat.setMsg(data.optString("error"));
+                    } else if (data.has("errors")){
+                        JSONArray errorMessage = data.optJSONArray("errors");
+                        if(errorMessage!=null){
+                            StringBuilder str = new StringBuilder();
+                            for (int i = 0; i < errorMessage.length(); i++) {
+                                str.append(errorMessage.getString(i)).append("\n");
+                            }
+                            stat.setError();
+                            stat.setMsg(str.toString());
+                        }
                     }
                 }
             }

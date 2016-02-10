@@ -108,7 +108,7 @@ public class MosaicView extends FrameLayout {
                     else
                         defSize = new DefaultSize(v.getWidth(), v.getHeight());
 
-//                    Log.d(TAG, "DefaultSize: "+defSize.width+"/"+defSize.height);
+                    Log.d(TAG, "DefaultSize: "+defSize.width+"/"+defSize.height);
 
                     v.setTag(R.id.defSizeView, defSize);
                 }

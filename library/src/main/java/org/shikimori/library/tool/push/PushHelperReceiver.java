@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.shikimori.library.R;
@@ -108,7 +109,7 @@ public class PushHelperReceiver extends BroadcastReceiver {
         if(bigText!=null){
             builder.setStyle(new NotificationCompat.BigTextStyle()
                     .bigText(bigText));
-        } else if (msgBody.contains("/")) {
+        } else if (!TextUtils.isEmpty(msgBody) && msgBody.contains("/")) {
             NotificationCompat.InboxStyle inboxStyle =
                     new NotificationCompat.InboxStyle();
 //            inboxStyle.setBigContentTitle(c.getString(R.string.newed) + ":");

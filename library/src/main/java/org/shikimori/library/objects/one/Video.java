@@ -12,6 +12,8 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
 public class Video extends Thumb{
     String id, imageUrl, playerUrl, hosting, kind;
 
+    public Video(){}
+
     public Video(JSONObject object){
         if(object!=null){
             id = HelperObj.getString(object, "id");
@@ -23,4 +25,21 @@ public class Video extends Thumb{
             kind = HelperObj.getString(object, "kind");
         }
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPlayerUrl() {
+        return playerUrl;
+    }
+
+    public String getHosting() {
+        return hosting;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
 }
