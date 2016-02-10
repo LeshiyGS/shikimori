@@ -1,6 +1,7 @@
 package org.shikimori.library.features.manga;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -10,12 +11,14 @@ import android.view.View;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.features.manga.model.ItemMangaDetails;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
 import org.shikimori.library.interfaces.ExtraLoadInterface;
 import org.shikimori.library.loaders.ShikiPath;
 import org.shikimori.library.loaders.ShikiStatusResult;
 import org.shikimori.library.tool.ProjectTool;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.hs;
 
 import ru.altarix.basekit.library.tools.DialogCompat;
@@ -118,6 +121,16 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
             if (!hs.appInstalledOrNot(activity, "org.gsapps.gsmedia")) {
                 new DialogCompat(activity)
                         .setNegativeListener(null)
+                        .setPositiveListener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(activity, ShowPageActivity.class);
+                                i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+                                i.putExtra(Constants.ACTION_BAR_TITLE, "Android клиент");
+                                i.putExtra(Constants.ITEM_ID, "113");
+                                activity.startActivity(i);
+                            }
+                        })
                         .showConfirm(activity.getString(R.string.manga_not_install));
             } else {
                 //программа есть

@@ -12,7 +12,7 @@ $().ready(function(){
 
     $.each($("body").find("a"), function(){
         var href = $(this).attr("href");
-        if(href != "" && !href.match(/http:/)){
+        if(href != "" && !href.match(/http/)){
             $(this).attr("href", "http://shikimori.org"+href);
         }
     });

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.shikimori.library.R;
+import org.shikimori.library.activity.ShowPageActivity;
 import org.shikimori.library.adapters.StudiosAdapter;
 import org.shikimori.library.fragments.ScreenShootsFragment;
 import org.shikimori.library.fragments.base.AMDeatailsFragment;
@@ -26,6 +27,7 @@ import org.shikimori.library.objects.one.Video;
 import org.shikimori.library.tool.ProjectTool;
 import org.shikimori.library.tool.ShikiUser;
 import org.shikimori.library.tool.UpdateApp;
+import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.hs;
 
 import java.util.List;
@@ -221,6 +223,16 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
                             if (!hs.appInstalledOrNot(activity, "org.gsapps.gsmedia")) {
                                 new DialogCompat(activity)
                                         .setNegativeListener(null)
+                                        .setPositiveListener(new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent i = new Intent(activity, ShowPageActivity.class);
+                                                i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
+                                                i.putExtra(Constants.ACTION_BAR_TITLE, "Android клиент");
+                                                i.putExtra(Constants.ITEM_ID, "113");
+                                                activity.startActivity(i);
+                                            }
+                                        })
                                         .showConfirm(activity.getString(R.string.manga_not_install));
                             } else {
                                 //программа есть
