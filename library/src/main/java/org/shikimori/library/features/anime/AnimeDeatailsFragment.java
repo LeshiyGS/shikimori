@@ -92,6 +92,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
 
         if (ProjectTool.isFullVersion()) {
             hs.setVisible(fbPlay);
+            hs.setVisible(hs.appInstalledOrNot(activity, "org.gsapps.gsmedia"), bOst);
         }
 
         activity.setTitle(details.name);
@@ -181,6 +182,12 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
             if (ProjectTool.isFullVersion()) {
                 videoResource();
             }
+        } else if (v.getId() == R.id.bOst){
+            Intent intent = new Intent();
+            intent.putExtra("type", "audio");
+            intent.putExtra("search", "OST " + details.name);
+            intent.setComponent(new ComponentName("org.gsapps.gsmedia", "org.gsapps.MainActivity"));
+            startActivity(intent);
         }
     }
 

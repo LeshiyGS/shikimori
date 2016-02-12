@@ -63,6 +63,7 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
     protected View bSimilar,bLink;
     protected FloatingActionButton fbPlay;
     protected MoreMosaicView mosaicViewVideo;
+    protected View bOst;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,12 +85,14 @@ public abstract class AMDeatailsFragment extends PullableFragment<BaseKitActivit
         imageFactory = find(R.id.imageFactory);
         tvMenuVideo = find(R.id.tvMenuVideo);
         mosaicViewVideo = find(R.id.mosaicViewVideo);
+        bOst = find(R.id.bOst);
 
         ivPoster.setOnTouchListener(hs.getImageHighlight);
         ivPoster.setOnClickListener(this);
         bSimilar.setOnClickListener(this);
         bLink.setOnClickListener(this);
         fbPlay.setOnClickListener(this);
+        bOst.setOnClickListener(this);
         hs.setVisible(false, svMain);
         return v;
     }

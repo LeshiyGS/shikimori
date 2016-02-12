@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import org.json.JSONObject;
 import org.shikimori.library.adapters.AMAdapter;
+import org.shikimori.library.adapters.FavoriteAdapter;
 import org.shikimori.library.fragments.base.abstracts.BaseGridViewFragment;
 import org.shikimori.library.loaders.ShikiApi;
 import org.shikimori.library.loaders.ShikiPath;
@@ -96,27 +97,14 @@ public class FavoriteListFragment extends BaseGridViewFragment implements QueryS
 
     @Override
     public ArrayAdapter<AMShiki> getAdapter(List<?> list) {
-        return new AMAdapter(activity, (List<AMShiki>) list);
+        return new FavoriteAdapter(activity, (List<AMShiki>) list);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         super.onItemClick(parent, view, position, id);
         AMShiki item = (AMShiki) parent.getAdapter().getItem(position);
-//        ProjectTool.TYPE type = ProjectTool.getTypeFromUrl(item.url);
-//
-//        Intent i = new Intent(activity, ShowPageActivity.class);
-//        if(type == ProjectTool.TYPE.ANIME) {
-//            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.ANIME_PAGE);
-//        }else if(type == ProjectTool.TYPE.MANGA){
-//            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.MANGA_PAGE);
-//        }else if(type == ProjectTool.TYPE.CHARACTER)
-//            i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CHARACTER_PAGE);
-//        i.putExtra(Constants.ITEM_ID, item.id);
-
         LinkHelper.goToUrl(activity, item.url);
-
-//        activity.startActivity(i);
     }
 
     public String getType() {
