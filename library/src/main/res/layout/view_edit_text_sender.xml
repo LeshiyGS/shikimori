@@ -35,6 +35,7 @@
         android:hint="@string/message"
         android:padding="@dimen/defaultPaddingMini"
         android:maxHeight="200dp"
+        android:inputType="textCapSentences|text|textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
