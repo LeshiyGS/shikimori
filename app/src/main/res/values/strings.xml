@@ -28,5 +28,16 @@
     <string name="newsnya">Новостяшка</string>
     <string name="notifynya">Уведомляшка</string>
     <string name="access_sd">Необходим доступ к карте памяти</string>
+    <string name="banned">Бан</string>
+    <string name="club_request">Приглашение в клуб</string>
+    <string name="contest_finished">Опрос завершен</string>
+    <string name="new_episode">Новый эпизод</string>
+    <string name="friend_request">Запрос в друзья</string>
+    <string name="nickname_changed">Смена ника</string>
+    <string name="profile_commented">Комментарий в профиле</string>
+    <string name="quoted_by_user">Вас процитировали</string>
+    <string name="version_accepted">Правка принята</string>
+    <string name="version_rejected">Правка отклонена</string>
+    <string name="warned">Предупреждение</string>
 
 </resources>
