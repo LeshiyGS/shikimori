@@ -50,7 +50,7 @@ public class GetMessageLastForPush {
                                         b.putParcelable(PushHelperReceiver.PushAction.LARGE_ICON, loadedImage);
                                         PushHelperReceiver.notifyUser(
                                                 query.getContext(),
-                                                PushHelperReceiver.getAction(ShikiApplikation.NEW_MESSAGES),
+                                                PushHelperReceiver.getAction(ShikiApplikation.PRIVATE),
                                                 b);
 
 //                                        new PushHelperShiki(query.getContext())

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
-import org.shikimori.client.gsm.QuickstartPreferences;
 import org.shikimori.library.features.profile.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
@@ -41,9 +40,9 @@ public class MainActivity extends DrawerActivity {
             if(idExtraPge == 0)
                 return null;
             switch (idExtraPge){
-                case ShikiApplikation.MESSAGES_ID: return InboxFragment2.newInstance();
+                case ShikiApplikation.PRIVATE_ID: return InboxFragment2.newInstance();
                 case ShikiApplikation.NEWS_ID: return UserNewsFragment.newInstance(Constants.NEWS);
-                case ShikiApplikation.NOTIFY_ID: return UserNewsFragment.newInstance(Constants.NOTIFYING);
+                case ShikiApplikation.NOTIFICATION_ID: return UserNewsFragment.newInstance(Constants.NOTIFYING);
             }
         }
         return null;

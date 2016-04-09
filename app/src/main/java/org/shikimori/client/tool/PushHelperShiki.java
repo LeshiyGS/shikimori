@@ -18,7 +18,7 @@ public class PushHelperShiki extends PushHelper {
     }
 
     public void sendNewMessages(int message){
-        sendBroadCast(ShikiApplikation.NEW_MESSAGES, context.getString(R.string.new_title), String.format(context.getString(R.string.new_messages), message));
+        sendBroadCast(ShikiApplikation.PRIVATE, context.getString(R.string.new_title), String.format(context.getString(R.string.new_messages), message));
     }
 
     public void sendNewNews(int message){
@@ -27,7 +27,7 @@ public class PushHelperShiki extends PushHelper {
     }
 
     public void sendNewNotify(int message){
-        sendBroadCast(ShikiApplikation.NEW_NOTIFY, context.getString(R.string.notifynya), String.format(context.getString(R.string.new_notify),message));
+        sendBroadCast(ShikiApplikation.NOTIFICATION, context.getString(R.string.notifynya), String.format(context.getString(R.string.new_notify),message));
     }
 
     public void sendNewVersion(String message){
@@ -36,7 +36,7 @@ public class PushHelperShiki extends PushHelper {
     }
 
     public void sendLastMessage(String title, String message, Bitmap bitmap){
-        Intent broad = prepareIntent(ShikiApplikation.NEW_MESSAGES, title, message);
+        Intent broad = prepareIntent(ShikiApplikation.PRIVATE, title, message);
         broad.putExtra(PushHelperReceiver.PushAction.LARGE_ICON, bitmap);
         send(broad);
     }

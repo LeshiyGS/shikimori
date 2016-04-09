@@ -50,6 +50,8 @@ public class ProjectTool {
 
     public static String buildType = "";
 
+
+
     public enum TYPE{
         ANIME, MANGA, OFFTOP, CHARACTER,
         ALL,NEWS,SITE,GROUP,
@@ -419,4 +421,6 @@ public class ProjectTool {
                     }
                 });
     }
+
+
 }
