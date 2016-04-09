@@ -30,7 +30,7 @@ public class MainActivity extends DrawerActivity {
         drawerTool.setSelected(DrawerAdapter.DRAWER_MENU_PROFILE_ID);
         setDowbleBackPressetToExit(true);
 
-//        QuickstartPreferences.sendGsmToken(this);
+        QuickstartPreferences.sendGsmToken(this);
     }
 
     public Fragment getExtraPage() {

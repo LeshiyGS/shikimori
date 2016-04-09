@@ -26,6 +26,9 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import org.shikimori.client.ShikiApplikation;
+import org.shikimori.client.services.NewMessagesService;
+
 public class QuickstartPreferences {
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
@@ -52,14 +55,17 @@ public class QuickstartPreferences {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
         if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(context, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(QuickstartPreferences.class.getSimpleName(), "This device is not supported.");
-            }
+//            if (apiAvailability.isUserResolvableError(resultCode)) {
+//                apiAvailability.getErrorDialog(context, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+//                        .show();
+//            } else {
+                ShikiApplikation.runService(context.getApplicationContext());
+//            }
             return false;
+        } else {
+            context.stopService(new Intent(context, NewMessagesService.class));
         }
         return true;
     }
+
 }

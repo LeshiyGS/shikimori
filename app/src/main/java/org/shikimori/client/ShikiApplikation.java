@@ -13,6 +13,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import io.fabric.sdk.android.Fabric;
+
 import org.shikimori.client.activity.AboutActivity;
 import org.shikimori.client.services.UserNotifyService;
 import org.shikimori.client.tool.PreferenceHelper;
@@ -33,45 +34,41 @@ import ru.altarix.basekit.library.tools.pagecontroller.PageController;
  */
 public class ShikiApplikation extends Application {
     /**
-
-     Private = 'Private'
-     # уведомление
-     Notification = 'Notification'
-     # уведомление об анонсе
-     Anons = AnimeHistoryAction::Anons
-     # уведомление об онгоинге
-     Ongoing = AnimeHistoryAction::Ongoing
-     # уведомление о релизе
-     Released = AnimeHistoryAction::Released
-     # уведомление о эпизоде
-     Episode = AnimeHistoryAction::Episode
-     # запрос на добавление в друзья
-     FriendRequest = 'FriendRequest'
-     # пришлашение в клуб
-     GroupRequest = 'GroupRequest'
-     # новость сайта
-     SiteNews = 'SiteNews'
-     # прокомментирован профиль
-     ProfileCommented = 'ProfileCommented'
-     # пользователь процитирован кем-то где-то
-     QuotedByUser = 'QuotedByUser'
-     # комментарий в подписанной сущности
-     SubscriptionCommented = 'SubscriptionCommented'
-     # уведомление о смене ника
-     NicknameChanged = 'NicknameChanged'
-     # уведомление о бане
-     Banned = 'Banned'
-     # уведомление о предупреждении
-     Warned = 'Warned'
-     # уведомление о принятии/отказе правки
-     VersionAccepted = 'VersionAccepted'
-     VersionRejected = 'VersionRejected'
-     # уведомление о завершении опроса
-     ContestFinished = 'ContestFinished'
-
-
+     * Private = 'Private'
+     * # уведомление
+     * Notification = 'Notification'
+     * # уведомление об анонсе
+     * Anons = AnimeHistoryAction::Anons
+     * # уведомление об онгоинге
+     * Ongoing = AnimeHistoryAction::Ongoing
+     * # уведомление о релизе
+     * Released = AnimeHistoryAction::Released
+     * # уведомление о эпизоде
+     * Episode = AnimeHistoryAction::Episode
+     * # запрос на добавление в друзья
+     * FriendRequest = 'FriendRequest'
+     * # пришлашение в клуб
+     * GroupRequest = 'GroupRequest'
+     * # новость сайта
+     * SiteNews = 'SiteNews'
+     * # прокомментирован профиль
+     * ProfileCommented = 'ProfileCommented'
+     * # пользователь процитирован кем-то где-то
+     * QuotedByUser = 'QuotedByUser'
+     * # комментарий в подписанной сущности
+     * SubscriptionCommented = 'SubscriptionCommented'
+     * # уведомление о смене ника
+     * NicknameChanged = 'NicknameChanged'
+     * # уведомление о бане
+     * Banned = 'Banned'
+     * # уведомление о предупреждении
+     * Warned = 'Warned'
+     * # уведомление о принятии/отказе правки
+     * VersionAccepted = 'VersionAccepted'
+     * VersionRejected = 'VersionRejected'
+     * # уведомление о завершении опроса
+     * ContestFinished = 'ContestFinished'
      */
-
 
 
     public static final String OPEN_PAGE = "open_launch_page";
@@ -111,7 +108,7 @@ public class ShikiApplikation extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if(!BuildConfig.DEBUG){
+        if (!BuildConfig.DEBUG) {
             final Fabric fabric = new Fabric.Builder(this)
                     .kits(new Crashlytics())
                     .debuggable(ProjectTool.isFullVersion())
@@ -158,14 +155,30 @@ public class ShikiApplikation extends Application {
         }
 
         PushHelperReceiver.addAction(PRIVATE, getMessgesPushAction(PRIVATE_ID));
-        PushHelperReceiver.addAction(NOTIFICATION, getMessgesPushAction(NOTIFICATION_ID));
 
-        PushHelperReceiver.addAction(NEW_NEWS, getMessgesPushAction(NEWS_ID));
-        PushHelperReceiver.addAction(ONGOING, getMessgesPushAction(NEWS_ID));
+        PushHelperReceiver.PushAction newsAction = getMessgesPushAction(NEWS_ID);
+        PushHelperReceiver.PushAction notifyAction = getMessgesPushAction(NOTIFICATION_ID);
+
+        PushHelperReceiver.addAction(NEW_NEWS, newsAction);
+        PushHelperReceiver.addAction(ONGOING, newsAction);
+        PushHelperReceiver.addAction(ANONS, newsAction);
+        PushHelperReceiver.addAction(RELEASED, newsAction);
+        PushHelperReceiver.addAction(EPISODE, newsAction);
+        PushHelperReceiver.addAction(SITE_NEWS, newsAction);
+        PushHelperReceiver.addAction(NOTIFICATION, notifyAction);
+        PushHelperReceiver.addAction(CLUB_REQUEST, notifyAction);
+        PushHelperReceiver.addAction(CONTEST_FINISHED, notifyAction);
+        PushHelperReceiver.addAction(FRIEND_REQUEST, notifyAction);
+        PushHelperReceiver.addAction(NICKNAME_CHANGED, notifyAction);
+        PushHelperReceiver.addAction(PROFILE_COMMENTED, notifyAction);
+        PushHelperReceiver.addAction(QUOTED_BY_USER, notifyAction);
+        PushHelperReceiver.addAction(VERSION_ACCEPTED, notifyAction);
+        PushHelperReceiver.addAction(VERSION_REJECTED, notifyAction);
+        PushHelperReceiver.addAction(WARNED, notifyAction);
+        PushHelperReceiver.addAction(SUBSCRIPTION_COMMENTED, notifyAction);
 
 
         PushHelperReceiver.addAction(NEW_VERSION, getMessgesPushAction(VERSION_ID));
-
 
 
 //        PushHelperReceiver.setNonEmpAction(getNonUndefineAction());
@@ -173,7 +186,6 @@ public class ShikiApplikation extends Application {
         PageController.baseActivityController = ShikiAC.class;
         ProjectTool.buildType = BuildConfig.BUILD_TYPE;
         AnimeDeatailsFragment.UPDATE_AUTO_SERIES = PreferenceHelper.isUpdateSeries(this);
-        runService();
     }
 
 //    public void handleUncaughtException(Thread thread, Throwable e) {
@@ -206,7 +218,7 @@ public class ShikiApplikation extends Application {
             @Override
             public Intent getNotifyIntent() {
                 Intent newIntent;
-                if(id == VERSION_ID){
+                if (id == VERSION_ID) {
                     newIntent = new Intent(ShikiApplikation.this, AboutActivity.class);
                 } else {
                     newIntent = new Intent(ShikiApplikation.this, MainActivity.class);
@@ -220,8 +232,10 @@ public class ShikiApplikation extends Application {
             public void onPushRecived(Bundle bundle) {
                 QueryShiki query = new QueryShiki(ShikiApplikation.this);
                 query.invalidateCache(ShikiApi.getUrl(ShikiPath.UNREAD_MESSAGES, ShikiUser.USER_ID));
-                if(id == PRIVATE_ID){
-                    startService(new Intent(ShikiApplikation.this, UserNotifyService.class));
+                if (id == PRIVATE_ID) {
+                    Intent intent = new Intent(ShikiApplikation.this, UserNotifyService.class);
+                    intent.putExtras(bundle);
+                    startService(intent);
                 }
 
                 bundle.putString(PushHelperReceiver.MSG_TITLE,
@@ -281,30 +295,46 @@ public class ShikiApplikation extends Application {
         };
     }
 
-    private void runService() {
+    public static void runService(Context context) {
         Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(getPackageName() + ".LAUNCH_FROM_APP");
-        sendBroadcast(broadcastIntent);
+        broadcastIntent.setAction(context.getPackageName() + ".LAUNCH_FROM_APP");
+        context.sendBroadcast(broadcastIntent);
     }
 
     public String getTitleFromAction(String string) {
         switch (string) {
-            case ANONS: return getString(R.string.anons);
-            case BANNED: return getString(R.string.banned);
-            case CLUB_REQUEST: return getString(R.string.club_request);
-            case CONTEST_FINISHED: return getString(R.string.contest_finished);
-            case EPISODE: return getString(R.string.new_episode);
-            case FRIEND_REQUEST: return getString(R.string.friend_request);
-            case NICKNAME_CHANGED: return getString(R.string.nickname_changed);
-            case ONGOING: return getString(R.string.ongoing);
-            case PROFILE_COMMENTED: return getString(R.string.profile_commented);
-            case QUOTED_BY_USER: return getString(R.string.quoted_by_user);
-            case RELEASED: return getString(R.string.relize);
-            case SITE_NEWS: return getString(R.string.news);
-            case VERSION_ACCEPTED: return getString(R.string.version_accepted);
-            case VERSION_REJECTED: return getString(R.string.version_rejected);
-            case WARNED: return getString(R.string.warned);
-            case SUBSCRIPTION_COMMENTED: return getString(R.string.comment);
+            case ANONS:
+                return getString(R.string.anons);
+            case BANNED:
+                return getString(R.string.banned);
+            case CLUB_REQUEST:
+                return getString(R.string.club_request);
+            case CONTEST_FINISHED:
+                return getString(R.string.contest_finished);
+            case EPISODE:
+                return getString(R.string.new_episode);
+            case FRIEND_REQUEST:
+                return getString(R.string.friend_request);
+            case NICKNAME_CHANGED:
+                return getString(R.string.nickname_changed);
+            case ONGOING:
+                return getString(R.string.ongoing);
+            case PROFILE_COMMENTED:
+                return getString(R.string.profile_commented);
+            case QUOTED_BY_USER:
+                return getString(R.string.quoted_by_user);
+            case RELEASED:
+                return getString(R.string.relize);
+            case SITE_NEWS:
+                return getString(R.string.news);
+            case VERSION_ACCEPTED:
+                return getString(R.string.version_accepted);
+            case VERSION_REJECTED:
+                return getString(R.string.version_rejected);
+            case WARNED:
+                return getString(R.string.warned);
+            case SUBSCRIPTION_COMMENTED:
+                return getString(R.string.comment);
         }
         return null;
     }
