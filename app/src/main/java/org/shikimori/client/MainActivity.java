@@ -1,9 +1,11 @@
 package org.shikimori.client;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
+import org.shikimori.client.gsm.QuickstartPreferences;
 import org.shikimori.library.features.profile.InboxFragment2;
 import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
@@ -15,6 +17,8 @@ import java.util.List;
  * Created by Владимир on 20.06.2014.
  */
 public class MainActivity extends DrawerActivity {
+
+    private int idExtraPge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +37,22 @@ public class MainActivity extends DrawerActivity {
         QuickstartPreferences.sendGsmToken(this);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle params =intent.getExtras();
+        if(params!=null)
+            idExtraPge = params.getInt(ShikiApplikation.OPEN_PAGE);
+    }
+
     public Fragment getExtraPage() {
-        Bundle params = getIntent().getExtras();
-        if(params != null){
-            int idExtraPge = params.getInt(ShikiApplikation.OPEN_PAGE);
+        if(idExtraPge == 0){
+            Bundle params = getIntent().getExtras();
+            if(params != null)
+                idExtraPge = params.getInt(ShikiApplikation.OPEN_PAGE);
+        }
+
+
             if(idExtraPge == 0)
                 return null;
             switch (idExtraPge){
@@ -44,7 +60,7 @@ public class MainActivity extends DrawerActivity {
                 case ShikiApplikation.NEWS_ID: return UserNewsFragment.newInstance(Constants.NEWS);
                 case ShikiApplikation.NOTIFICATION_ID: return UserNewsFragment.newInstance(Constants.NOTIFYING);
             }
-        }
+//        }
         return null;
     }
 
