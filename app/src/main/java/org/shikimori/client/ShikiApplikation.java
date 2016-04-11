@@ -37,36 +37,41 @@ public class ShikiApplikation extends Application {
      * Private = 'Private'
      * # уведомление
      * Notification = 'Notification'
-     * # уведомление об анонсе
+     * # Название аниме
      * Anons = AnimeHistoryAction::Anons
-     * # уведомление об онгоинге
+     * # Название аниме
      * Ongoing = AnimeHistoryAction::Ongoing
-     * # уведомление о релизе
+     * # Название аниме
      * Released = AnimeHistoryAction::Released
-     * # уведомление о эпизоде
+     * # Название аниме и эпизод
      * Episode = AnimeHistoryAction::Episode
-     * # запрос на добавление в друзья
+     * # Ник пользователя кто запрашивает
      * FriendRequest = 'FriendRequest'
-     * # пришлашение в клуб
+     * # Название клуба
      * GroupRequest = 'GroupRequest'
      * # новость сайта
      * SiteNews = 'SiteNews'
      * # прокомментирован профиль
      * ProfileCommented = 'ProfileCommented'
      * # пользователь процитирован кем-то где-то
+     * Ник пользователя кто процетировал
      * QuotedByUser = 'QuotedByUser'
      * # комментарий в подписанной сущности
+     * название сущности
      * SubscriptionCommented = 'SubscriptionCommented'
      * # уведомление о смене ника
+     * Ник пользователя кто сменил на что сменил
      * NicknameChanged = 'NicknameChanged'
      * # уведомление о бане
      * Banned = 'Banned'
      * # уведомление о предупреждении
      * Warned = 'Warned'
      * # уведомление о принятии/отказе правки
+     * Название топика где произошло
      * VersionAccepted = 'VersionAccepted'
      * VersionRejected = 'VersionRejected'
      * # уведомление о завершении опроса
+     * название опроса
      * ContestFinished = 'ContestFinished'
      */
 
