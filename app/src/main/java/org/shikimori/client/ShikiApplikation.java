@@ -229,7 +229,7 @@ public class ShikiApplikation extends Application {
                     newIntent = new Intent(ShikiApplikation.this, MainActivity.class);
                     newIntent.putExtra(OPEN_PAGE, id);
                 }
-                newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 return newIntent;
             }
 
