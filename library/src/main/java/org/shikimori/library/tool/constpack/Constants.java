@@ -12,7 +12,7 @@ public class Constants {
     public static final String TO_USER_ID = "to_user_id";
     public static final String USER_NICKNAME = "user_nickname";
     public static final String LIST_ID = "list_id";
-    public static final String TREAD_ID = "tread_id";
+    public static final String TOPIC_ID = "tread_id";
     public static final String ACTION_BAR_TITLE = "base_title";
     public static final String ITEM_NAME = "anime_name";
     public static final String TYPE = "type";

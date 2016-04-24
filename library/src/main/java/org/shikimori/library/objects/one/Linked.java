@@ -7,7 +7,7 @@ import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
  * Created by Феофилактов on 04.04.2015.
  */
 public class Linked {
-    public String id, threadId, type, name, russianName;
+    public String id, topicId, type, name, russianName;
     public ItemImage image;
     public int episodes, episodesAired;
     public boolean ongoing, anons;
@@ -16,7 +16,7 @@ public class Linked {
             return;
 
         id = HelperObj.getString(object, "id");
-        threadId = HelperObj.getString(object, "thread_id");
+        topicId = HelperObj.getString(object, "topic_id");
         type = HelperObj.getString(object, "type");
         russianName = HelperObj.getString(object, "russian_name");
         name = HelperObj.getString(object, "name");

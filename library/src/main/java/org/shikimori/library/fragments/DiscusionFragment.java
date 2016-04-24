@@ -43,7 +43,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
  */
 public class DiscusionFragment extends BaseListViewFragment implements ExtraLoadInterface, View.OnClickListener {
 
-    private String treadId;
+    private String topicId;
     private String userId;
     private String disType;
     BodyBuild bodyBuilder;
@@ -103,7 +103,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
         initParams();
 
-        if (treadId != null) {
+        if (topicId != null) {
             showRefreshLoader();
             loadData();
         }
@@ -120,8 +120,8 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
     }
 
     private void initParams() {
-        if (treadId == null)
-            treadId = getParam(Constants.TREAD_ID);
+        if (topicId == null)
+            topicId = getParam(Constants.TOPIC_ID);
 
         if (userId == null)
             userId = getParam(Constants.USER_ID);
@@ -129,7 +129,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if (disType == null)
             disType = getParam(Constants.DISSCUSION_TYPE, Constants.TYPE_ENTRY);
 
-        if (treadId == null) treadId = userId;
+        if (topicId == null) topicId = userId;
     }
 
     @Override
@@ -141,7 +141,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     void clearData() {
         ContentValues cv = new ContentValues();
-        cv.put("commentable_id", treadId);
+        cv.put("commentable_id", topicId);
         cv.put("commentable_type", disType);
         getFC().getQuery().invalidateCache(ShikiApi.getUrl(ShikiPath.COMMENTS), cv);
         messageController.clearUpdateId();
@@ -152,7 +152,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if (getFC().getQuery() == null)
             return;
         getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.COMMENTS), ShikiStatusResult.TYPE.ARRAY)
-                .addParam("commentable_id", treadId)
+                .addParam("commentable_id", topicId)
                 .addParam("commentable_type", disType)
                 .addParam("limit", LIMIT)
                 .addParam("page", page)
@@ -181,7 +181,7 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
 
     @Override
     public void extraLoad(String itemId, Bundle params) {
-        this.treadId = itemId;
+        this.topicId = itemId;
         if(params!=null){
             adminRole = "admin".equals(params.getString(Constants.ROLE_CLUB));
         }
@@ -279,13 +279,13 @@ public class DiscusionFragment extends BaseListViewFragment implements ExtraLoad
         if (text == null)
             return;
 
-        if (treadId == null)
+        if (topicId == null)
             return;
 
         showRefreshLoader();
         etMessage.setEnabled(false);
 
-        apiController.init().sendComment(treadId, getFC().getUserId(), disType, text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
+        apiController.init().sendComment(topicId, getFC().getUserId(), disType, text, new QueryShiki.OnQuerySuccessListener<ShikiStatusResult>() {
             @Override
             public void onQuerySuccess(ShikiStatusResult res) {
                 if(activity == null)

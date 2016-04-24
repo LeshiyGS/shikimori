@@ -6,8 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.shikimori.library.objects.one.AMShiki;
 import ru.altarix.basekit.library.tools.objBuilder.HelperObj;
-import org.shikimori.library.objects.one.RatesStatusesStats;
-import org.shikimori.library.objects.one.Studio;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +16,7 @@ import java.util.List;
  */
 public class AMDetails extends AMShiki {
 
-    public String rating, kind, aired_on, released_on, duration, score, description, description_html, thread_id,
+    public String rating, kind, aired_on, released_on, duration, score, description, description_html, topic_id,
             world_art_id, myanimelist_id, ani_db_id, read_manga_id;
     public Boolean favoured;
     public List<String>  english, japanese, synonyms, genres;
@@ -40,7 +38,7 @@ public class AMDetails extends AMShiki {
         score = helper.addString("score");
         description = helper.addString("description");
         description_html = helper.addString("description_html");
-        thread_id = helper.addString("thread_id");
+        topic_id = helper.addString("topic_id");
         world_art_id = helper.addString("world_art_id");
         myanimelist_id = helper.addString("myanimelist_id");
         ani_db_id = helper.addString("ani_db_id");

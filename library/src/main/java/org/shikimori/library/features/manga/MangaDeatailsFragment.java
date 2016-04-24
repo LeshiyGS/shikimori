@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -92,7 +91,7 @@ public class MangaDeatailsFragment extends AMDeatailsFragment implements ExtraLo
         setStatus(details.anons, details.ongoing);
         // load comments
         if (activity instanceof ExtraLoadInterface)
-            ((ExtraLoadInterface) activity).extraLoad(details.thread_id, null);
+            ((ExtraLoadInterface) activity).extraLoad(details.topic_id, null);
 
         if (ProjectTool.isFullVersion() && details.read_manga_id !=null) {
             fbPlay.setImageResource(R.drawable.ic_book_white_48dp);

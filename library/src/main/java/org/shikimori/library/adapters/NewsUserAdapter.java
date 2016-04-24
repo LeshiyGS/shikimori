@@ -132,7 +132,7 @@ public class NewsUserAdapter extends ListRecycleAdapter<ItemNewsUserShiki, Messa
             showCooment(item);
         } else if (v.getId() == R.id.bGoTo) {
             Intent i = new Intent(getContext(), ShowPageActivity.class);
-            i.putExtra(Constants.TREAD_ID, item.linked.threadId);
+            i.putExtra(Constants.TOPIC_ID, item.linked.topicId);
             i.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.DISCUSSION);
             i.putExtra(Constants.ACTION_BAR_TITLE, getContext().getString(R.string.comments));
             getContext().startActivity(i);

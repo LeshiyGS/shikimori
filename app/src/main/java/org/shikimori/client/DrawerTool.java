@@ -54,7 +54,7 @@ public class DrawerTool extends DrawerToolHelper<DrawerActivity>{
             return CalendarShikiFragment.newInstance();
         } else if (pageId == DrawerAdapter.DRAWER_MENU_PROFILE_ID) {
             Bundle b = new Bundle();
-            b.putString(Constants.TREAD_ID, ShikiUser.USER_ID);
+            b.putString(Constants.TOPIC_ID, ShikiUser.USER_ID);
             b.putString(Constants.DISSCUSION_TYPE, Constants.TYPE_USER);
 
             String[] titles = new String[]{ activity.getString(R.string.info), activity.getString(R.string.lenta)};

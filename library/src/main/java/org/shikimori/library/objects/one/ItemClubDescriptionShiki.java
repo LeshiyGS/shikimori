@@ -30,7 +30,7 @@ public class ItemClubDescriptionShiki implements JsonParseable<ItemClubDescripti
             return this;
         description = HelperObj.getString(json, "description");
         descriptionHtml = HelperObj.getString(json, "description_html");
-        threadId = HelperObj.getString(json, "thread_id");
+        threadId = HelperObj.getString(json, "topic_id");
         user_role = HelperObj.getString(json, "user_role");
 
         id = HelperObj.getString(json, "id");

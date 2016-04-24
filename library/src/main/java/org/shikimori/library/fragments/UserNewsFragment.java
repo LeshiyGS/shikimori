@@ -217,7 +217,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
             if (Constants.SITENEWS.equalsIgnoreCase(item.kind)) {
                 intent = new Intent(activity, ShowPageActivity.class);
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
-                intent.putExtra(Constants.TREAD_ID, item.linked.id);
+                intent.putExtra(Constants.TOPIC_ID, item.linked.id);
                 activity.startActivity(intent);
 
                 return;
@@ -260,7 +260,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
 //            if (item.kind.toLowerCase().equals(Constants.SITENEWS)) {
 //                intent = new Intent(activity, ShowPageActivity.class);
 //                intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
-//                intent.putExtra(Constants.TREAD_ID, item.linked.id);
+//                intent.putExtra(Constants.TOPIC_ID, item.linked.id);
 //                activity.startActivity(intent);
 //
 //                return;

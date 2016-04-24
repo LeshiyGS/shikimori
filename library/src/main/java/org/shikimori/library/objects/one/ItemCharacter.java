@@ -31,7 +31,7 @@ public class ItemCharacter implements JsonParseable<ItemCharacter> {
         altname = HelperObj.getString(json, "altname");
         japanese = HelperObj.getString(json, "japanese");
         descriptionHtml = HelperObj.getString(json, "description_html");
-        threadId = HelperObj.getString(json, "thread_id");
+        threadId = HelperObj.getString(json, "topic_id");
 
         image = new ItemImage(json.optJSONObject("image"));
 

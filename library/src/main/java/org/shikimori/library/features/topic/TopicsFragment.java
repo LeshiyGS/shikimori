@@ -119,11 +119,11 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
             case Constants.GROUP:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.CLUB_PAGE);
                 intent.putExtra(Constants.ACTION_BAR_TITLE, item.linked.name);
-                intent.putExtra(Constants.TREAD_ID, item.id);
+                intent.putExtra(Constants.TOPIC_ID, item.id);
                 break;
             default:
                 intent.putExtra(Constants.PAGE_FRAGMENT, ShowPageActivity.OFTOPIC_PAGE);
-                intent.putExtra(Constants.TREAD_ID, item.id);
+                intent.putExtra(Constants.TOPIC_ID, item.id);
                 intent.putExtra(Constants.ITEM_OBJECT, item.jsonObject);
         }
         intent.putExtra(Constants.ITEM_ID, item.linkedId);

@@ -60,7 +60,7 @@ public class TopicMainCommentFragment extends BaseFragment<BaseKitActivity<Shiki
         holder = adapter.getViewHolder(getView());
 
         if(itemCashed==null){
-            getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS_ID) + getParam(Constants.TREAD_ID))
+            getFC().getQuery().init(ShikiApi.getUrl(ShikiPath.TOPICS_ID) + getParam(Constants.TOPIC_ID))
                 .setCache(true)
                 .getResultObject(this);
         } else {
