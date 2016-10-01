@@ -41,7 +41,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
 

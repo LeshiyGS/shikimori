@@ -13,7 +13,7 @@ import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.SimpleBaseAdapter;
 
 /**

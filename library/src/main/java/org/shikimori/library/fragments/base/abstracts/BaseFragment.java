@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.controllers.ShikiFC;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.fragment.BaseKitFragment;
 
 /**

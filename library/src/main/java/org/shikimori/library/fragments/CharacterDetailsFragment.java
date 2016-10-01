@@ -32,7 +32,7 @@ import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.ui.CustomTextView;
 
 /**

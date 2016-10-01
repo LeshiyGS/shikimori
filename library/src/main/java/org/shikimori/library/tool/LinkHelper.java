@@ -15,7 +15,7 @@ import org.shikimori.library.tool.parser.jsop.BodyBuild;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 
 /**
  * Created by Владимир on 18.06.2015.

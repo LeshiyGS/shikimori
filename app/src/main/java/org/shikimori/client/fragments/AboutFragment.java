@@ -23,7 +23,7 @@ import org.shikimori.library.tool.permission.PermissionSontroller;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.h;
 
 /**

@@ -50,7 +50,7 @@ import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
 
 /**
@@ -285,7 +285,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
         super.onActivityCreated(savedInstanceState);
         // load unread messages
         showRefreshLoader();
-        activity.setOnFragmentBackListener(this);
+
         checkUserMenu();
         notifyController = new NotifyProfileController(activity,
                 getFC().getQuery(), activity.getAC().getShikiUser(), getFC().getUserId(), gvBodyProfile);

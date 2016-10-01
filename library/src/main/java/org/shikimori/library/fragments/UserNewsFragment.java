@@ -36,7 +36,7 @@ import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
 
 /**
@@ -145,7 +145,7 @@ public class UserNewsFragment extends BaseRecycleViewFragment implements BaseKit
         super.onActivityCreated(savedInstanceState);
         lah = new LoadAsyncBuildHelper(activity, this);
         ReadMessageController.newInstance(getFC().getQuery());
-        activity.setOnFragmentBackListener(this);
+
         bodyBuild = new BodyBuild(activity);
 //        if(Build.VERSION.SDK_INT >= 21)
 //            getListView().setNestedScrollingEnabled(false);

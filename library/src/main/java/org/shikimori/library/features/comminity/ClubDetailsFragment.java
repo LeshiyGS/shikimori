@@ -37,7 +37,7 @@ import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
 import ru.altarix.basekit.library.tools.pagecontroller.PageController;
@@ -102,7 +102,7 @@ public class ClubDetailsFragment extends PullableFragment<BaseKitActivity<ShikiA
         imageFactory.setRightOffset(.3f);
         imageFactory.setVisibilityPagging(false);
         InitScreenShootMoreBtn();
-        activity.setOnFragmentBackListener(this);
+
     }
 
     @Override

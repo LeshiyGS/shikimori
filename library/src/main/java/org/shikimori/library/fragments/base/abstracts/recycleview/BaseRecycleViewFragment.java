@@ -19,7 +19,7 @@ import org.shikimori.library.pull.PullableFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 
 /**
  * Created by Владимир on 22.09.2015.

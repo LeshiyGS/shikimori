@@ -3,6 +3,7 @@ package org.shikimori.client;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.activity.PreferencesShikiActivity;
@@ -30,8 +31,8 @@ import ru.altarix.basekit.library.tools.drawer.DrawerToolHelper;
  */
 public class DrawerTool extends DrawerToolHelper<DrawerActivity>{
     DrawerAdapter mDrawerAdapter;
-    public DrawerTool(DrawerActivity context){
-        super(context);
+    public DrawerTool(DrawerActivity context, Toolbar toolbar){
+        super(context, toolbar);
         setUserDrawerData();
     }
 

@@ -1,6 +1,7 @@
 package org.shikimori.library.tool.controllers;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 
 import org.shikimori.library.R;
@@ -11,9 +12,10 @@ import com.mcgars.imagefactory.ThumbToImage;
 import org.shikimori.library.tool.parser.jsop.BodyBuild;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import ru.altarix.basekit.library.activity.ActivityController;
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.ActivityController;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.LoaderController;
+import ru.altarix.basekit.library.tools.h;
 
 /**
  * Created by Владимир on 29.07.2015.
@@ -36,9 +38,9 @@ public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
-        if(toolbar!=null)
-            activity.setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+//        if(toolbar!=null)
+//            activity.setSupportActionBar(toolbar);
 
 
 
@@ -46,6 +48,14 @@ public class ShikiAC<T extends BaseKitActivity> extends ActivityController<T> {
         query.setLoader(new LoaderController(activity));
         shikiUser = new ShikiUser(activity);
         thumbToImage = new ThumbToImage(activity);
+        stylingTabs();
+    }
+
+    private void stylingTabs() {
+        int color = ContextCompat.getColor(activity, R.color.black_owerlay_80);
+        int colorDef = ContextCompat.getColor(activity, R.color.black_owerlay_40);
+        activity.getTabs().setTextColors(color, colorDef);
+        activity.getTabs().setSelectedIndicatorColors(h.getColor(activity, R.attr.colorAccent));
     }
 
     public QueryShiki getQuery() {

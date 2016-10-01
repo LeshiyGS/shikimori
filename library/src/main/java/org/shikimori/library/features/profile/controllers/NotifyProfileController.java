@@ -26,7 +26,7 @@ import org.shikimori.library.tool.controllers.ShikiAC;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 
 /**
  * Created by Феофилактов on 04.04.2015.

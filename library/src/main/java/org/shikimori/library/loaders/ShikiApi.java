@@ -4,7 +4,7 @@ package org.shikimori.library.loaders;
  * Created by Феофилактов on 28.03.2015.
  */
 public class ShikiApi {
-    public static final String HTTP_SERVER = "http://shikimori.org";
+    public static final String HTTP_SERVER = "https://shikimori.org";
     public static boolean isDebug;
 
     public static String getUrl(String aniApi) {

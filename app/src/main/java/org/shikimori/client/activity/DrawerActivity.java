@@ -1,5 +1,7 @@
 package org.shikimori.client.activity;
 
+import android.support.v4.content.ContextCompat;
+
 import org.shikimori.client.DrawerTool;
 import org.shikimori.client.MainActivity;
 import org.shikimori.client.R;
@@ -8,8 +10,10 @@ import org.shikimori.library.interfaces.LogouUserListener;
 import org.shikimori.library.interfaces.UserDataChangeListener;
 import org.shikimori.library.tool.controllers.ShikiAC;
 
-import ru.altarix.basekit.library.activity.BaseKitDrawerActivity;
+import ru.altarix.basekit.library.activities.BaseKitDrawerActivity;
 import ru.altarix.basekit.library.tools.drawer.DrawerToolHelper;
+import ru.altarix.basekit.library.tools.h;
+import ru.altarix.ui.ExSlidingTabLayout;
 
 
 /**
@@ -24,7 +28,7 @@ public class DrawerActivity extends BaseKitDrawerActivity<ShikiAC> implements Us
 
     @Override
     public DrawerToolHelper getDrawerTool() {
-        return new DrawerTool(this);
+        return new DrawerTool(this, getToolbar());
     }
 
     @Override

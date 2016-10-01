@@ -18,15 +18,15 @@ apply from: "../params.gradle"
 apply from: "../../shikimori.gradle"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion targetVersion
+    buildToolsVersion buildTool
 
     defaultConfig {
         applicationId "org.shikimori.client"
         minSdkVersion 10
-        targetSdkVersion 23
-        versionCode 35
-        versionName "1.0.4"
+        targetSdkVersion targetVersion
+        versionCode 36
+        versionName "1.0.5"
     }
 
     signingConfigs {
@@ -94,5 +94,9 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+}
+
+configurations {
+    all*.exclude group: 'com.android.support', module: 'support-media-compat'
 }
 

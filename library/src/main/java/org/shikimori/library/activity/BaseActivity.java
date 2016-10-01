@@ -3,7 +3,7 @@ package org.shikimori.library.activity;
 import org.shikimori.library.R;
 import org.shikimori.library.tool.controllers.ShikiAC;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.LoaderController;
 
 /**

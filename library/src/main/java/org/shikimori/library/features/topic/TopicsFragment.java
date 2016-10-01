@@ -28,7 +28,7 @@ import org.shikimori.library.tool.popup.TextPopup;
 
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 
 /**
  * Created by LeshiyGS on 1.04.2015.
@@ -57,7 +57,7 @@ public class TopicsFragment extends BaseListViewFragment implements BaseKitActiv
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showRefreshLoader();
-        activity.setOnFragmentBackListener(this);
+
         // html parser
         bodyBuild = new BodyBuild(activity);
         loadData();

@@ -48,7 +48,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.h;
 
 /**

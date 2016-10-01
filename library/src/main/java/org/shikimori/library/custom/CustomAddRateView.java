@@ -23,7 +23,7 @@ import org.shikimori.library.tool.controllers.api.ApiRatesController;
 import org.shikimori.library.tool.controllers.ShikiAC;
 import org.shikimori.library.tool.hs;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 
 /**
  * Created by Владимир on 14.07.2015.

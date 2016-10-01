@@ -31,7 +31,7 @@ import org.shikimori.library.tool.hs;
 
 import java.util.List;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.basekit.library.tools.DialogCompat;
 import ru.altarix.basekit.library.tools.h;
 
@@ -79,7 +79,7 @@ public class AnimeDeatailsFragment extends AMDeatailsFragment implements BaseKit
         imageFactory.setRightOffset(.3f);
         imageFactory.setVisibilityPagging(false);
         InitScreenShootMoreBtn();
-        activity.setOnFragmentBackListener(this);
+
     }
 
     private void prepareData() {

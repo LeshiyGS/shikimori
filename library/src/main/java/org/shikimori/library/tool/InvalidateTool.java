@@ -9,7 +9,7 @@ import org.shikimori.library.loaders.QueryShiki;
 import org.shikimori.library.tool.constpack.Constants;
 import org.shikimori.library.tool.controllers.ShikiAC;
 
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 
 /**
  * Created by Владимир on 22.09.2015.

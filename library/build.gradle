@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply from: "../params.gradle"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion targetVersion
+    buildToolsVersion buildTool
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 23
+        targetSdkVersion targetVersion
         versionCode 1
         versionName "1.0"
     }

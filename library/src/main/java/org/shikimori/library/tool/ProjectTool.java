@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
-import ru.altarix.basekit.library.activity.BaseKitActivity;
+import ru.altarix.basekit.library.activities.BaseKitActivity;
 import ru.altarix.ui.tool.TextStyling;
 
 import com.gars.querybuilder.BaseQuery;
