@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import io.fabric.sdk.android.Fabric;
@@ -107,8 +105,8 @@ public class ShikiApplikation extends Application {
     public static final int NOTIFICATION_ID = 5;
     public static final int VERSION_ID = 6;
     public static final int UNDEFINE_ID = 7;
-    private GoogleAnalytics analytics;
-    private Tracker tracker;
+//    private GoogleAnalytics analytics;
+//    private Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -128,13 +126,13 @@ public class ShikiApplikation extends Application {
             // ignored
         }
 
-        analytics = GoogleAnalytics.getInstance(this);
-        analytics.setLocalDispatchPeriod(1800);
-
-        tracker = analytics.newTracker("UA-39194517-2"); // Replace with actual tracker/property Id
-        tracker.enableExceptionReporting(true);
-//        tracker.enableAdvertisingIdCollection(true);
-        tracker.enableAutoActivityTracking(true);
+//        analytics = GoogleAnalytics.getInstance(this);
+//        analytics.setLocalDispatchPeriod(1800);
+//
+//        tracker = analytics.newTracker("UA-39194517-2"); // Replace with actual tracker/property Id
+//        tracker.enableExceptionReporting(true);
+////        tracker.enableAdvertisingIdCollection(true);
+//        tracker.enableAutoActivityTracking(true);
 
         // Setup handler for uncaught exceptions.
 //        if (!BuildConfig.DEBUG) {
