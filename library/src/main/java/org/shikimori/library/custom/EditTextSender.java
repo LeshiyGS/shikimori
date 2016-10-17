@@ -1,5 +1,6 @@
 package org.shikimori.library.custom;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -134,7 +135,13 @@ public class EditTextSender extends FrameLayout implements View.OnClickListener,
                     }).show();
 
         } else if (v.getId() == R.id.ivAddImage){
-            imageCreator.addPhoto();
+            permission.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, new BasePermissionController.OnRequestPermission() {
+                @Override
+                public void requestDone(boolean allow) {
+                    if(allow)
+                        imageCreator.addPhoto();
+                }
+            });
         } else if (v.getId() == R.id.ivSmails){
             if(Build.VERSION.SDK_INT > 10)
                 emoji.show(!emoji.isShowing());
