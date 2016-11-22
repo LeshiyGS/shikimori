@@ -66,8 +66,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     private View llBody, ivWebShow;
     private ListPopup pop;
     private NotifyProfileController notifyController;
-    private View aboutHtml;
-    private BodyBuild builder;
     private GridView gvBodyProfile;
     private Menu actionMenu;
 
@@ -100,7 +98,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shiki_profile, null);
         llBody = v.findViewById(R.id.llBody);
-        aboutHtml = v.findViewById(R.id.aboutHtml);
         ivWebShow = v.findViewById(R.id.ivWebShow);
         avatar = (ImageView) v.findViewById(R.id.ava);
         tvUserName = (TextView) v.findViewById(R.id.tvUserName);
@@ -114,6 +111,7 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
         v.findViewById(R.id.ivAnimeListShow).setOnClickListener(this);
         v.findViewById(R.id.ivMangaListShow).setOnClickListener(this);
+        v.findViewById(R.id.bAboutMe).setOnClickListener(this);
         ivWebShow.setOnClickListener(this);
         sbAnimeProgress.setOnTouchListener(disableScrolling);
         sbMangaProgress.setOnTouchListener(disableScrolling);
@@ -325,8 +323,6 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
 
         fillUi(res.getResultObject());
 
-        testHtml(userDetails.aboutHtml);
-//        testHtml(html);
         buildProfile();
 
         checkUserFriend();
@@ -479,6 +475,9 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
             showPopup(animePopupListener, ProjectTool.TYPE.ANIME, R.string.lists_anime);
         } else if (v.getId() == R.id.ivMangaListShow) {
             showPopup(mangaPopupListener, ProjectTool.TYPE.MANGA, R.string.lists_manga);
+        } else if (v.getId() == R.id.bAboutMe) {
+            activity.getPageController()
+                    .startActivity(ProfileAboutFragment.class, userDetails.aboutHtml);
         }
     }
 
@@ -539,101 +538,5 @@ public class ProfileShikiFragment extends PullableFragment<BaseKitActivity<Shiki
     class ProgressData {
         int firstProgress, secondProgress, fullProgress, percentage1, percentage2;
     }
-
-    public void testHtml(String test) {
-        builder = new BodyBuild(activity);
-        builder.setOnImageClickListener(new BodyBuild.ImageClickListener() {
-            @Override
-            public void imageClick(PostImage image) {
-
-//                List<Thumb> list = new ArrayList<Thumb>();
-//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-//                list.add(new Thumb(image.getImageData().getOriginal(), image.getImageData().getOriginal()));
-
-//                activity.getThumbToImage().zoom(image.getImage(), 2, list);
-                activity.getAC().getThumbToImage().zoom(image.getImage(), ProjectTool.fixUrl(image.getImageData().getOriginal()));
-            }
-        });
-
-        builder.setClickType(BodyBuild.CLICKABLETYPE.INTEXT);
-//        builder.setUrlTextListener(new BodyBuild.UrlTextListener() {
-//            @Override
-//            public void textLink(String url, URLSpan span, View view) {
-//                url.length();
-//            }
-//        });
-//        builder.parce(test == null ? text : test, (ViewGroup) aboutHtml);
-//        builder.loadPreparedImages();
-        builder.parceAsync(test, new BodyBuild.ParceDoneListener() {
-            @Override
-            public void done(ViewGroup view) {
-                ((ViewGroup) aboutHtml).removeAllViews();
-                ((ViewGroup) aboutHtml).addView(view);
-            }
-        });
-
-    }
-
-    String html = "Есть уже рабочая версия?<div class=\"b-replies\" data-reply-text=\"Ответ: \" data-replies-text=\"Ответы: \"><a href=\"http://shikimori.org/DarkKiller\" title=\"DarkKiller\" class=\"bubbled b-mention\" data-href=\"http://shikimori.org/comments/1420621.html\"><s>@</s><span>DarkKiller</span></a>, <a href=\"http://shikimori.org/ryuter\" title=\"ryuter\" class=\"bubbled b-mention\" data-href=\"http://shikimori.org/comments/1420896.html\"><s>@</s><span>ryuter</span></a>, <a href=\"http://shikimori.org/Mirai+Fujiwara\" title=\"Mirai Fujiwara\" class=\"bubbled b-mention\" data-href=\"http://shikimori.org/comments/1421417.html\"><s>@</s><span>Mirai Fujiwara</span></a></div>";
-
-
-//    public class URLDrawable extends BitmapDrawable {
-//        // the drawable that you need to set, you could set the initial drawing
-//        // with the loading image if you need to
-//        protected Drawable drawable;
-//
-//        @Override
-//        public void draw(Canvas canvas) {
-//            // override the draw to facilitate refresh function later
-//            if(drawable != null) {
-//                drawable.draw(canvas);
-//            }
-//        }
-//    }
-//
-//    Html.ImageGetter imgGetter3 = new Html.ImageGetter() {
-//
-//        public Drawable getDrawable(String source) {
-//            final URLDrawable urlDrawable = new URLDrawable();
-//            if (source.contains("missing_logo")){
-//                source = ShikiApi.HTTP_SERVER + "/assets/globals/missing_original.jpg";
-//            }
-//            if (!source.contains("http")){
-//                source = ShikiApi.HTTP_SERVER + source;
-//            }
-//
-//            ImageLoader.getInstance().loadImage(source, new ImageLoadingListener() {
-//                @Override
-//                public void onLoadingStarted(String imageUri, View view) {
-//
-//                }
-//
-//                @Override
-//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-//
-//                }
-//
-//                @Override
-//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                    Drawable d = new BitmapDrawable(getResources(),loadedImage);
-//                    urlDrawable.drawable = d;
-//                    urlDrawable.drawable.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-//                    ViewGroup parent = (ViewGroup) tvAbout.getParent();
-//                    parent.invalidate();
-//                    tvAbout.append("");
-//                    tvAbout.invalidate();
-//                }
-//
-//                @Override
-//                public void onLoadingCancelled(String imageUri, View view) {
-//
-//                }
-//            });
-//
-//            return urlDrawable;
-//        }
-//    };
 
 }

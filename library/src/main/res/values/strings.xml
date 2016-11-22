@@ -259,4 +259,5 @@
     <string name="chose_video_resource">Выбирите ресурс видео</string>
     <string name="anibreak">AniBreak</string>
     <string name="vk">Vk</string>
+    <string name="about_me_not_set">Обо мне не выставлено</string>
 </resources>

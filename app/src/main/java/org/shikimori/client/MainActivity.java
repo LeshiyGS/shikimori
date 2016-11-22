@@ -3,6 +3,8 @@ package org.shikimori.client;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+
 import org.shikimori.client.activity.DrawerActivity;
 import org.shikimori.client.adapters.DrawerAdapter;
 import org.shikimori.client.gsm.QuickstartPreferences;
@@ -11,6 +13,8 @@ import org.shikimori.library.fragments.UserNewsFragment;
 import org.shikimori.library.tool.constpack.Constants;
 
 import java.util.List;
+
+import ru.altarix.ui.ExSlidingTabLayout;
 
 
 /**

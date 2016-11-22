@@ -9,6 +9,9 @@ import org.json.JSONObject;
 import org.shikimori.library.objects.one.Notification;
 import org.shikimori.library.tool.constpack.Constants;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Created by Феофилактов on 29.03.2015.
  */
@@ -116,7 +119,13 @@ public class ShikiUser {
     }
 
     public void setName(String login) {
-        prefs.edit().putString(NICKNAME, login).apply();
+        try {
+            login = URLEncoder.encode(login, "UTF-8");
+            prefs.edit().putString(NICKNAME, login).apply();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static boolean isAuthorized() {

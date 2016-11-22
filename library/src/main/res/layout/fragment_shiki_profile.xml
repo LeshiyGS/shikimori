@@ -204,25 +204,12 @@
                     android:numColumns="auto_fit"
                     android:stretchMode="columnWidth" />
 
-                <TextView
-                    android:id="@+id/tvMenuAbout"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/bAboutMe"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/about_me"
-                    style="@style/altarixUiText"
-                    android:textColor="@color/title_black_transparent"
-                    android:textStyle="bold"
-                    android:padding="@dimen/defaultPadding"
-                    android:background="@color/white_overlay_85" />
-
-                <LinearLayout
-                    android:id="@+id/aboutHtml"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/defaultPadding">
-
-                </LinearLayout>
+                    android:layout_marginLeft="@dimen/defaultPaddingMini"
+                    android:text="@string/about_me"/>
 
             </LinearLayout>
 

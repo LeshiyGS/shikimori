@@ -98,6 +98,8 @@ public class QueryShiki extends BaseQuery<QueryShiki, ShikiStatusResult> {
 
     @Override
     public boolean fail(ShikiStatusResult stat, String dataString) {
+        if(isDebug)
+            Log.d("httpquery", "fail: " + dataString);
         try {
             if(dataString != null){
                 if(dataString.startsWith("{")){
