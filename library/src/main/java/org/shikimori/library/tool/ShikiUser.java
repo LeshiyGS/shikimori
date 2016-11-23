@@ -61,7 +61,7 @@ public class ShikiUser {
     public void initStaticParams(){
         USER_ID = prefs.getString(ID, null);
         TOKEN = prefs.getString(COOKIE, null);
-        USER_NAME = prefs.getString(NICKNAME, null);
+        USER_NAME = encodeLogin(prefs.getString(NICKNAME, null));
     }
 
     public boolean isAutorize(){
@@ -119,13 +119,18 @@ public class ShikiUser {
     }
 
     public void setName(String login) {
-        try {
-            login = URLEncoder.encode(login, "UTF-8");
-            prefs.edit().putString(NICKNAME, login).apply();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        prefs.edit().putString(NICKNAME, login).apply();
+    }
 
+    private String encodeLogin(String login) {
+        if(!TextUtils.isEmpty(login)) {
+            try {
+                return URLEncoder.encode(login, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public static boolean isAuthorized() {
