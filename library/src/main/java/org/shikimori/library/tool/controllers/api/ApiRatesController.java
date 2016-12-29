@@ -61,7 +61,7 @@ public class ApiRatesController extends BaseApiController<ApiRatesController> {
         params.put("user_rate[chapters]", rate.chapters);
         params.put("user_rate[text]", rate.text);
         params.put("user_rate[rewatches]", rate.rewatches);
-        params.put("user_rate[status]", UserRate.Status.fromStatus(rate.status));
+        params.put("user_rate[status]", rate.status.toString());
         return this;
     }
 

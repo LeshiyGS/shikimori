@@ -126,9 +126,10 @@ public class AddRateDialogFragment extends BaseDialogFragment implements View.On
      * Update object rate
      */
     private void fillRate() {
+        if(listener == null)
+            return;
         UserRate rate = listener.getRateUser();
         rate.status = ProjectTool.getListStatusFromPosition(csStatus.getSelectedItemPosition());
-        rate.statusInt = UserRate.Status.fromStatus(rate.status);
         rate.score = csRating.getSelectedItemPosition();
         rate.text = cetComment.getText();
         // count rewatch

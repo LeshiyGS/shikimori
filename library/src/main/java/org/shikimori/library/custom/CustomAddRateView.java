@@ -112,7 +112,7 @@ public class CustomAddRateView extends FrameLayout implements AddRateDialogFragm
         }
         // update object rate
         rate.status = ProjectTool.getListStatusValue(itemId);
-        rate.statusInt = UserRate.Status.fromStatus(rate.status);
+//        rate.statusInt = UserRate.Status.fromStatus(rate.status);
         setRate();
     }
 
